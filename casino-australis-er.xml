@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2025-03-21T15:30:00.000Z" agent="Casino Australis ER Mejorado" version="15.0.0" type="device">
+  <diagram id="diagram1" name="Diagrama ER Casino Australis Normalizado">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+        <!-- Entidades Principales -->
+        <!-- Usuario como entidad base (para herencia) -->
+        <mxCell id="2" value="Usuario&#xa;- idUsuario (PK)&#xa;- email&#xa;- password&#xa;- fechaCreacion&#xa;- estado (activo/bloqueado)" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="30" width="200" height="120" as="geometry"/>
+        </mxCell>
+        
+        <!-- Cliente -->
+        <mxCell id="3" value="Cliente&#xa;- idCliente (PK)&#xa;- idUsuario (FK)&#xa;- DNI&#xa;- nombre&#xa;- apellido&#xa;- fechaNacimiento&#xa;- telefono&#xa;- esInfluencer" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="150" y="200" width="200" height="160" as="geometry"/>
+        </mxCell>
+        
+        <!-- Administrador -->
+        <mxCell id="4" value="Administrador&#xa;- idAdmin (PK)&#xa;- idUsuario (FK)&#xa;- nivelAcceso&#xa;- departamento" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="650" y="200" width="200" height="120" as="geometry"/>
+        </mxCell>
+        
+        <!-- Límites Cliente - Normalizado en tabla separada (4NF) -->
+        <mxCell id="5" value="LimiteCliente&#xa;- idLimite (PK)&#xa;- idCliente (FK)&#xa;- tipoLimite (carga/tiempo)&#xa;- periodoLimite (diario/semanal/mensual/anual)&#xa;- valorLimite&#xa;- fechaModificacion" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="150" y="400" width="200" height="130" as="geometry"/>
+        </mxCell>
+        
+        <!-- Transacción -->
+        <mxCell id="6" value="Transaccion&#xa;- idTransaccion (PK)&#xa;- idCliente (FK)&#xa;- tipo (ingreso/retiro)&#xa;- metodo (tarjeta/mercadopago)&#xa;- monto&#xa;- fecha&#xa;- estado (pendiente/completada/rechazada)" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="400" width="200" height="150" as="geometry"/>
+        </mxCell>
+        
+        <!-- Bonus - Normalizado (3NF) -->
+        <mxCell id="7" value="Bonus&#xa;- idBonus (PK)&#xa;- idTransaccion (FK)&#xa;- valor&#xa;- motivo&#xa;- fechaExpiracion" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="400" y="570" width="200" height="120" as="geometry"/>
+        </mxCell>
+        
+        <!-- Juego -->
+        <mxCell id="8" value="Juego&#xa;- idJuego (PK)&#xa;- nombre&#xa;- descripcion&#xa;- imagen&#xa;- probabilidadBase&#xa;- estado (activo/inactivo)&#xa;- fechaCreacion" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="850" y="400" width="200" height="150" as="geometry"/>
+        </mxCell>
+        
+        <!-- Jugada -->
+        <mxCell id="9" value="Jugada&#xa;- idJugada (PK)&#xa;- idCliente (FK)&#xa;- idJuego (FK)&#xa;- fecha&#xa;- montoApostado&#xa;- montoGanado&#xa;- resultado (ganada/perdida)&#xa;- probabilidadAplicada" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="650" y="400" width="200" height="160" as="geometry"/>
+        </mxCell>
+        
+        <!-- Leaderboard - Vista materializada -->
+        <mxCell id="10" value="Leaderboard&#xa;- idLeaderboard (PK)&#xa;- idCliente (FK)&#xa;- periodo (semanal/mensual/anual)&#xa;- posicion&#xa;- montoGanado&#xa;- cantidadJugadas&#xa;- fechaActualizacion" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="650" y="570" width="200" height="150" as="geometry"/>
+        </mxCell>
+        
+        <!-- Estadística - Normalizado (3NF) -->
+        <mxCell id="11" value="Estadistica&#xa;- idEstadistica (PK)&#xa;- idCliente (FK)&#xa;- idJuego (FK)&#xa;- porcentajeVictoria&#xa;- jugadasTotales&#xa;- montoTotalGanado&#xa;- montoTotalApostado&#xa;- fechaActualizacion" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="850" y="570" width="200" height="150" as="geometry"/>
+        </mxCell>
+        
+        <!-- Amistad -->
+        <mxCell id="12" value="Amistad&#xa;- idAmistad (PK)&#xa;- idSolicitante (FK)&#xa;- idSolicitado (FK)&#xa;- estado (pendiente/aceptada/rechazada)&#xa;- fechaSolicitud&#xa;- fechaActualizacion" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="150" y="570" width="200" height="130" as="geometry"/>
+        </mxCell>
+        
+        <!-- Cupón Promoción -->
+        <mxCell id="13" value="Cupon&#xa;- idCupon (PK)&#xa;- idPromocion (FK)&#xa;- codigo&#xa;- valor&#xa;- tipo (porcentaje/monto)&#xa;- fechaCreacion&#xa;- fechaExpiracion&#xa;- estado (activo/usado/expirado)" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="650" y="740" width="200" height="160" as="geometry"/>
+        </mxCell>
+        
+        <!-- Uso de Cupón - Normalizado (4NF) -->
+        <mxCell id="14" value="UsoCupon&#xa;- idUsoCupon (PK)&#xa;- idCupon (FK)&#xa;- idCliente (FK)&#xa;- fechaUso&#xa;- montoAplicado" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="400" y="740" width="200" height="120" as="geometry"/>
+        </mxCell>
+        
+        <!-- Ticket -->
+        <mxCell id="15" value="Ticket&#xa;- idTicket (PK)&#xa;- idCliente (FK)&#xa;- idAdminAsignado (FK)&#xa;- asunto&#xa;- descripcion&#xa;- categoria&#xa;- prioridad&#xa;- fechaCreacion&#xa;- fechaActualizacion&#xa;- estado (pendiente/en_proceso/resuelto)" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="150" y="740" width="200" height="180" as="geometry"/>
+        </mxCell>
+        
+        <!-- Respuesta Ticket - Normalizado (4NF) -->
+        <mxCell id="16" value="RespuestaTicket&#xa;- idRespuesta (PK)&#xa;- idTicket (FK)&#xa;- idUsuario (FK)&#xa;- contenido&#xa;- fechaRespuesta" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="150" y="940" width="200" height="120" as="geometry"/>
+        </mxCell>
+        
+        <!-- Promoción -->
+        <mxCell id="17" value="Promocion&#xa;- idPromocion (PK)&#xa;- idAdminCreador (FK)&#xa;- nombre&#xa;- descripcion&#xa;- tipoPromocion&#xa;- fechaInicio&#xa;- fechaFin&#xa;- estado (activa/inactiva)" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="850" y="740" width="200" height="160" as="geometry"/>
+        </mxCell>
+        
+        <!-- Probabilidad Usuario - Normalizado (4NF) -->
+        <mxCell id="18" value="ProbabilidadUsuario&#xa;- idProbabilidad (PK)&#xa;- idCliente (FK)&#xa;- idJuego (FK)&#xa;- factorAjuste&#xa;- motivo&#xa;- fechaInicio&#xa;- fechaFin" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="850" y="920" width="200" height="140" as="geometry"/>
+        </mxCell>
+        
+        <!-- Historial Sesión - Para límites de tiempo -->
+        <mxCell id="19" value="HistorialSesion&#xa;- idSesion (PK)&#xa;- idCliente (FK)&#xa;- fechaInicio&#xa;- fechaFin&#xa;- duracionMinutos" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="400" y="940" width="200" height="120" as="geometry"/>
+        </mxCell>
+        
+        <!-- Bloqueo Usuario - Historial -->
+        <mxCell id="20" value="BloqueoUsuario&#xa;- idBloqueo (PK)&#xa;- idUsuario (FK)&#xa;- idAdminResponsable (FK)&#xa;- motivo&#xa;- fechaInicio&#xa;- fechaFin&#xa;- esAutomatico" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="650" y="920" width="200" height="140" as="geometry"/>
+        </mxCell>
+        
+        <!-- Historial de Transacción (4NF) - Nueva entidad -->
+        <mxCell id="21" value="HistorialTransaccion&#xa;- idHistorial (PK)&#xa;- idTransaccion (FK)&#xa;- fechaCambio&#xa;- estadoAnterior&#xa;- estadoNuevo&#xa;- motivo" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="400" y="1080" width="200" height="120" as="geometry"/>
+        </mxCell>
+        
+        <!-- Notificación - Nueva entidad (4NF) -->
+        <mxCell id="22" value="Notificacion&#xa;- idNotificacion (PK)&#xa;- idUsuario (FK)&#xa;- tipo&#xa;- contenido&#xa;- fechaCreacion&#xa;- fechaLeido&#xa;- estado (no_leido/leido)" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="150" y="1080" width="200" height="140" as="geometry"/>
+        </mxCell>
+        
+        <!-- Auditoria - Nueva entidad (4NF) -->
+        <mxCell id="23" value="Auditoria&#xa;- idAuditoria (PK)&#xa;- idUsuario (FK)&#xa;- accion&#xa;- tablaAfectada&#xa;- idRegistro&#xa;- detalles&#xa;- fechaAccion" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="650" y="1080" width="200" height="140" as="geometry"/>
+        </mxCell>
+        
+        <!-- Configuración Sistema - Nueva entidad (4NF) -->
+        <mxCell id="24" value="ConfiguracionSistema&#xa;- idConfig (PK)&#xa;- idAdminResponsable (FK)&#xa;- clave&#xa;- valor&#xa;- descripcion&#xa;- fechaModificacion" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="850" y="1080" width="200" height="130" as="geometry"/>
+        </mxCell>
+        
+        <!-- RELACIONES -->
+        <!-- Usuario - Cliente (1:1) -->
+        <mxCell id="101" value="es un" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeWidth=1;labelBackgroundColor=white;" edge="1" parent="1" source="2" target="3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="101a" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="380" y="90" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="101b" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="230" y="180" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- Usuario - Administrador (1:1) -->
+        <mxCell id="102" value="es un" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeWidth=1;labelBackgroundColor=white;" edge="1" parent="1" source="2" target="4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="102a" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="600" y="90" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="102b" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="730" y="180" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- Cliente - LimiteCliente (1:N) -->
+        <mxCell id="103" value="tiene" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeWidth=1;labelBackgroundColor=white;" edge="1" parent="1" source="3" target="5">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="103a" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="230" y="360" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="103b" value="N" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="230" y="380" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- Cliente - Transaccion (1:N) -->
+        <mxCell id="104" value="realiza" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeWidth=1;labelBackgroundColor=white;" edge="1" parent="1" source="3" target="6">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="104a" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="350" y="260" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="104b" value="N" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="480" y="380" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- Transaccion - Bonus (1:1) -->
+        <mxCell id="105" value="tiene" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeWidth=1;labelBackgroundColor=white;" edge="1" parent="1" source="6" target="7">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="105a" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="480" y="550" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="105b" value="0..1" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="480" y="570" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- Cliente - Jugada (1:N) -->
+        <mxCell id="106" value="realiza" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeWidth=1;labelBackgroundColor=white;" edge="1" parent="1" source="3" target="9">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="180"/>
+              <mxPoint x="750" y="180"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="106a" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="250" y="160" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="106b" value="N" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="750" y="380" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- Juego - Jugada (1:N) -->
+        <mxCell id="107" value="ocurre en" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeWidth=1;labelBackgroundColor=white;" edge="1" parent="1" source="8" target="9">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="107a" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="850" y="480" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="107b" value="N" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="830" y="480" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- Cliente - Leaderboard (1:N) -->
+        <mxCell id="108" value="aparece en" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeWidth=1;labelBackgroundColor=white;dashed=1;" edge="1" parent="1" source="3" target="10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="160"/>
+              <mxPoint x="620" y="160"/>
+              <mxPoint x="620" y="640"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="108a" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="250" y="140" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="108b" value="N" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="630" y="640" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- Cliente - Estadistica (1:N) -->
+        <mxCell id="109" value="tiene" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeWidth=1;labelBackgroundColor=white;" edge="1" parent="1" source="3" target="11">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="140"/>
+              <mxPoint x="950" y="140"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="109a" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="250" y="120" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="109b" value="N" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="950" y="550" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- Juego - Estadistica (1:N) -->
+        <mxCell id="110" value="posee" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeWidth=1;labelBackgroundColor=white;" edge="1" parent="1" source="8" target="11">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="110a" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="950" y="550" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="110b" value="N" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="950" y="570" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- Cliente - Amistad (Auto-relación N:M) -->
+        <mxCell id="111" value="solicita" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeWidth=1;labelBackgroundColor=white;" edge="1" parent="1" source="3" target="12">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="120" y="260"/>
+              <mxPoint x="120" y="635"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="111a" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="130" y="260" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="111b" value="N" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="130" y="635" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- Cliente - Amistad (Auto-relación inversa) -->
+        <mxCell id="112" value="recibe" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeWidth=1;labelBackgroundColor=white;" edge="1" parent="1" source="3" target="12">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="100" y="230"/>
+              <mxPoint x="100" y="650"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="112a" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="230" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="112b" value="N" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="650" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- Cliente - Cupon (N:M) -->
+        <mxCell id="113" value="usa" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeWidth=1;labelBackgroundColor=white;" edge="1" parent="1" source="3" target="14">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="380"/>
+              <mxPoint x="370" y="380"/>
+              <mxPoint x="370" y="800"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="113a" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="260" y="360" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="113b" value="N" style="text;html=1;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="380" y="800" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- Cupon - UsoCupon (1:N) -->
+        <mxCell id="114" value="registra" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=classic;strokeWidth=1;labelBackgroundColor=white;" edge="1" parent="1" source="13" target="14">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
