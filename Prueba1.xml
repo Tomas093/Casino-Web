@@ -13,8 +13,8 @@
         <mxCell id="3" value="Administrador&#xa;- idAdmin (PK)&#xa;- email&#xa;- password" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="300" y="40" width="180" height="80" as="geometry"/>
         </mxCell>
-        <!-- Transacción Entity -->
-        <mxCell id="4" value="Transacci&oacute;n&#xa;- idTransaccion (PK)&#xa;- tipo (ingreso/retiro)&#xa;- monto&#xa;- fecha&#xa;- bonus" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <!-- Transacci&#243;n Entity -->
+        <mxCell id="4" value="Transacci&#243;n&#xa;- idTransaccion (PK)&#xa;- tipo (ingreso/retiro)&#xa;- monto&#xa;- fecha&#xa;- bonus" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="40" y="220" width="200" height="100" as="geometry"/>
         </mxCell>
         <!-- Juego Entity -->
@@ -29,20 +29,20 @@
         <mxCell id="7" value="Amistad&#xa;- idAmistad (PK)&#xa;- estado (pendiente/aceptada)" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="300" y="260" width="180" height="60" as="geometry"/>
         </mxCell>
-        <!-- Cupón Promoción Entity -->
-        <mxCell id="8" value="Cup&oacute;n Promoci&oacute;n&#xa;- idCupon (PK)&#xa;- c&oacute;digo&#xa;- valor&#xa;- fechaExpiraci&oacute;n" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <!-- Cup&#243;n Promoci&#243;n Entity -->
+        <mxCell id="8" value="Cup&#243;n Promoci&#243;n&#xa;- idCupon (PK)&#xa;- c&#243;digo&#xa;- valor&#xa;- fechaExpiraci&#243;n" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="300" y="340" width="180" height="100" as="geometry"/>
         </mxCell>
         <!-- Ticket Entity -->
-        <mxCell id="9" value="Ticket&#xa;- idTicket (PK)&#xa;- descripci&oacute;n&#xa;- fecha&#xa;- estado (pendiente/resuelto)" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="9" value="Ticket&#xa;- idTicket (PK)&#xa;- descripci&#243;n&#xa;- fecha&#xa;- estado (pendiente/resuelto)" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="40" y="460" width="200" height="100" as="geometry"/>
         </mxCell>
-        <!-- Promoción Entity -->
-        <mxCell id="10" value="Promoci&oacute;n&#xa;- idPromocion (PK)&#xa;- descripci&oacute;n&#xa;- fechaInicio&#xa;- fechaFin" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <!-- Promoci&#243;n Entity -->
+        <mxCell id="10" value="Promoci&#243;n&#xa;- idPromocion (PK)&#xa;- descripci&#243;n&#xa;- fechaInicio&#xa;- fechaFin" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="300" y="460" width="180" height="80" as="geometry"/>
         </mxCell>
         <!-- Relaciones -->
-        <!-- Cliente - Transacción -->
+        <!-- Cliente - Transacci&#243;n -->
         <mxCell id="11" value="realiza" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;exitPerimeter=1;entryX=0.5;entryY=0;entryPerimeter=1;" edge="1" parent="1" source="2" target="4">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
@@ -54,11 +54,11 @@
         <mxCell id="13" value="ocurre en" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;exitPerimeter=1;entryX=0;entryY=0.5;entryPerimeter=1;" edge="1" parent="1" source="6" target="5">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <!-- Cliente - Amistad (autorelación) -->
+        <!-- Cliente - Amistad (autorelaci&#243;n) -->
         <mxCell id="14" value="tiene" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;exitPerimeter=1;entryX=0;entryY=0.5;entryPerimeter=1;" edge="1" parent="1" source="2" target="2">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <!-- Cliente - Cup&oacute;n Promoci&oacute;n -->
+        <!-- Cliente - Cup&#243;n Promoci&#243;n -->
         <mxCell id="15" value="aplica" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;exitPerimeter=1;entryX=0;entryY=0.5;entryPerimeter=1;" edge="1" parent="1" source="2" target="8">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
@@ -70,7 +70,7 @@
         <mxCell id="17" value="atiende" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;exitPerimeter=1;entryX=0;entryY=0.5;entryPerimeter=1;" edge="1" parent="1" source="3" target="9">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <!-- Administrador - Promoci&oacute;n -->
+        <!-- Administrador - Promoci&#243;n -->
         <mxCell id="18" value="maneja" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;exitPerimeter=1;entryX=0;entryY=0.5;entryPerimeter=1;" edge="1" parent="1" source="3" target="10">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
