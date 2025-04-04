@@ -1,0 +1,21 @@
+# node modules
+node_modules/
+
+# dist folder (Vite build output)
+dist/
+
+# environment files
+.env
+.env.*
+
+# IDE settings
+.vscode/
+.idea/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript cache
+*.tsbuildinfo
