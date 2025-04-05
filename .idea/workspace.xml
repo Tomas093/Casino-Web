@@ -5,38 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Implement landing page, navigation bar, and footer components; update package dependencies">
-      <change afterPath="$PROJECT_DIR$/client/src/Footer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/FooterStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/LandingPage.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/LandingPageStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/NavBar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/NavBarStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/assets/backgroundVideo.mp4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/mi-proyecto-vite/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/mi-proyecto-vite/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/mi-proyecto-vite/eslint.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/mi-proyecto-vite/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/mi-proyecto-vite/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/mi-proyecto-vite/public/vite.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/mi-proyecto-vite/src/App.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/mi-proyecto-vite/src/App.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/mi-proyecto-vite/src/assets/react.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/mi-proyecto-vite/src/index.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/mi-proyecto-vite/src/main.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/mi-proyecto-vite/src/vite-env.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/mi-proyecto-vite/tsconfig.app.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/mi-proyecto-vite/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/mi-proyecto-vite/tsconfig.node.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/mi-proyecto-vite/vite.config.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/assets/react.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/LandingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/LandingPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/LandingPageStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/LandingPageStyle.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,22 +51,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/casinoweb/client/src/assets",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\casinoweb\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/casinoweb/client/src/assets&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\casinoweb\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\casinoweb\client\src\assets" />
@@ -122,7 +93,8 @@
       <option name="presentableId" value="Default" />
       <updated>1743774919639</updated>
       <workItem from="1743774921409" duration="5578000" />
-      <workItem from="1743790490077" duration="14109000" />
+      <workItem from="1743790490077" duration="15174000" />
+      <workItem from="1743807390958" duration="1277000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -140,7 +112,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743779184285</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Implement landing page, navigation bar, and footer components; update package dependencies">
+      <option name="closed" value="true" />
+      <created>1743805165935</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1743805165935</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
