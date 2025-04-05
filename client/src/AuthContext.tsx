@@ -11,7 +11,7 @@ interface AuthContextType {
     getUserData: (userId: string) => Promise<any>;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<any | null>(null);
@@ -27,6 +27,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
             });
+
+            console.log(response)
+
             const userData = await response.json();
             if (response.ok) {
                 setUser(userData);
@@ -55,7 +58,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
             const data = await response.json();
             if (response.ok) {
-                setUser(data.usuario); // Recuerda que en el backend se devuelve 'usuario'
+                // Asegúrate de que el servidor devuelva todos los datos del usuario, incluyendo img
+                setUser(data.usuario);
                 setError(null);
                 return true;
             } else {
@@ -81,10 +85,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     );
 };
 
-export const useAuth = () => {
+export function useAuth() {
     const context = useContext(AuthContext);
     if (context === undefined) {
         throw new Error('useAuth debe usarse dentro de un AuthProvider');
     }
     return context;
-};
+}

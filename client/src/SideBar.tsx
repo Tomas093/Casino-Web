@@ -1,8 +1,8 @@
 // src/components/Sidebar.tsx
-import React, { useEffect } from 'react';
 import './SideBarStyle.css'
-import { Link } from "react-router-dom";
-import { useAuth } from './AuthContext'; // Importar el contexto de autenticación
+import {Link} from "react-router-dom";
+import {useAuth} from './AuthContext';
+import {useState} from 'react';
 
 interface MenuItem {
     link: string;
@@ -10,13 +10,13 @@ interface MenuItem {
 }
 
 const menu: MenuItem[] = [
-    { link: '/perfil', text: 'Información' },
-    { link: '/amigos', text: 'Amigos' },
-    { link: '/estadisticas', text: 'Estadísticas' },
-    { link: '/limites', text: 'Límites' },
-    { link: '/pausa', text: 'Pausa' },
-    { link: '/historial', text: 'Historial' },
-    { link: '/eliminar-cuenta', text: 'Eliminar Cuenta' }
+    {link: '/profile', text: 'Información'},
+    {link: '/amigos', text: 'Amigos'},
+    {link: '/estadisticas', text: 'Estadísticas'},
+    {link: '/limites', text: 'Límites'},
+    {link: '/pausa', text: 'Pausa'},
+    {link: '/history', text: 'Historial'},
+    {link: '/eliminar-cuenta', text: 'Eliminar Cuenta'}
 ];
 
 const rendermenu = () => {
@@ -27,26 +27,39 @@ const rendermenu = () => {
     ));
 };
 
-const Sidebar: React.FC = () => { // Eliminar SidebarProps de aquí
-    const { user, client, getUserData } = useAuth(); // Obtener la información del usuario y del cliente del contexto
+const Sidebar: React.FC = () => {
+    const {user, client} = useAuth();
+    const [imgError, setImgError] = useState(false);
 
-    useEffect(() => {
-        if (user) {
-            getUserData(user.id); // Obtener los datos del usuario y del cliente
-        }
-    }, [user, getUserData]);
+    // URL base del servidor
+    const serverBaseUrl = 'http://localhost:3001';
 
-    if (!user || !client) {
-        return <div>Cargando...</div>; // Mostrar un mensaje de carga mientras se obtienen los datos
-    }
+    // Imagen por defecto en caso de error o si no hay imagen
+    const defaultImage = '/path/to/default-avatar.jpg';
+
+    // Construir la URL completa de la imagen si existe
+    const profileImageUrl = user && user.img
+        ? `${serverBaseUrl}${user.img}`
+        : defaultImage;
+
+    const handleImageError = () => {
+        setImgError(true);
+    };
 
     return (
         <aside className="sidebar">
             <div className="profile-section">
-                <img src={user.profileImage} alt="Foto de Perfil" className="profile-img" />
-                <h2 className="username" id="username">{user.username}</h2>
+                <img
+                    src={imgError ? defaultImage : profileImageUrl}
+                    alt="Foto de Perfil"
+                    className="profile-img"
+                    onError={handleImageError}
+                />
+                <h2 className="username" id="username">
+                    {user ? `${user.nombre} ${user.apellido}` : 'Usuario'}
+                </h2>
                 <p className="coins">
-                    Australcoins: <span>{client.balance.toLocaleString()}</span> <span className="coin-icon">🪙</span>
+                    Australcoins: <span>{client ? client.balance : 0}</span> <span className="coin-icon">🪙</span>
                 </p>
             </div>
             <nav className="menu">

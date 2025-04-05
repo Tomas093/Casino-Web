@@ -219,7 +219,7 @@ model usuario {
   password      String?        @db.VarChar(255)
   dni           String?
   edad          String?
-  img           Bytes?
+  img           String?
   administrador administrador?
   cliente       cliente?
 }

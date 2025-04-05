@@ -1,122 +1,56 @@
-import React, { useState } from 'react';
+// ProfilePage.tsx
+import { useAuth } from './AuthContext';
 import Sidebar from './SideBar.tsx';
 import './ProfileStyle.css';
+import ImageUpload from './ImageUpload';
+import { useEffect, useState } from 'react';
 
 const ProfilePage: React.FC = () => {
-    const userData = {
-        username: "Username",
-        coins: 10000,
-        profileImage: "../Img/Javo.jpg",
-        email: "usuario@correo.com",
-        joinDate: "10/01/2023",
-        stats: {
-            gamesPlayed: 156,
-            totalWinnings: 25000,
-            totalLosses: 15000,
-            favoriteGame: "Ruleta"
+    const { user, getUserData } = useAuth();
+    const [,setProfileImage] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (user?.img) {
+            setProfileImage(`http://localhost:3001${user.img}`);
+        }
+
+        // Recargar datos del usuario para asegurarnos de tener la última imagen
+        if (user?.usuarioid) {
+            getUserData(user.usuarioid.toString());
+        }
+    }, [user]);
+
+    const onImageUploaded = (imageUrl: string) => {
+        setProfileImage(`http://localhost:3001${imageUrl}`);
+        // Recargar los datos del usuario para actualizar la imagen en el contexto
+        if (user?.usuarioid) {
+            getUserData(user.usuarioid.toString());
         }
     };
 
-    const [activeTab, setActiveTab] = useState('stats');
-
     return (
         <div className="container">
-            <Sidebar
-                username={userData.username}
-                coins={userData.coins}
-                profileImage={userData.profileImage}
-            />
-
+            <Sidebar />
             <main className="main-content">
                 <div className="profile-container">
-                    <div className="profile-header">
-                        <img src={userData.profileImage} alt={userData.username} className="profile-image" />
-                        <div className="profile-details">
-                            <h1>{userData.username}</h1>
-                            <p>Miembro desde: {userData.joinDate}</p>
-                            <div className="coins">
-                                <span className="coins-icon">🪙</span>
-                                <span>{userData.coins} AustralCoins</span>
+                    <div className="settings-section">
+                        <h2>Información de cuenta</h2>
+                        <form className="settings-form">
+                            <div className="form-group">
+                                <label>Nombre</label>
+                                <input type="text" defaultValue={user?.nombre || ''} />
                             </div>
-                        </div>
+                            <div className="form-group">
+                                <label>Apellido</label>
+                                <input type="text" defaultValue={user?.apellido || ''} />
+                            </div>
+                            <div className="form-group">
+                                <label>Email</label>
+                                <input type="email" defaultValue={user?.email || ''} />
+                            </div>
+                        </form>
+                        <ImageUpload userId={user?.usuarioid || 0} onImageUploaded={onImageUploaded} />
                     </div>
-
-                    <div className="profile-tabs">
-                        <div
-                            className={`profile-tab ${activeTab === 'stats' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('stats')}
-                        >
-                            Estadísticas
-                        </div>
-                        <div
-                            className={`profile-tab ${activeTab === 'settings' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('settings')}
-                        >
-                            Configuración
-                        </div>
-                        <div
-                            className={`profile-tab ${activeTab === 'transactions' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('transactions')}
-                        >
-                            Transacciones
-                        </div>
-                    </div>
-
-                    {activeTab === 'stats' && (
-                        <div className="stats-section">
-                            <div className="stats-container">
-                                <div className="stat-card">
-                                    <div className="stat-value">{userData.stats.gamesPlayed}</div>
-                                    <div className="stat-label">Partidas jugadas</div>
-                                </div>
-                                <div className="stat-card">
-                                    <div className="stat-value">{userData.stats.totalWinnings}</div>
-                                    <div className="stat-label">Ganancias totales</div>
-                                </div>
-                                <div className="stat-card">
-                                    <div className="stat-value">{userData.stats.totalLosses}</div>
-                                    <div className="stat-label">Pérdidas totales</div>
-                                </div>
-                                <div className="stat-card">
-                                    <div className="stat-value">{userData.stats.favoriteGame}</div>
-                                    <div className="stat-label">Juego favorito</div>
-                                </div>
-                            </div>
-
-                            <h2>Logros</h2>
-                            <div className="achievements-container">
-                                <p>No has desbloqueado ningún logro todavía.</p>
-                            </div>
-                        </div>
-                    )}
-
-                    {activeTab === 'settings' && (
-                        <div className="settings-section">
-                            <h2>Configuración de cuenta</h2>
-                            <form className="settings-form">
-                                <div className="form-group">
-                                    <label>Email</label>
-                                    <input type="email" defaultValue={userData.email} />
-                                </div>
-                                <div className="form-group">
-                                    <label>Nombre de usuario</label>
-                                    <input type="text" defaultValue={userData.username} />
-                                </div>
-                                <div className="form-group">
-                                    <label>Contraseña</label>
-                                    <input type="password" placeholder="••••••••" />
-                                </div>
-                                <button type="submit">Guardar cambios</button>
-                            </form>
-                        </div>
-                    )}
-
-                    {activeTab === 'transactions' && (
-                        <div className="transactions-section">
-                            <h2>Historial de transacciones</h2>
-                            <p>Consulta el historial detallado en la sección Historial.</p>
-                        </div>
-                    )}
                 </div>
             </main>
         </div>

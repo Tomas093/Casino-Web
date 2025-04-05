@@ -2,15 +2,23 @@ import express from 'express';
 import session from 'express-session';
 import authRoutes from './routes/auth';
 import cors from 'cors';
+import uploadRoutes from './routes/uploads';
+import path from "path";
 
 const app = express();
 
-app.use(express.json());
-
+// Configurar CORS antes de las rutas
 app.use(cors({
     origin: ['http://localhost:5173', 'http://localhost:5174'],
     credentials: true
 }));
+
+app.use(express.json());
+
+// Rutas de subida y archivos estáticos
+app.use('/upload', uploadRoutes);
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Configuración de sesiones
 app.use(session({
@@ -23,7 +31,7 @@ app.use(session({
     }
 }));
 
-// Rutas
+// Otras rutas
 app.use('/auth', authRoutes);
 
 const PORT = process.env.PORT || 3001;
