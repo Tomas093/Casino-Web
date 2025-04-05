@@ -1,0 +1,156 @@
+/* RegisterStyle.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: rgba(40, 40, 40, 0.8);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    color: #fff;
+}
+
+.register-title {
+    color: #ffd700;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.register-subtitle {
+    color: #28a745;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.register-form {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-control, .input-field {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 1rem;
+    background-color: rgba(30, 30, 30, 0.8);
+    border: 1px solid #444;
+    border-radius: 40px;
+    margin-bottom: 1rem;
+    color: #fff;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-control:focus, .input-field:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.3);
+    outline: none;
+}
+
+.form-control::placeholder, .input-field::placeholder {
+    color: #aaa;
+}
+
+.terms-container, .terms {
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
+    color: #ccc;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.terms-container strong, .terms strong {
+    color: #ffd700;
+}
+
+.no-link {
+    text-decoration: none;
+    color: #28a745;
+    transition: color 0.3s;
+}
+
+.no-link:hover {
+    color: #ffd700;
+    text-decoration: none;
+}
+
+.submit-button, .btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #ffd700, #ff8c00);
+    color: #000;
+    border: none;
+    border-radius: 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+    margin-top: 1rem;
+}
+
+.submit-button:hover, .btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+    background: linear-gradient(135deg, #ffdd33, #ffa333);
+}
+
+.submit-button:active, .btn:active {
+    transform: scale(0.98);
+}
+
+/* Estilos responsivos */
+@media (max-width: 576px) {
+    .container {
+        padding: 1.5rem;
+        margin: 1rem;
+        max-width: 100%;
+    }
+
+    .register-title {
+        font-size: 2rem;
+    }
+}
+
+/* Estilos específicos para campos con errores */
+.form-control.error, .input-field.error {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.3);
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Añadir un efecto de hover sutil para campos */
+.form-control:hover, .input-field:hover {
+    border-color: #ffd700;
+}
+
+/* Estilo para checkbox de términos si se necesita */
+input[type="checkbox"] {
+    accent-color: #ffd700;
+    margin-right: 8px;
+}
+
+/* Animación suave de aparición */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.container {
+    animation: fadeIn 0.8s ease-out;
+}
