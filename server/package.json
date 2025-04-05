@@ -1,0 +1,39 @@
+{
+  "name": "casinoweb",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --watch src --exec ts-node src/index.ts",
+    "build": "../node_modules/.bin/tsc",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@prisma/client": "^6.5.0",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "prisma": "^6.5.0",
+    "react-awesome-button": "^7.0.5",
+    "react-icons": "^5.5.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/express-session": "^1.18.1",
+    "@types/node": "^22.14.0",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
