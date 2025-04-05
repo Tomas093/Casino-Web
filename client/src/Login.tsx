@@ -2,7 +2,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import Form from './Form';
 import { useAuth } from './AuthContext.tsx';
-import './RegisterStyle.css';
+import './LoginStyle.css';
 
 const Login = () => {
     const { login, error } = useAuth();

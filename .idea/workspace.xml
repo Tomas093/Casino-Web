@@ -4,41 +4,41 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add promotional images to landing page and refactor promo card rendering">
-      <change afterPath="$PROJECT_DIR$/client/src/Form.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/Login.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/Register.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/RegisterStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/routes/auth.ts" afterDir="false" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Agrego cambios en los forms, ademas subo andando el form de register">
+      <change afterPath="$PROJECT_DIR$/client/src/LoginStyle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/SideBarStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client" beforeDir="false" afterPath="$PROJECT_DIR$/client" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/LandingPageStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/LandingPageStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/typescript/lib/_tsc.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/typescript/lib/_tsc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/typescript/lib/typescript.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/typescript/lib/typescript.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/typescript/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/typescript/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/AuthContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/HistoryPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/HistoryPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Register.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/RegisterStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/RegisterStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/SideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/SideBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/auth.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ChangesViewManager" show_ignored="true">
+    <option name="groupingKeys">
+      <option value="directory" />
+      <option value="repository" />
+    </option>
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
         <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/client" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -59,7 +59,7 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2vGcaxnqELLcxdc86qh2iWUSxuW" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -69,7 +69,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/casinoweb/client/src/assets",
     "list.type.of.created.stylesheet": "CSS",
@@ -78,6 +79,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
     "ts.external.directory.path": "C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\casinoweb\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
@@ -104,6 +106,9 @@
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="" />
@@ -114,6 +119,7 @@
       <workItem from="1743774921409" duration="5578000" />
       <workItem from="1743790490077" duration="15174000" />
       <workItem from="1743807390958" duration="8451000" />
+      <workItem from="1743854256747" duration="4171000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -154,6 +160,9 @@
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/client" />
+    </ignored-roots>
     <MESSAGE value="Refactor project structure and update styles for Vite + React integration" />
     <MESSAGE value="Update workspace.xml to reflect changes in file paths and project structure" />
     <MESSAGE value="Implement landing page, navigation bar, and footer components; update package dependencies" />

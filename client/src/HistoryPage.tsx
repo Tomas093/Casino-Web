@@ -4,12 +4,12 @@ import HistoryItem from './HistoryItems.tsx';
 import './ProfileStyle.css';
 
 const HistoryPage: React.FC = () => {
-    // Simulación de datos de la API
+    // obetner datos de usuario del endpoint del backend
     const userData = {
-        username: "Username",
-        coins: 10000,
-        profileImage: "../Img/Javo.jpg"
-    };
+        username: "Hola",
+        coins: 1000,
+        profileImage: "../Img/JavierPlata.jpg"
+    }
 
     const [filter, setFilter] = useState('all');
 

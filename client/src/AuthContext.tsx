@@ -1,5 +1,5 @@
 // context/AuthContext.tsx
-import React, { createContext, useState, useContext} from 'react';
+import React, {createContext, useState, useContext} from 'react';
 
 interface AuthContextType {
     user: any | null;
@@ -7,21 +7,43 @@ interface AuthContextType {
     logout: () => void;
     isLoading: boolean;
     error: string | null;
+    userData: any | null;
+    fetchUserData: (userId: string) => Promise<any>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
     const [user, setUser] = useState<any | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [userData, setUserData] = useState<any | null>(null);
+
+    const fetchUserData = async (userId: string) => {
+        try {
+            const response = await fetch(`http://localhost:3001/auth/user/${userId}`, {
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al obtener datos del usuario');
+            }
+
+            const data = await response.json();
+            setUserData(data);
+            return data;
+        } catch (error) {
+            console.error('Error:', error);
+            return null;
+        }
+    };
 
     const login = async (credentials: any) => {
         setIsLoading(true);
         try {
             const response = await fetch('http://localhost:3001/auth/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {'Content-Type': 'application/json'},
                 credentials: 'include',
                 body: JSON.stringify(credentials),
             });
@@ -45,7 +67,7 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, isLoading, error }}>
+        <AuthContext.Provider value={{user, login, logout, error, isLoading, userData, fetchUserData}}>
             {children}
         </AuthContext.Provider>
     );
