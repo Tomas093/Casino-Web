@@ -1,8 +1,8 @@
 // src/components/Sidebar.tsx
 import './SideBarStyle.css'
-import {Link} from "react-router-dom";
-import {useAuth} from './AuthContext';
-import {useState} from 'react';
+import { Link } from "react-router-dom";
+import { useAuth } from './AuthContext';
+import { useState, useEffect } from 'react';
 
 interface MenuItem {
     link: string;
@@ -10,13 +10,13 @@ interface MenuItem {
 }
 
 const menu: MenuItem[] = [
-    {link: '/profile', text: 'Información'},
-    {link: '/amigos', text: 'Amigos'},
-    {link: '/estadisticas', text: 'Estadísticas'},
-    {link: '/limites', text: 'Límites'},
-    {link: '/pausa', text: 'Pausa'},
-    {link: '/history', text: 'Historial'},
-    {link: '/eliminar-cuenta', text: 'Eliminar Cuenta'}
+    { link: '/profile', text: 'Información' },
+    { link: '/amigos', text: 'Amigos' },
+    { link: '/estadisticas', text: 'Estadísticas' },
+    { link: '/limites', text: 'Límites' },
+    { link: '/pausa', text: 'Pausa' },
+    { link: '/history', text: 'Historial' },
+    { link: '/eliminar-cuenta', text: 'Eliminar Cuenta' }
 ];
 
 const rendermenu = () => {
@@ -28,8 +28,9 @@ const rendermenu = () => {
 };
 
 const Sidebar: React.FC = () => {
-    const {user, client} = useAuth();
+    const { user, client } = useAuth();
     const [imgError, setImgError] = useState(false);
+    const [imgTimestamp, setImgTimestamp] = useState(Date.now());
 
     // URL base del servidor
     const serverBaseUrl = 'http://localhost:3001';
@@ -37,9 +38,15 @@ const Sidebar: React.FC = () => {
     // Imagen por defecto en caso de error o si no hay imagen
     const defaultImage = '/path/to/default-avatar.jpg';
 
-    // Construir la URL completa de la imagen si existe
+    // Actualizar el timestamp cuando cambia la imagen del usuario
+    useEffect(() => {
+        setImgTimestamp(Date.now());
+        setImgError(false);
+    }, [user?.img]);
+
+    // Construir la URL completa de la imagen si existe (con timestamp para evitar caché)
     const profileImageUrl = user && user.img
-        ? `${serverBaseUrl}${user.img}`
+        ? `${serverBaseUrl}${user.img}?t=${imgTimestamp}`
         : defaultImage;
 
     const handleImageError = () => {

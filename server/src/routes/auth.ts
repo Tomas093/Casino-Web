@@ -124,32 +124,29 @@ router.get('/check-session', (req: Request, res: Response) => {
 
 //obetenr info de cliente y de usuario
 // @ts-ignore
+// server/src/routes/auth.ts
 router.get('/user/:id', async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
         const usuario = await prisma.usuario.findUnique({
             where: { usuarioid: Number(id) },
-            include: {
-                cliente: true,
-            }
+            include: { cliente: true }
         });
 
-        const cliente = await prisma.cliente.findUnique({
-            where: { usuarioid: Number(id) }
-        });
-
-        if (!cliente) {
-            return res.status(404).json({ message: 'Cliente no encontrado' });
-        }else {
-            console.log('cliente', cliente);
-        }
         if (!usuario) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
-        }else {
-            console.log('usuario', usuario);
         }
 
-        res.status(200).json(usuario);
+        if (!usuario.cliente) {
+            return res.status(404).json({ message: 'Cliente no encontrado' });
+        }
+
+        // Convertir BigInt a number
+        const dataConverted = JSON.parse(JSON.stringify(usuario, (key, value) =>
+            typeof value === 'bigint' ? Number(value) : value
+        ));
+
+        res.status(200).json(dataConverted);
     } catch (error) {
         console.error("Error al obtener usuario:", error);
         res.status(500).json({ message: 'Error del servidor' });

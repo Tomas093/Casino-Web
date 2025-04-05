@@ -1,94 +1,192 @@
-// context/AuthContext.tsx
-import React, { createContext, useState, useContext } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import axios from 'axios';
 
-interface AuthContextType {
-    user: any | null;
-    client: any | null; // Nueva propiedad para el cliente
-    login: (credentials: any) => Promise<boolean>;
-    logout: () => void;
-    isLoading: boolean;
-    error: string | null;
-    getUserData: (userId: string) => Promise<any>;
+axios.defaults.withCredentials = true;
+
+interface User {
+    usuarioid: number;
+    nombre: string;
+    apellido: string;
+    email: string;
+    edad: string;
+    dni: string;
+    img?: string;
 }
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+interface Client {
+    usuarioid: number;
+    balance: number;
+    influencer: boolean;
+}
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<any | null>(null);
-    const [client, setClient] = useState<any | null>(null); // Nuevo estado para el cliente
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+interface AuthContextType {
+    user: User | null;
+    client: Client | null;
+    isLoading: boolean;
+    login: (email: string, password: string) => Promise<any>;
+    logout: () => Promise<void>;
+    register: (userData: RegisterData) => Promise<any>;
+    getUserData: (userId: string) => Promise<void>;
+    updateProfileImage: (imageUrl: string) => void;
+}
+
+interface RegisterData {
+    nombre: string;
+    apellido: string;
+    email: string;
+    password: string;
+    edad: number;
+    dni: string;
+}
+
+interface AuthProviderProps {
+    children: ReactNode;
+}
+
+const AuthContext = createContext<AuthContextType | null>(null);
+
+const API_URL = 'http://localhost:3001';
+
+axios.defaults.withCredentials = true;
+
+export const AuthProvider = ({ children }: AuthProviderProps) => {
+    const [user, setUser] = useState<User | null>(null);
+    const [client, setClient] = useState<Client | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const getUserData = async (userId: string) => {
-        setIsLoading(true);
         try {
-            const response = await fetch(`http://localhost:3001/auth/user/${userId}`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-            });
+            const response = await axios.get(`${API_URL}/auth/user/${userId}`);
+            if (response.data) {
+                setUser(response.data);
+                if (response.data.cliente) {
+                    setClient(response.data.cliente);
+                }
+                localStorage.setItem('user', JSON.stringify(response.data));
+            }
+        } catch (error) {
+            console.error('Error al obtener datos del usuario:', error);
+        }
+    };
 
-            console.log(response)
+    const updateProfileImage = (imageUrl: string) => {
+        if (user) {
+            const updatedUser = { ...user, img: imageUrl };
+            setUser(updatedUser);
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+        }
+    };
 
-            const userData = await response.json();
-            if (response.ok) {
+    useEffect(() => {
+        const checkSession = async () => {
+            const storedUser = localStorage.getItem('user');
+
+            try {
+                const response = await axios.get(`${API_URL}/auth/check-session`);
+                setUser(response.data);
+
+                if (response.data?.usuarioid) {
+                    await getUserData(response.data.usuarioid.toString());
+                }
+
+                localStorage.setItem('user', JSON.stringify(response.data));
+            } catch (error) {
+                // Línea eliminada para no mostrar "No hay sesión activa en el servidor"
+                if (storedUser) {
+                    localStorage.removeItem('user');
+                }
+                setUser(null);
+                setClient(null);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        checkSession();
+    }, []);
+
+    const login = async (email: string, password: string) => {
+        try {
+            setIsLoading(true);
+            const response = await axios.post(`${API_URL}/auth/login`, { email, password });
+
+            if (response.data && response.data.usuario) {
+                const userData = response.data.usuario;
                 setUser(userData);
-                setClient(userData.cliente); // Asignar la información del cliente
-                return userData;
-            } else {
-                throw new Error(userData.message || 'Error al obtener datos del usuario');
-            }
-        } catch (err: any) {
-            setError(err.message);
-            return null;
-        } finally {
-            setIsLoading(false);
-        }
-    };
+                localStorage.setItem('user', JSON.stringify(userData));
 
-    const login = async (credentials: any): Promise<boolean> => {
-        setIsLoading(true);
-        try {
-            const response = await fetch('http://localhost:3001/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify(credentials),
-            });
+                if (userData?.usuarioid) {
+                    await getUserData(userData.usuarioid.toString());
+                }
 
-            const data = await response.json();
-            if (response.ok) {
-                // Asegúrate de que el servidor devuelva todos los datos del usuario, incluyendo img
-                setUser(data.usuario);
-                setError(null);
                 return true;
-            } else {
-                throw new Error(data.message || 'Error al iniciar sesión');
             }
-        } catch (err: any) {
-            setError(err.message);
             return false;
+        } catch (error: any) {
+            console.error('Error al iniciar sesión:', error);
+            if (error.response) {
+                console.error('Respuesta del servidor:', error.response.data);
+                throw new Error(error.response.data.message || 'Error en el servidor');
+            } else if (error.request) {
+                throw new Error('No se recibió respuesta del servidor');
+            } else {
+                throw new Error(error.message);
+            }
         } finally {
             setIsLoading(false);
         }
     };
 
-    const logout = () => {
-        setUser(null);
-        // Podrías agregar también la llamada al endpoint /logout para destruir la sesión en el servidor
+    const logout = async () => {
+        try {
+            await axios.post(`${API_URL}/auth/logout`);
+            setUser(null);
+            setClient(null);
+            localStorage.removeItem('user');
+        } catch (error) {
+            console.error('Error al cerrar sesión:', error);
+            setUser(null);
+            setClient(null);
+            localStorage.removeItem('user');
+        }
+    };
+
+    const register = async (userData: RegisterData) => {
+        try {
+            const response = await axios.post(`${API_URL}/auth/register`, userData);
+            return response.data;
+        } catch (error: any) {
+            console.error('Error al registrar usuario:', error);
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error en el registro');
+            } else {
+                throw error;
+            }
+        }
+    };
+
+    const contextValue: AuthContextType = {
+        user,
+        client,
+        isLoading,
+        login,
+        logout,
+        register,
+        getUserData,
+        updateProfileImage
     };
 
     return (
-        <AuthContext.Provider value={{ user, client, login, logout, isLoading, error, getUserData }}>
+        <AuthContext.Provider value={contextValue}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-export function useAuth() {
+export const useAuth = () => {
     const context = useContext(AuthContext);
-    if (context === undefined) {
-        throw new Error('useAuth debe usarse dentro de un AuthProvider');
+    if (!context) {
+        throw new Error('useAuth debe ser usado dentro de un AuthProvider');
     }
     return context;
-}
+};

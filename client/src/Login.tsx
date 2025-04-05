@@ -1,17 +1,20 @@
-// pages/Login/Login.tsx
-import { Link, useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import Form from './Form';
-import { useAuth } from './AuthContext';
+import {useAuth} from './AuthContext';
 import './LoginStyle.css';
 
 const Login = () => {
-    const { login, error } = useAuth();
+    const {login, error} = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (data: any) => {
-        const success = await login(data);
-        if (success) {
-            navigate('/history');
+        try {
+            const success = await login(data.email, data.password);
+            if (success) {
+                navigate('/history');
+            }
+        } catch (error) {
+            // Error handling will be done in the AuthContext
         }
     };
 
@@ -22,8 +25,8 @@ const Login = () => {
                 subtitle="Ingresa a tu cuenta"
                 submitButtonText="Ingresar"
                 fields={[
-                    { name: 'email', type: 'email', placeholder: 'Email@domain.com', required: true },
-                    { name: 'password', type: 'password', placeholder: 'Contraseña', required: true },
+                    {name: 'email', type: 'email', placeholder: 'Email@domain.com', required: true},
+                    {name: 'password', type: 'password', placeholder: 'Contraseña', required: true},
                 ]}
                 termsText={
                     <>

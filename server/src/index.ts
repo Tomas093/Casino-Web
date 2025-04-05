@@ -7,27 +7,52 @@ import path from "path";
 
 const app = express();
 
-// Configurar CORS antes de las rutas
+// Configurar CORS con opciones adecuadas para cookies
 app.use(cors({
     origin: ['http://localhost:5173', 'http://localhost:5174'],
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
 
+
+app.use(cors({
+    origin: function(origin, callback) {
+        const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+});
+
 // Rutas de subida y archivos estáticos
 app.use('/upload', uploadRoutes);
-
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Configuración de sesiones
+// Configuración mejorada de sesiones
+// In index.ts
 app.use(session({
     secret: 'tu_clave_secreta',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false, // true en producción con HTTPS
-        maxAge: 24 * 60 * 60 * 1000 // 1 día
+        secure: process.env.NODE_ENV === 'production', // Only use true with HTTPS
+        httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        sameSite: 'lax' // Helps with CORS
     }
 }));
 
