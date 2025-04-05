@@ -101,6 +101,17 @@ router.post('/login', async (req: Request, res: Response) => {
     }
 });
 
+router.post('/logout', (req: Request, res: Response) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Error al cerrar sesión:", err);
+            return res.status(500).json({ message: 'Error del servidor' });
+        }
+        res.clearCookie('connect.sid'); // Limpiar la cookie de sesión
+        res.status(200).json({ message: 'Sesión cerrada exitosamente' });
+    });
+});
+
 // Checkear si el usuario está logueado
 // @ts-ignore
 router.get('/check-session', (req: Request, res: Response) => {

@@ -1,7 +1,7 @@
 // pages/Login/Login.tsx
 import { Link, useNavigate } from 'react-router-dom';
 import Form from './Form';
-import { useAuth } from './AuthContext.tsx';
+import { useAuth } from './AuthContext';
 import './LoginStyle.css';
 
 const Login = () => {
@@ -9,8 +9,8 @@ const Login = () => {
     const navigate = useNavigate();
 
     const handleSubmit = async (data: any) => {
-        await login(data);
-        if (!error) {
+        const success = await login(data);
+        if (success) {
             navigate('/history');
         }
     };
@@ -35,6 +35,7 @@ const Login = () => {
                 }
                 onSubmit={handleSubmit}
             />
+            {error && <p className="error">{error}</p>}
         </div>
     );
 };

@@ -1,21 +1,27 @@
+// App.tsx
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './LandingPage';
-import Register from "./Register.tsx";
-import Login from "./Login.tsx";
-import HistoryPage from "./HistoryPage.tsx";
-import ProfilePage from "./ProfilePage.tsx";
-import { AuthProvider } from './AuthContext'; // Importa el AuthProvider
+import Register from './Register';
+import Login from './Login';
+import HistoryPage from './HistoryPage';
+import ProfilePage from './ProfilePage';
+import { AuthProvider } from './AuthContext';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
     return (
         <BrowserRouter>
-            <AuthProvider> {/* Envuelve todas las rutas con AuthProvider */}
+            <AuthProvider>
                 <Routes>
-                    <Route path="/" element={<LandingPage/>} />
-                    <Route path="/login" element={<Login/>} />
-                    <Route path="/register" element={<Register/>}/>
-                    <Route path="/history" element={<HistoryPage/>} />
-                    <Route path="/profile" element={<ProfilePage/>} />
+                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+
+                    {/* Rutas protegidas */}
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="/history" element={<HistoryPage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
+                    </Route>
                 </Routes>
             </AuthProvider>
         </BrowserRouter>
