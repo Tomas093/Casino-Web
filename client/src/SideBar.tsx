@@ -1,16 +1,9 @@
 // src/components/Sidebar.tsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import './SideBarStyle.css'
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useAuth } from './AuthContext'; // Importar el contexto de autenticación
 
-interface SidebarProps {
-    username: string;
-    coins: number;
-    profileImage: string;
-}
-
-
-// Después
 interface MenuItem {
     link: string;
     text: string;
@@ -34,15 +27,26 @@ const rendermenu = () => {
     ));
 };
 
+const Sidebar: React.FC = () => { // Eliminar SidebarProps de aquí
+    const { user, client, getUserData } = useAuth(); // Obtener la información del usuario y del cliente del contexto
 
-const Sidebar: React.FC<SidebarProps> = ({ username, coins, profileImage }) => {
+    useEffect(() => {
+        if (user) {
+            getUserData(user.id); // Obtener los datos del usuario y del cliente
+        }
+    }, [user, getUserData]);
+
+    if (!user || !client) {
+        return <div>Cargando...</div>; // Mostrar un mensaje de carga mientras se obtienen los datos
+    }
+
     return (
         <aside className="sidebar">
             <div className="profile-section">
-                <img src={profileImage} alt="Foto de Perfil" className="profile-img" />
-                <h2 className="username" id="username">{username}</h2>
+                <img src={user.profileImage} alt="Foto de Perfil" className="profile-img" />
+                <h2 className="username" id="username">{user.username}</h2>
                 <p className="coins">
-                    Australcoins: <span>{coins.toLocaleString()}</span> <span className="coin-icon">🪙</span>
+                    Australcoins: <span>{client.balance.toLocaleString()}</span> <span className="coin-icon">🪙</span>
                 </p>
             </div>
             <nav className="menu">

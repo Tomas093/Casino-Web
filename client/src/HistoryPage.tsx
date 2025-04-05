@@ -1,16 +1,10 @@
+// client/src/HistoryPage.tsx
 import React, { useState } from 'react';
 import Sidebar from './SideBar.tsx';
 import HistoryItem from './HistoryItems.tsx';
 import './ProfileStyle.css';
 
 const HistoryPage: React.FC = () => {
-    // obetner datos de usuario del endpoint del backend
-    const userData = {
-        username: "Hola",
-        coins: 1000,
-        profileImage: "../Img/JavierPlata.jpg"
-    }
-
     const [filter, setFilter] = useState('all');
 
     const transactions = {
@@ -34,11 +28,7 @@ const HistoryPage: React.FC = () => {
 
     return (
         <div className="container">
-            <Sidebar
-                username={userData.username}
-                coins={userData.coins}
-                profileImage={userData.profileImage}
-            />
+            <Sidebar />
 
             <main className="main-content">
                 <header className="content-header">

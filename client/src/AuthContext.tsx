@@ -1,40 +1,45 @@
 // context/AuthContext.tsx
-import React, {createContext, useState, useContext} from 'react';
+import React, { createContext, useState, useContext} from 'react';
 
+// AuthContext.tsx
 interface AuthContextType {
     user: any | null;
+    client: any | null; // Nueva propiedad para el cliente
     login: (credentials: any) => Promise<void>;
     logout: () => void;
     isLoading: boolean;
     error: string | null;
-    userData: any | null;
-    fetchUserData: (userId: string) => Promise<any>;
+    getUserData: (userId: string) => Promise<any>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
+export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
     const [user, setUser] = useState<any | null>(null);
+    const [client, setClient] = useState<any | null>(null); // Nuevo estado para el cliente
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [userData, setUserData] = useState<any | null>(null);
 
-    const fetchUserData = async (userId: string) => {
+    const getUserData = async (userId: string) => {
+        setIsLoading(true);
         try {
             const response = await fetch(`http://localhost:3001/auth/user/${userId}`, {
-                credentials: 'include'
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
             });
-
-            if (!response.ok) {
-                throw new Error('Error al obtener datos del usuario');
+            const userData = await response.json();
+            if (response.ok){
+                setUser(userData);
+                setClient(userData.cliente); // Asignar la información del cliente
+                return userData;
+            } else {
+                throw new Error(userData.message || 'Error al obtener datos del usuario');
             }
-
-            const data = await response.json();
-            setUserData(data);
-            return data;
-        } catch (error) {
-            console.error('Error:', error);
-            return null;
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -43,7 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
         try {
             const response = await fetch('http://localhost:3001/auth/login', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
                 body: JSON.stringify(credentials),
             });
@@ -65,9 +70,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
     const logout = () => {
         setUser(null);
     };
-
+    
     return (
-        <AuthContext.Provider value={{user, login, logout, error, isLoading, userData, fetchUserData}}>
+        <AuthContext.Provider value={{ user, client, login, logout, isLoading, error, getUserData }}>
             {children}
         </AuthContext.Provider>
     );

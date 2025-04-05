@@ -111,7 +111,7 @@ router.get('/check-session', (req: Request, res: Response) => {
     }
 });
 
-//pbtener info del usuario
+//obetenr info de cliente y de usuario
 // @ts-ignore
 router.get('/user/:id', async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -123,8 +123,19 @@ router.get('/user/:id', async (req: Request, res: Response) => {
             }
         });
 
+        const cliente = await prisma.cliente.findUnique({
+            where: { usuarioid: Number(id) }
+        });
+
+        if (!cliente) {
+            return res.status(404).json({ message: 'Cliente no encontrado' });
+        }else {
+            console.log('cliente', cliente);
+        }
         if (!usuario) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
+        }else {
+            console.log('usuario', usuario);
         }
 
         res.status(200).json(usuario);
