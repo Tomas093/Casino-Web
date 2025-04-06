@@ -8,6 +8,8 @@ import ProfilePage from './ProfilePage';
 import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute';
 
+//Modo diablo Skeree
+
 function App() {
     return (
         <BrowserRouter>
