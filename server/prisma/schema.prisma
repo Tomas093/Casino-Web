@@ -9,7 +9,6 @@ datasource db {
 
 model administrador {
   adminid                 Int                       @id @default(autoincrement())
-  balance                 BigInt?
   superadmin              Boolean?
   usuarioid               Int                       @unique
   usuario                 usuario                   @relation(fields: [usuarioid], references: [usuarioid], onDelete: Cascade)

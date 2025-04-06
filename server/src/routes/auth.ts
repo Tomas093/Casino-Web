@@ -122,6 +122,60 @@ router.get('/check-session', (req: Request, res: Response) => {
     }
 });
 
+//Verificar si el usuario es admin
+// Ejemplo: función para verificar si el usuario es admin usando Prisma
+const isAdmin = async (usuarioId: number): Promise<boolean> => {
+    const admin = await prisma.administrador.findUnique({
+        where: { usuarioid: usuarioId }
+    });
+    return admin !== null;
+};
+
+// @ts-ignore
+router.get('/is-admin', async (req: Request, res: Response) => {
+    const usuario = req.session.usuario;
+    if (!usuario) {
+        return res.status(401).json({ message: 'No autenticado' });
+    }
+
+    try {
+        const adminResult = await isAdmin(usuario.usuarioid);
+        if (adminResult) {
+            res.status(200).json({ message: 'Usuario es admin' });
+        } else {
+            res.status(403).json({ message: 'No autorizado' });
+        }
+    } catch (error) {
+        console.error('Error al verificar admin:', error);
+        res.status(500).json({ message: 'Error del servidor' });
+    }
+});
+
+//Verficar si el usuario es superadmin
+// @ts-ignore
+// En server/src/routes/auth.ts, ruta /is-superadmin corregida
+router.get('/is-superadmin', async (req: Request, res: Response) => {
+    const usuario = req.session.usuario;
+    if (!usuario) {
+        return res.status(401).json({ message: 'No autenticado' });
+    }
+    try {
+        const admin = await prisma.administrador.findUnique({
+            where: { usuarioid: usuario.usuarioid }
+        });
+        if (admin && admin.superadmin === true) {
+            res.status(200).json({ message: 'Usuario es superadmin' });
+        } else {
+            res.status(403).json({ message: 'No autorizado' });
+        }
+    } catch (error) {
+        console.error('Error al verificar superadmin:', error);
+        res.status(500).json({ message: 'Error del servidor' });
+    }
+});
+
+
+
 //obetenr info de cliente y de usuario
 // @ts-ignore
 // server/src/routes/auth.ts
