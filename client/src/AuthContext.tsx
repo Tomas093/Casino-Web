@@ -28,6 +28,8 @@ interface AuthContextType {
     register: (userData: RegisterData) => Promise<any>;
     getUserData: (userId: string) => Promise<void>;
     updateProfileImage: (imageUrl: string) => void;
+    isAdmin: () => Promise<boolean>;
+    isSuperadmin: () => Promise<boolean>;
 }
 
 interface RegisterData {
@@ -105,6 +107,29 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         checkSession();
     }, []);
 
+    const isAdmin = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/auth/is-admin`, {
+                withCredentials: true
+            });
+            return response.status === 200;
+        } catch (error) {
+            console.error('Error al verificar si es admin:', error);
+            return false;
+        }
+    };
+
+
+    const isSuperadmin = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/auth/is-superadmin`);
+            return response.status === 200;
+        } catch (error) {
+            console.error('Error al verificar si es superadmin:', error);
+            return false;
+        }
+    }
+
     const login = async (email: string, password: string) => {
         try {
             setIsLoading(true);
@@ -165,6 +190,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     };
 
+
+
     const contextValue: AuthContextType = {
         user,
         client,
@@ -173,7 +200,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         logout,
         register,
         getUserData,
-        updateProfileImage
+        updateProfileImage,
+        isAdmin,
+        isSuperadmin
     };
 
     return (
