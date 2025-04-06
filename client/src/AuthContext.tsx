@@ -28,6 +28,9 @@ interface AuthContextType {
     register: (userData: RegisterData) => Promise<any>;
     getUserData: (userId: string) => Promise<void>;
     updateProfileImage: (imageUrl: string) => void;
+    isAdmin: () => Promise<boolean>;
+    isSuperadmin: () => Promise<boolean>;
+    deleteUser: (userId: string) => Promise<void>;
 }
 
 interface RegisterData {
@@ -105,6 +108,28 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         checkSession();
     }, []);
 
+    const isAdmin = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/auth/is-admin`, {
+                withCredentials: true
+            });
+            return response.status === 200;
+        } catch (error) {
+            console.error('Error al verificar si es admin:', error);
+            return false;
+        }
+    };
+
+    const isSuperadmin = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/auth/is-superadmin`);
+            return response.status === 200;
+        } catch (error) {
+            console.error('Error al verificar si es superadmin:', error);
+            return false;
+        }
+    }
+
     const login = async (email: string, password: string) => {
         try {
             setIsLoading(true);
@@ -165,6 +190,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     };
 
+    const deleteUser = async (userId: string) => {
+        setIsLoading(true);
+        try {
+            await axios.delete(`${API_URL}/auth/delete/${userId}`);
+            window.location.href = '/';
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.error("Error al eliminar usuario:", error.message);
+                console.error("Detalles del error:", error.response?.data);
+            } else {
+                console.error("Error desconocido:", error);
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const contextValue: AuthContextType = {
         user,
         client,
@@ -173,7 +215,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         logout,
         register,
         getUserData,
-        updateProfileImage
+        updateProfileImage,
+        isAdmin,
+        isSuperadmin,
+        deleteUser
     };
 
     return (
