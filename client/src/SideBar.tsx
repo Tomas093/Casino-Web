@@ -16,7 +16,7 @@ const menu: MenuItem[] = [
     { link: '/limites', text: 'Límites' },
     { link: '/pausa', text: 'Pausa' },
     { link: '/history', text: 'Historial' },
-    { link: '/delete-account', text: 'Eliminar Cuenta' },
+    { link: '/eliminar-cuenta', text: 'Eliminar Cuenta' },
     { link: '/admin', text: 'Admin'},
 ];
 
