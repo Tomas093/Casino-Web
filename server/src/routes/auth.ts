@@ -123,6 +123,7 @@ router.get('/check-session', (req: Request, res: Response) => {
 });
 
 //Verificar si el usuario es admin
+// Ejemplo: función para verificar si el usuario es admin usando Prisma
 const isAdmin = async (usuarioId: number): Promise<boolean> => {
     const admin = await prisma.administrador.findUnique({
         where: { usuarioid: usuarioId }
@@ -130,7 +131,6 @@ const isAdmin = async (usuarioId: number): Promise<boolean> => {
     return admin !== null;
 };
 
-// Checkear si el usuario es admin
 // @ts-ignore
 router.get('/is-admin', async (req: Request, res: Response) => {
     const usuario = req.session.usuario;
@@ -151,8 +151,9 @@ router.get('/is-admin', async (req: Request, res: Response) => {
     }
 });
 
-// Checkear si el usuario es superadmin
+//Verficar si el usuario es superadmin
 // @ts-ignore
+// En server/src/routes/auth.ts, ruta /is-superadmin corregida
 router.get('/is-superadmin', async (req: Request, res: Response) => {
     const usuario = req.session.usuario;
     if (!usuario) {
@@ -173,7 +174,11 @@ router.get('/is-superadmin', async (req: Request, res: Response) => {
     }
 });
 
+
+
+//obetenr info de cliente y de usuario
 // @ts-ignore
+// server/src/routes/auth.ts
 router.get('/user/:id', async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
@@ -198,32 +203,6 @@ router.get('/user/:id', async (req: Request, res: Response) => {
         res.status(200).json(dataConverted);
     } catch (error) {
         console.error("Error al obtener usuario:", error);
-        res.status(500).json({ message: 'Error del servidor' });
-    }
-});
-
-// Eliminar Usuario
-// @ts-ignore
-router.delete('/delete/:id', async (req: Request, res: Response) => {
-    const { id } = req.params;
-    try {
-        const usuario = await prisma.usuario.findUnique({
-            where: {
-                usuarioid: Number(id)
-            }
-        });
-
-        if (!usuario) {
-            return res.status(404).json({ message: 'Usuario no encontrado' });
-        }
-
-        await prisma.usuario.delete({
-            where: { usuarioid: Number(id) }
-        });
-
-        res.status(200).json({ message: 'Usuario eliminado exitosamente' });
-    } catch (error) {
-        console.error("Error al eliminar usuario:", error);
         res.status(500).json({ message: 'Error del servidor' });
     }
 });

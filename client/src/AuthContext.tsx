@@ -30,7 +30,6 @@ interface AuthContextType {
     updateProfileImage: (imageUrl: string) => void;
     isAdmin: () => Promise<boolean>;
     isSuperadmin: () => Promise<boolean>;
-    deleteUser: (userId: string) => Promise<void>;
 }
 
 interface RegisterData {
@@ -120,6 +119,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     };
 
+
     const isSuperadmin = async () => {
         try {
             const response = await axios.get(`${API_URL}/auth/is-superadmin`);
@@ -190,22 +190,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     };
 
-    const deleteUser = async (userId: string) => {
-        setIsLoading(true);
-        try {
-            await axios.delete(`${API_URL}/auth/delete/${userId}`);
-            window.location.href = '/';
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                console.error("Error al eliminar usuario:", error.message);
-                console.error("Detalles del error:", error.response?.data);
-            } else {
-                console.error("Error desconocido:", error);
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    };
+
 
     const contextValue: AuthContextType = {
         user,
@@ -217,8 +202,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         getUserData,
         updateProfileImage,
         isAdmin,
-        isSuperadmin,
-        deleteUser
+        isSuperadmin
     };
 
     return (
