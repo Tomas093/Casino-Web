@@ -7,6 +7,10 @@ import HistoryPage from './HistoryPage';
 import ProfilePage from './ProfilePage';
 import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute';
+import AdminRoutes from "./AdminRoutes.tsx";
+import AdminManagment from "./AdminManagment.tsx";
+import SuperadminOnlyRoutes from "./SuperAdminRoutes.tsx";
+
 
 //Modo diablo Skeree
 
@@ -19,11 +23,22 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
 
-                    {/* Rutas protegidas */}
+                    {/* Rutas protegidas Solo (Usuarios/Clientes) */}
                     <Route element={<ProtectedRoute />}>
                         <Route path="/history" element={<HistoryPage />} />
                         <Route path="/profile" element={<ProfilePage />} />
                     </Route>
+
+                    {/* rutas Solo para admins*/}
+                    <Route element={<AdminRoutes />}>
+                        <Route path="/HIHIHIHIHI" element={<div>NO IMPLEMENTADO NADA</div>} />
+                    </Route>
+
+                    {/* Rutas protegidas Solo (Superadmin) */}
+                    <Route element={<SuperadminOnlyRoutes />}>
+                        <Route path="/admin" element={<AdminManagment />} />
+                    </Route>
+
                 </Routes>
             </AuthProvider>
         </BrowserRouter>
