@@ -4,13 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="SUbo cambios de Acceso,(Admin y SuperAdmin) y edito adminCreator a AdminManagment">
-      <change afterPath="$PROJECT_DIR$/client/src/DeleteUser.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/DeleteUserStyle.css" afterDir="false" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor AuthContext to improve user and client data handling; update Login and Sidebar components">
+      <change afterPath="$PROJECT_DIR$/client/src/AdminManagmentStyle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/AdminRoutes.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/SuperAdminRoutes.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/AdminCreation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/AdminManagment.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/AdminCreationStyle.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/AuthContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/ProtectedRoute.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/ProtectedRoute.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/SideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/SideBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/routes/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/auth.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,9 +33,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="CSS File" />
         <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
-        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -120,7 +126,7 @@
       <workItem from="1743854256747" duration="6715000" />
       <workItem from="1743880011440" duration="15109000" />
       <workItem from="1743902610935" duration="5482000" />
-      <workItem from="1743941836892" duration="7719000" />
+      <workItem from="1743941836892" duration="4751000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -202,15 +208,7 @@
       <option name="project" value="LOCAL" />
       <updated>1743905550465</updated>
     </task>
-    <task id="LOCAL-00011" summary="SUbo cambios de Acceso,(Admin y SuperAdmin) y edito adminCreator a AdminManagment">
-      <option name="closed" value="true" />
-      <created>1743946952547</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1743946952547</updated>
-    </task>
-    <option name="localTasksCounter" value="12" />
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -229,7 +227,6 @@
     <MESSAGE value="Implement ProtectedRoute component for route protection; update AuthContext and Login handling" />
     <MESSAGE value="Implement image upload functionality; add ImageUpload component and update ProfilePage and Sidebar components" />
     <MESSAGE value="Refactor AuthContext to improve user and client data handling; update Login and Sidebar components" />
-    <MESSAGE value="SUbo cambios de Acceso,(Admin y SuperAdmin) y edito adminCreator a AdminManagment" />
-    <option name="LAST_COMMIT_MESSAGE" value="SUbo cambios de Acceso,(Admin y SuperAdmin) y edito adminCreator a AdminManagment" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor AuthContext to improve user and client data handling; update Login and Sidebar components" />
   </component>
 </project>
