@@ -1,128 +1,302 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useAuth} from './AuthContext';
 import './AdminManagmentStyle.css'
+import {IconButton, Button} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
+import CancelIcon from "@mui/icons-material/Cancel";
+import {useNavigate} from "react-router-dom";
+
+interface Admin {
+    id: number;
+    name: string;
+    role: string;
+    balance: string;
+    img: string;
+    email: string;
+}
+
+interface User {
+    usuarioid: number;
+    nombre: string;
+    apellido: string;
+    email: string;
+    edad: string;
+    dni: string;
+    img?: string;
+    cliente: {
+        balance: number;
+        influencer: boolean;
+    };
+}
 
 const AdminManager: React.FC = () => {
-    // Sample data - in a real application this would come from your backend
-    const [admins] = useState([
-        {
-            id: 1,
-            name: 'Carlos Rodriguez',
-            role: 'Super Admin',
-            lastLogin: '2025-04-05 14:23',
-            status: 'online',
-            permissions: ['users', 'transactions', 'games', 'reports']
-        },
-        {
-            id: 2,
-            name: 'Elena Martinez',
-            role: 'Game Admin',
-            lastLogin: '2025-04-05 11:30',
-            status: 'online',
-            permissions: ['games', 'reports']
-        },
-        {
-            id: 3,
-            name: 'Juan Perez',
-            role: 'Support Admin',
-            lastLogin: '2025-04-04 22:15',
-            status: 'offline',
-            permissions: ['users', 'transactions']
-        },
-    ]);
+
+
+    const {user, getAdmins, editAdmin, getUsers, editUser} = useAuth();
+    const [admins, setAdmins] = useState<Admin[]>([]);
+    const [realUsers, setRealUsers] = useState<User[]>([]);
+    const [, setLoading] = useState(true);
+    const [imgError, setImgError] = useState(false);
+    const [imgTimestamp, setImgTimestamp] = useState(Date.now());
+    const [refreshAdmins, setRefreshAdmins] = useState(0);
+    const [refreshUsers, setRefreshUsers] = useState(0);
+    const [editingUserId, setEditingUserId] = useState<number | null>(null);
+
+    useEffect(() => {
+        const fetchAdmins = async () => {
+            setLoading(true);
+            try {
+                const data = await getAdmins();
+                // Transformar los datos si es necesario
+                const formattedAdmins = data.map((admin: any) => ({
+                    id: admin.administradorid || admin.usuarioid,
+                    name: `${admin.usuario.nombre} ${admin.usuario.apellido}`,
+                    email: admin.usuario.email || '',
+                    role: admin.superadmin ? 'Super Admin' : 'Admin',
+                    balance: admin.usuario.cliente ? `$${admin.usuario.cliente.balance}` : '$0',
+                    img: admin.usuario.img || '',
+                }));
+                setAdmins(formattedAdmins);
+            } catch (err) {
+                console.error('Error al cargar administradores:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchAdmins();
+    }, [getAdmins, refreshAdmins]);
+
+    // Actualiza el estado del formulario
+    const [editUserForm, setEditUserForm] = useState({
+        nombre: '',
+        apellido: '',
+        email: '',
+        edad: '',
+        dni: '',
+        balance: '',
+        influencer: false
+    });
+
+    // Cargar usuarios reales
+    useEffect(() => {
+        const fetchUsers = async () => {
+            setLoading(true);
+            try {
+                const data = await getUsers();
+                setRealUsers(data);
+            } catch (err) {
+                console.error('Error al cargar usuarios:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUsers();
+    }, [getUsers, refreshUsers]);
+
+
+
+    // Iniciar edición de usuario
+    const startEditingUser = (user: User) => {
+        setEditingUserId(user.usuarioid);
+        setEditUserForm({
+            nombre: user.nombre,
+            apellido: user.apellido,
+            email: user.email,
+            edad: user.edad,
+            dni: user.dni,
+            balance: user.cliente.balance.toString(),
+            influencer: user.cliente.influencer
+        });
+    };
+
+    // Guardar cambios del usuario
+    // Guardar cambios del usuario
+    const handleSaveUser = async (userId: number) => {
+        // Ensure numeric values are properly parsed
+        const updatedUser = {
+            nombre: editUserForm.nombre,
+            apellido: editUserForm.apellido,
+            email: editUserForm.email,
+            edad: parseInt(editUserForm.edad) || 0, // Use 0 as fallback if parseInt fails
+            dni: editUserForm.dni,
+            balance: parseFloat(editUserForm.balance) || 0, // Use 0 as fallback if parseFloat fails
+            influencer: editUserForm.influencer
+        };
+
+        try {
+            await editUser(userId.toString(), updatedUser);
+            setEditingUserId(null);
+            setRefreshUsers(prev => prev + 1);
+        } catch (error) {
+            console.error("Error editando usuario:", error);
+            alert(`Error: ${error instanceof Error ? error.message : 'Error desconocido'}`);
+        }
+    };
+
+    const [editingId, setEditingId] = useState<number | null>(null);
+
+    const [editForm, setEditForm] = useState({
+        email: '',
+        role: '',
+        balance: ''
+    });
+
+    const handleSave = async (userId: number) => {
+        const updatedAdmin = {
+            email: editForm.email,
+            superadmin: editForm.role === "Super Admin",
+            balance: parseFloat(editForm.balance)
+        };
+
+        try {
+            await editAdmin(userId.toString(), updatedAdmin);
+            setEditingId(null);
+            setRefreshAdmins(prev => prev + 1);
+        } catch (error) {
+            console.error("Error editing admin:", error);
+            alert(`Error editing admin: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+    };
+
+
+    const startEditing = (admin: Admin) => {
+        setEditingId(admin.id);
+        setEditForm({
+            email: admin.email,
+            role: admin.role,
+            balance: admin.balance.replace('$', '')
+        });
+    };
+
+
+    // URL base del servidor
+    const serverBaseUrl = 'http://localhost:3001';
+
+    // Imagen por defecto en caso de error o si no hay imagen
+    const defaultImage = './assets/defaultprofile.png';
+
+    // Actualizar el timestamp cuando cambia la imagen del usuario
+    useEffect(() => {
+        setImgTimestamp(Date.now());
+        setImgError(false);
+    }, [user?.img]);
+
+    // Construir la URL completa de la imagen si existe (con timestamp para evitar caché)
+    const profileImageUrl = user && user.img
+        ? `${serverBaseUrl}${user.img}?t=${imgTimestamp}`
+        : defaultImage;
+
+    const handleImageError = () => {
+        setImgError(true);
+    };
+
+    const {createAdmin} = useAuth();
+
     type FormField = {
         label: string;
         type: 'text' | 'email' | 'password' | 'select';
         placeholder?: string;
         options?: string[];
     };
+
     const formFields: FormField[] = [
-        { label: 'Name', type: 'text', placeholder: 'Full Name' },
-        { label: 'Apellido', type: 'text', placeholder: 'Apellido' },
-        { label: 'Dni', type: 'text', placeholder: 'DNI' },
-        { label: 'Email', type: 'email', placeholder: 'Email Address' },
-        { label: 'Role', type: 'select', options: ['Select Role', 'Super Admin', 'Admin'] },
-        { label: 'Password', type: 'password', placeholder: 'Create Password' }
+        {label: 'Name', type: 'text', placeholder: 'Name'},
+        {label: 'Apellido', type: 'text', placeholder: 'Apellido'},
+        {label: 'DNI', type: 'text', placeholder: 'DNI'},
+        {label: 'Email', type: 'email', placeholder: 'Email Address'},
+        {label: 'Edad', type: 'text', placeholder: 'Edad'},
+        {label: 'Role', type: 'select', options: ['Admin', 'Super Admin']},
+        {label: 'Password', type: 'password', placeholder: 'Password'},
+        {label: 'Confirm Password', type: 'password', placeholder: 'Confirm Password'},
     ];
+
+    const [activeTab, setActiveTab] = useState('dashboard');
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState<number | null>(null);
+    const navigate = useNavigate();
+
+    const handledelteUser = (userId: number) => {
+        if (showDeleteConfirm === userId) {
+            navigate(`/deleteSpecificaccount/${userId}`);
+            setShowDeleteConfirm(null);
+        } else {
+            setShowDeleteConfirm(userId);
+        }
+    }
+
+    const handleAddAdmin = async (event: React.FormEvent) => {
+        event.preventDefault();
+        const form = event.currentTarget as HTMLFormElement;
+        const formData = new FormData(form);
+
+        const name = formData.get('Name') as string;
+        const apellido = formData.get('Apellido') as string;
+        const dni = formData.get('DNI') as string;
+        const email = formData.get('Email') as string;
+        const edad = formData.get('Edad') as string;
+        const role = formData.get('Role') as string;
+        const password = formData.get('Password') as string;
+        const confirmPassword = formData.get('Confirm Password') as string;
+
+        if (!name || !apellido || !dni || !email || !edad || !role || !password || !confirmPassword) {
+            alert('All fields are required');
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            alert('Passwords do not match');
+            return;
+        }
+
+        const adminData = {
+            nombre: name,
+            apellido: apellido,
+            dni: dni,
+            email: email,
+            edad: parseInt(edad, 10),
+            password: password,
+            superadmin: role === 'Super Admin'
+        };
+
+        try {
+            await createAdmin(adminData);
+            alert('Admin created successfully');
+            form.reset(); // Clear the form after successful submission
+            setRefreshAdmins(prev => prev + 1); // Refresh the admins list
+        } catch (error) {
+            console.error("Error creating admin:", error);
+            alert(`Error creating admin: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+    }
+
     const renderFormFields = () => {
-        return formFields.map((field: FormField, index:number) => (
+        return formFields.map((field: FormField, index: number) => (
             <div className="form-group" key={index}>
-                <label>{field.label}</label>
+                <label htmlFor={field.label}>{field.label}</label>
                 {field.type === 'select' ? (
-                    <select>
+                    <select
+                        name={field.label}
+                        id={field.label}
+                        required
+                    >
                         {field.options && field.options.map((option: string, i: number) => (
-                            <option key={i}>{option}</option>
+                            <option key={i} value={option}>{option}</option>
                         ))}
                     </select>
                 ) : (
                     <input
                         type={field.type}
                         placeholder={field.placeholder}
+                        name={field.label}
+                        id={field.label}
+                        required
                     />
                 )}
             </div>
         ));
-    };
-
-    const [users, setUsers] = useState([
-        {
-            id: 101,
-            username: 'lucky_player',
-            email: 'lucky@example.com',
-            registered: '2024-12-15',
-            lastLogin: '2025-04-05',
-            balance: '$1,243.50',
-            status: 'active'
-        },
-        {
-            id: 102,
-            username: 'high_roller',
-            email: 'highroller@example.com',
-            registered: '2025-01-03',
-            lastLogin: '2025-04-04',
-            balance: '$5,678.25',
-            status: 'active'
-        },
-        {
-            id: 103,
-            username: 'poker_ace',
-            email: 'pokerace@example.com',
-            registered: '2024-10-28',
-            lastLogin: '2025-03-30',
-            balance: '$842.75',
-            status: 'inactive'
-        },
-        {
-            id: 104,
-            username: 'slot_master',
-            email: 'slotmaster@example.com',
-            registered: '2025-02-11',
-            lastLogin: '2025-04-01',
-            balance: '$3,421.90',
-            status: 'active'
-        },
-        {
-            id: 105,
-            username: 'blackjack_pro',
-            email: 'bjpro@example.com',
-            registered: '2024-11-09',
-            lastLogin: '2025-04-02',
-            balance: '$967.30',
-            status: 'active'
-        },
-    ]);
-
-    const [activeTab, setActiveTab] = useState('dashboard');
-    const [showDeleteConfirm, setShowDeleteConfirm] = useState<number | null>(null);
-
-    const handleDeleteUser = (userId: number) => {
-        setUsers(users.filter(user => user.id !== userId));
-        setShowDeleteConfirm(null);
-    };
-
-    const handleAddAdmin = (e: React.FormEvent) => {
-        e.preventDefault();
-        // In a real app, this would make an API call
-        alert('Admin would be added here in a real application');
     };
 
     // Casino metrics for dashboard
@@ -216,7 +390,12 @@ const AdminManager: React.FC = () => {
                             <span className="header-btn-icon">settings</span>
                         </button>
                         <div className="user-profile">
-                            <img src="/api/placeholder/32/32" alt="Admin" className="user-avatar"/>
+                            <img
+                                src={imgError ? defaultImage : profileImageUrl}
+                                alt="Foto de Perfil"
+                                className="admin-profile-img"
+                                onError={handleImageError}
+                            />
                             <span>Admin</span>
                         </div>
                     </div>
@@ -370,21 +549,14 @@ const AdminManager: React.FC = () => {
                     {/* Admin Management View */}
                     {activeTab === 'admins' && (
                         <div className="admins-section">
-                            <div className="section-header">
-                                <h2 className="section-title">Admin Management</h2>
-                                <button className="action-button add-button">
-                                    <span className="button-icon">add</span> Add Admin
-                                </button>
-                            </div>
-
                             <div className="admin-table-container">
                                 <table className="admin-table">
                                     <thead>
                                     <tr>
                                         <th>Admin</th>
+                                        <th>Email</th>
                                         <th>Role</th>
-                                        <th>Status</th>
-                                        <th>Permissions</th>
+                                        <th>Balance</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
@@ -394,7 +566,18 @@ const AdminManager: React.FC = () => {
                                             <td>
                                                 <div className="admin-info">
                                                     <div className="admin-avatar">
-                                                        <span>person</span>
+                                                        {admin.img ? (
+                                                            <img
+                                                                src={`${serverBaseUrl}${admin.img}?t=${Date.now()}`}
+                                                                alt={admin.name}
+                                                                onError={(e) => {
+                                                                    (e.target as HTMLImageElement).src = defaultImage;
+                                                                }}
+                                                                className="admin-avatar-img"
+                                                            />
+                                                        ) : (
+                                                            <span>person</span>
+                                                        )}
                                                     </div>
                                                     <div className="admin-name">
                                                         <div>{admin.name}</div>
@@ -402,30 +585,102 @@ const AdminManager: React.FC = () => {
                                                 </div>
                                             </td>
                                             <td>
-                          <span className={`role-badge ${admin.role.toLowerCase().replace(' ', '-')}`}>
-                            {admin.role}
-                          </span>
+                                                <div className="admin-email">
+                                                    {editingId === admin.id ? (
+                                                        <input
+                                                            value={editForm.email}
+                                                            onChange={(e) => setEditForm({
+                                                                ...editForm,
+                                                                email: e.target.value
+                                                            })}
+                                                            className="edit-input"
+                                                        />
+                                                    ) : (
+                                                        <div>{admin.email}</div>
+                                                    )}
+                                                </div>
                                             </td>
                                             <td>
-                          <span className={`status-badge ${admin.status}`}>
-                            {admin.status}
-                          </span>
+                                                {editingId === admin.id ? (
+                                                    <select
+                                                        value={editForm.role}
+                                                        onChange={(e) => setEditForm({
+                                                            ...editForm,
+                                                            role: e.target.value
+                                                        })}
+                                                        className="edit-input"
+                                                    >
+                                                        <option value="Admin">Admin</option>
+                                                        <option value="Super Admin">Super Admin</option>
+                                                    </select>
+                                                ) : (
+                                                    <span className={`${admin.role.toLowerCase().replace(' ', '-')}`}>
+                                                        {admin.role}</span>
+                                                )
+                                                }
                                             </td>
                                             <td>
                                                 <div className="permission-tags">
-                                                    {admin.permissions.map(perm => (
-                                                        <span key={perm} className="permission-tag">{perm}</span>
-                                                    ))}
+                                                    {editingId === admin.id ? (
+                                                        <input
+                                                            type="number"
+                                                            value={editForm.balance}
+                                                            onChange={(e) => setEditForm({
+                                                                ...editForm,
+                                                                balance: e.target.value
+                                                            })}
+                                                            className="edit-input"
+                                                        />
+                                                    ) : (
+                                                        <span className="permission-tag">{admin.balance}</span>
+                                                    )}
                                                 </div>
                                             </td>
                                             <td>
                                                 <div className="action-buttons">
-                                                    <button className="edit-button">
-                                                        <span>edit</span>
-                                                    </button>
-                                                    <button className="delete-button">
-                                                        <span>delete</span>
-                                                    </button>
+                                                    {editingId === admin.id ? (
+                                                        <>
+                                                            <Button
+                                                                variant="contained"
+                                                                color="success"
+                                                                startIcon={<SaveIcon/>}
+                                                                onClick={() => handleSave(admin.id)}
+                                                                className="save-button-admin"
+                                                            >
+                                                                Guardar
+                                                            </Button>
+                                                            <Button
+                                                                variant="contained"
+                                                                color="secondary"
+                                                                startIcon={<CancelIcon/>}
+                                                                onClick={() => setEditingId(null)}
+                                                                className="cancel-button-admin"
+                                                            >
+                                                                Cancelar
+                                                            </Button>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Button
+                                                                variant="contained"
+                                                                color="primary"
+                                                                startIcon={<EditIcon/>}
+                                                                className="edit-button-admin"
+                                                                onClick={() => startEditing(admin)}
+                                                            >
+                                                                Editar
+                                                            </Button>
+                                                            <IconButton
+                                                                aria-label="Eliminar"
+                                                                color="error"
+                                                                className="delete-button-admin"
+                                                                size="large"
+                                                                onClick={() => handledelteUser(admin.id)}
+                                                            >
+                                                                <DeleteIcon fontSize="inherit" className="icon-large"/>
+                                                            </IconButton>
+                                                        </>
+                                                    )}
                                                 </div>
                                             </td>
                                         </tr>
@@ -437,40 +692,9 @@ const AdminManager: React.FC = () => {
                             <div className="add-admin-form-container">
                                 <h3 className="form-title">Add New Admin</h3>
                                 <form onSubmit={handleAddAdmin} className="add-admin-form">
-                                    <div className="form-grid">
+                                    <div className="form-grid form-grid-4-columns">
                                         {renderFormFields()}
                                     </div>
-
-                                    <div className="form-group">
-                                        <label>Permissions</label>
-                                        <div className="permissions-grid">
-                                            <div className="permission-checkbox">
-                                                <input type="checkbox" id="users-perm"/>
-                                                <label htmlFor="users-perm">Users</label>
-                                            </div>
-                                            <div className="permission-checkbox">
-                                                <input type="checkbox" id="transactions-perm"/>
-                                                <label htmlFor="transactions-perm">Transactions</label>
-                                            </div>
-                                            <div className="permission-checkbox">
-                                                <input type="checkbox" id="games-perm"/>
-                                                <label htmlFor="games-perm">Games</label>
-                                            </div>
-                                            <div className="permission-checkbox">
-                                                <input type="checkbox" id="reports-perm"/>
-                                                <label htmlFor="reports-perm">Reports</label>
-                                            </div>
-                                            <div className="permission-checkbox">
-                                                <input type="checkbox" id="promotions-perm"/>
-                                                <label htmlFor="promotions-perm">Promotions</label>
-                                            </div>
-                                            <div className="permission-checkbox">
-                                                <input type="checkbox" id="settings-perm"/>
-                                                <label htmlFor="settings-perm">Settings</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div className="form-actions">
                                         <button type="submit" className="submit-button">
                                             Create Admin
@@ -485,19 +709,16 @@ const AdminManager: React.FC = () => {
                     {activeTab === 'users' && (
                         <div className="users-section">
                             <div className="section-header">
-                                <h2 className="section-title">User Management</h2>
+                                <h2 className="section-title">Gestión de Usuarios</h2>
                                 <div className="header-actions">
                                     <div className="search-container">
                                         <input
                                             type="text"
-                                            placeholder="Search users..."
+                                            placeholder="Buscar usuarios..."
                                             className="search-input"
                                         />
                                         <span className="search-icon">search</span>
                                     </div>
-                                    <button className="action-button filter-button">
-                                        <span className="button-icon">filter_list</span> Filter
-                                    </button>
                                 </div>
                             </div>
 
@@ -505,68 +726,159 @@ const AdminManager: React.FC = () => {
                                 <table className="users-table">
                                     <thead>
                                     <tr>
-                                        <th>User</th>
+                                        <th>Usuario</th>
                                         <th>Email</th>
-                                        <th>Registration</th>
-                                        <th>Last Login</th>
+                                        <th>Edad</th>
+                                        <th>DNI</th>
                                         <th>Balance</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th>Influencer</th>
+                                        <th>Acciones</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {users.map(user => (
-                                        <tr key={user.id} className="user-row">
+                                    {realUsers.map(user => (
+                                        <tr key={user.usuarioid} className="user-row">
                                             <td>
                                                 <div className="user-info">
                                                     <div className="user-avatar">
-                                                        <span>person</span>
+                                                        {user.img ? (
+                                                            <img
+                                                                src={`${serverBaseUrl}${user.img}?t=${Date.now()}`}
+                                                                alt={`${user.usuarioid}`}
+                                                                onError={(e) => {
+                                                                    (e.target as HTMLImageElement).src = defaultImage;
+                                                                }}
+                                                                className="user-avatar-img"
+                                                            />
+                                                        ) : (
+                                                            <span>person</span>
+                                                        )}
                                                     </div>
                                                     <div className="user-details">
-                                                        <div className="username">{user.username}</div>
-                                                        <div className="user-id">ID: {user.id}</div>
+                                                        <div className="username">{user.nombre} {user.apellido}</div>
+                                                        <div className="user-id">ID: {user.usuarioid}</div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{user.email}</td>
-                                            <td>{user.registered}</td>
-                                            <td>{user.lastLogin}</td>
-                                            <td className="balance">{user.balance}</td>
                                             <td>
-                          <span className={`status-badge ${user.status}`}>
-                            {user.status}
-                          </span>
+                                                {editingUserId === user.usuarioid ? (
+                                                    <input
+                                                        value={editUserForm.email}
+                                                        onChange={(e) => setEditUserForm({
+                                                            ...editUserForm,
+                                                            email: e.target.value
+                                                        })}
+                                                        className="edit-input"
+                                                    />
+                                                ) : (
+                                                    user.email
+                                                )}
+                                            </td>
+                                            <td>
+                                                {editingUserId === user.usuarioid ? (
+                                                    <input
+                                                        value={editUserForm.edad}
+                                                        onChange={(e) => setEditUserForm({
+                                                            ...editUserForm,
+                                                            edad: e.target.value
+                                                        })}
+                                                        className="edit-input"
+                                                    />
+                                                ) : (
+                                                    user.edad
+                                                )}
+                                            </td>
+                                            <td>
+                                                {editingUserId === user.usuarioid ? (
+                                                    <input
+                                                        value={editUserForm.dni}
+                                                        onChange={(e) => setEditUserForm({
+                                                            ...editUserForm,
+                                                            dni: e.target.value
+                                                        })}
+                                                        className="edit-input"
+                                                    />
+                                                ) : (
+                                                    user.dni
+                                                )}
+                                            </td>
+                                            <td className="balance">
+                                                {editingUserId === user.usuarioid ? (
+                                                    <input
+                                                        type="number"
+                                                        value={editUserForm.balance}
+                                                        onChange={(e) => setEditUserForm({
+                                                            ...editUserForm,
+                                                            balance: e.target.value
+                                                        })}
+                                                        className="edit-input"
+                                                    />
+                                                ) : (
+                                                    `$${user.cliente?.balance || 0}`
+                                                )}
+                                            </td>
+                                            <td>
+                                                {editingUserId === user.usuarioid ? (
+                                                    <select
+                                                        value={editUserForm.influencer.toString()}
+                                                        onChange={(e) => setEditUserForm({
+                                                            ...editUserForm,
+                                                            influencer: e.target.value === 'true'  // Conversión a boolean
+                                                        })}
+                                                    >
+                                                        <option value="false">No</option>
+                                                        <option value="true">Sí</option>
+                                                    </select>
+                                                ) : (
+                                                    <span className={`status-badge ${user.cliente?.influencer ? 'active' : 'inactive'}`}>
+                                            {user.cliente?.influencer ? 'Sí' : 'No'}
+                                        </span>
+                                                )}
                                             </td>
                                             <td>
                                                 <div className="action-buttons">
-                                                    <button className="view-button">
-                                                        <span>visibility</span>
-                                                    </button>
-                                                    <button className="edit-button">
-                                                        <span>edit</span>
-                                                    </button>
-                                                    {showDeleteConfirm === user.id ? (
-                                                        <div className="confirm-actions">
-                                                            <button
-                                                                onClick={() => handleDeleteUser(user.id)}
-                                                                className="confirm-delete"
+                                                    {editingUserId === user.usuarioid ? (
+                                                        <>
+                                                            <Button
+                                                                variant="contained"
+                                                                color="success"
+                                                                startIcon={<SaveIcon/>}
+                                                                onClick={() => handleSaveUser(user.usuarioid)}
+                                                                className="save-button-admin"
                                                             >
-                                                                <span>check</span>
-                                                            </button>
-                                                            <button
-                                                                onClick={() => setShowDeleteConfirm(null)}
-                                                                className="cancel-delete"
+                                                                Guardar
+                                                            </Button>
+                                                            <Button
+                                                                variant="contained"
+                                                                color="secondary"
+                                                                startIcon={<CancelIcon/>}
+                                                                onClick={() => setEditingUserId(null)}
+                                                                className="cancel-button-admin"
                                                             >
-                                                                <span>close</span>
-                                                            </button>
-                                                        </div>
+                                                                Cancelar
+                                                            </Button>
+                                                        </>
                                                     ) : (
-                                                        <button
-                                                            onClick={() => setShowDeleteConfirm(user.id)}
-                                                            className="delete-button"
-                                                        >
-                                                            <span>close</span>
-                                                        </button>
+                                                        <>
+                                                            <Button
+                                                                variant="contained"
+                                                                color="primary"
+                                                                startIcon={<EditIcon/>}
+                                                                className="edit-button-admin"
+                                                                onClick={() => startEditingUser(user)}
+                                                            >
+                                                                Editar
+                                                            </Button>
+                                                            <IconButton
+                                                                aria-label="Eliminar"
+                                                                color="error"
+                                                                className="delete-button-admin"
+                                                                size="large"
+                                                                onClick={() => handledelteUser(user.usuarioid)}
+                                                            >
+                                                                <DeleteIcon fontSize="inherit" className="icon-large"/>
+                                                            </IconButton>
+                                                        </>
                                                     )}
                                                 </div>
                                             </td>
@@ -575,23 +887,6 @@ const AdminManager: React.FC = () => {
                                     </tbody>
                                 </table>
                             </div>
-
-                            <div className="pagination">
-                                <span className="pagination-info">Showing 1 to 5 of 24,367 users</span>
-                                <div className="pagination-controls">
-                                    <button className="pagination-btn" disabled>
-                                        <span>chevron_left</span>
-                                    </button>
-                                    <button className="pagination-btn active">1</button>
-                                    <button className="pagination-btn">2</button>
-                                    <button className="pagination-btn">3</button>
-                                    <span>...</span>
-                                    <button className="pagination-btn">487</button>
-                                    <button className="pagination-btn">
-                                        <span>chevron_right</span>
-                                    </button>
-                                </div>
-                            </div>
                         </div>
                     )}
                 </main>
@@ -599,8 +894,6 @@ const AdminManager: React.FC = () => {
         </div>
     );
 };
-
-
 
 
 export default AdminManager;

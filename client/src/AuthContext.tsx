@@ -30,7 +30,13 @@ interface AuthContextType {
     updateProfileImage: (imageUrl: string) => void;
     isAdmin: () => Promise<boolean>;
     isSuperadmin: () => Promise<boolean>;
+    createAdmin: (userData: RegisterData) => Promise<any>;
     deleteUser: (userId: string) => Promise<void>;
+    getAdmins: () => Promise<any>;
+    getUsers: () => Promise<any>;
+    editAdmin: (userId: string, userData: EditAdminData) => Promise<any>;
+    editUser: (userId: string, userData: AdminEditUserData) => Promise<any>;
+
 }
 
 interface RegisterData {
@@ -40,6 +46,22 @@ interface RegisterData {
     password: string;
     edad: number;
     dni: string;
+}
+
+interface EditAdminData {
+    email: string,
+    superadmin: boolean,
+    balance: number
+}
+
+interface AdminEditUserData {
+    nombre: string;
+    apellido: string;
+    email: string;
+    edad: number;
+    dni: string;
+    balance: number;
+    influencer: boolean;
 }
 
 interface AuthProviderProps {
@@ -120,6 +142,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     };
 
+
     const isSuperadmin = async () => {
         try {
             const response = await axios.get(`${API_URL}/auth/is-superadmin`);
@@ -190,6 +213,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     };
 
+    const createAdmin = async (userData: RegisterData) => {
+        try {
+            const response = await axios.post(`${API_URL}/auth/create-admin`, userData);
+            return response.data;
+        } catch (error: any) {
+            console.error('Error al crear admin:', error);
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error al crear admin');
+            } else {
+                throw error;
+            }
+        }
+    }
+
     const deleteUser = async (userId: string) => {
         setIsLoading(true);
         try {
@@ -207,6 +244,57 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     };
 
+    const getAdmins = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/auth/getadmins`);
+            return response.data;
+        } catch (error) {
+            console.error('Error al obtener admins:', error);
+            throw error;
+        }
+    }
+
+    const getUsers = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/auth/getusers`);
+            return response.data;
+        } catch (error) {
+            console.error('Error al obtener usuarios:', error);
+            throw error;
+        }
+    }
+
+    const editAdmin = async (userId: string, userData: EditAdminData) => {
+        try {
+            const response = await axios.put(`${API_URL}/auth/editAdmin/${userId}`, userData);
+            return response.data;
+        } catch (error: any) {
+            console.error('Error al editar admin:', error);
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error al editar admin');
+            } else {
+                throw error;
+            }
+        }
+    }
+
+    const editUser = async (userId: string, userData: AdminEditUserData) => {
+        try {
+            const response = await axios.put(`${API_URL}/auth/editUser/${userId}`, userData);
+            return response.data;
+        } catch (error: any) {
+            console.error('Error al editar usuario:', error);
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error al editar usuario');
+            } else {
+                throw error;
+            }
+        }
+    }
+
+
+
+
     const contextValue: AuthContextType = {
         user,
         client,
@@ -218,7 +306,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         updateProfileImage,
         isAdmin,
         isSuperadmin,
-        deleteUser
+        createAdmin,
+        deleteUser,
+        getAdmins,
+        editAdmin,
+        editUser,
+        getUsers
     };
 
     return (

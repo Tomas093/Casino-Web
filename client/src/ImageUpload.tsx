@@ -1,11 +1,26 @@
-// ImageUpload.tsx
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { Button } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
 
 interface Props {
     userId: number;
     onImageUploaded?: (imageUrl: string) => void;
 }
+
+const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+});
 
 const ImageUpload: React.FC<Props> = ({ userId, onImageUploaded }) => {
     const [imagen, setImagen] = useState<File | null>(null);
@@ -37,7 +52,6 @@ const ImageUpload: React.FC<Props> = ({ userId, onImageUploaded }) => {
             console.log(response.data);
             setImageUrl(response.data.imageUrl);
 
-            // Llamar a la función de callback si existe
             if (onImageUploaded) {
                 onImageUploaded(response.data.imageUrl);
             }
@@ -53,19 +67,42 @@ const ImageUpload: React.FC<Props> = ({ userId, onImageUploaded }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                <label>Imagen de perfil</label>
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                />
+            <div className="form-group" style={{ marginBottom: '1rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem' }}>Imagen de perfil</label>
+                <Button
+                    component="label"
+                    variant="contained"
+                    sx={{
+                        backgroundColor: '#FFD700',
+                        color: 'black',
+                        '&:hover': {
+                            backgroundColor: '#FFC107',
+                        },
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        padding: '8px 16px',
+                        borderRadius: '12px',
+                        textTransform: 'none',
+                        fontWeight: 500,
+                        fontSize: '1rem',
+                    }}
+                >
+                    <CloudUploadIcon sx={{ verticalAlign: 'middle', fontSize: '1.2rem', marginRight: '8px' }} />
+                    Seleccionar imagen
+                    <VisuallyHiddenInput
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                    />
+                </Button>
             </div>
+
             <button type="submit" disabled={isUploading}>
                 {isUploading ? 'Subiendo...' : 'Subir Imagen'}
             </button>
+
             {imageUrl && !onImageUploaded && (
-                <div>
+                <div style={{ marginTop: '1rem' }}>
                     <p>Imagen subida:</p>
                     <img src={`http://localhost:3001${imageUrl}`} alt="Imagen de perfil" width="200" />
                 </div>
