@@ -33,8 +33,9 @@ interface AuthContextType {
     createAdmin: (userData: RegisterData) => Promise<any>;
     deleteUser: (userId: string) => Promise<void>;
     getAdmins: () => Promise<any>;
+    getUsers: () => Promise<any>;
     editAdmin: (userId: string, userData: EditAdminData) => Promise<any>;
-    editUser: (userId: string, userData: EditAdminData) => Promise<any>;
+    editUser: (userId: string, userData: AdminEditUserData) => Promise<any>;
 
 }
 
@@ -51,6 +52,16 @@ interface EditAdminData {
     email: string,
     superadmin: boolean,
     balance: number
+}
+
+interface AdminEditUserData {
+    nombre: string;
+    apellido: string;
+    email: string;
+    edad: number;
+    dni: string;
+    balance: number;
+    influencer: boolean;
 }
 
 interface AuthProviderProps {
@@ -243,6 +254,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     }
 
+    const getUsers = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/auth/getusers`);
+            return response.data;
+        } catch (error) {
+            console.error('Error al obtener usuarios:', error);
+            throw error;
+        }
+    }
+
     const editAdmin = async (userId: string, userData: EditAdminData) => {
         try {
             const response = await axios.put(`${API_URL}/auth/editAdmin/${userId}`, userData);
@@ -257,7 +278,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     }
 
-    const editUser = async (userId: string, userData: EditAdminData) => {
+    const editUser = async (userId: string, userData: AdminEditUserData) => {
         try {
             const response = await axios.put(`${API_URL}/auth/editUser/${userId}`, userData);
             return response.data;
@@ -270,6 +291,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             }
         }
     }
+
+
 
 
     const contextValue: AuthContextType = {
@@ -287,7 +310,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         deleteUser,
         getAdmins,
         editAdmin,
-        editUser
+        editUser,
+        getUsers
     };
 
     return (

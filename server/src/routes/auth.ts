@@ -278,6 +278,27 @@ router.get('/getadmins', async (req: Request, res: Response) => {
     }
 });
 
+router.get('/getusers', async (req: Request, res: Response) => {
+    try {
+        const usuarios = await prisma.usuario.findMany({
+            where: {
+                administrador: null
+            },
+            include: {
+                cliente: true
+            }
+        });
+
+        const dataConverted = JSON.parse(JSON.stringify(usuarios, (key, value) =>
+            typeof value === 'bigint' ? Number(value) : value
+        ));
+        res.status(200).json(dataConverted);
+    } catch (error) {
+        console.error("Error al obtener usuarios:", error);
+        res.status(500).json({ message: 'Error del servidor' });
+    }
+});
+
 // @ts-ignore
 router.delete('/delete/:id', async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -302,7 +323,6 @@ router.delete('/delete/:id', async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error del servidor' });
     }
 });
-
 
 // @ts-ignore
 router.put('/editUser/:id', async (req: Request, res: Response) => {
@@ -347,10 +367,11 @@ router.put('/editUser/:id', async (req: Request, res: Response) => {
                 nombre,
                 apellido,
                 email,
-                edad,
+                edad: edad.toString(),  // conversión a string
                 dni
             }
         });
+
 
         // Actualizar cliente
         await prisma.cliente.update({
