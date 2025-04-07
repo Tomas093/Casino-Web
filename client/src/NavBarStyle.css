@@ -1,150 +1,270 @@
-/* Estilos base para la navbar */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 40px;
-    height: 60px; /* Altura reducida */
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
-    position: fixed;
+:root {
+    --primary-black: #0d0d0d;
+    --gold: #ffd700;
+    --gold-dark: #e5c100;
+    --green: #2ecc71;
+    --green-dark: #27ae60;
+    --red: #e74c3c;
+    --red-dark: #c0392b;
+    --white: #ffffff;
+    --text-muted: #cccccc;
+}
+
+/* Contenedor principal del navbar */
+.main-navbar {
+    background: var(--primary-black);
+    color: var(--white);
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
     z-index: 100;
-    width: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-.logo {
-    font-size: 1.4rem;
+/* Contenedor interno: centrado y espaciado */
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Logo */
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: 1.6rem;
     font-weight: bold;
-    color: #ffd700;
-    letter-spacing: 1px;
+    color: var(--gold);
+    gap: 8px;
+    transition: transform 0.3s ease;
 }
 
-.nav-links {
+.navbar-logo:hover {
+    transform: scale(1.05);
+}
+
+/* Enlaces de navegación */
+.navbar-links {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.nav-links a {
-    font-size: 0.9rem;
+.navbar-link {
     text-decoration: none;
-    color: #fff;
-    transition: color 0.3s;
+    font-weight: 500;
+    color: var(--white);
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.nav-btn {
-    padding: 5px 16px;
-    border-radius: 30px;
-    font-weight: 600;
-    font-size: 0.9rem;
+.navbar-link:hover {
+    color: var(--gold);
+    transform: translateY(-2px);
+}
+
+/* Botones base */
+.navbar-btn {
+    border: none;
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 0.95rem;
     cursor: pointer;
-    transition: all 0.3s;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    white-space: nowrap;
 }
 
-/* Menú hamburguesa (oculto en escritorio) */
-.hamburger-menu {
+/* Botón Iniciar Sesión */
+.navbar-login-btn {
+    background: transparent;
+    border: 2px solid var(--gold);
+    color: var(--gold);
+}
+
+.navbar-login-btn:hover {
+    background: var(--gold);
+    color: var(--primary-black);
+    transform: translateY(-2px);
+}
+
+/* Botón Registrarse */
+.navbar-register-btn {
+    background: var(--gold);
+    color: var(--primary-black);
+}
+
+.navbar-register-btn:hover {
+    background: var(--gold-dark);
+    transform: translateY(-2px);
+}
+
+/* Botón Jugar */
+.navbar-play-btn {
+    background: var(--green);
+    color: var(--white);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-play-btn:hover {
+    background: var(--green-dark);
+    transform: scale(1.02);
+}
+
+/* Botón Cerrar Sesión */
+.navbar-logout-btn {
+    background: var(--red);
+    color: var(--white);
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 10px;
+    border: none;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.navbar-logout-btn:hover {
+    background: var(--red-dark);
+    transform: translateY(-2px);
+}
+
+/* Dropdown de usuario */
+.navbar-user-dropdown {
+    position: relative;
+}
+
+.navbar-user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.navbar-user-info:hover {
+    background: rgba(255, 215, 0, 0.2);
+}.navbar-user-info:hover, .navbar-user-info:focus {
+     background-color: rgba(255, 255, 255, 0.2);
+ }
+
+.navbar-user-info:hover, .navbar-user-info:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar-user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--gold);
+}
+
+.navbar-username {
+    font-weight: bold;
+}
+
+.navbar-user-coins {
+    background: var(--gold);
+    color: var(--primary-black);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+/* Dropdown */
+.navbar-dropdown-content {
+    display: block; /* Ahora se muestra o no según el estado dropdownOpen */
+    position: absolute;
+    right: 0;
+    top: calc(100% + 5px); /* Añade un pequeño espacio */
+    background-color: #1a1a1a;
+    min-width: 180px;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    z-index: 101;
+    padding: 10px;
+}
+
+.navbar-dropdown-link {
+    color: var(--white);
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 4px;
+    display: block;
+    transition: background-color 0.2s;
+}
+
+.navbar-dropdown-link:hover {
+    background-color: #222;
+}
+
+/* Botón hamburguesa */
+.navbar-hamburger {
     display: none;
     flex-direction: column;
+    justify-content: space-between;
+    width: 26px;
+    height: 20px;
+    background: none;
+    border: none;
     cursor: pointer;
-    z-index: 200;
+    transition: transform 0.3s ease;
 }
 
-.bar {
-    width: 25px;
+.navbar-hamburger:focus {
+    outline: none;
+}
+
+.navbar-bar {
     height: 3px;
-    background-color: #fff;
-    margin: 2px 0;
-    transition: 0.4s;
+    background: var(--white);
+    border-radius: 2px;
+    transition: all 0.3s ease;
 }
 
-/* Estilos para el menú móvil */
-.mobile-menu {
-    display: none;
+.navbar-hamburger.open .navbar-bar:nth-child(1) {
+    transform: rotate(45deg) translate(4px, 4px);
 }
 
-/* Media query para tablets */
+.navbar-hamburger.open .navbar-bar:nth-child(2) {
+    opacity: 0;
+}
+
+.navbar-hamburger.open .navbar-bar:nth-child(3) {
+    transform: rotate(-45deg) translate(4px, -4px);
+}
+
+/* Estilos responsivos */
 @media (max-width: 768px) {
-    .navbar {
-        padding: 8px 20px;
-    }
-
-    .nav-links {
-        gap: 15px;
-    }
-
-    .nav-links a {
-        font-size: 0.8rem;
-    }
-
-    .nav-btn {
-        padding: 4px 12px;
-        font-size: 0.8rem;
-    }
-}
-
-/* Media query para móviles */
-@media (max-width: 600px) {
-    .navbar {
-        padding: 8px 15px;
-        height: 50px;
-    }
-
-    .logo {
-        font-size: 1.2rem;
-    }
-
-    .nav-links {
-        display: none; /* Oculta menú de escritorio */
-    }
-
-    .hamburger-menu {
-        display: flex; /* Muestra botón hamburguesa */
-    }
-
-    /* Estilos para menú móvil desplegado */
-    .mobile-menu {
-        position: fixed;
-        top: 0;
+    .navbar-links {
+        position: absolute;
+        top: 100%;
         left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.95);
-        height: 100vh;
-        display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 25px;
-        z-index: 99;
-        transform: translateY(-100%);
-        transition: transform 0.3s ease-in-out;
+        width: 100%;
+        background: var(--primary-black);
+        padding: 20px;
+        border-top: 1px solid #222;
+        display: none;
     }
 
-    .mobile-menu.active {
-        transform: translateY(0);
+    .navbar-links.active {
+        display: flex;
     }
 
-    .mobile-menu a {
-        font-size: 1.1rem;
-        padding: 10px;
+    .navbar-hamburger {
+        display: flex;
     }
 
-    .mobile-menu .nav-btn {
-        margin-top: 10px;
-    }
-
-    /* Animación para botón hamburguesa */
-    .open .bar:nth-child(1) {
-        transform: rotate(-45deg) translate(-5px, 6px);
-    }
-
-    .open .bar:nth-child(2) {
-        opacity: 0;
-    }
-
-    .open .bar:nth-child(3) {
-        transform: rotate(45deg) translate(-5px, -6px);
+    .navbar-user-info span:not(.navbar-user-coins) {
+        display: none;
     }
 }
