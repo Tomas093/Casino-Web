@@ -12,6 +12,7 @@ interface Admin {
     role: string;
     balance: string;
     img: string;
+    email: string;
 }
 
 const AdminManager: React.FC = () => {
@@ -33,8 +34,10 @@ const AdminManager: React.FC = () => {
                 const formattedAdmins = data.map((admin: any) => ({
                     id: admin.administradorid || admin.usuarioid,
                     name: `${admin.usuario.nombre} ${admin.usuario.apellido}`,
+                    email: admin.usuario.email || '',
                     role: admin.superadmin ? 'Super Admin' : 'Admin',
-                    balance: admin.usuario.cliente ? `$${admin.usuario.cliente.balance}` : '$0'
+                    balance: admin.usuario.cliente ? `$${admin.usuario.cliente.balance}` : '$0',
+                    img: admin.usuario.img || '',
                 }));
                 setAdmins(formattedAdmins);
             } catch (err) {
@@ -477,6 +480,7 @@ const AdminManager: React.FC = () => {
                                     <thead>
                                     <tr>
                                         <th>Admin</th>
+                                        <th>Email</th>
                                         <th>Role</th>
                                         {/* <th>Permissions</th> */}
                                         <th>Balance</th>
@@ -489,11 +493,27 @@ const AdminManager: React.FC = () => {
                                             <td>
                                                 <div className="admin-info">
                                                     <div className="admin-avatar">
-                                                        <span>person</span>
+                                                        {admin.img ? (
+                                                            <img
+                                                                src={`${serverBaseUrl}${admin.img}?t=${Date.now()}`}
+                                                                alt={admin.name}
+                                                                onError={(e) => {
+                                                                    (e.target as HTMLImageElement).src = defaultImage;
+                                                                }}
+                                                                className="admin-avatar-img"
+                                                            />
+                                                        ) : (
+                                                            <span>person</span>
+                                                        )}
                                                     </div>
                                                     <div className="admin-name">
                                                         <div>{admin.name}</div>
                                                     </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="admin-email">
+                                                    <div>{admin.email}</div>
                                                 </div>
                                             </td>
                                             <td>
