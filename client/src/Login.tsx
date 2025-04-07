@@ -4,7 +4,7 @@ import {useAuth} from './AuthContext';
 import './LoginStyle.css';
 
 const Login = () => {
-    const {login, error} = useAuth();
+    const {login} = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (data: any) => {
@@ -14,7 +14,6 @@ const Login = () => {
                 navigate('/history');
             }
         } catch (error) {
-            // Error handling will be done in the AuthContext
         }
     };
 
@@ -38,7 +37,6 @@ const Login = () => {
                 }
                 onSubmit={handleSubmit}
             />
-            {error && <p className="error">{error}</p>}
         </div>
     );
 };

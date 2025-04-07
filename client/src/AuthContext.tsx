@@ -30,6 +30,9 @@ interface AuthContextType {
     updateProfileImage: (imageUrl: string) => void;
     isAdmin: () => Promise<boolean>;
     isSuperadmin: () => Promise<boolean>;
+    createAdmin: (userData: RegisterData) => Promise<any>;
+    deleteUser: (userId: string) => Promise<void>;
+
 }
 
 interface RegisterData {
@@ -190,7 +193,36 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     };
 
+    const createAdmin = async (userData: RegisterData) => {
+        try {
+            const response = await axios.post(`${API_URL}/auth/create-admin`, userData);
+            return response.data;
+        } catch (error: any) {
+            console.error('Error al crear admin:', error);
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error al crear admin');
+            } else {
+                throw error;
+            }
+        }
+    }
 
+    const deleteUser = async (userId: string) => {
+        setIsLoading(true);
+        try {
+            await axios.delete(`${API_URL}/auth/delete/${userId}`);
+            window.location.href = '/';
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.error("Error al eliminar usuario:", error.message);
+                console.error("Detalles del error:", error.response?.data);
+            } else {
+                console.error("Error desconocido:", error);
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const contextValue: AuthContextType = {
         user,
@@ -202,7 +234,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         getUserData,
         updateProfileImage,
         isAdmin,
-        isSuperadmin
+        isSuperadmin,
+        createAdmin,
+        deleteUser,
     };
 
     return (

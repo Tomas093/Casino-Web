@@ -1,67 +1,48 @@
 import React, {useState} from 'react';
+import {useAuth} from './AuthContext';
 import './AdminManagmentStyle.css'
 
 const AdminManager: React.FC = () => {
-    // Sample data - in a real application this would come from your backend
     const [admins] = useState([
+        //obtener admins de la api
         {
             id: 1,
-            name: 'Carlos Rodriguez',
+            name: 'Admin 1',
             role: 'Super Admin',
-            lastLogin: '2025-04-05 14:23',
-            status: 'online',
-            permissions: ['users', 'transactions', 'games', 'reports']
+            permissions: ['Manage Users', 'View Reports', 'Edit Settings']
         },
         {
             id: 2,
-            name: 'Elena Martinez',
-            role: 'Game Admin',
-            lastLogin: '2025-04-05 11:30',
-            status: 'online',
-            permissions: ['games', 'reports']
+            name: 'Admin 2',
+            role: 'Admin',
+            permissions: ['Manage Users', 'View Reports']
         },
         {
             id: 3,
-            name: 'Juan Perez',
-            role: 'Support Admin',
-            lastLogin: '2025-04-04 22:15',
-            status: 'offline',
-            permissions: ['users', 'transactions']
+            name: 'Admin 3',
+            role: 'Admin',
+            permissions: ['Manage Users']
         },
     ]);
+    const {createAdmin} = useAuth();
+
     type FormField = {
         label: string;
         type: 'text' | 'email' | 'password' | 'select';
         placeholder?: string;
         options?: string[];
     };
+
     const formFields: FormField[] = [
-        { label: 'Name', type: 'text', placeholder: 'Full Name' },
-        { label: 'Apellido', type: 'text', placeholder: 'Apellido' },
-        { label: 'Dni', type: 'text', placeholder: 'DNI' },
-        { label: 'Email', type: 'email', placeholder: 'Email Address' },
-        { label: 'Role', type: 'select', options: ['Select Role', 'Super Admin', 'Admin'] },
-        { label: 'Password', type: 'password', placeholder: 'Create Password' }
+        {label: 'Name', type: 'text', placeholder: 'Name'},
+        {label: 'Apellido', type: 'text', placeholder: 'Apellido'},
+        {label: 'DNI', type: 'text', placeholder: 'DNI'},
+        {label: 'Email', type: 'email', placeholder: 'Email Address'},
+        {label: 'Edad', type: 'text', placeholder: 'Edad'},
+        {label: 'Role', type: 'select', options: ['Admin', 'Super Admin']},
+        {label: 'Password', type: 'password', placeholder: 'Password'},
+        {label: 'Confirm Password', type: 'password', placeholder: 'Confirm Password'},
     ];
-    const renderFormFields = () => {
-        return formFields.map((field: FormField, index:number) => (
-            <div className="form-group" key={index}>
-                <label>{field.label}</label>
-                {field.type === 'select' ? (
-                    <select>
-                        {field.options && field.options.map((option: string, i: number) => (
-                            <option key={i}>{option}</option>
-                        ))}
-                    </select>
-                ) : (
-                    <input
-                        type={field.type}
-                        placeholder={field.placeholder}
-                    />
-                )}
-            </div>
-        ));
-    };
 
     const [users, setUsers] = useState([
         {
@@ -119,10 +100,75 @@ const AdminManager: React.FC = () => {
         setShowDeleteConfirm(null);
     };
 
-    const handleAddAdmin = (e: React.FormEvent) => {
-        e.preventDefault();
-        // In a real app, this would make an API call
-        alert('Admin would be added here in a real application');
+    const handleAddAdmin = async (event: React.FormEvent) => {
+        event.preventDefault();
+        const form = event.currentTarget as HTMLFormElement;
+        const formData = new FormData(form);
+
+        const name = formData.get('Name') as string;
+        const apellido = formData.get('Apellido') as string;
+        const dni = formData.get('DNI') as string;
+        const email = formData.get('Email') as string;
+        const edad = formData.get('Edad') as string;
+        const role = formData.get('Role') as string;
+        const password = formData.get('Password') as string;
+        const confirmPassword = formData.get('Confirm Password') as string;
+
+        if (!name || !apellido || !dni || !email || !edad || !role || !password || !confirmPassword) {
+            alert('All fields are required');
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            alert('Passwords do not match');
+            return;
+        }
+
+        const adminData = {
+            nombre: name,
+            apellido: apellido,
+            dni: dni,
+            email: email,
+            edad: parseInt(edad, 10),
+            password: password,
+            superadmin: role === 'Super Admin'
+        };
+
+        try {
+            await createAdmin(adminData);
+            alert('Admin created successfully');
+            form.reset(); // Clear the form after successful submission
+        } catch (error) {
+            console.error("Error creating admin:", error);
+            alert(`Error creating admin: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+    }
+
+    const renderFormFields = () => {
+        return formFields.map((field: FormField, index: number) => (
+            <div className="form-group" key={index}>
+                <label htmlFor={field.label}>{field.label}</label>
+                {field.type === 'select' ? (
+                    <select
+                        name={field.label}
+                        id={field.label}
+                        required
+                    >
+                        {field.options && field.options.map((option: string, i: number) => (
+                            <option key={i} value={option}>{option}</option>
+                        ))}
+                    </select>
+                ) : (
+                    <input
+                        type={field.type}
+                        placeholder={field.placeholder}
+                        name={field.label}
+                        id={field.label}
+                        required
+                    />
+                )}
+            </div>
+        ));
     };
 
     // Casino metrics for dashboard
@@ -370,20 +416,12 @@ const AdminManager: React.FC = () => {
                     {/* Admin Management View */}
                     {activeTab === 'admins' && (
                         <div className="admins-section">
-                            <div className="section-header">
-                                <h2 className="section-title">Admin Management</h2>
-                                <button className="action-button add-button">
-                                    <span className="button-icon">add</span> Add Admin
-                                </button>
-                            </div>
-
                             <div className="admin-table-container">
                                 <table className="admin-table">
                                     <thead>
                                     <tr>
                                         <th>Admin</th>
                                         <th>Role</th>
-                                        <th>Status</th>
                                         <th>Permissions</th>
                                         <th>Actions</th>
                                     </tr>
@@ -404,11 +442,6 @@ const AdminManager: React.FC = () => {
                                             <td>
                           <span className={`role-badge ${admin.role.toLowerCase().replace(' ', '-')}`}>
                             {admin.role}
-                          </span>
-                                            </td>
-                                            <td>
-                          <span className={`status-badge ${admin.status}`}>
-                            {admin.status}
                           </span>
                                             </td>
                                             <td>
@@ -437,40 +470,9 @@ const AdminManager: React.FC = () => {
                             <div className="add-admin-form-container">
                                 <h3 className="form-title">Add New Admin</h3>
                                 <form onSubmit={handleAddAdmin} className="add-admin-form">
-                                    <div className="form-grid">
+                                    <div className="form-grid form-grid-4-columns">
                                         {renderFormFields()}
                                     </div>
-
-                                    <div className="form-group">
-                                        <label>Permissions</label>
-                                        <div className="permissions-grid">
-                                            <div className="permission-checkbox">
-                                                <input type="checkbox" id="users-perm"/>
-                                                <label htmlFor="users-perm">Users</label>
-                                            </div>
-                                            <div className="permission-checkbox">
-                                                <input type="checkbox" id="transactions-perm"/>
-                                                <label htmlFor="transactions-perm">Transactions</label>
-                                            </div>
-                                            <div className="permission-checkbox">
-                                                <input type="checkbox" id="games-perm"/>
-                                                <label htmlFor="games-perm">Games</label>
-                                            </div>
-                                            <div className="permission-checkbox">
-                                                <input type="checkbox" id="reports-perm"/>
-                                                <label htmlFor="reports-perm">Reports</label>
-                                            </div>
-                                            <div className="permission-checkbox">
-                                                <input type="checkbox" id="promotions-perm"/>
-                                                <label htmlFor="promotions-perm">Promotions</label>
-                                            </div>
-                                            <div className="permission-checkbox">
-                                                <input type="checkbox" id="settings-perm"/>
-                                                <label htmlFor="settings-perm">Settings</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div className="form-actions">
                                         <button type="submit" className="submit-button">
                                             Create Admin
@@ -599,8 +601,6 @@ const AdminManager: React.FC = () => {
         </div>
     );
 };
-
-
 
 
 export default AdminManager;
