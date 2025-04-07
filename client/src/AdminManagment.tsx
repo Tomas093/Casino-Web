@@ -710,16 +710,6 @@ const AdminManager: React.FC = () => {
                         <div className="users-section">
                             <div className="section-header">
                                 <h2 className="section-title">Gestión de Usuarios</h2>
-                                <div className="header-actions">
-                                    <div className="search-container">
-                                        <input
-                                            type="text"
-                                            placeholder="Buscar usuarios..."
-                                            className="search-input"
-                                        />
-                                        <span className="search-icon">search</span>
-                                    </div>
-                                </div>
                             </div>
 
                             <div className="users-table-container">
