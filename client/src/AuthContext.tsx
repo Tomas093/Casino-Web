@@ -33,6 +33,8 @@ interface AuthContextType {
     createAdmin: (userData: RegisterData) => Promise<any>;
     deleteUser: (userId: string) => Promise<void>;
     getAdmins: () => Promise<any>;
+    editAdmin: (userId: string, userData: EditAdminData) => Promise<any>;
+    editUser: (userId: string, userData: EditAdminData) => Promise<any>;
 
 }
 
@@ -43,6 +45,12 @@ interface RegisterData {
     password: string;
     edad: number;
     dni: string;
+}
+
+interface EditAdminData {
+    email: string,
+    superadmin: boolean,
+    balance: number
 }
 
 interface AuthProviderProps {
@@ -235,6 +243,34 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     }
 
+    const editAdmin = async (userId: string, userData: EditAdminData) => {
+        try {
+            const response = await axios.put(`${API_URL}/auth/editAdmin/${userId}`, userData);
+            return response.data;
+        } catch (error: any) {
+            console.error('Error al editar admin:', error);
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error al editar admin');
+            } else {
+                throw error;
+            }
+        }
+    }
+
+    const editUser = async (userId: string, userData: EditAdminData) => {
+        try {
+            const response = await axios.put(`${API_URL}/auth/editUser/${userId}`, userData);
+            return response.data;
+        } catch (error: any) {
+            console.error('Error al editar usuario:', error);
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error al editar usuario');
+            } else {
+                throw error;
+            }
+        }
+    }
+
 
     const contextValue: AuthContextType = {
         user,
@@ -249,7 +285,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         isSuperadmin,
         createAdmin,
         deleteUser,
-        getAdmins
+        getAdmins,
+        editAdmin,
+        editUser
     };
 
     return (

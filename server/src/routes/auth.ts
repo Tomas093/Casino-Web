@@ -304,4 +304,147 @@ router.delete('/delete/:id', async (req: Request, res: Response) => {
 });
 
 
+// @ts-ignore
+router.put('/editUser/:id', async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { nombre, apellido, email, edad, dni, balance, influencer } = req.body;
+
+    try {
+        // Verificar si el usuario existe
+        const usuario = await prisma.usuario.findUnique({
+            where: { usuarioid: Number(id) }
+        });
+
+        if (!usuario) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        // Verificar si el email o DNI ya están en uso por otro usuario
+        if (email !== usuario.email || dni !== usuario.dni) {
+            const existingUser = await prisma.usuario.findFirst({
+                where: {
+                    AND: [
+                        { NOT: { usuarioid: Number(id) } },
+                        {
+                            OR: [
+                                { email },
+                                { dni }
+                            ]
+                        }
+                    ]
+                }
+            });
+
+            if (existingUser) {
+                return res.status(400).json({ message: 'Ya existe otro usuario con ese email o DNI' });
+            }
+        }
+
+        // Actualizar usuario
+        const usuarioActualizado = await prisma.usuario.update({
+            where: { usuarioid: Number(id) },
+            data: {
+                nombre,
+                apellido,
+                email,
+                edad,
+                dni
+            }
+        });
+
+        // Actualizar cliente
+        await prisma.cliente.update({
+            where: { usuarioid: Number(id) },
+            data: {
+                balance,
+                influencer
+            }
+        });
+
+        const { password: _, ...usuarioSinPassword } = usuarioActualizado;
+
+        res.status(200).json({
+            message: 'Usuario actualizado exitosamente',
+            usuario: usuarioSinPassword
+        });
+    } catch (error) {
+        console.error("Error al actualizar usuario:", error);
+        res.status(500).json({ message: 'Error del servidor' });
+    }
+});
+
+// @ts-ignore
+router.put('/editAdmin/:id', async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const {email ,balance, superadmin } = req.body;
+
+    try {
+
+        const usuario = await prisma.usuario.findUnique({
+            where: { usuarioid: Number(id) }
+        });
+
+        if (!usuario) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        // Verificar si el email o DNI ya están en uso por otro usuario
+        if (email !== usuario.email) {
+            const existingUser = await prisma.usuario.findFirst({
+                where: {
+                    AND: [
+                        { NOT: { usuarioid: Number(id) } },
+                        {
+                            OR: [
+                                { email },
+                            ]
+                        }
+                    ]
+                }
+            });
+
+            if (existingUser) {
+                return res.status(400).json({ message: 'Ya existe otro usuario con ese email o DNI' });
+            }
+        }
+
+        // Actualizar usuario
+        const usuarioActualizado = await prisma.usuario.update({
+            where: { usuarioid: Number(id) },
+            data: {
+                email,
+            }
+        });
+
+        // Actualizar cliente
+        await prisma.cliente.update({
+            where: { usuarioid: Number(id) },
+            data: {
+                balance,
+            }
+        });
+
+        //Actualizar admin
+        await  prisma.administrador.update(
+            {
+                where: { usuarioid: Number(id) },
+                data: {
+                    superadmin: superadmin
+                }
+            }
+        )
+
+        const { password: _, ...usuarioSinPassword } = usuarioActualizado;
+
+        res.status(200).json({
+            message: 'Usuario actualizado exitosamente',
+            usuario: usuarioSinPassword
+        });
+    } catch (error) {
+        console.error("Error al actualizar usuario:", error);
+        res.status(500).json({ message: 'Error del servidor' });
+    }
+});
+
+
 export default router;

@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useAuth} from './AuthContext';
 import './AdminManagmentStyle.css'
-import { IconButton, Button } from "@mui/material";
+import {IconButton, Button} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
+import CancelIcon from "@mui/icons-material/Cancel";
 import {useNavigate} from "react-router-dom";
 
 interface Admin {
@@ -17,8 +19,7 @@ interface Admin {
 
 const AdminManager: React.FC = () => {
 
-
-    const { user, getAdmins } = useAuth();
+    const {user, getAdmins, editAdmin} = useAuth();
     const [admins, setAdmins] = useState<Admin[]>([]);
     const [, setLoading] = useState(true);
     const [imgError, setImgError] = useState(false);
@@ -49,6 +50,43 @@ const AdminManager: React.FC = () => {
 
         fetchAdmins();
     }, [getAdmins, refreshAdmins]);
+
+    const [editingId, setEditingId] = useState<number | null>(null);
+
+    const [editForm, setEditForm] = useState({
+        email: '',
+        role: '',
+        balance: ''
+    });
+
+    const handleSave = async (userId: number) => {
+        const updatedAdmin = {
+            email: editForm.email,
+            superadmin: editForm.role === "Super Admin",
+            balance: parseFloat(editForm.balance)
+        };
+
+        try {
+            await editAdmin(userId.toString(), updatedAdmin);
+            setEditingId(null);
+            setRefreshAdmins(prev => prev + 1);
+        } catch (error) {
+            console.error("Error editing admin:", error);
+            alert(`Error editing admin: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+    };
+
+
+
+    const startEditing = (admin: Admin) => {
+        setEditingId(admin.id);
+        setEditForm({
+            email: admin.email,
+            role: admin.role,
+            balance: admin.balance.replace('$', '')
+        });
+    };
+
 
     // URL base del servidor
     const serverBaseUrl = 'http://localhost:3001';
@@ -145,13 +183,13 @@ const AdminManager: React.FC = () => {
 
     const handledelteUser = (userId: number) => {
         if (showDeleteConfirm === userId) {
-            // En lugar de llamar a deleteUser directamente
             navigate(`/deleteSpecificaccount/${userId}`);
             setShowDeleteConfirm(null);
         } else {
             setShowDeleteConfirm(userId);
         }
     }
+
 
     const handleAddAdmin = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -482,7 +520,6 @@ const AdminManager: React.FC = () => {
                                         <th>Admin</th>
                                         <th>Email</th>
                                         <th>Role</th>
-                                        {/* <th>Permissions</th> */}
                                         <th>Balance</th>
                                         <th>Actions</th>
                                     </tr>
@@ -513,48 +550,101 @@ const AdminManager: React.FC = () => {
                                             </td>
                                             <td>
                                                 <div className="admin-email">
-                                                    <div>{admin.email}</div>
+                                                    {editingId === admin.id ? (
+                                                        <input
+                                                            value={editForm.email}
+                                                            onChange={(e) => setEditForm({
+                                                                ...editForm,
+                                                                email: e.target.value
+                                                            })}
+                                                            className="edit-input"
+                                                        />
+                                                    ) : (
+                                                        <div>{admin.email}</div>
+                                                    )}
                                                 </div>
                                             </td>
                                             <td>
-                          <span className={`role-badge ${admin.role.toLowerCase().replace(' ', '-')}`}>
-                            {admin.role}
-                          </span>
+                                                {editingId === admin.id ? (
+                                                    <select
+                                                        value={editForm.role}
+                                                        onChange={(e) => setEditForm({
+                                                            ...editForm,
+                                                            role: e.target.value
+                                                        })}
+                                                        className="edit-input"
+                                                    >
+                                                        <option value="Admin">Admin</option>
+                                                        <option value="Super Admin">Super Admin</option>
+                                                    </select>
+                                                ) : (
+                                                    <span className={`${admin.role.toLowerCase().replace(' ', '-')}`}>
+                                                        {admin.role}</span>
+                                                    )
+                                                }
                                             </td>
-                                            {/* <td>
-                                                <div className="permission-tags">
-                                                    {admin.permissions.map(perm => (
-                                                        <span key={perm} className="permission-tag">{perm}</span>
-                                                    ))}
-                                                </div>
-                                            </td>
-                                            */}
                                             <td>
                                                 <div className="permission-tags">
-                                                    <span className="permission-tag">{admin.balance}</span>
+                                                    {editingId === admin.id ? (
+                                                        <input
+                                                            type="number"
+                                                            value={editForm.balance}
+                                                            onChange={(e) => setEditForm({
+                                                                ...editForm,
+                                                                balance: e.target.value
+                                                            })}
+                                                            className="edit-input"
+                                                        />
+                                                    ) : (
+                                                        <span className="permission-tag">{admin.balance}</span>
+                                                    )}
                                                 </div>
                                             </td>
                                             <td>
                                                 <div className="action-buttons">
-                                                    <Button
-                                                        variant="contained"
-                                                        color="primary"
-                                                        startIcon={<EditIcon />}
-                                                        className="edit-button-admin"
-                                                    >
-                                                        Editar
-                                                    </Button>
-
-                                                    <IconButton
-                                                        aria-label="Eliminar"
-                                                        color="error"
-                                                        className="delete-button-admin"
-                                                        size="large"
-                                                        onClick={() => handledelteUser(admin.id)}
-                                                    >
-                                                        <DeleteIcon fontSize="inherit" className="icon-large" />
-                                                    </IconButton>
-
+                                                    {editingId === admin.id ? (
+                                                        <>
+                                                            <Button
+                                                                variant="contained"
+                                                                color="success"
+                                                                startIcon={<SaveIcon/>}
+                                                                onClick={() => handleSave(admin.id)}
+                                                                className="save-button-admin"
+                                                            >
+                                                                Guardar
+                                                            </Button>
+                                                            <Button
+                                                                variant="contained"
+                                                                color="secondary"
+                                                                startIcon={<CancelIcon/>}
+                                                                onClick={() => setEditingId(null)}
+                                                                className="cancel-button-admin"
+                                                            >
+                                                                Cancelar
+                                                            </Button>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Button
+                                                                variant="contained"
+                                                                color="primary"
+                                                                startIcon={<EditIcon/>}
+                                                                className="edit-button-admin"
+                                                                onClick={() => startEditing(admin)}
+                                                            >
+                                                                Editar
+                                                            </Button>
+                                                            <IconButton
+                                                                aria-label="Eliminar"
+                                                                color="error"
+                                                                className="delete-button-admin"
+                                                                size="large"
+                                                                onClick={() => handledelteUser(admin.id)}
+                                                            >
+                                                                <DeleteIcon fontSize="inherit" className="icon-large"/>
+                                                            </IconButton>
+                                                        </>
+                                                    )}
                                                 </div>
                                             </td>
                                         </tr>
