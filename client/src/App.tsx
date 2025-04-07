@@ -9,7 +9,9 @@ import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute';
 import AdminRoutes from "./AdminRoutes.tsx";
 import AdminManagment from "./AdminManagment.tsx";
-import SuperadminOnlyRoutes from "./SuperAdminRoutes.tsx";
+import SuperadminOnlyRoutes from "./SuperAdminRoutes.tsx"
+import DeleteUser from "./DeleteUser.tsx";
+import DeleteSpecificAccount from "./DeleteSpecificAccount.tsx";
 
 
 //Modo diablo Skeree
@@ -27,6 +29,7 @@ function App() {
                     <Route element={<ProtectedRoute />}>
                         <Route path="/history" element={<HistoryPage />} />
                         <Route path="/profile" element={<ProfilePage />} />
+                        <Route path="/delete-account" element={<DeleteUser/>} />
                     </Route>
 
                     {/* rutas Solo para admins*/}
@@ -37,6 +40,7 @@ function App() {
                     {/* Rutas protegidas Solo (Superadmin) */}
                     <Route element={<SuperadminOnlyRoutes />}>
                         <Route path="/admin" element={<AdminManagment />} />
+                        <Route path="/deleteSpecificaccount/:id" element={<DeleteSpecificAccount/>} />
                     </Route>
 
                 </Routes>
