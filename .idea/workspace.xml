@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="SUbo cambios de Acceso,(Admin y SuperAdmin) y edito adminCreator a AdminManagment">
-      <change afterPath="$PROJECT_DIR$/client/src/DeleteUser.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/DeleteUserStyle.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/AuthContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/SideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/SideBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/AdminManagment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/AdminManagment.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/AdminManagmentStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/AdminManagmentStyle.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,9 +60,10 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Tomas&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Eliseo&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/casinoweb/client/src/assets&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
@@ -76,7 +73,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\casinoweb\\node_modules\\typescript\\lib&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Eliseos\\Faculty\\Tercer Año\\LaboratorioDefV2\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>

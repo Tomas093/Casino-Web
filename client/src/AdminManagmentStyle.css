@@ -181,6 +181,7 @@ input:focus, select:focus {
 .header-title {
     display: flex;
     align-items: center;
+
 }
 
 .header-icon {
@@ -191,13 +192,15 @@ input:focus, select:focus {
 }
 
 .header-title h2 {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
+    margin-top: 10px
 }
 
 .header-actions {
     display: flex;
     align-items: center;
+
 }
 
 .header-btn {
@@ -283,22 +286,22 @@ input:focus, select:focus {
     padding: 24px;
 }
 
-.stat-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-    background-color: var(--green);
-    color: var(--white);
-    border-radius: 12px;
-    font-family: 'Material Icons Round', sans-serif;
-    font-size: 28px;
-    margin-right: 16px;
-}
+/*.stat-icon {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    width: 60px;*/
+/*    height: 60px;*/
+/*    background-color: var(--green);*/
+/*    color: var(--white);*/
+/*    border-radius: 12px;*/
+/*    font-family: 'Material Icons Round', sans-serif;*/
+/*    font-size: 28px;*/
+/*    margin-right: 16px;*/
+/*}*/
 
 .stat-info h3 {
-    font-size: 14px;
+    font-size: 40px;
     font-weight: 500;
     color: var(--text-muted);
     margin-bottom: 8px;
@@ -309,11 +312,14 @@ input:focus, select:focus {
     font-weight: 700;
     color: var(--white);
     margin-bottom: 4px;
+    margin-right: 110px;
 }
 
 .stat-detail {
     font-size: 14px;
     color: var(--text-muted);
+    margin-right: 80px;
+
 }
 
 .dashboard-widgets {

@@ -29,6 +29,39 @@ const AdminManager: React.FC = () => {
             permissions: ['users', 'transactions']
         },
     ]);
+    type FormField = {
+        label: string;
+        type: 'text' | 'email' | 'password' | 'select';
+        placeholder?: string;
+        options?: string[];
+    };
+    const formFields: FormField[] = [
+        { label: 'Name', type: 'text', placeholder: 'Full Name' },
+        { label: 'Apellido', type: 'text', placeholder: 'Apellido' },
+        { label: 'Dni', type: 'text', placeholder: 'DNI' },
+        { label: 'Email', type: 'email', placeholder: 'Email Address' },
+        { label: 'Role', type: 'select', options: ['Select Role', 'Super Admin', 'Admin'] },
+        { label: 'Password', type: 'password', placeholder: 'Create Password' }
+    ];
+    const renderFormFields = () => {
+        return formFields.map((field: FormField, index:number) => (
+            <div className="form-group" key={index}>
+                <label>{field.label}</label>
+                {field.type === 'select' ? (
+                    <select>
+                        {field.options && field.options.map((option: string, i: number) => (
+                            <option key={i}>{option}</option>
+                        ))}
+                    </select>
+                ) : (
+                    <input
+                        type={field.type}
+                        placeholder={field.placeholder}
+                    />
+                )}
+            </div>
+        ));
+    };
 
     const [users, setUsers] = useState([
         {
@@ -197,9 +230,6 @@ const AdminManager: React.FC = () => {
                             <div className="stat-cards">
                                 <div className="stat-card">
                                     <div className="stat-card-content">
-                                        <div className="stat-icon">
-                                            <span>people</span>
-                                        </div>
                                         <div className="stat-info">
                                             <h3>Total Users</h3>
                                             <p className="stat-value">{metrics.totalUsers}</p>
@@ -210,9 +240,6 @@ const AdminManager: React.FC = () => {
 
                                 <div className="stat-card">
                                     <div className="stat-card-content">
-                                        <div className="stat-icon">
-                                            <span>payments</span>
-                                        </div>
                                         <div className="stat-info">
                                             <h3>Revenue</h3>
                                             <p className="stat-value">{metrics.profitToday}</p>
@@ -223,9 +250,6 @@ const AdminManager: React.FC = () => {
 
                                 <div className="stat-card">
                                     <div className="stat-card-content">
-                                        <div className="stat-icon">
-                                            <span>support_agent</span>
-                                        </div>
                                         <div className="stat-info">
                                             <h3>Support</h3>
                                             <p className="stat-value">{metrics.openTickets}</p>
@@ -359,7 +383,6 @@ const AdminManager: React.FC = () => {
                                     <tr>
                                         <th>Admin</th>
                                         <th>Role</th>
-                                        <th>Last Login</th>
                                         <th>Status</th>
                                         <th>Permissions</th>
                                         <th>Actions</th>
@@ -383,7 +406,6 @@ const AdminManager: React.FC = () => {
                             {admin.role}
                           </span>
                                             </td>
-                                            <td>{admin.lastLogin}</td>
                                             <td>
                           <span className={`status-badge ${admin.status}`}>
                             {admin.status}
@@ -416,36 +438,7 @@ const AdminManager: React.FC = () => {
                                 <h3 className="form-title">Add New Admin</h3>
                                 <form onSubmit={handleAddAdmin} className="add-admin-form">
                                     <div className="form-grid">
-                                        <div className="form-group">
-                                            <label>Name</label>
-                                            <input
-                                                type="text"
-                                                placeholder="Full Name"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Email</label>
-                                            <input
-                                                type="email"
-                                                placeholder="Email Address"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Role</label>
-                                            <select>
-                                                <option>Select Role</option>
-                                                <option>Super Admin</option>
-                                                <option>Game Admin</option>
-                                                <option>Support Admin</option>
-                                            </select>
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Password</label>
-                                            <input
-                                                type="password"
-                                                placeholder="Create Password"
-                                            />
-                                        </div>
+                                        {renderFormFields()}
                                     </div>
 
                                     <div className="form-group">
@@ -607,4 +600,8 @@ const AdminManager: React.FC = () => {
     );
 };
 
+
+
+
 export default AdminManager;
+
