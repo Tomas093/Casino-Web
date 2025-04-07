@@ -240,9 +240,17 @@ input:focus, select:focus {
     background-color: var(--green-dark);
 }
 
+.admin-profile-img{
+    width: 50px; /* Cambiado de 40px a 32px */
+    height: 50px; /* Cambiado de 40px a 32px */
+    border-radius: 50%;
+    margin-right: 8px;
+    border: 2px solid var(--gold);
+}
+
 .user-avatar {
-    width: 32px;
-    height: 32px;
+    width: 24px; /* Cambiado de 32px a 24px */
+    height: 24px; /* Cambiado de 32px a 24px */
     border-radius: 50%;
     margin-right: 8px;
     border: 2px solid var(--gold);
@@ -563,6 +571,26 @@ input:focus, select:focus {
     color: var(--black);
 }
 
+.icon-large {
+    color: #c30404; /* Ajusta el tamaño según sea necesario */
+}
+
+.edit-button-admin {
+    background-color: #ffdd00 !important; /* azul primario MUI */
+    color: #000000 !important;
+    font-weight: 300;
+    text-transform: none;
+    margin-right: 8px;
+}
+
+.delete-button-admin {
+    color: #d32f2f !important; /* rojo MUI para errores */
+}
+
+.icon-large {
+    font-size: 1.5rem;
+}
+
 .admin-table-container, .users-table-container {
     background-color: var(--light-gray);
     border-radius: 12px;
@@ -711,6 +739,8 @@ input:focus, select:focus {
     font-family: 'Material Icons Round', sans-serif;
     transition: var(--transition);
 }
+
+
 
 .view-button {
     background-color: rgba(26, 158, 92, 0.1);

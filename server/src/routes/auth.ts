@@ -256,18 +256,21 @@ router.post('/create-admin', async (req: Request, res: Response) => {
 });
 
 // @ts-ignore
-router.get('/get-all-admins', async (req: Request, res: Response) => {
+router.get('/getadmins', async (req: Request, res: Response) => {
     try {
         const admins = await prisma.administrador.findMany({
             include: {
-                usuario: true
+                usuario: {
+                    include: {
+                        cliente: true
+                    }
+                }
             }
         });
 
         const dataConverted = JSON.parse(JSON.stringify(admins, (key, value) =>
             typeof value === 'bigint' ? Number(value) : value
         ));
-
         res.status(200).json(dataConverted);
     } catch (error) {
         console.error("Error al obtener administradores:", error);
@@ -300,9 +303,5 @@ router.delete('/delete/:id', async (req: Request, res: Response) => {
     }
 });
 
-// @ts-ignore
-router.get('delete-admin/:id', async (req: Request, res: Response) => {
-
-})
 
 export default router;

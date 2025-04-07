@@ -1,29 +1,73 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAuth} from './AuthContext';
 import './AdminManagmentStyle.css'
+import { IconButton, Button } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import {useNavigate} from "react-router-dom";
+
+interface Admin {
+    id: number;
+    name: string;
+    role: string;
+    balance: string;
+    img: string;
+}
 
 const AdminManager: React.FC = () => {
-    const [admins] = useState([
-        //obtener admins de la api
-        {
-            id: 1,
-            name: 'Admin 1',
-            role: 'Super Admin',
-            permissions: ['Manage Users', 'View Reports', 'Edit Settings']
-        },
-        {
-            id: 2,
-            name: 'Admin 2',
-            role: 'Admin',
-            permissions: ['Manage Users', 'View Reports']
-        },
-        {
-            id: 3,
-            name: 'Admin 3',
-            role: 'Admin',
-            permissions: ['Manage Users']
-        },
-    ]);
+
+
+    const { user, getAdmins } = useAuth();
+    const [admins, setAdmins] = useState<Admin[]>([]);
+    const [, setLoading] = useState(true);
+    const [imgError, setImgError] = useState(false);
+    const [imgTimestamp, setImgTimestamp] = useState(Date.now());
+    const [refreshAdmins, setRefreshAdmins] = useState(0);
+
+    useEffect(() => {
+        const fetchAdmins = async () => {
+            setLoading(true);
+            try {
+                const data = await getAdmins();
+                // Transformar los datos si es necesario
+                const formattedAdmins = data.map((admin: any) => ({
+                    id: admin.administradorid || admin.usuarioid,
+                    name: `${admin.usuario.nombre} ${admin.usuario.apellido}`,
+                    role: admin.superadmin ? 'Super Admin' : 'Admin',
+                    balance: admin.usuario.cliente ? `$${admin.usuario.cliente.balance}` : '$0'
+                }));
+                setAdmins(formattedAdmins);
+            } catch (err) {
+                console.error('Error al cargar administradores:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchAdmins();
+    }, [getAdmins, refreshAdmins]);
+
+    // URL base del servidor
+    const serverBaseUrl = 'http://localhost:3001';
+
+    // Imagen por defecto en caso de error o si no hay imagen
+    const defaultImage = './assets/defaultprofile.png';
+
+    // Actualizar el timestamp cuando cambia la imagen del usuario
+    useEffect(() => {
+        setImgTimestamp(Date.now());
+        setImgError(false);
+    }, [user?.img]);
+
+    // Construir la URL completa de la imagen si existe (con timestamp para evitar caché)
+    const profileImageUrl = user && user.img
+        ? `${serverBaseUrl}${user.img}?t=${imgTimestamp}`
+        : defaultImage;
+
+    const handleImageError = () => {
+        setImgError(true);
+    };
+
     const {createAdmin} = useAuth();
 
     type FormField = {
@@ -44,7 +88,7 @@ const AdminManager: React.FC = () => {
         {label: 'Confirm Password', type: 'password', placeholder: 'Confirm Password'},
     ];
 
-    const [users, setUsers] = useState([
+    const [users] = useState([
         {
             id: 101,
             username: 'lucky_player',
@@ -94,11 +138,17 @@ const AdminManager: React.FC = () => {
 
     const [activeTab, setActiveTab] = useState('dashboard');
     const [showDeleteConfirm, setShowDeleteConfirm] = useState<number | null>(null);
+    const navigate = useNavigate();
 
-    const handleDeleteUser = (userId: number) => {
-        setUsers(users.filter(user => user.id !== userId));
-        setShowDeleteConfirm(null);
-    };
+    const handledelteUser = (userId: number) => {
+        if (showDeleteConfirm === userId) {
+            // En lugar de llamar a deleteUser directamente
+            navigate(`/deleteSpecificaccount/${userId}`);
+            setShowDeleteConfirm(null);
+        } else {
+            setShowDeleteConfirm(userId);
+        }
+    }
 
     const handleAddAdmin = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -138,6 +188,7 @@ const AdminManager: React.FC = () => {
             await createAdmin(adminData);
             alert('Admin created successfully');
             form.reset(); // Clear the form after successful submission
+            setRefreshAdmins(prev => prev + 1); // Refresh the admins list
         } catch (error) {
             console.error("Error creating admin:", error);
             alert(`Error creating admin: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -262,7 +313,12 @@ const AdminManager: React.FC = () => {
                             <span className="header-btn-icon">settings</span>
                         </button>
                         <div className="user-profile">
-                            <img src="/api/placeholder/32/32" alt="Admin" className="user-avatar"/>
+                            <img
+                                src={imgError ? defaultImage : profileImageUrl}
+                                alt="Foto de Perfil"
+                                className="admin-profile-img"
+                                onError={handleImageError}
+                            />
                             <span>Admin</span>
                         </div>
                     </div>
@@ -422,7 +478,8 @@ const AdminManager: React.FC = () => {
                                     <tr>
                                         <th>Admin</th>
                                         <th>Role</th>
-                                        <th>Permissions</th>
+                                        {/* <th>Permissions</th> */}
+                                        <th>Balance</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
@@ -444,21 +501,40 @@ const AdminManager: React.FC = () => {
                             {admin.role}
                           </span>
                                             </td>
-                                            <td>
+                                            {/* <td>
                                                 <div className="permission-tags">
                                                     {admin.permissions.map(perm => (
                                                         <span key={perm} className="permission-tag">{perm}</span>
                                                     ))}
                                                 </div>
                                             </td>
+                                            */}
+                                            <td>
+                                                <div className="permission-tags">
+                                                    <span className="permission-tag">{admin.balance}</span>
+                                                </div>
+                                            </td>
                                             <td>
                                                 <div className="action-buttons">
-                                                    <button className="edit-button">
-                                                        <span>edit</span>
-                                                    </button>
-                                                    <button className="delete-button">
-                                                        <span>delete</span>
-                                                    </button>
+                                                    <Button
+                                                        variant="contained"
+                                                        color="primary"
+                                                        startIcon={<EditIcon />}
+                                                        className="edit-button-admin"
+                                                    >
+                                                        Editar
+                                                    </Button>
+
+                                                    <IconButton
+                                                        aria-label="Eliminar"
+                                                        color="error"
+                                                        className="delete-button-admin"
+                                                        size="large"
+                                                        onClick={() => handledelteUser(admin.id)}
+                                                    >
+                                                        <DeleteIcon fontSize="inherit" className="icon-large" />
+                                                    </IconButton>
+
                                                 </div>
                                             </td>
                                         </tr>
@@ -488,7 +564,7 @@ const AdminManager: React.FC = () => {
                         <div className="users-section">
                             <div className="section-header">
                                 <h2 className="section-title">User Management</h2>
-                                <div className="header-actions">
+                                <div className="header-actions">admin-profile-img
                                     <div className="search-container">
                                         <input
                                             type="text"
@@ -550,7 +626,7 @@ const AdminManager: React.FC = () => {
                                                     {showDeleteConfirm === user.id ? (
                                                         <div className="confirm-actions">
                                                             <button
-                                                                onClick={() => handleDeleteUser(user.id)}
+                                                                onClick={() => handledelteUser(user.id)}
                                                                 className="confirm-delete"
                                                             >
                                                                 <span>check</span>

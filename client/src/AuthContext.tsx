@@ -32,6 +32,7 @@ interface AuthContextType {
     isSuperadmin: () => Promise<boolean>;
     createAdmin: (userData: RegisterData) => Promise<any>;
     deleteUser: (userId: string) => Promise<void>;
+    getAdmins: () => Promise<any>;
 
 }
 
@@ -224,6 +225,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     };
 
+    const getAdmins = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/auth/getadmins`);
+            return response.data;
+        } catch (error) {
+            console.error('Error al obtener admins:', error);
+            throw error;
+        }
+    }
+
+
     const contextValue: AuthContextType = {
         user,
         client,
@@ -237,6 +249,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         isSuperadmin,
         createAdmin,
         deleteUser,
+        getAdmins
     };
 
     return (
