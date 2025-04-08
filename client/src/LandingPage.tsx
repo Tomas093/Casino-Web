@@ -34,7 +34,7 @@ const LandingPage: React.FC = () => {
     }, []);
 
     const scrollToContent = () => {
-        document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+        document.querySelector('.australis-features')?.scrollIntoView({ behavior: 'smooth' });
     };
 
     /* con imagenes por las dudas
