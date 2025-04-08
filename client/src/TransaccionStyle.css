@@ -1,0 +1,266 @@
+.transaccion-page {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #1a1a2e, #0f0f1a);
+    padding: 60px 0;
+    color: #fff;
+}
+
+.transaccion-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 40px;
+    color: #ffd700;
+}
+
+.transaccion-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.tab-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ccc;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.tab-btn:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+.tab-btn:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+.tab-btn.active {
+    background: #ffd700;
+    color: #000;
+    font-weight: 600;
+}
+
+.transaccion-form-container {
+    max-width: 500px;
+    margin: 0 auto 50px;
+    background: rgba(42, 42, 42, 0.7);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.transaccion-form h2 {
+    margin-bottom: 25px;
+    text-align: center;
+    color: #ffd700;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ccc;
+    font-weight: 500;
+}
+
+.monto-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.currency-symbol {
+    position: absolute;
+    left: 15px;
+    color: #ffd700;
+    font-weight: bold;
+}
+
+input[type="number"], select {
+    width: 100%;
+    padding: 12px 20px 12px 30px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+select {
+    padding-left: 20px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23ccc' viewBox='0 0 16 16'%3E%3Cpath d='M8 10.5a.5.5 0 0 1-.354-.146l-4-4a.5.5 0 1 1 .708-.708L8 9.293l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.354.146z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+}
+
+.transaccion-btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.transaccion-btn:disabled {
+    background: #999;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.transaccion-historial {
+    margin-top: 60px;
+}
+
+.transaccion-historial h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #ffd700;
+}
+
+.no-transacciones {
+    text-align: center;
+    color: #999;
+    padding: 30px;
+}
+
+.historial-lista {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.transaccion-item {
+    display: flex;
+    align-items: center;
+    background: rgba(42, 42, 42, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+    transition: transform 0.3s;
+    border-left: 4px solid transparent;
+}
+
+.transaccion-item:hover {
+    transform: translateY(-3px);
+}
+
+.transaccion-item.ingreso {
+    border-left-color: #1a9e5c;
+}
+
+.transaccion-item.retiro {
+    border-left-color: #e53935;
+}
+
+.transaccion-item.pendiente {
+    opacity: 0.7;
+}
+
+.transaccion-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-right: 15px;
+}
+
+.transaccion-item.ingreso .transaccion-icon {
+    background-color: rgba(26, 158, 92, 0.2);
+    color: #1a9e5c;
+}
+
+.transaccion-item.retiro .transaccion-icon {
+    background-color: rgba(229, 57, 53, 0.2);
+    color: #e53935;
+}
+
+.transaccion-info {
+    flex: 1;
+}
+
+.transaccion-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.transaccion-fecha, .transaccion-estado {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin: 3px 0;
+}
+
+.transaccion-estado {
+    text-transform: capitalize;
+}
+
+.transaccion-monto {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.ingreso .transaccion-monto {
+    color: #1a9e5c;
+}
+
+.retiro .transaccion-monto {
+    color: #e53935;
+}
+
+.cbu-display {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cbu-number {
+    font-family: monospace;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    color: #ffd700;
+}
+
+.cbu-instruccion {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-top: 8px;
+}
+
+.copy-btn {
+    background: rgba(255, 215, 0, 0.2);
+    color: #ffd700;
+    border: 1px solid #ffd700;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.copy-btn:hover {
+    background: rgba(255, 215, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    .transaccion-form-container {
+        padding: 20px;
+    }
+
+    .transaccion-item {
+        padding: 15px;
+    }
+
+    .transaccion-title {
+        font-size: 2rem;
+    }
+}
