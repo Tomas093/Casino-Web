@@ -4,15 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="pruebo gh pages">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Enhance footer layout and content; update styles for improved responsiveness">
+      <change afterPath="$PROJECT_DIR$/client/src/Transaccion.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/TransaccionStyle.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/FooterStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/FooterStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/LandingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/LandingPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/LandingPageStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/LandingPageStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/vite.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,8 +27,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript File" />
-        <option value="CSS File" />
         <option value="TypeScript JSX File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -140,7 +138,8 @@
       <workItem from="1743941836892" duration="4751000" />
       <workItem from="1744038117977" duration="12661000" />
       <workItem from="1744051144832" duration="110000" />
-      <workItem from="1744051360707" duration="26256000" />
+      <workItem from="1744051360707" duration="26445000" />
+      <workItem from="1744122663284" duration="3621000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -286,7 +285,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744113061687</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Enhance footer layout and content; update styles for improved responsiveness">
+      <option name="closed" value="true" />
+      <created>1744122464123</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1744122464123</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -311,6 +318,7 @@
     <MESSAGE value="Add edit functionality for admins; update AuthContext and routes" />
     <MESSAGE value="Refactor user profile management; add edit functionality and improve navbar accessibility" />
     <MESSAGE value="pruebo gh pages" />
-    <option name="LAST_COMMIT_MESSAGE" value="pruebo gh pages" />
+    <MESSAGE value="Enhance footer layout and content; update styles for improved responsiveness" />
+    <option name="LAST_COMMIT_MESSAGE" value="Enhance footer layout and content; update styles for improved responsiveness" />
   </component>
 </project>
