@@ -1,14 +1,15 @@
 /* Oculta la sidebar por defecto en móviles */
 .sidebar {
-    width: 375px;
+    width: 200px;
     background-color: #1e1e1e;
-    height: 100vh;
+    height: 125vh;
     position: fixed;
     left: 0;
     top: 0;
     transition: transform 0.3s ease;
     z-index: 1000;
-    font-size: 2rem;
+    font-size: 1rem;
+    border-radius: 10px;
 }
 
 @media (max-width: 768px) {

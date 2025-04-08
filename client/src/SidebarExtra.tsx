@@ -10,14 +10,12 @@ interface MenuItem {
 }
 
 const menu: MenuItem[] = [
-    { link: '/profile', text: 'Información' },
+    { link: '/history', text: 'Cuenta' },
     { link: '/amigos', text: 'Amigos' },
-    { link: '/estadisticas', text: 'Estadísticas' },
-    { link: '/limites', text: 'Límites' },
-    { link: '/pausa', text: 'Pausa' },
-    { link: '/history', text: 'Historial' },
-    { link: '/delete-account', text: 'Eliminar Cuenta' },
-    { link: '/admin', text: 'Admin'},
+    { link: '/Leaderboard', text: 'LeaderBoard' },
+    { link: '/Soporte', text: 'Ayuda' },
+    { link: '/IngresoDinero', text: 'Depositar' },
+    { link: '/TerminosyCondiciones', text: 'TerminosYCondiciones' },
 ];
 
 const rendermenu = () => {

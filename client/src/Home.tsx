@@ -5,6 +5,7 @@ import slotImg from './assets/slots.jpg';
 import ruletaImg from './assets/ruleta.jpg';
 import blackjackImg from './assets/blackjack.jpg';
 import dadosImg from './assets/dados.jpg';
+import Footer from './Footer';
 
 const images = [slotImg, ruletaImg, blackjackImg, dadosImg];
 const promoPhrases = [
@@ -67,30 +68,58 @@ const Home: React.FC = () => {
 
                 <div className="promo-text-below">{promoPhrases[currentPhrase]}</div>
 
-                <section className="games-section">
-                    <h2 className="section-title">🎮 Nuestros Juegos</h2>
-                    <div className="games-grid">
-                        <div className="game-card">
-                            <img src={slotImg} alt="Slots" />
-                            <h3>Slots</h3>
-                        </div>
-                        <div className="game-card">
-                            <img src={ruletaImg} alt="Ruleta" />
+                <section className="games-section-home">
+                    <h2 className="section-title-home">🎮 Nuestros Juegos</h2>
+                    <div className="games-grid-home">
+                        {/*slotImg, ruletaImg, blackjackImg, dadosImg*/}
+                        <div className="game-card-home game-1">
+                            <div className="game-image-container">
+                                <img src={ruletaImg} alt="Ruleta" />
+                                <button className="play-button">Jugar</button>
+                            </div>
                             <h3>Ruleta</h3>
                         </div>
-                        <div className="game-card">
-                            <img src={blackjackImg} alt="Blackjack" />
-                            <h3>Blackjack</h3>
+
+                        <div className="game-card-home game-2">
+                            <div className="game-image-container">
+                                <img src={slotImg} alt="Slots" />
+                                <button className="play-button">Jugar</button>
+                            </div>
+                            <h3>Slots</h3>
                         </div>
-                        <div className="game-card">
-                            <img src={dadosImg} alt="Dados" />
+
+                        <div className="game-card-home game-3">
+                            <div className="game-image-container">
+                                <img src={blackjackImg} alt="BlackJack" />
+                                <button className="play-button">Jugar</button>
+                            </div>
+                            <h3>BlackJack</h3>
+                        </div>
+
+                        <div className="game-card-home game-4">
+                            <div className="game-image-container">
+                                <img src={dadosImg} alt="Dados" />
+                                <button className="play-button">Jugar</button>
+                            </div>
                             <h3>Dados</h3>
                         </div>
+
+                        <div className="game-card-home game-5">
+                            <div className="game-image-container">
+                                <img src={blackjackImg} alt="Buscaminas" />
+                                <button className="play-button">Jugar</button>
+                            </div>
+                            <h3>Buscaminas</h3>
+                        </div>
+
                     </div>
                 </section>
             </main>
+            <Footer />
+
         </div>
-    );
+
+);
 };
 
 export default Home;
