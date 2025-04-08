@@ -3,7 +3,8 @@ import { defineConfig } from 'vite'
     import path from 'path'
 
     export default defineConfig({
-      plugins: [react()],
+      base: "/Casino-Web",
+        plugins: [react()],
       resolve: {
         alias: {
           '@': path.resolve(__dirname, 'src')
