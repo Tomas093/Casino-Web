@@ -1,0 +1,210 @@
+/* Sección principal del carrusel */
+/*.page-title {*/
+/*    !*font-size: 100rem; !* Podés ajustar este valor a gusto *!*!*/
+/*    font-weight: bold;*/
+/*    text-align: center;*/
+/*    color: white; !* o el color que uses *!*/
+/*    font-size: 10vw;*/
+/*}*/
+
+.promo-section {
+    width: 100%;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Contenedor del slider */
+.promo-slider {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    width: 90%;           /* ✅ Se adapta al ancho disponible */
+    max-width: 2000px;    /* ✅ No crece más allá de esto */
+    height: 30vw;         /* ✅ Altura proporcional al ancho */
+    max-height: 400px;
+    justify-content: center;
+}
+
+/* Imagen del carrusel */
+.promo-card {
+    flex: 0 0 100%;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    border-radius: 20px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.promo-card.active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 2;
+}
+
+.promo-card.promo-img-only h3,
+.promo-card.promo-img-only p,
+.promo-card.promo-img-only .promo-btn {
+    display: none;
+}
+
+.promo-indicators {
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #aaa;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.indicator.active {
+    background-color: #ffd700;
+}
+
+/* Frase debajo del carrusel */
+.promo-text-below {
+    margin-top: 20px;
+    font-size: 1.4rem;
+    text-align: center;
+    color: #fff;
+}
+
+/* Sección de juegos */
+.games-section {
+    margin-top: 40px;
+    padding: 0 20px;
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+}
+
+.game-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+}
+
+.game-card h3 {
+    text-align: center;
+    margin-top: 10px;
+    color: #fff;
+}
+
+/* Header y filtros */
+.content-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/*.page-title {*/
+/*    font-size: 4rem;*/
+/*    text-align: center;*/
+/*}*/
+.page-title {
+    font-size: clamp(4rem, 8vw, 6rem);
+    font-weight: bold;
+    text-align: center;
+    color: white;
+
+    background: linear-gradient(
+            120deg,
+            #ffffff 0%,
+            #ffd700 40%,
+            #ffffff 70%
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+
+    animation: shine-text 2.5s linear infinite;
+}
+
+.page-title::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 100%);
+    transform: skewX(-20deg);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine-text {
+    0% {
+        background-position: 200% center;
+    }
+    100% {
+        background-position: -200% center;
+    }
+}
+
+
+.filter-controls {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.filter-controls button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #444;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filter-controls button.active,
+.filter-controls button:hover {
+    background-color: #ffd700;
+    color: #000;
+}
+
+/* ✅ Media Query para móviles */
+@media (max-width: 600px) {
+    .page-title {
+        font-size: 1.5rem;
+    }
+
+    .promo-text-below {
+        font-size: 1rem;
+    }
+
+    .games-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+
+    .filter-controls button {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+}
