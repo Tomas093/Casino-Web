@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add edit functionality for admins; update AuthContext and routes">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor user profile management; add edit functionality and improve navbar accessibility">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/AdminManagment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/AdminManagment.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/NavBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/NavBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/NavBarStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/NavBarStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/ProfilePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/ProfilePage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/SideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/SideBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/vite.config.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +136,7 @@
       <workItem from="1743941836892" duration="4751000" />
       <workItem from="1744038117977" duration="12661000" />
       <workItem from="1744051144832" duration="110000" />
-      <workItem from="1744051360707" duration="15759000" />
+      <workItem from="1744051360707" duration="17080000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -269,7 +266,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744062553338</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Refactor user profile management; add edit functionality and improve navbar accessibility">
+      <option name="closed" value="true" />
+      <created>1744068798998</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1744068798998</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -292,6 +297,7 @@
     <MESSAGE value="agrego columna emial a manager" />
     <MESSAGE value="agrego columna email a manager" />
     <MESSAGE value="Add edit functionality for admins; update AuthContext and routes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add edit functionality for admins; update AuthContext and routes" />
+    <MESSAGE value="Refactor user profile management; add edit functionality and improve navbar accessibility" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor user profile management; add edit functionality and improve navbar accessibility" />
   </component>
 </project>

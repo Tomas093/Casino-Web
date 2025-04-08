@@ -5,6 +5,7 @@ import './ProfileStyle.css';
 import ImageUpload from './ImageUpload';
 import {useEffect, useState} from 'react';
 
+
 const ProfilePage: React.FC = () => {
     const {user, client, getUserData, editUser} = useAuth();
     const [, setProfileImage] = useState<string | null>(null);
