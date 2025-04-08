@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import './LandingPageStyle.css';
 import './NavBarStyle.css';
 import backgroundVideo from "./assets/backgroundVideo.mp4";
-import { FaDice, FaCoins, FaTrophy, FaUserShield, FaChevronDown } from 'react-icons/fa';
-import NavBar from "./NavBar.tsx";
+import { FaChevronDown } from 'react-icons/fa';
 import Footer from "./Footer.tsx";
 
 const LandingPage: React.FC = () => {
@@ -74,8 +73,6 @@ const LandingPage: React.FC = () => {
 
     return (
         <div className="landing-container">
-            <NavBar></NavBar>
-
             {/* Hero Section */}
             <div className="hero-section">
                 <video autoPlay loop muted className="background-video">
@@ -102,28 +99,32 @@ const LandingPage: React.FC = () => {
             </div>
 
             {/* Características */}
-            <section id="features" className="features-section">
-                <h2 className="section-title">¿Por qué elegir Australis Casino?</h2>
-                <div className="features-grid">
-                    <div className="feature-card">
-                        <FaDice className="feature-icon" />
-                        <h3>Variedad de Juegos</h3>
-                        <p>Más de 100 juegos exclusivos para la comunidad universitaria</p>
-                    </div>
-                    <div className="feature-card">
-                        <FaCoins className="feature-icon" />
-                        <p>Bonos Exclusivos</p>
-                        <p>Promociones diseñadas especialmente para estudiantes</p>
-                    </div>
-                    <div className="feature-card">
-                        <FaTrophy className="feature-icon" />
-                        <h3>Torneos Semanales</h3>
-                        <p>Compite y gana premios especiales entre tus compañeros</p>
-                    </div>
-                    <div className="feature-card">
-                        <FaUserShield className="feature-icon" />
-                        <h3>Juego Responsable</h3>
-                        <p>Herramientas para controlar tu tiempo y gastos</p>
+            <section className="australis-features">
+                <div className="australis-container">
+                    <div className="australis-features__grid">
+                        <div className="australis-feature">
+                            <div className="australis-feature__icon australis-feature__icon--secure">security</div>
+                            <h3 className="australis-feature__title">Juegos Seguros</h3>
+                            <p className="australis-feature__description">Cifrado avanzado y métodos de pago seguros para proteger tus datos y fondos.</p>
+                        </div>
+
+                        <div className="australis-feature">
+                            <div className="australis-feature__icon australis-feature__icon--support">support_agent</div>
+                            <h3 className="australis-feature__title">Soporte 24/7</h3>
+                            <p className="australis-feature__description">Nuestro equipo de soporte dedicado está disponible las 24 horas del día para ayudarte.</p>
+                        </div>
+
+                        <div className="australis-feature">
+                            <div className="australis-feature__icon australis-feature__icon--payment">credit_card</div>
+                            <h3 className="australis-feature__title">Pagos Rapidos</h3>
+                            <p className="australis-feature__description">Depósitos y retiros rápidos con múltiples opciones de pago.</p>
+                        </div>
+
+                        <div className="australis-feature">
+                            <div className="australis-feature__icon australis-feature__icon--bonus">redeem</div>
+                            <h3 className="australis-feature__title">Promociones Exclusivas</h3>
+                            <p className="australis-feature__description">Promociones exclusivas diseñadas para brindarte ventajas únicas y recompensas increíbles.</p>
+                        </div>
                     </div>
                 </div>
             </section>
