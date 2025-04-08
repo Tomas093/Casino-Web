@@ -223,6 +223,12 @@ section {
     margin: 0 auto;
 }
 
+.australis-features__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
 .feature-card {
     background: rgba(40, 40, 40, 0.7);
     border-radius: 15px;
@@ -423,43 +429,113 @@ section {
     transform: scale(0.95);
     box-shadow: 0 3px 10px rgba(255, 215, 0, 0.5);
 }
-/* Responsive */
-@media (max-width: 768px) {
-    .navbar {
-        padding: 15px 20px;
-    }
 
-    .nav-links {
-        gap: 15px;
-    }
 
-    .hero-title {
-        font-size: 2.8rem;
-    }
 
-    .hero-subtitle {
-        font-size: 1.5rem;
-    }
+/* Features Section */
+.australis-features {
+    padding: 80px 0;
+    background: rgba(0, 0, 0, 0.8);
+}
 
-    .hero-description {
-        font-size: 1rem;
-    }
+.australis-features__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
 
-    .hero-buttons {
-        flex-direction: column;
-        gap: 15px;
-    }
+.australis-feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 30px 20px;
+    background: linear-gradient(145deg, var(--light-gray), rgba(42, 42, 42, 0.5));
+    border-radius: 16px;
+    transition: var(--transition);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
 
-    .section-title {
-        font-size: 2rem;
-    }
+.australis-feature:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
 
-    .features-grid,
-    .games-carousel {
-        grid-template-columns: 1fr;
-    }
+.australis-feature__icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    font-family: 'Material Icons Round', sans-serif;
+    font-size: 32px;
+}
 
-    .cta-section h2 {
-        font-size: 2.2rem;
+.australis-feature__icon--secure {
+    background-color: rgba(26, 158, 92, 0.2);
+    color: var(--green);
+}
+
+.australis-feature__icon--support {
+    background-color: rgba(212, 175, 55, 0.2);
+    color: var(--gold);
+}
+
+.australis-feature__icon--payment {
+    background-color: rgba(229, 57, 53, 0.2);
+    color: var(--red);
+}
+
+.australis-feature__icon--bonus {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+}
+
+.australis-feature__title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 16px;
+}
+
+.australis-feature__description {
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.australis-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Animaciones y efectos */
+@keyframes float {
+    0% {
+        transform: translateY(0);
     }
+    50% {
+        transform: translateY(-8px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.australis-feature:nth-child(1) {
+    animation: float 5s ease infinite;
+}
+
+.australis-feature:nth-child(2) {
+    animation: float 5s ease infinite 1s;
+}
+
+.australis-feature:nth-child(3) {
+    animation: float 5s ease infinite 2s;
+}
+
+.australis-feature:nth-child(4) {
+    animation: float 5s ease infinite 3s;
 }
