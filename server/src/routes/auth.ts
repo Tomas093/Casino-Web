@@ -468,7 +468,7 @@ router.put('/editAdmin/:id', async (req: Request, res: Response) => {
 });
 
 // @ts-ignore
-router.post('/retiro/:id', async (req: Request, res: Response) => {
+router.post('/retiro', async (req: Request, res: Response) => {
     const { id, fecha, metodo, monto } = req.body;
     const usuario = req.session.usuario;
 
@@ -547,7 +547,7 @@ router.get('/getRetiro/:id', async (req: Request, res: Response) => {
 })
 
 // @ts-ignore
-router.post('/ingreso/:id', async (req: Request, res: Response) => {
+router.post('/ingreso', async (req: Request, res: Response) => {
     const { id, fecha, metodo, monto } = req.body;
     const usuario = req.session.usuario;
 

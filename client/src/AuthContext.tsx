@@ -13,6 +13,14 @@ interface User {
     img?: string;
 }
 
+interface Transaccion {
+    transaccionid: number;
+    usuarioid: number;
+    monto: number;
+    metodo: string;
+    fecha: string;
+}
+
 interface Client {
     usuarioid: number;
     balance: number;
@@ -38,6 +46,8 @@ interface AuthContextType {
     editUser: (userId: string, userData: AdminEditUserData) => Promise<any>;
     getUserIngreso: (userId: string) => Promise<void>;
     getTransacciones: (userId: string) => Promise<any>;
+    createIngreso: (userData: Transaccion) => Promise<any>;
+    createEgreso: (userData: Transaccion) => Promise<any>;
 }
 
 interface RegisterData {
@@ -332,6 +342,34 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     }
 
+    const createIngreso = async (userData: Transaccion) => {
+        try {
+            const response = await axios.post(`${API_URL}/auth/ingreso`, userData);
+            return response.data;
+        } catch (error: any) {
+            console.error('Error al crear Ingreso:', error);
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error al crear Ingreso');
+            } else {
+                throw error;
+            }
+        }
+    }
+
+    const createEgreso = async (userData: Transaccion ) => {
+        try {
+            const response = await axios.post(`${API_URL}/auth/retiro`, userData);
+            return response.data;
+        } catch (error: any) {
+            console.error('Error al crear Egreso:', error);
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error al crear Egreso');
+            } else {
+                throw error;
+            }
+        }
+    }
+
 
 
 
@@ -353,7 +391,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         editUser,
         getUsers,
         getUserIngreso,
-        getTransacciones
+        getTransacciones,
+        createEgreso,
+        createIngreso
     };
 
     return (

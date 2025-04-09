@@ -175,7 +175,7 @@ const MetodoWalletIngreso: React.FC = () => (
                     type="button"
                     className="copy-btn"
                     onClick={() => {
-                        navigator.clipboard.writeText('31415926535897932384626');
+                        navigator.clipboard.writeText('0000003100054851694701');
                         alert('CVU copiado al portapapeles');
                     }}
                 >
@@ -197,7 +197,7 @@ const MetodoCriptoIngreso: React.FC = () => (
                     className="copy-btn"
                     onClick={() => {
                         navigator.clipboard.writeText('0xA1b2C3d4E5F609032005G6H7I8J9K0L1M2N3O4P5Q');
-                        alert('Dirrección de billetera copiada al portapapeles');
+                        alert('Dirección de billetera copiada al portapapeles');
                     }}
                 >
                     Copiar
@@ -245,7 +245,7 @@ const DetalleMetodo: React.FC<MetodoProps> = ({ metodo }) => {
 
 // Componente principal
 const Transaccion: React.FC = () => {
-    const { user, getTransacciones } = useAuth();
+    const { user, client, getTransacciones, createIngreso, createEgreso, getUserData } = useAuth();
     const [activeTab, setActiveTab] = useState<'ingreso' | 'retiro'>('ingreso');
     const [monto, setMonto] = useState<string>('');
     const [metodo, setMetodo] = useState<string>('tarjeta');
@@ -261,40 +261,94 @@ const Transaccion: React.FC = () => {
     useEffect(() => {
         const fetchHistorial = async () => {
             if (!user) return;
-            const data = await getTransacciones(user.usuarioid.toString());
+            try {
+                const data = await getTransacciones(user.usuarioid.toString());
 
-            const parsed = data.map((t: any) => ({
-                ...t,
-                fecha: new Date(t.fecha),
-                estado: 'completada', // default visual
-            }));
+                const parsed = data.map((t: any) => ({
+                    ...t,
+                    fecha: new Date(t.fecha),
+                    estado: 'completada', // default visual
+                }));
 
-            setHistorial(parsed);
+                setHistorial(parsed);
+            } catch (error) {
+                console.error("Error al cargar historial:", error);
+            }
         };
 
         fetchHistorial();
-    }, [user]);
+    }, [user, getTransacciones]);
 
     const getMetodosDisponibles = () => {
         return activeTab === 'ingreso' ? METODOS_INGRESO : METODOS_RETIRO;
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!user) {
+            alert('Debe iniciar sesión para realizar transacciones');
+            return;
+        }
 
         if (!monto || parseFloat(monto) <= 0) {
             alert('Por favor ingrese un monto válido');
             return;
         }
 
+        // Para retiros, verificar si hay suficiente balance
+        if (activeTab === 'retiro' && client && parseFloat(monto) > client.balance) {
+            alert('No tiene suficiente saldo para realizar este retiro');
+            return;
+        }
+
         setLoading(true);
 
-        // Simular procesamiento
-        setTimeout(() => {
+        try {
+            const montoNum = parseFloat(monto);
+            const fecha = new Date().toISOString();
+
+            // Datos para la transacción
+            const transaccionData = {
+                id: user.usuarioid,
+                fecha: fecha,
+                metodo: metodo,
+                monto: montoNum
+            };
+
+            if (activeTab === 'ingreso') {
+                await createIngreso(transaccionData);
+                alert('Depósito registrado exitosamente');
+            } else {
+                await createEgreso(transaccionData);
+                alert('Retiro solicitado exitosamente');
+            }
+
+            // Actualizar los datos del usuario para reflejar el nuevo balance
+            if (user.usuarioid) {
+                await getUserData(user.usuarioid.toString());
+            }
+
+            // Actualizar el historial de transacciones
+            const updatedHistorial = await getTransacciones(user.usuarioid.toString());
+            setHistorial(updatedHistorial.map((t: any) => ({
+                ...t,
+                fecha: new Date(t.fecha),
+                estado: 'completada'
+            })));
+
+            // Limpiar el formulario
             setMonto('');
+        } catch (error: any) {
+            console.error("Error al procesar la transacción:", error);
+            if (error.message) {
+                alert(`Error: ${error.message}`);
+            } else {
+                alert('Error al procesar la transacción');
+            }
+        } finally {
             setLoading(false);
-            alert('Transacción procesada (simulación)');
-        }, 1500);
+        }
     };
 
     return (
@@ -376,7 +430,10 @@ const Transaccion: React.FC = () => {
                         ) : (
                             <div className="historial-lista">
                                 {historial.map((transaccion) => (
-                                    <TransaccionItem key={transaccion.id} transaccion={transaccion} />
+                                    <TransaccionItem
+                                        key={`${transaccion.tipo}-${transaccion.id}`}
+                                        transaccion={transaccion}
+                                    />
                                 ))}
                             </div>
                         )}

@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor transaction components; improve structure and update styles for better readability">
-      <change afterPath="$PROJECT_DIR$/client/src/TransaccionContext.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/AuthContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Footer.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/Transaccion.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Transaccion.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/routes/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/auth.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -150,6 +145,7 @@
       <workItem from="1744199884290" duration="61000" />
       <workItem from="1744219310565" duration="642000" />
       <workItem from="1744220244650" duration="5640000" />
+      <workItem from="1744227855629" duration="3864000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
