@@ -3,8 +3,9 @@ import './LandingPageStyle.css';
 import './TransaccionStyle.css';
 import Footer from './Footer';
 import NavBar from './NavBar';
+import { useAuth } from './AuthContext';
 
-// Constantes
+// Métodos disponibles
 const METODOS_INGRESO = [
     { value: 'tarjeta', label: 'Tarjeta de crédito/débito' },
     { value: 'transferencia-ingreso', label: 'Transferencia bancaria' },
@@ -24,14 +25,43 @@ interface Transaccion {
     tipo: 'ingreso' | 'retiro';
     monto: number;
     fecha: Date;
-    estado: 'pendiente' | 'completada' | 'rechazada';
+    metodo: string;
+    estado?: string; // opcional, por compatibilidad
 }
 
 interface MetodoProps {
     metodo: string;
 }
 
-// Componentes de métodos de pago
+// Componente de transacción individual
+const TransaccionItem: React.FC<{ transaccion: Transaccion }> = ({ transaccion }) => {
+    const formatFecha = (fecha: Date): string => {
+        return fecha.toLocaleDateString('es-ES', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
+    return (
+        <div className={`transaccion-item ${transaccion.tipo}`}>
+            <div className="transaccion-icon">
+                {transaccion.tipo === 'ingreso' ? '↓' : '↑'}
+            </div>
+            <div className="transaccion-info">
+                <h3>{transaccion.tipo === 'ingreso' ? 'Depósito' : 'Retiro'}</h3>
+                <p className="transaccion-fecha">{formatFecha(new Date(transaccion.fecha))}</p>
+                <p className="transaccion-metodo">Método: {transaccion.metodo}</p>
+            </div>
+            <div className="transaccion-monto">
+                <span>${transaccion.monto.toFixed(2)}</span>
+            </div>
+        </div>
+    );
+};
+
 const MetodoTarjeta: React.FC = () => (
     <div className="metodo-detalle">
         <div className="form-group">
@@ -213,64 +243,38 @@ const DetalleMetodo: React.FC<MetodoProps> = ({ metodo }) => {
     }
 };
 
-// Componente para una transacción individual en el historial
-const TransaccionItem: React.FC<{ transaccion: Transaccion }> = ({ transaccion }) => {
-    const formatFecha = (fecha: Date): string => {
-        return fecha.toLocaleDateString('es-ES', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-    };
-
-    return (
-        <div className={`transaccion-item ${transaccion.tipo} ${transaccion.estado}`}>
-            <div className="transaccion-icon">
-                {transaccion.tipo === 'ingreso' ? '↓' : '↑'}
-            </div>
-            <div className="transaccion-info">
-                <h3>{transaccion.tipo === 'ingreso' ? 'Depósito' : 'Retiro'}</h3>
-                <p className="transaccion-fecha">{formatFecha(transaccion.fecha)}</p>
-                <p className="transaccion-estado">{transaccion.estado}</p>
-            </div>
-            <div className="transaccion-monto">
-                <span>${transaccion.monto.toFixed(2)}</span>
-            </div>
-        </div>
-    );
-};
-
 // Componente principal
 const Transaccion: React.FC = () => {
+    const { user, getTransacciones } = useAuth();
     const [activeTab, setActiveTab] = useState<'ingreso' | 'retiro'>('ingreso');
     const [monto, setMonto] = useState<string>('');
     const [metodo, setMetodo] = useState<string>('tarjeta');
     const [historial, setHistorial] = useState<Transaccion[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
-    // Efecto para cambiar el método cuando cambia la pestaña
+    // Cambiar automáticamente el método según la pestaña
     useEffect(() => {
-        // Al cambiar de pestaña, seleccionar automáticamente la primera opción disponible
-        if (activeTab === 'ingreso') {
-            setMetodo(METODOS_INGRESO[0].value); // Primera opción de ingreso ('tarjeta')
-        } else {
-            setMetodo(METODOS_RETIRO[0].value); // Primera opción de retiro ('transferencia-retiro')
-        }
-    }, [activeTab]); // Solo se ejecuta cuando cambia activeTab
+        setMetodo(activeTab === 'ingreso' ? METODOS_INGRESO[0].value : METODOS_RETIRO[0].value);
+    }, [activeTab]);
 
+    // Cargar historial desde el backend
     useEffect(() => {
-        // Cargar datos de historial
-        const transaccionesMock: Transaccion[] = [
-            {id: 1, tipo: 'ingreso', monto: 100, fecha: new Date(Date.now() - 86400000), estado: 'completada'},
-            {id: 2, tipo: 'retiro', monto: 50, fecha: new Date(Date.now() - 172800000), estado: 'completada'},
-            {id: 3, tipo: 'ingreso', monto: 200, fecha: new Date(Date.now() - 259200000), estado: 'completada'},
-        ];
-        setHistorial(transaccionesMock);
-    }, []);
+        const fetchHistorial = async () => {
+            if (!user) return;
+            const data = await getTransacciones(user.usuarioid.toString());
 
-    // Métodos
+            const parsed = data.map((t: any) => ({
+                ...t,
+                fecha: new Date(t.fecha),
+                estado: 'completada', // default visual
+            }));
+
+            setHistorial(parsed);
+        };
+
+        fetchHistorial();
+    }, [user]);
+
     const getMetodosDisponibles = () => {
         return activeTab === 'ingreso' ? METODOS_INGRESO : METODOS_RETIRO;
     };
@@ -285,26 +289,11 @@ const Transaccion: React.FC = () => {
 
         setLoading(true);
 
-        // Simulación de procesamiento
+        // Simular procesamiento
         setTimeout(() => {
-            const nuevaTransaccion: Transaccion = {
-                id: Date.now(),
-                tipo: activeTab,
-                monto: parseFloat(monto),
-                fecha: new Date(),
-                estado: 'pendiente'
-            };
-
-            setHistorial([nuevaTransaccion, ...historial]);
             setMonto('');
             setLoading(false);
-
-            // Actualizar estado después de "procesamiento"
-            setTimeout(() => {
-                setHistorial(prev =>
-                    prev.map(t => t.id === nuevaTransaccion.id ? {...t, estado: 'completada'} : t)
-                );
-            }, 3000);
+            alert('Transacción procesada (simulación)');
         }, 1500);
     };
 
@@ -315,7 +304,7 @@ const Transaccion: React.FC = () => {
                 <div className="australis-container">
                     <h1 className="transaccion-title">Transacciones</h1>
 
-                    {/* Tabs de navegación */}
+                    {/* Tabs de ingreso / retiro */}
                     <div className="transaccion-tabs">
                         <button
                             className={`tab-btn ${activeTab === 'ingreso' ? 'active' : ''}`}
@@ -331,12 +320,11 @@ const Transaccion: React.FC = () => {
                         </button>
                     </div>
 
-                    {/* Formulario de transacción */}
+                    {/* Formulario */}
                     <div className="transaccion-form-container">
                         <form onSubmit={handleSubmit} className="transaccion-form">
                             <h2>{activeTab === 'ingreso' ? 'Realizar un depósito' : 'Solicitar un retiro'}</h2>
 
-                            {/* Campo de monto */}
                             <div className="form-group">
                                 <label htmlFor="monto">Monto ({activeTab === 'ingreso' ? 'a depositar' : 'a retirar'})</label>
                                 <div className="monto-input">
@@ -354,7 +342,6 @@ const Transaccion: React.FC = () => {
                                 </div>
                             </div>
 
-                            {/* Selector de método */}
                             <div className="form-group">
                                 <label htmlFor="metodo">Método de {activeTab === 'ingreso' ? 'pago' : 'retiro'}</label>
                                 <select
@@ -371,21 +358,16 @@ const Transaccion: React.FC = () => {
                                 </select>
                             </div>
 
-                            {/* Detalle del método seleccionado */}
+                            {/* Detalle según método */}
                             <DetalleMetodo metodo={metodo} />
 
-                            {/* Botón de envío */}
-                            <button
-                                type="submit"
-                                className="cta-btn transaccion-btn"
-                                disabled={loading}
-                            >
+                            <button type="submit" className="cta-btn transaccion-btn" disabled={loading}>
                                 {loading ? 'Procesando...' : activeTab === 'ingreso' ? 'Depositar' : 'Retirar'}
                             </button>
                         </form>
                     </div>
 
-                    {/* Historial de transacciones */}
+                    {/* Historial */}
                     <div className="transaccion-historial">
                         <h2>Historial de transacciones</h2>
 

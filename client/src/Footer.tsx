@@ -30,7 +30,6 @@ const Footer: React.FC = () => {
                         <li><a href="/ruleta">Ruleta</a></li>
                         <li><a href="/blackjack">Blackjack</a></li>
                         <li><a href="/poker">Poker</a></li>
-                        <li><a href="/baccarat">Baccarat</a></li>
                     </ul>
                 </div>
 

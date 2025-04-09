@@ -467,4 +467,223 @@ router.put('/editAdmin/:id', async (req: Request, res: Response) => {
     }
 });
 
+// @ts-ignore
+router.post('/retiro/:id', async (req: Request, res: Response) => {
+    const { id, fecha, metodo, monto } = req.body;
+    const usuario = req.session.usuario;
+
+    if (!usuario) {
+        return res.status(401).json({ error: 'Usuario no autenticado' });
+    }
+    if (!id || !fecha || !metodo || !monto) {
+        return res.status(400).json({ error: 'Faltan datos para el retiro' });
+    }
+
+    if (monto <= 0) {
+        return res.status(400).json({ error: 'El monto debe ser mayor a cero' });
+    }
+
+    // Verificar si el usuario tiene suficiente saldo
+    const cliente = await prisma.cliente.findUnique({
+        where: { usuarioid: id }
+    });
+
+    if (!cliente) {
+        return res.status(404).json({ error: 'Cliente no encontrado' });
+    }
+
+    const clienteid = cliente.clienteid;
+
+    try {
+        const retiro = await prisma.egreso.create({
+            data: {
+                fecha,
+                metodo,
+                monto,
+                clienteid
+            }
+        });
+        // Actualizar el balance del cliente
+        await prisma.cliente.update({
+            where: { clienteid },
+            data: {
+                balance: {
+                    decrement: monto
+                }
+            }
+        });
+        res.status(201).json(retiro);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al procesar el retiro' });
+    }
+});
+
+// @ts-ignore
+router.get('/getRetiro/:id', async (req: Request, res: Response) => {
+    const usuario = req.session.usuario;
+
+    if (!usuario) {
+        return res.status(401).json({ error: 'Usuario no autenticado' });
+    }
+
+    const cliente = await prisma.cliente.findUnique({
+        where: { usuarioid: usuario.usuarioid }
+    });
+
+    if (!cliente) {
+        return res.status(404).json({ error: 'Cliente no encontrado' });
+    }
+
+    const clienteid = cliente.clienteid;
+
+    try {
+        const retiros = await prisma.egreso.findMany({
+            where: { clienteid }
+        });
+        res.json(retiros);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener los retiros' });
+    }
+})
+
+// @ts-ignore
+router.post('/ingreso/:id', async (req: Request, res: Response) => {
+    const { id, fecha, metodo, monto } = req.body;
+    const usuario = req.session.usuario;
+
+    if (!usuario) {
+        return res.status(401).json({ error: 'Usuario no autenticado' });
+    }
+    if (!id || !fecha || !metodo || !monto) {
+        return res.status(400).json({ error: 'Faltan datos para el ingreso' });
+    }
+
+    if (monto <= 0) {
+        return res.status(400).json({ error: 'El monto debe ser mayor a cero' });
+    }
+
+    // Verificar si el usuario tiene suficiente saldo
+    const cliente = await prisma.cliente.findUnique({
+        where: { usuarioid: id }
+    });
+
+    if (!cliente) {
+        return res.status(404).json({ error: 'Cliente no encontrado' });
+    }
+
+    const clienteid = cliente.clienteid;
+
+    try {
+        const ingreso = await prisma.ingreso.create({
+            data: {
+                fecha,
+                metodo,
+                monto,
+                clienteid
+            }
+        });
+        // Actualizar el balance del cliente
+        await prisma.cliente.update({
+            where: { clienteid },
+            data: {
+                balance: {
+                    increment: monto
+                }
+            }
+        });
+        res.status(201).json(ingreso);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al procesar el ingreso' });
+    }
+})
+
+// @ts-ignore
+router.get('/getIngreso/:id', async (req: Request, res: Response) => {
+    const usuario = req.session.usuario;
+
+    if (!usuario) {
+        return res.status(401).json({ error: 'Usuario no autenticado' });
+    }
+
+    const cliente = await prisma.cliente.findUnique({
+        where: { usuarioid: usuario.usuarioid }
+    });
+
+    if (!cliente) {
+        return res.status(404).json({ error: 'Cliente no encontrado' });
+    }
+
+    const clienteid = cliente.clienteid;
+
+    try {
+        const ingresos = await prisma.ingreso.findMany({
+            where: { clienteid }
+        });
+        res.json(ingresos);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener los ingresos' });
+    }
+})
+
+// @ts-ignore
+router.get('/getTransacciones/:userId', async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        // Buscar el cliente asociado al usuario
+        const cliente = await prisma.cliente.findUnique({
+            where: { usuarioid: Number(userId) }
+        });
+
+        if (!cliente) {
+            return res.status(404).json({ message: 'Cliente no encontrado' });
+        }
+
+        const clienteid = cliente.clienteid;
+
+        // Obtener ingresos
+        const ingresos = await prisma.ingreso.findMany({
+            where: { clienteid }
+        });
+
+        // Obtener egresos
+        const egresos = await prisma.egreso.findMany({
+            where: { clienteid }
+        });
+
+        // Transformar y combinar las transacciones
+        const transacciones = [
+            ...ingresos.map(ingreso => ({
+                id: ingreso.ingresoid,
+                tipo: 'ingreso',
+                monto: Number(ingreso.monto),
+                fecha: ingreso.fecha,
+                metodo: ingreso.metodo,
+                estado: 'completada'
+            })),
+            ...egresos.map(egreso => ({
+                id: egreso.egresoid,
+                tipo: 'retiro',
+                monto: Number(egreso.monto),
+                fecha: egreso.fecha,
+                metodo: egreso.metodo,
+                estado: 'completada'
+            }))
+        ];
+
+        // Ordenar por fecha descendente (más reciente primero)
+        transacciones.sort((a, b) => {
+            if (!a.fecha || !b.fecha) return 0;
+            return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
+        });
+
+        res.status(200).json(transacciones);
+    } catch (error) {
+        console.error("Error al obtener transacciones:", error);
+        res.status(500).json({ message: 'Error del servidor' });
+    }
+});
+
+
+
 export default router;

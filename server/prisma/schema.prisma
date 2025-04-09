@@ -90,22 +90,22 @@ model disminucionlimitemonetario {
 }
 
 model egreso {
-  egresoid       Int       @id @default(autoincrement())
-  clienteid      Int?
-  monto          Decimal?  @db.Decimal(10, 2)
-  fecha          DateTime? @db.Timestamp(6)
-  metododeretiro String?   @db.VarChar(255)
-  cliente        cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  egresoid  Int       @id @default(autoincrement())
+  clienteid Int?
+  monto     Decimal?  @db.Decimal(10, 2)
+  fecha     DateTime? @db.Timestamp(6)
+  metodo    String?   @db.VarChar(255)
+  cliente   cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model ingreso {
-  ingresoid    Int       @id @default(autoincrement())
-  clienteid    Int?
-  monto        Decimal?  @db.Decimal(10, 2)
-  fecha        DateTime? @db.Timestamp(6)
-  cuponid      Int?
-  metododepago String?   @db.VarChar(255)
-  cliente      cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  ingresoid Int       @id @default(autoincrement())
+  clienteid Int?
+  monto     Decimal?  @db.Decimal(10, 2)
+  fecha     DateTime? @db.Timestamp(6)
+  cuponid   Int?
+  metodo    String?   @db.VarChar(255)
+  cliente   cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model juego {
