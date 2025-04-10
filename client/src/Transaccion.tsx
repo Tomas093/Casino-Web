@@ -7,16 +7,16 @@ import { useAuth } from './AuthContext';
 
 // Métodos disponibles
 const METODOS_INGRESO = [
-    { value: 'tarjeta', label: 'Tarjeta de crédito/débito' },
-    { value: 'transferencia-ingreso', label: 'Transferencia bancaria' },
-    { value: 'wallet-ingreso', label: 'Billetera electrónica' },
-    { value: 'cripto-ingreso', label: 'Criptomonedas' }
+    { value: 'Tarjeta', label: 'Tarjeta de crédito/débito', via: 'Ingreso' },
+    { value: 'Transferencia', label: 'Transferencia bancaria', via: 'Ingreso' },
+    { value: 'Wallet', label: 'Billetera Virtual', via: 'Ingreso' },
+    { value: 'Cripto', label: 'Criptomonedas', via: 'Ingreso' }
 ];
 
 const METODOS_RETIRO = [
-    { value: 'transferencia-retiro', label: 'Transferencia bancaria' },
-    { value: 'wallet-retiro', label: 'Billetera electrónica' },
-    { value: 'cripto-retiro', label: 'Criptomonedas' }
+    { value: 'Transferencia', label: 'Transferencia bancaria', via: 'Retiro' },
+    { value: 'Wallet', label: 'Billetera Virtual', via: 'Retiro' },
+    { value: 'Cripto', label: 'Criptomonedas', via: 'Retiro' }
 ];
 
 // Interfaces
@@ -31,6 +31,7 @@ interface Transaccion {
 
 interface MetodoProps {
     metodo: string;
+    via?: string;
 }
 
 // Componente de transacción individual
@@ -222,21 +223,24 @@ const MetodoCriptoRetiro: React.FC = () => (
 );
 
 // Componente para renderizar el método de pago seleccionado
-const DetalleMetodo: React.FC<MetodoProps> = ({ metodo }) => {
+const DetalleMetodo: React.FC<MetodoProps> = ({ metodo, via }) => {
     switch (metodo) {
-        case 'tarjeta':
+        case 'Tarjeta':
             return <MetodoTarjeta />;
-        case 'transferencia-ingreso':
-            return <MetodoTransferenciaIngreso />;
-        case 'transferencia-retiro':
+        case 'Transferencia':
+            if (via === 'Ingreso') {
+                return <MetodoTransferenciaIngreso />;
+            }
             return <MetodoTransferenciaRetiro />;
-        case 'wallet-ingreso':
-            return <MetodoWalletIngreso />;
-        case 'wallet-retiro':
+        case 'Wallet':
+            if (via === 'Ingreso') {
+                return <MetodoWalletIngreso />;
+            }
             return <MetodoWalletRetiro />;
-        case 'cripto-ingreso':
-            return <MetodoCriptoIngreso />;
-        case 'cripto-retiro':
+        case 'Cripto':
+            if (via === 'Ingreso') {
+                return <MetodoCriptoIngreso />;
+            }
             return <MetodoCriptoRetiro />;
         default:
             return null;
@@ -248,7 +252,7 @@ const Transaccion: React.FC = () => {
     const { user, client, getTransacciones, createIngreso, createEgreso, getUserData } = useAuth();
     const [activeTab, setActiveTab] = useState<'ingreso' | 'retiro'>('ingreso');
     const [monto, setMonto] = useState<string>('');
-    const [metodo, setMetodo] = useState<string>('tarjeta');
+    const [metodo, setMetodo] = useState<string>('Tarjeta');
     const [historial, setHistorial] = useState<Transaccion[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -412,8 +416,8 @@ const Transaccion: React.FC = () => {
                                 </select>
                             </div>
 
-                            {/* Detalle según método */}
-                            <DetalleMetodo metodo={metodo} />
+                            {/* Detalle según método. Se pasa la propiedad "via" según el activeTab */}
+                            <DetalleMetodo metodo={metodo} via={activeTab === 'ingreso' ? 'Ingreso' : 'Retiro'} />
 
                             <button type="submit" className="cta-btn transaccion-btn" disabled={loading}>
                                 {loading ? 'Procesando...' : activeTab === 'ingreso' ? 'Depositar' : 'Retirar'}
