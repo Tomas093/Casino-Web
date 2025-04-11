@@ -1,47 +1,187 @@
-/* Oculta la sidebar por defecto en móviles */
+/* Estilos generales del sidebar */
 .sidebar {
-    width: 200px;
-    background-color: #1e1e1e;
-    height: 125vh;
-    position: fixed;
-    left: 0;
+    background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(40, 40, 40, 0.9));
+    backdrop-filter: blur(10px);
+    width: 280px;
+    height: 100vh;
+    padding: 2rem 1.5rem;
+    box-shadow: 3px 0 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    position: sticky;
     top: 0;
-    transition: transform 0.3s ease;
-    z-index: 1000;
+    left: 0;
+    color: #fff;
+    border-right: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+/* Sección del perfil */
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 2rem;
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ffd700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    margin-bottom: 1rem;
+    transition: transform 0.3s;
+}
+
+.profile-img:hover {
+    transform: scale(1.05);
+}
+
+.username {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+    color: #ffd700;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.coins {
+    display: flex;
+    align-items: center;
     font-size: 1rem;
+    color: #e0e0e0;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    margin-top: 0.5rem;
+}
+
+.coins span {
+    margin-left: 0.3rem;
+    font-weight: 600;
+    color: #28a745;
+}
+
+.coin-icon {
+    margin-left: 0.3rem;
+    font-size: 1.2rem;
+    animation: spin 4s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+}
+
+/* Menú de navegación */
+.menu {
+    flex: 1;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu li {
+    margin-bottom: 0.5rem;
+}
+
+.menu a {
+    display: block;
+    padding: 0.8rem 1rem;
+    text-decoration: none;
+    color: #e0e0e0;
     border-radius: 10px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 0;
+    background: linear-gradient(to right, #ffd700, transparent);
+    transition: width 0.3s ease;
+}
+
+.menu a:hover {
+    background-color: rgba(255, 215, 0, 0.1);
+    color: #ffd700;
+    transform: translateX(5px);
+}
+
+.menu a:hover::before {
+    width: 100%;
+}
+
+.menu a.active {
+    background-color: rgba(255, 215, 0, 0.2);
+    color: #ffd700;
+    font-weight: 700;
+}
+
+/* Estilos responsivos */
+@media (max-width: 991px) {
+    .sidebar {
+        width: 250px;
+    }
 }
 
 @media (max-width: 768px) {
     .sidebar {
-        transform: translateX(-100%);
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 1.5rem 1rem;
     }
 
-    .sidebar.open {
-        transform: translateX(0);
+    .profile-section {
+        flex-direction: row;
+        align-items: center;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
     }
 
-    .sidebar-toggle {
-        display: block;
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        font-size: 2rem;
-        z-index: 1100;
-        background: none;
-        color: white;
-        border: none;
-        cursor: pointer;
+    .profile-img {
+        width: 60px;
+        height: 60px;
+        margin-right: 1rem;
+        margin-bottom: 0;
+    }
+
+    .profile-info {
+        text-align: left;
+    }
+
+    .menu ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .menu li {
+        flex: 1 1 45%;
+        margin-bottom: 0.3rem;
+    }
+
+    .menu a {
+        text-align: center;
+        padding: 0.6rem 0.5rem;
     }
 }
 
-@media (min-width: 769px) {
-    .sidebar-toggle {
-        display: none;
-    }
-
-    .sidebar {
-        transform: translateX(0);
-        position: relative;
+@media (max-width: 480px) {
+    .menu li {
+        flex: 1 1 100%;
     }
 }
