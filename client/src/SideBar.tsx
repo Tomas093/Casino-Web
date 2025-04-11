@@ -65,11 +65,13 @@ const Sidebar: React.FC = () => {
         { link: '/profile', text: 'Información' },
         { link: '/amigos', text: 'Amigos' },
         { link: '/estadisticas', text: 'Estadísticas' },
+        { link: '/transaccion', text: 'Ingreso / Retiro' },
         { link: '/limites', text: 'Límites' },
         { link: '/pausa', text: 'Pausa' },
         { link: '/history', text: 'Historial' },
         { link: '/', text: 'Cerrar Sesión', action: handleLogout },
         { link: '/delete-account', text: 'Eliminar Cuenta' },
+
     ];
 
     return (

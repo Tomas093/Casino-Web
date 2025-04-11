@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Enhance footer layout and content; update styles for improved responsiveness">
-      <change afterPath="$PROJECT_DIR$/client/src/Transaccion.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/TransaccionStyle.css" afterDir="false" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Termino Transacciones AMB">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Transaccion.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Transaccion.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,9 +22,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="CSS File" />
         <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
-        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -139,7 +135,16 @@
       <workItem from="1744038117977" duration="12661000" />
       <workItem from="1744051144832" duration="110000" />
       <workItem from="1744051360707" duration="26445000" />
-      <workItem from="1744122663284" duration="3621000" />
+      <workItem from="1744122663284" duration="4399000" />
+      <workItem from="1744143430198" duration="401000" />
+      <workItem from="1744148884586" duration="641000" />
+      <workItem from="1744153949364" duration="1991000" />
+      <workItem from="1744156129539" duration="383000" />
+      <workItem from="1744199884290" duration="61000" />
+      <workItem from="1744219310565" duration="642000" />
+      <workItem from="1744220244650" duration="5640000" />
+      <workItem from="1744227855629" duration="4319000" />
+      <workItem from="1744235948013" duration="3821000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -293,7 +298,31 @@
       <option name="project" value="LOCAL" />
       <updated>1744122464123</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Enhance footer layout and content; update styles for improved responsiveness">
+      <option name="closed" value="true" />
+      <created>1744127222709</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1744127222709</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Refactor transaction components; improve structure and update styles for better readability">
+      <option name="closed" value="true" />
+      <created>1744155430677</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1744155430677</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Termino Transacciones AMB">
+      <option name="closed" value="true" />
+      <created>1744231935680</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1744231935680</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -319,6 +348,8 @@
     <MESSAGE value="Refactor user profile management; add edit functionality and improve navbar accessibility" />
     <MESSAGE value="pruebo gh pages" />
     <MESSAGE value="Enhance footer layout and content; update styles for improved responsiveness" />
-    <option name="LAST_COMMIT_MESSAGE" value="Enhance footer layout and content; update styles for improved responsiveness" />
+    <MESSAGE value="Refactor transaction components; improve structure and update styles for better readability" />
+    <MESSAGE value="Termino Transacciones AMB" />
+    <option name="LAST_COMMIT_MESSAGE" value="Termino Transacciones AMB" />
   </component>
 </project>
