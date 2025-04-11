@@ -7,29 +7,28 @@ import { useState, useEffect } from 'react';
 interface MenuItem {
     link: string;
     text: string;
+    action?: () => void;
 }
 
-const menu: MenuItem[] = [
-    { link: '/profile', text: 'Información' },
-    { link: '/amigos', text: 'Amigos' },
-    { link: '/estadisticas', text: 'Estadísticas' },
-    { link: '/limites', text: 'Límites' },
-    { link: '/pausa', text: 'Pausa' },
-    { link: '/history', text: 'Historial' },
-    { link: '/delete-account', text: 'Eliminar Cuenta' },
-    { link: '/admin', text: 'Admin'},
-];
-
-const rendermenu = () => {
-    return menu.map((ruta: MenuItem, index: number) => (
+const renderMenuItem = (item: MenuItem, index: number) => {
+    if (item.action) {
+        return (
+            <li key={index}>
+                <a href="#" onClick={(e) => { e.preventDefault(); item.action!(); }}>
+                    {item.text}
+                </a>
+            </li>
+        );
+    }
+    return (
         <li key={index}>
-            <Link to={ruta.link}>{ruta.text}</Link>
+            <Link to={item.link}>{item.text}</Link>
         </li>
-    ));
+    );
 };
 
 const Sidebar: React.FC = () => {
-    const { user, client } = useAuth();
+    const { user, client, logout } = useAuth();
     const [imgError, setImgError] = useState(false);
     const [imgTimestamp, setImgTimestamp] = useState(Date.now());
 
@@ -54,6 +53,27 @@ const Sidebar: React.FC = () => {
         setImgError(true);
     };
 
+    const handleLogout = async () => {
+        try {
+            await logout();
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error);
+        }
+    };
+
+    const menu: MenuItem[] = [
+        { link: '/profile', text: 'Información' },
+        { link: '/amigos', text: 'Amigos' },
+        { link: '/estadisticas', text: 'Estadísticas' },
+        { link: '/transaccion', text: 'Ingreso / Retiro' },
+        { link: '/limites', text: 'Límites' },
+        { link: '/pausa', text: 'Pausa' },
+        { link: '/history', text: 'Historial' },
+        { link: '/', text: 'Cerrar Sesión', action: handleLogout },
+        { link: '/delete-account', text: 'Eliminar Cuenta' },
+
+    ];
+
     return (
         <aside className="sidebar">
             <div className="profile-section">
@@ -72,7 +92,7 @@ const Sidebar: React.FC = () => {
             </div>
             <nav className="menu">
                 <ul>
-                    {rendermenu()}
+                    {menu.map((item, index) => renderMenuItem(item, index))}
                 </ul>
             </nav>
         </aside>

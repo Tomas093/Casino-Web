@@ -12,7 +12,7 @@ import AdminManagment from "./AdminManagment.tsx";
 import SuperadminOnlyRoutes from "./SuperAdminRoutes.tsx"
 import DeleteUser from "./DeleteUser.tsx";
 import DeleteSpecificAccount from "./DeleteSpecificAccount.tsx";
-import Home from "./Home.tsx";
+import Transaccion from "./Transaccion.tsx"
 
 
 //Modo diablo Skeree
@@ -25,14 +25,13 @@ function App() {
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/Home" element={<Home />} />
-
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
                     <Route element={<ProtectedRoute />}>
                         <Route path="/history" element={<HistoryPage />} />
                         <Route path="/profile" element={<ProfilePage />} />
                         <Route path="/delete-account" element={<DeleteUser/>} />
+                        <Route path="/Transaccion" element={<Transaccion />} />
                     </Route>
 
                     {/* rutas Solo para admins*/}

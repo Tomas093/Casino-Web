@@ -1,0 +1,278 @@
+.transaccion-page {
+    min-height: 100vh;
+    background-color: var(--dark-gray);
+    padding: 60px 0;
+    color: var(--text-light);
+}
+
+.transaccion-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--gold);
+}
+
+.transaccion-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.tab-btn {
+    background: var(--light-gray);
+    color: var(--text-light);
+    border: 1px solid #3a3a3a;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.tab-btn:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+.tab-btn:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+.tab-btn.active {
+    background: var(--gold);
+    color: var(--black);
+    font-weight: 600;
+}
+
+.transaccion-form-container {
+    max-width: 500px;
+    margin: 0 auto 50px;
+    background-color: var(--light-gray);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.transaccion-form h2 {
+    margin-bottom: 25px;
+    text-align: center;
+    color: var(--gold);
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.monto-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.currency-symbol {
+    position: absolute;
+    left: 15px;
+    color: var(--gold);
+    font-weight: bold;
+}
+
+input[type="number"], select {
+    width: 100%;
+    padding: 12px 20px 12px 30px;
+    border-radius: 8px;
+    border: 1px solid #3a3a3a;
+    background-color: var(--light-gray);
+    color: var(--text-light);
+    font-size: 1.1rem;
+    transition: var(--transition);
+}
+
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23ccc' viewBox='0 0 16 16'%3E%3Cpath d='M8 10.5a.5.5 0 0 1-.354-.146l-4-4a.5.5 0 1 1 .708-.708L8 9.293l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.354.146z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    padding-left: 20px;
+}
+
+.transaccion-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--gold);
+    color: var(--black);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.transaccion-btn:hover {
+    background-color: var(--gold-dark);
+}
+
+.transaccion-btn:disabled {
+    background: #999;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.transaccion-historial {
+    margin-top: 60px;
+}
+
+.transaccion-historial h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--gold);
+}
+
+.no-transacciones {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 30px;
+}
+
+.historial-lista {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.transaccion-item {
+    display: flex;
+    align-items: center;
+    background: var(--light-gray);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+    transition: transform 0.3s;
+    border-left: 4px solid transparent;
+}
+
+.transaccion-item:hover {
+    transform: translateY(-3px);
+}
+
+.transaccion-item.ingreso {
+    border-left-color: var(--green);
+}
+
+.transaccion-item.retiro {
+    border-left-color: var(--red);
+}
+
+.transaccion-item.pendiente {
+    opacity: 0.7;
+}
+
+.transaccion-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-right: 15px;
+}
+
+.transaccion-item.ingreso .transaccion-icon {
+    background-color: rgba(26, 158, 92, 0.2);
+    color: var(--green);
+}
+
+.transaccion-item.retiro .transaccion-icon {
+    background-color: rgba(229, 57, 53, 0.2);
+    color: var(--red);
+}
+
+.transaccion-info {
+    flex: 1;
+}
+
+.transaccion-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.transaccion-fecha,
+.transaccion-estado {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin: 3px 0;
+}
+
+.transaccion-estado {
+    text-transform: capitalize;
+}
+
+.transaccion-monto {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.ingreso .transaccion-monto {
+    color: var(--green);
+}
+
+.retiro .transaccion-monto {
+    color: var(--red);
+}
+
+.cbu-display {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cbu-number {
+    font-family: monospace;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    color: var(--gold);
+}
+
+.cbu-instruccion {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+}
+
+.copy-btn {
+    background: rgba(212, 175, 55, 0.2);
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.copy-btn:hover {
+    background: rgba(212, 175, 55, 0.3);
+}
+
+@media (max-width: 768px) {
+    .transaccion-form-container {
+        padding: 20px;
+    }
+
+    .transaccion-item {
+        padding: 15px;
+    }
+
+    .transaccion-title {
+        font-size: 2rem;
+    }
+}

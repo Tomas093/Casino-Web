@@ -13,6 +13,14 @@ interface User {
     img?: string;
 }
 
+interface Transaccion {
+    transaccionid: number;
+    usuarioid: number;
+    monto: number;
+    metodo: string;
+    fecha: string;
+}
+
 interface Client {
     usuarioid: number;
     balance: number;
@@ -36,7 +44,10 @@ interface AuthContextType {
     getUsers: () => Promise<any>;
     editAdmin: (userId: string, userData: EditAdminData) => Promise<any>;
     editUser: (userId: string, userData: AdminEditUserData) => Promise<any>;
-
+    getUserIngreso: (userId: string) => Promise<void>;
+    getTransacciones: (userId: string) => Promise<any>;
+    createIngreso: (userData: Transaccion) => Promise<any>;
+    createEgreso: (userData: Transaccion) => Promise<any>;
 }
 
 interface RegisterData {
@@ -72,12 +83,41 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 const API_URL = 'http://localhost:3001';
 
-axios.defaults.withCredentials = true;
-
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [user, setUser] = useState<User | null>(null);
     const [client, setClient] = useState<Client | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    /*
+    const newingreso = async (userId : string) => {
+        try {
+            const response = await axios.post(`${API_URL}/auth/ingreso`, { userId });
+            return response.data;
+        } catch (error: any) {
+            console.error('Error al crear nuevo ingreso:', error);
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error al crear nuevo ingreso');
+            } else {
+                throw error;
+            }
+        }
+    }
+    */
+
+    const getUserIngreso = async (userId: string) => {
+        try {
+            const response = await axios.get(`${API_URL}/auth/getIngreso/${userId}`);
+            if (response.data) {
+                setUser(response.data);
+                if (response.data.cliente) {
+                    setClient(response.data.cliente);
+                }
+                localStorage.setItem('user', JSON.stringify(response.data));
+            }
+        }catch (error){
+            console.error('Error al obtener Ingreso del usuario:', error);
+        }
+    }
 
     const getUserData = async (userId: string) => {
         try {
@@ -292,6 +332,44 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     }
 
+    const getTransacciones = async (userId: string) => {
+        try {
+            const response = await axios.get(`${API_URL}/auth/getTransacciones/${userId}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error al obtener transacciones:', error);
+            throw error;
+        }
+    }
+
+    const createIngreso = async (userData: Transaccion) => {
+        try {
+            const response = await axios.post(`${API_URL}/auth/ingreso`, userData);
+            return response.data;
+        } catch (error: any) {
+            console.error('Error al crear Ingreso:', error);
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error al crear Ingreso');
+            } else {
+                throw error;
+            }
+        }
+    }
+
+    const createEgreso = async (userData: Transaccion ) => {
+        try {
+            const response = await axios.post(`${API_URL}/auth/retiro`, userData);
+            return response.data;
+        } catch (error: any) {
+            console.error('Error al crear Egreso:', error);
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error al crear Egreso');
+            } else {
+                throw error;
+            }
+        }
+    }
+
 
 
 
@@ -311,7 +389,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         getAdmins,
         editAdmin,
         editUser,
-        getUsers
+        getUsers,
+        getUserIngreso,
+        getTransacciones,
+        createEgreso,
+        createIngreso
     };
 
     return (
