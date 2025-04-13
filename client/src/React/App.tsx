@@ -15,9 +15,6 @@ import DeleteSpecificAccount from "./DeleteSpecificAccount.tsx";
 import Transaccion from "./Transaccion.tsx"
 import Home from "./Home.tsx";
 
-
-//Modo diablo Skeree
-
 function App() {
     return (
         <BrowserRouter>
