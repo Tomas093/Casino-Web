@@ -14,7 +14,7 @@ interface User {
 }
 
 interface Transaccion {
-    transaccionid: number;
+    transaccionid?: number; // Making this optional for new transactions
     usuarioid: number;
     monto: number;
     metodo: string;

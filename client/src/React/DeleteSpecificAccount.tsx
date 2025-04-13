@@ -1,4 +1,4 @@
-import './DeleteUserStyle.css';
+import '../Css/DeleteUserStyle.css';
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';

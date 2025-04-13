@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from './AuthContext';
-import './NavBarStyle.css';
+import '../Css/NavBarStyle.css';
 
 const NavBar: React.FC = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

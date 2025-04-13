@@ -1,7 +1,7 @@
 import {Link, useNavigate} from 'react-router-dom';
 import Form from './Form';
 import {useAuth} from './AuthContext';
-import './LoginStyle.css';
+import '../Css/LoginStyle.css';
 
 const Login = () => {
     const {login} = useAuth();

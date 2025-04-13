@@ -1,7 +1,7 @@
 // ProfilePage.tsx
 import {useAuth} from './AuthContext';
 import Sidebar from './SideBar.tsx';
-import './ProfileStyle.css';
+import '../Css/ProfileStyle.css';
 import ImageUpload from './ImageUpload';
 import {useEffect, useState} from 'react';
 

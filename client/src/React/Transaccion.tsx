@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './LandingPageStyle.css';
-import './TransaccionStyle.css';
+import '../Css/LandingPageStyle.css';
+import '../Css/TransaccionStyle.css';
 import Footer from './Footer';
 import NavBar from './NavBar';
 import { useAuth } from './AuthContext';
@@ -20,7 +20,7 @@ const METODOS_RETIRO = [
 ];
 
 // Interfaces
-interface Transaccion {
+interface TransaccionUI {
     id: number;
     tipo: 'ingreso' | 'retiro';
     monto: number;
@@ -35,7 +35,7 @@ interface MetodoProps {
 }
 
 // Componente de transacción individual
-const TransaccionItem: React.FC<{ transaccion: Transaccion }> = ({ transaccion }) => {
+const TransaccionItem: React.FC<{ transaccion: TransaccionUI }> = ({ transaccion }) => {
     const formatFecha = (fecha: Date): string => {
         return fecha.toLocaleDateString('es-ES', {
             day: '2-digit',
@@ -253,7 +253,7 @@ const Transaccion: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'ingreso' | 'retiro'>('ingreso');
     const [monto, setMonto] = useState<string>('');
     const [metodo, setMetodo] = useState<string>('Tarjeta');
-    const [historial, setHistorial] = useState<Transaccion[]>([]);
+    const [historial, setHistorial] = useState<TransaccionUI[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
     // Cambiar automáticamente el método según la pestaña
@@ -314,7 +314,7 @@ const Transaccion: React.FC = () => {
 
             // Datos para la transacción
             const transaccionData = {
-                id: user.usuarioid,
+                usuarioid: user.usuarioid,
                 fecha: fecha,
                 metodo: metodo,
                 monto: montoNum

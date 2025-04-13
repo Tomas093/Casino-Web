@@ -6,7 +6,47 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Termino Transacciones AMB">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Transaccion.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Transaccion.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/AdminManagment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/AdminManagment.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/AdminManagmentStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/AdminManagmentStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/AdminRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/AdminRoutes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/AnimatedCounter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/AnimatedCounter.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/AuthContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/DeleteSpecificAccount.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/DeleteSpecificAccount.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/DeleteUser.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/DeleteUser.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/DeleteUserStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/DeleteUserStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/Footer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/FooterStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/FooterStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/Form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/HistoryItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/HistoryItems.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/HistoryPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/HistoryPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/HomeStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/HomeStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/ImageUpload.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/ImageUpload.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/LandingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/LandingPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/LandingPageStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LandingPageStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/Login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/LoginStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LoginStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/NavBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/NavBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/NavBarStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/NavBarStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/ProfilePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/ProfilePage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/ProfileStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/ProfileStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/ProtectedRoute.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/ProtectedRoute.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/Register.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/RegisterStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/RegisterStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/SideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/SideBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/SideBarStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/SideBarStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/SidebarExtra.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/SidebarExtra.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/SidebarExtraStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/SidebarExtraStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/SuperAdminRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/SuperAdminRoutes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Transaccion.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/Transaccion.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/TransaccionContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/TransaccionContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/TransaccionStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/TransaccionStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/auth.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,34 +112,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Tomas&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/casinoweb/client/src/assets&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\casinoweb\\.idea\\server\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/Casino-Web/server",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "ts.external.directory.path": "C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\server\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server\src" />
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\casinoweb\client\src\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\Css" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server" />
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\casinoweb\client\src" />
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\casinoweb\server\src" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\casinoweb\client\src\assets" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\casinoweb\server" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -145,6 +188,8 @@
       <workItem from="1744220244650" duration="5640000" />
       <workItem from="1744227855629" duration="4319000" />
       <workItem from="1744235948013" duration="3821000" />
+      <workItem from="1744500939850" duration="20000" />
+      <workItem from="1744500961367" duration="4587000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />

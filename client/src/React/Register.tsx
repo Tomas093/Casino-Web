@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 import Form from './Form';
 import React from 'react';
-import './RegisterStyle.css';
+import '../Css/RegisterStyle.css';
 
 const Register: React.FC = () => {
     return (

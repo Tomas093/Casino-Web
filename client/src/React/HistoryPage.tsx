@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Sidebar from './SideBar.tsx';
 import HistoryItem from './HistoryItems.tsx';
-import './ProfileStyle.css';
+import '../Css/ProfileStyle.css';
 
 const HistoryPage: React.FC = () => {
     const [filter, setFilter] = useState('all');

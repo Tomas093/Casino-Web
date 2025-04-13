@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
-import './LandingPageStyle.css';
-import './NavBarStyle.css';
-import backgroundVideo from "./assets/backgroundVideo.mp4";
+import '../Css/LandingPageStyle.css';
+import '../Css/NavBarStyle.css';
+import backgroundVideo from "../assets/backgroundVideo.mp4";
 import { FaChevronDown } from 'react-icons/fa';
 import Footer from "./Footer.tsx";
 

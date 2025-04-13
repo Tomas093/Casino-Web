@@ -1,4 +1,4 @@
-import './DeleteUserStyle.css';
+import '../Css/DeleteUserStyle.css';
 import React, {useEffect} from "react"; // Asegúrate de que la ruta sea correcta
 import {useAuth} from './AuthContext';
 

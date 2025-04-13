@@ -1,5 +1,5 @@
 // src/components/Sidebar.tsx
-import './SidebarExtraStyle.css'
+import '../Css/SideBarStyle.css'
 import { Link } from "react-router-dom";
 import { useAuth } from './AuthContext';
 import { useState, useEffect } from 'react';
@@ -7,27 +7,28 @@ import { useState, useEffect } from 'react';
 interface MenuItem {
     link: string;
     text: string;
+    action?: () => void;
 }
 
-const menu: MenuItem[] = [
-    { link: '/history', text: 'Cuenta' },
-    { link: '/amigos', text: 'Amigos' },
-    { link: '/Leaderboard', text: 'LeaderBoard' },
-    { link: '/Soporte', text: 'Ayuda' },
-    { link: '/IngresoDinero', text: 'Depositar' },
-    { link: '/TerminosyCondiciones', text: 'TerminosYCondiciones' },
-];
-
-const rendermenu = () => {
-    return menu.map((ruta: MenuItem, index: number) => (
+const renderMenuItem = (item: MenuItem, index: number) => {
+    if (item.action) {
+        return (
+            <li key={index}>
+                <a href="#" onClick={(e) => { e.preventDefault(); item.action!(); }}>
+                    {item.text}
+                </a>
+            </li>
+        );
+    }
+    return (
         <li key={index}>
-            <Link to={ruta.link}>{ruta.text}</Link>
+            <Link to={item.link}>{item.text}</Link>
         </li>
-    ));
+    );
 };
 
-const SidebarExtra: React.FC = () => {
-    const { user, client } = useAuth();
+const Sidebar: React.FC = () => {
+    const { user, client, logout } = useAuth();
     const [imgError, setImgError] = useState(false);
     const [imgTimestamp, setImgTimestamp] = useState(Date.now());
 
@@ -52,6 +53,27 @@ const SidebarExtra: React.FC = () => {
         setImgError(true);
     };
 
+    const handleLogout = async () => {
+        try {
+            await logout();
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error);
+        }
+    };
+
+    const menu: MenuItem[] = [
+        { link: '/profile', text: 'Información' },
+        { link: '/amigos', text: 'Amigos' },
+        { link: '/estadisticas', text: 'Estadísticas' },
+        { link: '/transaccion', text: 'Ingreso / Retiro' },
+        { link: '/limites', text: 'Límites' },
+        { link: '/pausa', text: 'Pausa' },
+        { link: '/history', text: 'Historial' },
+        { link: '/', text: 'Cerrar Sesión', action: handleLogout },
+        { link: '/delete-account', text: 'Eliminar Cuenta' },
+
+    ];
+
     return (
         <aside className="sidebar">
             <div className="profile-section">
@@ -70,11 +92,11 @@ const SidebarExtra: React.FC = () => {
             </div>
             <nav className="menu">
                 <ul>
-                    {rendermenu()}
+                    {menu.map((item, index) => renderMenuItem(item, index))}
                 </ul>
             </nav>
         </aside>
     );
 };
 
-export default SidebarExtra;
+export default Sidebar;

@@ -469,13 +469,13 @@ router.put('/editAdmin/:id', async (req: Request, res: Response) => {
 
 // @ts-ignore
 router.post('/retiro', async (req: Request, res: Response) => {
-    const { id, fecha, metodo, monto } = req.body;
+    const { usuarioid, fecha, metodo, monto } = req.body;
     const usuario = req.session.usuario;
 
     if (!usuario) {
         return res.status(401).json({ error: 'Usuario no autenticado' });
     }
-    if (!id || !fecha || !metodo || !monto) {
+    if (!usuarioid || !fecha || !metodo || !monto) {
         return res.status(400).json({ error: 'Faltan datos para el retiro' });
     }
 
@@ -485,7 +485,7 @@ router.post('/retiro', async (req: Request, res: Response) => {
 
     // Verificar si el usuario tiene suficiente saldo
     const cliente = await prisma.cliente.findUnique({
-        where: { usuarioid: id }
+        where: { usuarioid }
     });
 
     if (!cliente) {
@@ -548,13 +548,14 @@ router.get('/getRetiro/:id', async (req: Request, res: Response) => {
 
 // @ts-ignore
 router.post('/ingreso', async (req: Request, res: Response) => {
-    const { id, fecha, metodo, monto } = req.body;
+    const { usuarioid, fecha, metodo, monto } = req.body;
+
     const usuario = req.session.usuario;
 
     if (!usuario) {
         return res.status(401).json({ error: 'Usuario no autenticado' });
     }
-    if (!id || !fecha || !metodo || !monto) {
+    if (!usuarioid || !fecha || !metodo || !monto) {
         return res.status(400).json({ error: 'Faltan datos para el ingreso' });
     }
 
@@ -562,9 +563,8 @@ router.post('/ingreso', async (req: Request, res: Response) => {
         return res.status(400).json({ error: 'El monto debe ser mayor a cero' });
     }
 
-    // Verificar si el usuario tiene suficiente saldo
     const cliente = await prisma.cliente.findUnique({
-        where: { usuarioid: id }
+        where: { usuarioid }
     });
 
     if (!cliente) {

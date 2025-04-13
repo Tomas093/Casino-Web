@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useAuth} from './AuthContext';
-import './AdminManagmentStyle.css'
+import '../Css/AdminManagmentStyle.css'
 import {IconButton, Button} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
