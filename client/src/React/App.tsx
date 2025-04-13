@@ -1,19 +1,19 @@
 // App.tsx
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import LandingPage from './React/LandingPage';
-import Register from './React/Register';
-import Login from './React/Login';
-import HistoryPage from './React/HistoryPage';
-import ProfilePage from './React/ProfilePage';
-import {AuthProvider} from './React/AuthContext';
-import ProtectedRoute from './React/ProtectedRoute';
-import AdminRoutes from "./React/AdminRoutes.tsx";
-import AdminManagment from "./React/AdminManagment.tsx";
-import SuperadminOnlyRoutes from "./React/SuperAdminRoutes.tsx"
-import DeleteUser from "./React/DeleteUser.tsx";
-import DeleteSpecificAccount from "./React/DeleteSpecificAccount.tsx";
-import Transaccion from "./React/Transaccion.tsx"
-import Home from "./React/Home.tsx";
+import LandingPage from './LandingPage';
+import Register from './Register';
+import Login from './Login';
+import HistoryPage from './HistoryPage';
+import ProfilePage from './ProfilePage';
+import {AuthProvider} from './AuthContext';
+import ProtectedRoute from './ProtectedRoute';
+import AdminRoutes from "./AdminRoutes.tsx";
+import AdminManagment from "./AdminManagment.tsx";
+import SuperadminOnlyRoutes from "./SuperAdminRoutes.tsx"
+import DeleteUser from "./DeleteUser.tsx";
+import DeleteSpecificAccount from "./DeleteSpecificAccount.tsx";
+import Transaccion from "./Transaccion.tsx"
+import Home from "./Home.tsx";
 
 
 //Modo diablo Skeree
