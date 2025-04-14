@@ -6,6 +6,7 @@ import blackjackImg from '@assets/blackjack.jpg';
 import dadosImg from '@assets/dados.jpg';
 import AnimatedCounter from "../../animations/AnimatedCounter";
 import Footer from '@components/Footer';
+import NavBar from "@components/NavBar.tsx";
 
 interface GameCardProps {
     title: string;
@@ -191,28 +192,7 @@ const HomeDef = () => {
 
     return (
         <div className="homepage">
-            <header className="header">
-                <div className="logo">Australis Casino</div>
-                <nav className="main-nav">
-                    <ul>
-                        <li><a href="#" className="nav-link">Inicio</a></li>
-                        <li><a href="#" className="nav-link">Juegos</a></li>
-                        <li><a href="#" className="nav-link">Promociones</a></li>
-                        <li><a href="#" className="nav-link">VIP</a></li>
-                        <li><a href="#" className="nav-link">Ayuda</a></li>
-                    </ul>
-                </nav>
-                <div className="auth-buttons">
-                    <button className="btn-login">Iniciar Sesión</button>
-                    <button className="btn-register">Registrarse</button>
-                </div>
-                <div className="mobile-menu-icon">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </header>
-
+            <NavBar></NavBar>
             <section className="hero-section">
                 <div className="hero-background">
                     <img alt="Casino Background" className="hero-image" />
