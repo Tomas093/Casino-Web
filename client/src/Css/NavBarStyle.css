@@ -22,12 +22,17 @@
 
 /* Contenedor interno: centrado y espaciado */
 .navbar-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 14px 28px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    background-color: rgba(10, 10, 10, 0.95);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 /* Logo */
@@ -35,7 +40,7 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    font-size: 1.6rem;
+    font-size: 2rem;
     font-weight: bold;
     color: var(--gold);
     gap: 8px;
@@ -168,6 +173,7 @@
 
 .navbar-username {
     font-weight: bold;
+    font-size: 1.4rem;
 }
 
 .navbar-user-coins {
@@ -254,6 +260,7 @@
         padding: 20px;
         border-top: 1px solid #222;
         display: none;
+
     }
 
     .navbar-links.active {
@@ -262,6 +269,7 @@
 
     .navbar-hamburger {
         display: flex;
+
     }
 
     .navbar-user-info span:not(.navbar-user-coins) {

@@ -4,7 +4,57 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor project structure; rename files and update import paths for improved organization" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="A">
+      <change afterPath="$PROJECT_DIR$/client/src/React/api/adminApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/api/authApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/api/transactionApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/api/userApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/app/appProvider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/context/AdminContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/context/AuthContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/context/TransactionContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/context/UserContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/games/components/MineSweeper.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/MineSweeperEnchanced.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/middlewares/authMiddleware.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/routes/adminRoutes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/routes/transactionRoutes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/routes/userRoutes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/services/authService.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/services/transactionService.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/services/userService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/LandingPageStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LandingPageStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/AdminManagment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/AdminRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/routes/AdminRoutes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/AnimatedCounter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/animations/AnimatedCounter.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/AuthContext.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/DeleteSpecificAccount.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/deletes/DeleteSpecificAccount.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/DeleteUser.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/deletes/DeleteUser.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Footer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/HistoryItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/HistoryItems.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/HistoryPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/HistoryPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/ImageUpload.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/ImageUpload.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/LandingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/home/LandingPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/NavBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/NavBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/ProfilePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/ProfilePage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/ProtectedRoute.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/routes/ProtectedRoute.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/Register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/auth/Register.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/SideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/SideBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/SidebarExtra.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/SuperAdminRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/routes/SuperAdminRoutes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/Transaccion.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/transaction/Transaccion.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/TransaccionContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/MinesweeperStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/vite.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/authRoutes.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,8 +70,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -95,11 +145,11 @@
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\casinoweb\client\src\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\Css" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\casinoweb\client\src" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\casinoweb\server\src" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\Transaction" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\Routes" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\components" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -148,7 +198,11 @@
       <workItem from="1744500939850" duration="20000" />
       <workItem from="1744500961367" duration="4587000" />
       <workItem from="1744505702711" duration="713000" />
-      <workItem from="1744506472569" duration="152000" />
+      <workItem from="1744506472569" duration="186000" />
+      <workItem from="1744509467615" duration="352000" />
+      <workItem from="1744547836912" duration="4192000" />
+      <workItem from="1744632658257" duration="15156000" />
+      <workItem from="1744650290859" duration="1948000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -350,7 +404,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744506598543</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="A">
+      <option name="closed" value="true" />
+      <created>1744506637675</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1744506637675</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -379,6 +441,7 @@
     <MESSAGE value="Refactor transaction components; improve structure and update styles for better readability" />
     <MESSAGE value="Termino Transacciones AMB" />
     <MESSAGE value="Refactor project structure; rename files and update import paths for improved organization" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor project structure; rename files and update import paths for improved organization" />
+    <MESSAGE value="A" />
+    <option name="LAST_COMMIT_MESSAGE" value="A" />
   </component>
 </project>

@@ -21,7 +21,15 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "paths": {
+        "@/*": ["./src/*"],
+        "@context/*": ["./src/React/context/*"],
+        "@css/*": ["./src/css/*"],
+        "@components/*": ["./src/React/components/*"],
+        "@assets/*": ["./src/assets/*"],
+        "@api/*": ["./src/React/api/*"],
+    }
   },
   "include": ["src", "vite.config.ts"],
   "exclude": ["node_modules"]
