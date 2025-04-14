@@ -284,19 +284,19 @@ section {
 }
 
 .game1 {
-    background-image: url('./assets/slots.jpg');
+    background-image: url('@assets/slots.jpg');
 }
 
 .game2 {
-    background-image: url("./assets/ruleta.jpg");
+    background-image: url("@assets/ruleta.jpg");
 }
 
 .game3 {
-    background-image: url('./assets/blackjack.jpg');
+    background-image: url('@assets/blackjack.jpg');
 }
 
 .game4 {
-    background-image: url('./assets/dados.jpg');
+    background-image: url('@assets/dados.jpg');
 }
 
 

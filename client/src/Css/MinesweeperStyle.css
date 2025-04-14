@@ -1,0 +1,161 @@
+.minesweeper-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+}
+
+.game-layout {
+    display: flex;
+    background-color: #151b2d;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Settings Panel */
+.settings-panel {
+    width: 300px;
+    padding: 20px;
+    background-color: #1e2642;
+    border-right: 1px solid #2a3352;
+}
+
+.setting-group {
+    margin-bottom: 24px;
+}
+
+.setting-group h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #fff;
+    font-weight: normal;
+}
+
+.bet-input {
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.currency-symbol {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #fff;
+}
+
+.bet-input input {
+    width: 100%;
+    padding: 12px 12px 12px 30px;
+    font-size: 18px;
+    background-color: #232c4b;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+}
+
+.bet-buttons, .option-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.bet-btn, .option-btn {
+    flex: 1;
+    padding: 10px;
+    background-color: #2a3352;
+    border: 1px solid #3a446e;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.bet-btn:hover, .option-btn:hover {
+    background-color: #3a446e;
+}
+
+.option-btn.selected {
+    background-color: #7049eb;
+    border-color: #8560ff;
+}
+
+.start-game-btn, .cashout-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+    margin-bottom: 12px;
+}
+
+.start-game-btn {
+    background: linear-gradient(to right, #ffc107, #ff9800);
+    color: #000;
+}
+
+.start-game-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cashout-btn {
+    background: linear-gradient(to right, #00c853, #4caf50);
+    color: #fff;
+}
+
+.cashout-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.credits-display {
+    margin-top: 20px;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* Game Panel */
+.game-panel {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mine-grid {
+    display: grid;
+    gap: 6px;
+    width: 100%;
+    max-width: 600px;
+    aspect-ratio: 1/1;
+}
+
+.mine-cell {
+    background-color: #232c4b;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.mine-cell:hover {
+    background-color: #2a3352;
+}
+
+.mine-cell.revealed {
+    background-color: #3a446e;
+}
+
+.mine-cell.bomb {
+    background-color: #ff4757;
+}
