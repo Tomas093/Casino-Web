@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { RouletteWheel, RouletteTable, useRoulette, ChipList } from 'react-casino-roulette';
+import React, {useState} from 'react';
+import {RouletteWheel, RouletteTable, useRoulette, ChipList} from 'react-casino-roulette';
 import 'react-casino-roulette/dist/index.css';
-
 import whiteChip from '@assets/Javo.jpg';
 import blueChip from '@assets/Javo.jpg';
 import blackChip from '@assets/Javo.jpg';
@@ -16,13 +15,13 @@ const chips = {
 
 const RouletteGame: React.FC = () => {
     const [selectedChip, setSelectedChip] = useState('1');
-    const [winningBet, setWinningBet] = useState('-1');
+    const [winningBet, setWinningBet] = useState<'-1' | `${number}`>('-1');
     const [wheelStart, setWheelStart] = useState(false);
 
-    const { bets, onBet, clearBets } = useRoulette();
+    const {bets, onBet, clearBets} = useRoulette();
 
     const handleSpin = () => {
-        setWinningBet(String(Math.floor(Math.random() * 37))); // random entre 0 y 36
+        setWinningBet(`${Math.floor(Math.random() * 37)}`); // random entre 0 y 36
         setWheelStart(true);
     };
 
@@ -33,7 +32,7 @@ const RouletteGame: React.FC = () => {
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <div style={{display: 'flex', flexDirection: 'column', gap: '2rem'}}>
             <ChipList
                 chips={chips}
                 selectedChip={selectedChip}
@@ -48,6 +47,7 @@ const RouletteGame: React.FC = () => {
 
             <RouletteWheel
                 start={wheelStart}
+                /* @ts-ignore */
                 winningBet={winningBet}
                 onSpinningEnd={handleEndSpin}
             />

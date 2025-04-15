@@ -15,9 +15,9 @@ import Transaccion from "../pages/transaction/Transaccion.tsx";
 import Home from "../pages/home/Home.tsx";
 import MineSweeper from "../pages/games/MineSweeperEnchanced.tsx";
 import { AppProvider } from './appProvider';
-import Example from "../games/components/Example.tsx"
-// import MineSweeper from "../games/components/MineSweeper.tsx";
 import RouletteGame from "../pages/games/RouletteGame.tsx";
+import StatisticsPage from "../pages/profile/StatisticsPage.tsx"
+
 function App() {
     return (
         <BrowserRouter>
@@ -26,19 +26,19 @@ function App() {
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/example" element={<Example/>} />
                     <Route path="/Mines" element={<MineSweeper />} />
-                    <Route path="/roulette" element={<RouletteGame />} />
 
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
                     <Route element={<ProtectedRoute />}>
                         <Route path="/history" element={<HistoryPage />} />
+                        <Route path="/statistics" element={<StatisticsPage />} />
                         <Route path="/profile" element={<ProfilePage />} />
                         <Route path="/delete-account" element={<DeleteUser />} />
                         <Route path="/Transaccion" element={<Transaccion />} />
                         <Route path="/home" element={<Home />} />
-                        {/*<Route path="/Mines" element={<MineSweeper />} />*/}
+                        <Route path="/roulette" element={<RouletteGame />} />
+                        <Route path="/mines" element={<MineSweeper />} />
                     </Route>
 
                     {/* rutas Solo para admins */}
