@@ -8,11 +8,13 @@
     box-shadow: 3px 0 20px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
-    position: sticky;
+    position: fixed; /* Cambiado de sticky a fixed */
     top: 0;
     left: 0;
     color: #fff;
     border-right: 1px solid rgba(255, 215, 0, 0.2);
+    align-self: auto; /* Desactivar cualquier align-self heredado */
+    overflow-y: auto; /* Permitir scroll si el contenido es más alto que la ventana */
 }
 
 /* Sección del perfil */
@@ -130,11 +132,26 @@
     font-weight: 700;
 }
 
+/* Estilo para el contenedor principal que contiene la sidebar */
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.main-content {
+    margin-left: 280px; /* Mismo ancho que el sidebar */
+    flex: 1;
+    padding: 20px;
+}
 
 /* Estilos responsivos */
 @media (max-width: 991px) {
     .sidebar {
         width: 250px;
+    }
+    
+    .main-content {
+        margin-left: 250px;
     }
 }
 
@@ -178,6 +195,10 @@
     .menu a {
         text-align: center;
         padding: 0.6rem 0.5rem;
+    }
+    
+    .main-content {
+        margin-left: 0;
     }
 }
 

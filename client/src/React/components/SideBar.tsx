@@ -95,7 +95,7 @@ const Sidebar: React.FC = () => {
         {link: '/home', text: 'Inicio'},
         {link: '/profile', text: 'Información'},
         {link: '/amigos', text: 'Amigos'},
-        {link: '/estadisticas', text: 'Estadísticas'},
+        {link: '/statistics', text: 'Estadísticas'},
         {link: '/transaccion', text: 'Ingreso / Retiro'},
         {link: '/limites', text: 'Límites'},
         {link: '/pausa', text: 'Pausa'},
