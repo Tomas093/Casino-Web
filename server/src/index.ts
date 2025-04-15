@@ -9,6 +9,8 @@ import userRoutes from './routes/userRoutes';
 import adminRoutes from './routes/adminRoutes';
 import transactionRoutes from './routes/transactionRoutes';
 import uploadRoutes from './routes/uploads';
+import gameRoutes from "./routes/gameRoutes";
+import historyRoutes  from "./routes/historyRoutes";
 
 const app = express();
 
@@ -57,6 +59,8 @@ app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);
 app.use('/transaction', transactionRoutes);
+app.use('/game', gameRoutes);
+app.use('/history', historyRoutes)
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

@@ -52,10 +52,30 @@ router.post('/retiro', isAuthenticated, async (req: Request, res: Response) => {
     }
 });
 
+router.get('/totalRevenue', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+        const totalRevenue = await transactionService.getTotalRevenue();
+        res.status(200).json(totalRevenue);
+    } catch (error: any) {
+        console.error("Error al obtener ingresos totales:", error);
+        res.status(error.statusCode || 500).json({message: error.message || 'Error del servidor'});
+    }
+});
+
+// Obtener todas las transacciones por metodo
+router.get('/methodCount', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+        const methodCount = await transactionService.getTransactionStatsByMethod();
+        res.status(200).json(methodCount);
+    } catch (error: any) {
+        console.error("Error al obtener conteo por metodo:", error);
+        res.status(error.statusCode || 500).json({message: error.message || 'Error del servidor'});
+    }
+})
+
 // Obtener todas las transacciones de un usuario
 router.get('/:userId', isAuthenticated, async (req: Request, res: Response) => {
     const { userId } = req.params;
-
     try {
         const transacciones = await transactionService.getUserTransactions(Number(userId));
         res.status(200).json(transacciones);

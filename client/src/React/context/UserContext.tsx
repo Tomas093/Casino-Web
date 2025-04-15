@@ -1,4 +1,4 @@
-import {createContext, ReactNode, useContext, useState} from 'react';
+import {createContext, ReactNode, useContext, useState, useEffect} from 'react';
 import userApi, {EditUserData} from '@api/userApi';
 import {useAuth} from '@context/AuthContext.tsx';
 
@@ -17,6 +17,7 @@ interface UserContextType {
     editUser: (userId: string, userData: EditUserData) => Promise<void>;
     deleteUser: (userId: string) => Promise<void>;
     getAllUsers: () => Promise<any>;
+    getUserCount: () => Promise<any>;
 }
 
 // Props para UserProvider
@@ -32,6 +33,16 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     const [client, setClient] = useState<Client | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { user } = useAuth();
+
+    // Efecto para cargar los datos del usuario cuando cambia el usuario autenticado
+    useEffect(() => {
+        if (user && user.usuarioid) {
+            getUserData(user.usuarioid.toString());
+        } else {
+            // Reset client si no hay usuario autenticado
+            setClient(null);
+        }
+    }, [user?.usuarioid]); // Solo se ejecuta cuando cambia el ID del usuario
 
     // Obtener datos del usuario
     const getUserData = async (userId: string) => {
@@ -68,8 +79,20 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         }
     };
 
+    const getUserCount = async () => {
+        try {
+            setIsLoading(true);
+            const response = await userApi.getUserCount();
+            return response;
+        } catch (error) {
+            console.error('Error al obtener el conteo de usuarios:', error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     // Eliminar usuario
-    // Eliminar usuario con mejor manejo de errores
     const deleteUser = async (userId: string) => {
         try {
             setIsLoading(true);
@@ -116,20 +139,20 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         }
     };
 
-    // Valor del contexto
     const contextValue: UserContextType = {
         client,
         isLoading,
         getUserData,
         editUser,
         deleteUser,
-        getAllUsers
+        getAllUsers,
+        getUserCount
     };
 
     return (
         <UserContext.Provider value={contextValue}>
             {children}
-            </UserContext.Provider>
+        </UserContext.Provider>
     );
 };
 

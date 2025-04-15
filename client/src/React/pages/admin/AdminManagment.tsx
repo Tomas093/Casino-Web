@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import { useAdmin } from '@context/AdminContext.tsx'
-import { useUser } from '@context/UserContext.tsx'
-import { useAuth } from '@context/AuthContext.tsx';
+import {useAdmin} from '@context/AdminContext.tsx'
+import {useUser} from '@context/UserContext.tsx'
+import {useAuth} from '@context/AuthContext.tsx';
 import '@css/AdminManagmentStyle.css'
 import {IconButton, Button} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -9,6 +9,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import {useNavigate} from "react-router-dom";
+import {useTransaction} from "@context/TransactionContext.tsx";
+import PaymentMethodsChart from "@components/PieChart.tsx"
+
+
 
 interface Admin {
     id: number;
@@ -36,9 +40,10 @@ interface User {
 const AdminManager: React.FC = () => {
 
 
-    const { getAdmins, editAdmin } = useAdmin();
-    const { editUser, getAllUsers } = useUser();
-    const { user } = useAuth();
+    const {getAdmins, editAdmin} = useAdmin();
+    const {editUser, getAllUsers, getUserCount} = useUser();
+    const {getTotalRevenue} = useTransaction()
+    const {user} = useAuth();
 
     const [admins, setAdmins] = useState<Admin[]>([]);
     const [realUsers, setRealUsers] = useState<User[]>([]);
@@ -48,6 +53,33 @@ const AdminManager: React.FC = () => {
     const [refreshAdmins, setRefreshAdmins] = useState(0);
     const [refreshUsers, setRefreshUsers] = useState(0);
     const [editingUserId, setEditingUserId] = useState<number | null>(null);
+    const [totalGanancia, setTotalGanancia] = useState<string>("$0");
+    const [totalIngreso, setTotalIngreso] = useState<string>("$0");
+    const [totalEgreso, setTotalEgreso] = useState<string>("$0");
+
+
+
+
+    useEffect(() => {
+        const fetchTotalRevenue = async () => {
+            try {
+                const response = await getTotalRevenue();
+                // Ensure we handle both possible response formats
+                const gananciasNetas = response?.gananciasNetas ?? 0;
+                const ingresosTotales = response?.totalIngresos ?? 0;
+                const egresosTotales = response?.totalEgresos
+                setTotalGanancia(`$${gananciasNetas}`);
+                setTotalIngreso(`$${ingresosTotales}`)
+                setTotalEgreso(`$${egresosTotales}`)
+            } catch (error) {
+                console.error('Error al obtener el total de ingresos:', error);
+                // Set a default value on error
+                setTotalGanancia('$0');
+            }
+        };
+
+        fetchTotalRevenue();
+    }, [getTotalRevenue]);
 
     useEffect(() => {
         const fetchAdmins = async () => {
@@ -73,6 +105,23 @@ const AdminManager: React.FC = () => {
 
         fetchAdmins();
     }, [getAdmins, refreshAdmins]);
+
+    const [, setTotalUsers] = useState(0);
+
+    useEffect(() => {
+        const fetchUserCount = async () => {
+            try {
+                const count = await getUserCount();
+                setTotalUsers(count);
+            } catch (error) {
+                console.error('Error al obtener el conteo de usuarios:', error);
+            }
+        };
+
+        fetchUserCount();
+    }, []);
+
+    const realUsersCount = realUsers.length;
 
     // Actualiza el estado del formulario
     const [editUserForm, setEditUserForm] = useState({
@@ -103,7 +152,6 @@ const AdminManager: React.FC = () => {
     }, [getAllUsers, refreshUsers]);
 
 
-
     // Iniciar edición de usuario
     const startEditingUser = (user: User) => {
         setEditingUserId(user.usuarioid);
@@ -118,7 +166,7 @@ const AdminManager: React.FC = () => {
         });
     };
 
-    // Guardar cambios del usuario
+
     // Guardar cambios del usuario
     const handleSaveUser = async (userId: number) => {
         // Ensure numeric values are properly parsed
@@ -304,13 +352,15 @@ const AdminManager: React.FC = () => {
 
     // Casino metrics for dashboard
     const metrics = {
-        totalUsers: 24367,
-        activeToday: 5432,
-        totalDeposits: '$145,678.50',
-        totalWithdrawals: '$98,432.75',
-        profitToday: '$12,543.25',
         openTickets: 18
     };
+
+    const totalIngresos = parseFloat(totalIngreso.replace('$', '')) || 0;
+    const totalEgresos = parseFloat(totalEgreso.replace('$', '')) || 0;
+    const totalTransacciones = totalIngresos + totalEgresos;
+    const porcentajeDepositos = totalTransacciones > 0
+        ? Math.round((totalIngresos / totalTransacciones) * 100)
+        : 0;
 
     return (
         <div className="admin-manager">
@@ -386,12 +436,6 @@ const AdminManager: React.FC = () => {
                     </div>
 
                     <div className="header-actions">
-                        <button className="header-btn">
-                            <span className="header-btn-icon">notifications</span>
-                        </button>
-                        <button className="header-btn">
-                            <span className="header-btn-icon">settings</span>
-                        </button>
                         <div className="user-profile">
                             <img
                                 src={imgError ? defaultImage : profileImageUrl}
@@ -399,7 +443,7 @@ const AdminManager: React.FC = () => {
                                 className="admin-profile-img"
                                 onError={handleImageError}
                             />
-                            <span>Admin</span>
+                            <span>{user ? `${user.nombre} ${user.apellido}` : 'Admin'}</span>
                         </div>
                     </div>
                 </header>
@@ -414,8 +458,8 @@ const AdminManager: React.FC = () => {
                                     <div className="stat-card-content">
                                         <div className="stat-info">
                                             <h3>Total Users</h3>
-                                            <p className="stat-value">{metrics.totalUsers}</p>
-                                            <p className="stat-detail">{metrics.activeToday} active today</p>
+                                            <p className="stat-value">{realUsersCount}</p>
+                                            <p className="stat-detail"> Total users </p>
                                         </div>
                                     </div>
                                 </div>
@@ -424,7 +468,7 @@ const AdminManager: React.FC = () => {
                                     <div className="stat-card-content">
                                         <div className="stat-info">
                                             <h3>Revenue</h3>
-                                            <p className="stat-value">{metrics.profitToday}</p>
+                                            <p className="stat-value">{totalGanancia}</p>
                                             <p className="stat-detail">Today's profit</p>
                                         </div>
                                     </div>
@@ -441,8 +485,8 @@ const AdminManager: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="dashboard-widgets">
-                                <div className="dashboard-widget">
+                            <div className="dashboard-widgets" id={"main"}>
+                                <div className="dashboard-widget" id={"Recent Activity"}>
                                     <h3 className="widget-title">Recent Activities</h3>
                                     <div className="activities-list">
                                         <div className="activity-item">
@@ -497,52 +541,23 @@ const AdminManager: React.FC = () => {
                                     <div className="transaction-summary">
                                         <div className="transaction-total">
                                             <span>Total Deposits</span>
-                                            <span className="deposit-total">{metrics.totalDeposits}</span>
+                                            <span className="deposit-total">{totalIngreso}</span>
                                         </div>
                                         <div className="transaction-total">
                                             <span>Total Withdrawals</span>
-                                            <span className="withdrawal-total">{metrics.totalWithdrawals}</span>
+                                            <span className="withdrawal-total">{totalEgreso}</span>
                                         </div>
                                         <div className="progress-bar">
-                                            <div className="progress-value" style={{width: '75%'}}></div>
+                                            <div
+                                                className="progress-value"
+                                                style={{width: `${porcentajeDepositos}%`}}
+                                            ></div>
                                         </div>
-                                        <p className="progress-caption">75% deposit ratio</p>
+                                        <p className="progress-caption">{porcentajeDepositos}% proporción de
+                                            depósitos</p>
 
-                                        <h4 className="payment-methods-title">Payment Methods</h4>
-                                        <div className="payment-methods">
-                                            <div className="payment-method">
-                                                <div className="payment-method-header">
-                                                    <span>Credit Card</span>
-                                                    <span>45%</span>
-                                                </div>
-                                                <div className="payment-progress-bar">
-                                                    <div className="payment-progress-value credit-card"
-                                                         style={{width: '45%'}}></div>
-                                                </div>
-                                            </div>
-
-                                            <div className="payment-method">
-                                                <div className="payment-method-header">
-                                                    <span>Cryptocurrency</span>
-                                                    <span>30%</span>
-                                                </div>
-                                                <div className="payment-progress-bar">
-                                                    <div className="payment-progress-value crypto"
-                                                         style={{width: '30%'}}></div>
-                                                </div>
-                                            </div>
-
-                                            <div className="payment-method">
-                                                <div className="payment-method-header">
-                                                    <span>Bank Transfer</span>
-                                                    <span>25%</span>
-                                                </div>
-                                                <div className="payment-progress-bar">
-                                                    <div className="payment-progress-value bank"
-                                                         style={{width: '25%'}}></div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <h4 className="widget-title">Metodos de ingreso</h4>
+                                        <PaymentMethodsChart/>
                                     </div>
                                 </div>
                             </div>
@@ -823,7 +838,8 @@ const AdminManager: React.FC = () => {
                                                         <option value="true">Sí</option>
                                                     </select>
                                                 ) : (
-                                                    <span className={`status-badge ${user.cliente?.influencer ? 'active' : 'inactive'}`}>
+                                                    <span
+                                                        className={`status-badge ${user.cliente?.influencer ? 'active' : 'inactive'}`}>
                                             {user.cliente?.influencer ? 'Sí' : 'No'}
                                         </span>
                                                 )}

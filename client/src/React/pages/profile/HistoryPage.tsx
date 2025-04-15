@@ -1,30 +1,89 @@
-// client/src/HistoryPage.tsx
-import React, { useState } from 'react';
-import Sidebar from '@components//SideBar.tsx';
-import HistoryItem from '@components/HistoryItems.tsx';
+// client/src/React/pages/profile/HistoryPage.tsx
+import React, { useState, useEffect } from 'react';
+import Sidebar from '@components/SideBar.tsx';
+import { useHistory } from '@context/HistoryContext';
+import { useAuth } from '@context/AuthContext';
 import '@css/ProfileStyle.css';
+import mineImg from '@assets/mines.jpg';
+import rouletteImg from '@assets/ruleta.jpg';
+
+interface Transaction {
+    date: string;
+    time: string;
+    amount: number;
+}
 
 const HistoryPage: React.FC = () => {
     const [filter, setFilter] = useState('all');
+    const { userHistory, loading, error, getUserHistory } = useHistory();
+    const { user } = useAuth();
 
-    const transactions = {
-        ruleta: [
-            { date: "18/03", time: "21:00", amount: 100 },
-            { date: "17/03", time: "21:00", amount: -50 },
-            { date: "16/03", time: "21:00", amount: 100 },
-            { date: "15/03", time: "21:00", amount: 200 },
-            { date: "14/03", time: "21:00", amount: -75 },
-            { date: "13/03", time: "21:00", amount: 100 }
-        ],
-        poker: [
-            { date: "18/03", time: "21:00", amount: 150 },
-            { date: "17/03", time: "21:00", amount: -120 },
-            { date: "16/03", time: "21:00", amount: 300 },
-            { date: "15/03", time: "21:00", amount: -200 },
-            { date: "14/03", time: "21:00", amount: 180 },
-            { date: "13/03", time: "21:00", amount: 100 }
-        ]
-    };
+    useEffect(() => {
+        if (user?.usuarioid) {
+            getUserHistory(user.usuarioid).catch(error =>
+                console.error("Error al cargar el historial:", error)
+            );
+        }
+    }, [user, getUserHistory]);
+
+    // Convertir los datos del historial al formato necesario para la visualización
+    const historyItems = userHistory ? Object.entries(userHistory).map(([juegoid, data]) => {
+        const transactions: Transaction[] = data.jugadas.map((jugada: any) => {
+            const date = new Date(jugada.fecha);
+            return {
+                date: date.toLocaleDateString('es-ES'),
+                time: date.toLocaleTimeString('es-ES'),
+                amount: jugada.retorno - jugada.apuesta // Ganancia o pérdida
+            };
+        });
+
+        // Filtrar transacciones según la selección
+        const filteredTransactions = transactions.filter(t =>
+            filter === 'all' ? true :
+                filter === 'wins' ? t.amount > 0 :
+                    t.amount < 0
+        );
+
+        // Imágenes para cada juego (puedes personalizarlas según los juegos disponibles)
+        const gameImages: { [key: string]: string } = {
+            '1': mineImg,
+            '2': rouletteImg,
+            '3': '/images/poker.png',
+            '4': '/images/roulette.png',
+            'default': '/images/default-game.png'
+        };
+
+        const image = gameImages[juegoid] || gameImages.default;
+
+        return {
+            juegoid: parseInt(juegoid),
+            name: data.juego.nombre,
+            image,
+            filteredTransactions
+        };
+    }) : [];
+
+    if (loading) {
+        return (
+            <div className="container">
+                <Sidebar />
+                <main className="main-content">
+                    <div className="history-loading">Cargando historial...</div>
+                </main>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="container">
+                <Sidebar />
+                <main className="main-content">
+                    <div className="history-error">Error: {error}</div>
+                </main>
+            </div>
+        );
+    }
 
     return (
         <div className="container">
@@ -56,27 +115,42 @@ const HistoryPage: React.FC = () => {
                 </header>
 
                 <div className="history-section">
-                    <h2 className="game-title">Ruleta</h2>
-                    <HistoryItem
-                        image="../Img/JavoRuleta.jpg"
-                        imageAlt="Ruleta"
-                        transactions={transactions.ruleta.filter(t =>
-                            filter === 'all' ? true :
-                                filter === 'wins' ? t.amount > 0 :
-                                    t.amount < 0
-                        )}
-                    />
-
-                    <h2 className="game-title">Poker</h2>
-                    <HistoryItem
-                        image="../Img/JavierPlata.jpg"
-                        imageAlt="Poker"
-                        transactions={transactions.poker.filter(t =>
-                            filter === 'all' ? true :
-                                filter === 'wins' ? t.amount > 0 :
-                                    t.amount < 0
-                        )}
-                    />
+                    {historyItems.length > 0 ? (
+                        historyItems.map(item => (
+                            <div key={item.juegoid} className="game-history-section">
+                                <h2 className="game-title">{item.name}</h2>
+                                <div className="history-item">
+                                    <div className="thumbnail-container">
+                                        <img src={item.image} alt={item.name} className="game-thumbnail" />
+                                    </div>
+                                    <div className="transaction-list">
+                                        {item.filteredTransactions.length > 0 ? (
+                                            item.filteredTransactions.map((transaction, index) => (
+                                                <div
+                                                    key={index}
+                                                    className={`transaction ${transaction.amount > 0 ? 'positive' : 'negative'}`}
+                                                >
+                                                    <span className="transaction-date">{transaction.date}</span>
+                                                    <span className="transaction-time">{transaction.time}</span>
+                                                    <span className="transaction-amount">
+                                                        {transaction.amount > 0 ? '+' : ''}{transaction.amount} AC
+                                                    </span>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div className="no-transactions">
+                                                No hay transacciones que coincidan con el filtro
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="empty-history">
+                            Aún no tienes historial de juegos. ¡Juega para empezar a registrar tu actividad!
+                        </div>
+                    )}
                 </div>
             </main>
         </div>
