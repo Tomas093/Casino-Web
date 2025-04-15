@@ -67,6 +67,17 @@ const userApi = {
         }
     },
 
+    // En un archivo de API (por ejemplo, userApi.ts)
+    getUserCount: async () => {
+        try {
+            const response = await axios.get(`${API_URL}/count/total`);
+            return response.data.total;
+        } catch (error) {
+            console.error('Error al obtener el conteo de usuarios:', error);
+            throw error;
+        }
+    },
+
     getAllUsers: async () => {
         try {
             const response = await axios.get(`${API_URL}`);

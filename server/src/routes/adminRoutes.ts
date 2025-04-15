@@ -32,6 +32,11 @@ interface EditAdminRequestBody {
 router.get('/check-admin', async (req: Request, res: Response): Promise<void> => {
     const usuario = req.session.usuario;
 
+    if (!usuario) {
+        res.status(401).json({ message: 'No hay sesión de usuario' });
+        return;
+    }
+
     try {
         const admin = await prisma.administrador.findUnique({
             where: {usuarioid: usuario.usuarioid}
@@ -51,6 +56,11 @@ router.get('/check-admin', async (req: Request, res: Response): Promise<void> =>
 // Verificar si el usuario es superadmin
 router.get('/check-superadmin', async (req: Request, res: Response): Promise<void> => {
     const usuario = req.session.usuario;
+
+    if (!usuario) {
+        res.status(401).json({ message: 'No hay sesión de usuario' });
+        return;
+    }
 
     try {
         const admin = await prisma.administrador.findUnique({

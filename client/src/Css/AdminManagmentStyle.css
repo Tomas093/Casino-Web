@@ -64,6 +64,7 @@ input:focus, select:focus {
     display: flex;
     min-height: 100vh;
     overflow: hidden;
+    align-items: stretch; /* Esto asegura que los elementos se estiren */
 }
 
 /* Barra lateral */
@@ -76,6 +77,10 @@ input:focus, select:focus {
     padding: 24px 0;
     border-right: 1px solid rgba(255, 255, 255, 0.05);
     overflow-y: auto;
+    position: sticky; /* Fija la posición mientras se hace scroll */
+    top: 0; /* Mantiene la barra en la parte superior */
+    height: 113vh; /* Altura completa de la ventana */
+    align-self: flex-start; /* Asegura que la barra no se estire más allá de su contenido */
 }
 
 .sidebar-header {
@@ -163,6 +168,7 @@ input:focus, select:focus {
     flex-direction: column;
     background-color: var(--dark-gray);
     overflow-y: auto;
+    min-height: 100vh;
 }
 
 /* Cabecera superior */
@@ -293,20 +299,6 @@ input:focus, select:focus {
     display: flex;
     padding: 24px;
 }
-
-/*.stat-icon {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-/*    width: 60px;*/
-/*    height: 60px;*/
-/*    background-color: var(--green);*/
-/*    color: var(--white);*/
-/*    border-radius: 12px;*/
-/*    font-family: 'Material Icons Round', sans-serif;*/
-/*    font-size: 28px;*/
-/*    margin-right: 16px;*/
-/*}*/
 
 .stat-info h3 {
     font-size: 40px;
@@ -1054,16 +1046,8 @@ input:focus, select:focus {
     background: var(--gold);
 }
 
-/* Estilos para fuentes de Material Icons */
-@font-face {
-    font-family: 'Material Icons Round';
-    font-style: normal;
-    font-weight: 400;
-    src: url(https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/4.0.0/font/MaterialIcons-Regular.ttf) format('truetype');
-}
-
 .material-icons-round {
-    font-family: 'Material Icons Round';
+    font-family: 'Material Icons Round', serif;
     font-weight: normal;
     font-style: normal;
     font-size: 24px;
@@ -1076,4 +1060,21 @@ input:focus, select:focus {
     direction: ltr;
     -webkit-font-smoothing: antialiased;
 }
+
+/* En caso de pantallas pequeñas */
+@media (max-width: 768px) {
+    .payment-methods-charts {
+        flex-direction: column;
+    }
+}
+
+/* Estilos para fuentes de Material Icons */
+@font-face {
+    font-family: 'Material Icons Round';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/4.0.0/font/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+
 
