@@ -1,14 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from './AuthContext';
-import './NavBarStyle.css';
+import React, {useState, useEffect, useRef} from 'react';
+import {Link, useLocation} from 'react-router-dom';
+import {useAuth} from '@context/AuthContext';
+import '@css/NavBarStyle.css';
+import {useUser} from "@context/UserContext.tsx";
+import {useAdmin} from "@context/AdminContext.tsx";
 
 const NavBar: React.FC = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const { user, client, logout, isSuperadmin } = useAuth();
+    const {user, logout} = useAuth();
+    const { client } = useUser();
+    const {isSuperAdmin} = useAdmin();
     const location = useLocation();
-    const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+    const [superAdminStatus, setSuperAdminStatus] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -19,14 +23,14 @@ const NavBar: React.FC = () => {
     useEffect(() => {
         const checkSuperAdmin = async () => {
             if (user) {
-                const superadminStatus = await isSuperadmin();
-                setIsSuperAdmin(superadminStatus);
+                const superadminStatus = await isSuperAdmin();
+                setSuperAdminStatus(superadminStatus);
             } else {
-                setIsSuperAdmin(false);
+                setSuperAdminStatus(false);
             }
         };
         checkSuperAdmin();
-    }, [user, isSuperadmin]);
+    }, [user, isSuperAdmin]);
 
     useEffect(() => {
         // Cerrar dropdown al hacer clic fuera de él
@@ -84,7 +88,6 @@ const NavBar: React.FC = () => {
                     <a href="#promos" className="navbar-link">Promociones</a>
                     <a href="#about" className="navbar-link">Nosotros</a>
 
-
                     {user ? (
                         <>
                             <Link to="/HomeDef#games-section" className="navbar-btn navbar-play-btn">Jugar</Link>
@@ -101,15 +104,16 @@ const NavBar: React.FC = () => {
                                         className="navbar-user-avatar"
                                     />
                                     <span className="navbar-username">{user.nombre}</span>
-                                    <span className="navbar-user-coins">🪙 {client?.balance || 0}</span>
+                                    <span className="navbar-user-coins">🪙 {client ? client.balance : 0}</span>
                                 </div>
                                 {dropdownOpen && (
                                     <div className="navbar-dropdown-content">
                                         <Link to="/profile" className="navbar-dropdown-link">Mi Perfil</Link>
-                                        {isSuperAdmin && (
+                                        {superAdminStatus && (
                                             <Link to="/admin" className="navbar-dropdown-link">Panel Admin</Link>
                                         )}
-                                        <button onClick={handleLogout} className="navbar-logout-btn">Cerrar Sesión</button>
+                                        <button onClick={handleLogout} className="navbar-logout-btn">Cerrar Sesión
+                                        </button>
                                     </div>
                                 )}
                             </div>

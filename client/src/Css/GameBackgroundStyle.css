@@ -1,0 +1,468 @@
+/* Variables y configuración principal */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap');
+
+:root {
+    --black-primary: #0a0a0a;
+    --black-secondary: #121212;
+    --black-tertiary: #1a1a1a;
+    --gold-primary: #d4af37;
+    --gold-secondary: #e6c666;
+    --gold-tertiary: #f5e7aa;
+    --green-dark: #0a3622;
+    --text-primary: #ffffff;
+    --text-secondary: #b8b8b8;
+}
+
+
+/* Estilos base y de reinicio */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.gb-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--black-primary);
+    color: var(--text-primary);
+    font-family: 'Poppins', sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+    "header header"
+    "sidebar main"
+    "footer footer";
+    overflow: hidden;
+}
+
+/* Patrones de fondo */
+.gb-background-patterns {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.1;
+    overflow: hidden;
+}
+
+.gb-pattern-radial {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, var(--gold-secondary) 0%, transparent 70%);
+    opacity: 0.1;
+}
+
+.gb-pattern-grid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image:
+            linear-gradient(to right, var(--gold-primary) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--gold-primary) 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.05;
+}
+
+/* Barra superior */
+.gb-top-bar {
+    grid-area: header;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 1.5rem;
+    background-color: var(--black-secondary);
+    border-bottom: 1px solid var(--gold-primary);
+    z-index: 10;
+}
+
+.gb-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+    color: var(--black-primary);
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.gb-game-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
+}
+
+.gb-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.gb-control-button {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.gb-control-button:hover {
+    color: var(--gold-primary);
+}
+
+.gb-exit-button {
+    border: 1px solid var(--gold-primary);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+}
+
+/* Iconos */
+.gb-icon-settings::before {
+    content: "⚙";
+    font-size: 1.5rem;
+}
+
+.gb-icon-exit::before {
+    content: "✕";
+}
+
+.gb-icon-home::before {
+    content: "⌂";
+    font-size: 1.4rem;
+}
+
+.gb-icon-cards::before {
+    content: "♠";
+    font-size: 1.4rem;
+}
+
+.gb-icon-roulette::before {
+    content: "◉";
+    font-size: 1.4rem;
+}
+
+.gb-icon-slots::before {
+    content: "🎰";
+    font-size: 1.2rem;
+}
+
+.gb-icon-poker::before {
+    content: "♦";
+    font-size: 1.4rem;
+}
+
+/* Barra lateral */
+.gb-sidebar {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    background-color: var(--black-tertiary);
+    border-right: 1px solid var(--gold-primary);
+    transition: width 0.3s ease;
+    position: relative;
+    z-index: 5;
+}
+
+.gb-sidebar-collapsed {
+    width: 60px;
+}
+
+.gb-sidebar-toggle {
+    position: absolute;
+    right: -15px;
+    top: 20px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--gold-primary);
+    color: var(--black-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 18px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.gb-navigation {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 0;
+    gap: 0.5rem;
+}
+
+.gb-nav-button {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.7rem 1.2rem;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.gb-nav-button:hover {
+    color: var(--gold-primary);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.gb-home-button {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1.2rem;
+}
+
+.gb-game-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.gb-profile-info {
+    margin-top: auto;
+    padding: 1.5rem 1.2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.gb-user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.gb-user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--gold-primary), var(--green-dark));
+}
+
+.gb-user-name {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.gb-balance-display {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
+}
+
+.gb-balance-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.gb-balance-amount {
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--gold-primary);
+}
+
+.gb-deposit-button {
+    background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+    border: none;
+    padding: 0.7rem;
+    border-radius: 4px;
+    color: var(--black-primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.gb-deposit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+}
+
+.gb-promo-banner {
+    margin: 1rem 1.2rem;
+    background: linear-gradient(135deg, var(--green-dark), #072718);
+    border: 1px solid var(--gold-primary);
+    padding: 1rem;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.gb-promo-text {
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--gold-primary);
+    font-size: 0.9rem;
+}
+
+.gb-promo-details {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 0.3rem;
+    color: var(--text-primary);
+}
+
+/* Slot para el juego */
+.gb-game-slot {
+    grid-area: main;
+    padding: 1.5rem;
+    z-index: 1;
+    position: relative;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.gb-game-slot::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid transparent;
+    border-image: linear-gradient(135deg, var(--gold-primary), transparent, var(--gold-primary), transparent, var(--gold-primary)) 1;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Barra inferior */
+.gb-bottom-bar {
+    grid-area: footer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 1.5rem;
+    background-color: var(--black-secondary);
+    border-top: 1px solid var(--gold-primary);
+    z-index: 10;
+}
+
+.gb-casino-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    color: var(--gold-primary);
+    letter-spacing: 1px;
+}
+
+.gb-footer-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.gb-footer-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: color 0.2s ease;
+}
+
+.gb-footer-link:hover {
+    color: var(--gold-primary);
+}
+
+/* Responsividad */
+@media screen and (max-width: 768px) {
+    .gb-container {
+        grid-template-areas:
+      "header header"
+      "main main"
+      "footer footer";
+    }
+
+    .gb-sidebar {
+        position: fixed;
+        top: 60px;
+        bottom: 0;
+        left: 0;
+        height: calc(100vh - 60px);
+        z-index: 100;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .gb-sidebar.gb-sidebar-collapsed {
+        transform: translateX(0);
+        width: 60px;
+    }
+
+    .gb-sidebar:not(.gb-sidebar-collapsed) {
+        transform: translateX(0);
+    }
+
+    .gb-sidebar-toggle {
+        right: -30px;
+    }
+
+    .gb-game-title {
+        font-size: 1.2rem;
+    }
+
+    .gb-top-bar {
+        padding: 0.6rem 1rem;
+        height: 60px;
+    }
+
+    .gb-bottom-bar {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.6rem 1rem;
+    }
+
+    .gb-footer-links {
+        gap: 1rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .gb-game-title {
+        font-size: 1rem;
+    }
+
+    .gb-logo {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    .gb-controls .gb-control-button:not(.gb-exit-button) {
+        display: none;
+    }
+
+    .gb-exit-button span {
+        display: none;
+    }
+
+    .gb-footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

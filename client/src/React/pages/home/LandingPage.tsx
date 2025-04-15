@@ -4,6 +4,7 @@ import '@css/LandingPageStyle.css';
 import backgroundVideo from "@assets/backgroundVideo.mp4";
 import { FaChevronDown } from 'react-icons/fa';
 import Footer from "@components/Footer.tsx";
+import NavBar from "@components/NavBar.tsx";
 
 const LandingPage: React.FC = () => {
     const [isVisible, setIsVisible] = useState(false);
@@ -62,10 +63,12 @@ const LandingPage: React.FC = () => {
 
     const renderGameCards = () => {
         return juegos.map(juego => (
-            <div key={juego.id} className="game-card">
+            <div key={juego.id} className="game-card-landing">
                 <div className={`game-image ${juego.imagen}`}></div>
-                <h3>{juego.nombre}</h3>
-                <p>{juego.descripcion}</p>
+                <div className="game-info">
+                    <h3>{juego.nombre}</h3>
+                    <p>{juego.descripcion}</p>
+                </div>
             </div>
         ));
     };
@@ -73,6 +76,7 @@ const LandingPage: React.FC = () => {
     return (
         <div className="landing-container">
             {/* Hero Section */}
+            <NavBar></NavBar>
             <div className="hero-section">
                 <video autoPlay loop muted className="background-video">
                     <source src={backgroundVideo} type="video/mp4" />
@@ -129,7 +133,7 @@ const LandingPage: React.FC = () => {
             </section>
 
             {/* Juegos Populares */}
-            <section id="games" className="games-section">
+            <section id="games" className="games-section-landing">
                 <h2 className="section-title">Juegos Populares</h2>
                 <div className="games-carousel">
                     {renderGameCards()}
