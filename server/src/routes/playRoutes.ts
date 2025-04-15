@@ -76,7 +76,18 @@ router.get('/jugadas/user/:userid', isAuthenticated, async (req: Request, res: R
     }
 });
 
+router.get('jugadas/count/:userid',isAuthenticated, async (req: Request, res: Response) => {
+    const { userId } = req.params;
+    try {
+        const count = await playService.getJugadasCountByUserId(parseInt(userId));
+        res.status(200).json(count);
+    } catch (error) {
+        console.error('Error al obtener el conteo de jugadas del cliente:', error);
+        res.status(500).json({ message: 'Error al obtener el conteo de jugadas del cliente' });
+    }
+})
 
 
+export default router
 
 

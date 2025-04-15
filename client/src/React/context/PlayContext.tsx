@@ -17,6 +17,7 @@ interface playContextType {
     getAllJugadasByPartidaId: (partidaid: number) => Promise<any>;
     getJugadasByUserId: (userId: number) => Promise<any>;
     getJugadasByRetorno: (retorno: number) => Promise<any>;
+    getJugadasCountByUserId: (userId: number) => Promise<any>;
 
 }
 
@@ -101,14 +102,29 @@ export const PlayProvider = ({children}: PlayProviderProps) => {
         }
     }, []);
 
+    const getJugadasCountByUserId = useCallback(async (userId: number) => {
+        setIsLoading(true);
+        try {
+            return await playApi.getJugadasCountByUserId(userId);
+        } catch (error) {
+            console.error('Error al obtener conteo de jugadas por usuario ID:', error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
     const contextValue : playContextType = {
         createPlay,
         getAllPlays,
         getJugadaById,
         getAllJugadasByPartidaId,
         getJugadasByUserId,
-        getJugadasByRetorno
+        getJugadasByRetorno,
+        getJugadasCountByUserId
     }
+
+
 
     return (
         <PlayContext.Provider value={contextValue}>
@@ -124,6 +140,7 @@ export const usePlay = () => {
         throw new Error('useTransaction debe ser usado dentro de un TransactionProvider');
     }
     return context;
+
 };
 
 

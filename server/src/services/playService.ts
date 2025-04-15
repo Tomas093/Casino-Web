@@ -128,4 +128,11 @@ export const playService = {
 
         return jugada;
     },
+
+    getJugadasCountByUserId: async (UserId: number) => {
+        const cliente = await findClienteById(UserId);
+        return prisma.jugada.count({
+            where: {clienteid: cliente.clienteid}
+        });
+    }
 }

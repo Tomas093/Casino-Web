@@ -4,8 +4,9 @@ import {UserProvider} from '@context/UserContext';
 import {AdminProvider} from '@context/AdminContext';
 import {TransactionProvider} from '@context/TransactionContext';
 import {PlayProvider} from '@context/PlayContext.tsx';
-import { HistoryProvider } from '@context/HistoryContext.tsx'
+import {HistoryProvider} from '@context/HistoryContext.tsx'
 import {GameProvider} from '@context/GameContext'
+import {LeaderboardProvider} from '@context/LeaderboardContext.tsx'
 
 interface AppProviderProps {
     children: ReactNode;
@@ -21,7 +22,9 @@ export const AppProvider = ({children}: AppProviderProps) => {
                         <PlayProvider>
                             <HistoryProvider>
                                 <GameProvider>
-                                    {children}
+                                    <LeaderboardProvider>
+                                        {children}
+                                    </LeaderboardProvider>
                                 </GameProvider>
                             </HistoryProvider>
                         </PlayProvider>

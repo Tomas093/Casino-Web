@@ -9,13 +9,12 @@ import Footer from '@components/Footer';
 import NavBar from "@components/NavBar.tsx";
 import { useUser } from "@context/UserContext.tsx";
 import { useAuth } from "@context/AuthContext.tsx";
-
+import LeaderBoard from "@components/LeaderBoard";
 
 interface GameCardProps {
     title: string;
     image: string;
 }
-
 
 // Game Card Component
 const GameCard: React.FC<GameCardProps> = ({ title, image }) => {
@@ -265,6 +264,13 @@ const HomeDef = () => {
                         value={<AnimatedCounter end={250000} prefix="$" />}
                         label="Mayor premio del día"
                     />
+                </div>
+            </section>
+
+            <section className="leaderboard-section">
+                <h2 className="section-title">TABLA DE CLASIFICACIÓN</h2>
+                <div className="leaderboard-wrapper">
+                    <LeaderBoard limit={5} compact={false} />
                 </div>
             </section>
 

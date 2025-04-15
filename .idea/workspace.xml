@@ -4,17 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Pusheo Historial Andando">
-      <change afterPath="$PROJECT_DIR$/client/src/Css/StatisticStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/profile/StatisticsPage.tsx" afterDir="false" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Pusheo Estadisticas">
+      <change afterPath="$PROJECT_DIR$/client/src/Css/LeaderBoardStyle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/api/leaderboardApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/components/LeaderBoard.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/context/LeaderboardContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/routes/leaderboardRoutes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/services/leaderboardService.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/SideBarStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/SideBarStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/HomeStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/HomeStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/playApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/playApi.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/SideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/SideBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/UserContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/UserContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/games/components/Example.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/RouletteGame.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/RouletteGame.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/appProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/appProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/PlayContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/PlayContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/playRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/playRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/gameService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/gameService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/playService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/playService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +38,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript JSX File" />
-        <option value="TypeScript File" />
         <option value="CSS File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -166,7 +173,7 @@
       <workItem from="1744650290859" duration="27307000" />
       <workItem from="1744716715867" duration="1443000" />
       <workItem from="1744718197767" duration="10332000" />
-      <workItem from="1744731593209" duration="6614000" />
+      <workItem from="1744731593209" duration="18504000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -416,7 +423,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744732919276</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Pusheo Estadisticas">
+      <option name="closed" value="true" />
+      <created>1744738526143</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1744738526143</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -461,6 +476,7 @@
     <MESSAGE value="Add user count and transaction statistics endpoints; integrate payment methods chart in admin dashboard" />
     <MESSAGE value="Add game and history APIs; implement context providers for game and history management" />
     <MESSAGE value="Pusheo Historial Andando" />
-    <option name="LAST_COMMIT_MESSAGE" value="Pusheo Historial Andando" />
+    <MESSAGE value="Pusheo Estadisticas" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pusheo Estadisticas" />
   </component>
 </project>

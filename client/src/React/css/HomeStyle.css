@@ -1,0 +1,21 @@
+
+/* ...existing code... */
+
+/* Leaderboard Section */
+.leaderboard-section {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #19172a 0%, #251d47 100%);
+}
+
+.leaderboard-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Responsive adjustments for leaderboard */
+@media (max-width: 768px) {
+    .leaderboard-wrapper {
+        padding: 0;
+        overflow-x: auto;
+    }
+}

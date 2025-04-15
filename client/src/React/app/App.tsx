@@ -17,6 +17,7 @@ import MineSweeper from "../pages/games/MineSweeperEnchanced.tsx";
 import { AppProvider } from './appProvider';
 import RouletteGame from "../pages/games/RouletteGame.tsx";
 import StatisticsPage from "../pages/profile/StatisticsPage.tsx"
+import LeaderBoard from "@components/LeaderBoard.tsx";
 
 function App() {
     return (
@@ -26,8 +27,7 @@ function App() {
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/Mines" element={<MineSweeper />} />
-
+                    <Route path={"/leaderboard"} element={<LeaderBoard />} />
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
                     <Route element={<ProtectedRoute />}>

@@ -91,6 +91,19 @@ const playApi = {
 
     },
 
+    getJugadasCountByUserId: async (userId: number) => {
+        try {
+            const response = await axios.get(`${API_URL}/jugadas/count/${userId}`);
+            return response.data;
+        } catch (error: any) {
+            if (error.response) {
+                throw new Error(error.response.data.error || 'Error al obtener el conteo de jugadas por cliente ID');
+            } else {
+                throw error;
+            }
+        }
+    }
+
 }
 
 export default playApi;
