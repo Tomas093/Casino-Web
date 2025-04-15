@@ -139,7 +139,6 @@
 }
 
 .main-content {
-    margin-left: 280px; /* Mismo ancho que el sidebar */
     flex: 1;
     padding: 20px;
 }
@@ -207,3 +206,4 @@
         flex: 1 1 100%;
     }
 }
+
