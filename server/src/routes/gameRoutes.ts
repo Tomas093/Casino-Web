@@ -1,6 +1,6 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import {isAuthenticated} from '../middlewares/authMiddleware';
-import {gameService} from '../services/gamesService';
+import {gameService} from '../services/gameService';
 import {PrismaClient} from '@prisma/client';
 
 const router = Router();

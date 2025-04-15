@@ -4,24 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add user count and transaction statistics endpoints; integrate payment methods chart in admin dashboard">
-      <change afterPath="$PROJECT_DIR$/client/src/React/api/gameApi.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/api/historyApi.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/api/playApi.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/context/GameContext.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/context/HistoryContext.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/context/PlayContext.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/routes/gameRoutes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/routes/historyRoutes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/routes/playRoutes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/services/gamesService.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/services/historyService.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/services/playService.ts" afterDir="false" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add game and history APIs; implement context providers for game and history management">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/gameApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/gameApi.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/app/appProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/appProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/HistoryItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/HistoryItems.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/HistoryPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/HistoryPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/gameRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/gameRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/historyRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/historyRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/gamesService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/gameService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,7 +164,8 @@
       <workItem from="1744632658257" duration="15156000" />
       <workItem from="1744650290859" duration="27307000" />
       <workItem from="1744716715867" duration="1443000" />
-      <workItem from="1744718197767" duration="9527000" />
+      <workItem from="1744718197767" duration="10332000" />
+      <workItem from="1744731593209" duration="1220000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -406,7 +399,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744679270910</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Add game and history APIs; implement context providers for game and history management">
+      <option name="closed" value="true" />
+      <created>1744728604967</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1744728604967</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -438,6 +439,7 @@
     <MESSAGE value="A" />
     <MESSAGE value="Refactor project structure; rename files and update import paths for improved organization and clarity" />
     <MESSAGE value="Add user count and transaction statistics endpoints; integrate payment methods chart in admin dashboard" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add user count and transaction statistics endpoints; integrate payment methods chart in admin dashboard" />
+    <MESSAGE value="Add game and history APIs; implement context providers for game and history management" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add game and history APIs; implement context providers for game and history management" />
   </component>
 </project>

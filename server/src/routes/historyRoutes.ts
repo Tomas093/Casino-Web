@@ -2,15 +2,12 @@ import { Router, Request, Response } from 'express';
 import { isAuthenticated } from '../middlewares/authMiddleware';
 import { historyService } from '../services/historyService';
 
-interface AuthenticatedRequest extends Request {
-    user?: { id: string };
-}
-
 const router = Router();
+
 router.use(isAuthenticated);
 
 // Obtener las últimas 5 jugadas de todos los juegos del usuario Específico
-router.get('/history/:userid', isAuthenticated, async (req: Request, res: Response) => {
+router.get('/:userid', isAuthenticated, async (req: Request, res: Response) => {
     const { userid: userId } = req.params;
     const parsedUserId = parseInt(userId, 10);
     if (isNaN(parsedUserId)) {

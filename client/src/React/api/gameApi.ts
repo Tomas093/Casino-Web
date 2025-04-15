@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/games';
+const API_URL = 'http://localhost:3001/game';
 
 export interface GameData {
     juegoid: number;
