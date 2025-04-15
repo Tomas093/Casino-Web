@@ -109,22 +109,21 @@ model ingreso {
 }
 
 model juego {
-  juegoid Int     @id @default(autoincrement())
-  nombre  String? @db.VarChar(255)
-  tipo    String? @db.VarChar(255)
-  estado  String? @db.VarChar(255)
+  juegoid Int      @id @default(autoincrement())
+  nombre  String?  @db.VarChar(255)
+  estado  Boolean?
+  jugada  jugada[]
 }
 
 model jugada {
-  jugadaid        Int       @id @default(autoincrement())
-  clienteid       Int?
-  fecha           DateTime? @db.Timestamp(6)
-  gananciaperdida Int?
-  apuesta         Int?
-  hora            Int?
-  partidaid       Int?
-  cliente         cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
-  partida         partida?  @relation(fields: [partidaid], references: [partidaid], onDelete: NoAction, onUpdate: NoAction)
+  jugadaid  Int       @id @default(autoincrement())
+  clienteid Int?
+  fecha     DateTime? @db.Timestamp(6)
+  retorno   Int?
+  apuesta   Int?
+  juegoid   Int?
+  juego     juego?    @relation(fields: [juegoid], references: [juegoid], onDelete: NoAction, onUpdate: NoAction, map: "fk_juegoid")
+  cliente   cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model limitehorario {
@@ -155,7 +154,6 @@ model partida {
   fecha           DateTime? @db.Timestamp(6)
   gananciaperdida Int?
   apuesta         Int?
-  jugada          jugada[]
   cliente         cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
 }
 

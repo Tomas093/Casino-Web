@@ -81,6 +81,17 @@ router.put('/:id', isAuthenticated, async (req: Request, res: Response) => {
     }
 });
 
+// Obtener el total de usuarios
+router.get('/count/total', async (req: Request, res: Response) => {
+    try {
+        const count = await userService.getUserCount();
+        res.status(200).json({ total: count });
+    } catch (error: any) {
+        console.error("Error al contar usuarios:", error);
+        res.status(error.statusCode || 500).json({ message: error.message || 'Error del servidor' });
+    }
+});
+
 // Obtener todos los usuarios (no administradores)
 router.get('/', async (req: Request, res: Response) => {
     try {

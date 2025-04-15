@@ -7,6 +7,9 @@ import dadosImg from '@assets/dados.jpg';
 import AnimatedCounter from "../../animations/AnimatedCounter";
 import Footer from '@components/Footer';
 import NavBar from "@components/NavBar.tsx";
+import { useUser } from "@context/UserContext.tsx";
+import { useAuth } from "@context/AuthContext.tsx";
+
 
 interface GameCardProps {
     title: string;
@@ -127,6 +130,15 @@ const HomeDef = () => {
         setOpenFAQ((prev: number | null) => (prev === id ? null : id));
     };
 
+    const { user } = useAuth();
+    const {getUserData} = useUser()
+
+    useEffect(() => {
+        if (user?.usuarioid) {
+            getUserData(user.usuarioid.toString());
+        }
+    }, [user?.usuarioid, getUserData]);
+
     // Typing effect for hero text
     useEffect(() => {
         let currentIndex = 0;
@@ -192,7 +204,7 @@ const HomeDef = () => {
 
     return (
         <div className="homepage">
-            <NavBar></NavBar>
+            <NavBar/>
             <section className="hero-section">
                 <div className="hero-background">
                     <img alt="Casino Background" className="hero-image" />

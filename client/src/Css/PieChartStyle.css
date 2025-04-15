@@ -1,0 +1,136 @@
+.payment-chart-container {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+}
+
+.chart-type-selector {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.chart-tab {
+    padding: 8px 16px;
+    border: none;
+    background: rgba(26, 26, 26, 0.4);
+    color: #a0a0a0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    border-radius: 0;
+}
+
+.chart-tab:first-child {
+    border-radius: 6px 0 0 6px;
+}
+
+.chart-tab:last-child {
+    border-radius: 0 6px 6px 0;
+}
+
+.chart-tab.active {
+    background-color: #d4af37;
+    color: #121212;
+}
+
+.chart-wrapper {
+    position: relative;
+}
+
+/* Añade esto a tu archivo PieChartStyle.css */
+.chart-container {
+    position: relative;
+    height: 280px; /* Aseguramos una altura fija que coincida con ResponsiveContainer */
+}
+
+.chart-center-info {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+    z-index: 10; /* Aseguramos que esté por encima del gráfico */
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: block;
+    align-items: center;
+    justify-content: center;
+}
+
+.center-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.center-label {
+    font-size: 12px;
+    color: #a0a0a0;
+    margin-bottom: 4px;
+}
+
+.center-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #d4af37;
+}
+
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    padding: 0 12px;
+    margin-top: 8px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: rgba(26, 26, 26, 0.4);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.legend-item:hover {
+    background: rgba(42, 42, 42, 0.7);
+    transform: translateY(-2px);
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: 0 0 4px rgba(0,0,0,0.4);
+}
+
+.legend-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.legend-name {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.legend-value {
+    font-size: 12px;
+    color: #a0a0a0;
+}
+
+.legend-percent {
+    color: #d4af37;
+}
+
+.no-data-message {
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a0a0a0;
+    font-size: 16px;
+}

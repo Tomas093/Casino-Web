@@ -1,4 +1,4 @@
-import { createContext, useContext, ReactNode, useState } from 'react';
+import {createContext, useContext, ReactNode, useState, useCallback} from 'react';
 import transactionApi from '@api/transactionApi';
 
 interface TransactionContextType {
@@ -6,6 +6,8 @@ interface TransactionContextType {
     getTransactions: (userId: string) => Promise<any>;
     createIngreso: (transactionData: TransactionData) => Promise<any>;
     createEgreso: (transactionData: TransactionData) => Promise<any>;
+    getTotalRevenue: () => Promise<any>;
+    getTransactionStatsByMethod: () => Promise<any>;
 }
 
 interface TransactionData {
@@ -21,10 +23,10 @@ interface TransactionProviderProps {
 
 const TransactionContext = createContext<TransactionContextType | null>(null);
 
-export const TransactionProvider = ({ children }: TransactionProviderProps) => {
+export const TransactionProvider = ({children}: TransactionProviderProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const fetchTransactions = async (userId: string) => {
+    const fetchTransactions = useCallback(async (userId: string) => {
         setIsLoading(true);
         try {
             return await transactionApi.getUserTransactions(userId);
@@ -34,9 +36,9 @@ export const TransactionProvider = ({ children }: TransactionProviderProps) => {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, []);
 
-    const addIngreso = async (transactionData: TransactionData) => {
+    const addIngreso = useCallback(async (transactionData: TransactionData) => {
         setIsLoading(true);
         try {
             return await transactionApi.createIngreso(transactionData);
@@ -46,9 +48,9 @@ export const TransactionProvider = ({ children }: TransactionProviderProps) => {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, []);
 
-    const addEgreso = async (transactionData: TransactionData) => {
+    const addEgreso = useCallback(async (transactionData: TransactionData) => {
         setIsLoading(true);
         try {
             return await transactionApi.createEgreso(transactionData);
@@ -58,13 +60,39 @@ export const TransactionProvider = ({ children }: TransactionProviderProps) => {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, []);
+
+    const getTotalRevenue = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            return await transactionApi.getTotalRevenue();
+        } catch (error) {
+            console.error('Error al obtener ingresos totales:', error);
+            return { gananciasNetas: 0 };
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    const getTransactionStatsByMethod = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            return await transactionApi.getTransactionStatsByMethod();
+        } catch (error) {
+            console.error('Error al obtener conteo por metodo:', error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    } , []);
 
     const contextValue: TransactionContextType = {
         isLoading,
         getTransactions: fetchTransactions,
         createIngreso: addIngreso,
         createEgreso: addEgreso,
+        getTotalRevenue,
+        getTransactionStatsByMethod
     };
 
     return (

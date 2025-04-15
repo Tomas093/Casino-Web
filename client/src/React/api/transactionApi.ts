@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/transactions';
+const API_URL = 'http://localhost:3001/transaction';
 
 export interface TransactionData {
     usuarioid: number;
@@ -44,7 +44,28 @@ const transactionApi = {
             console.error('Error al obtener transacciones:', error);
             throw error;
         }
+    },
+
+    getTotalRevenue: async () => {
+        try {
+            const response = await axios.get(`${API_URL}/totalRevenue`);
+            return response.data;
+        } catch (error) {
+            console.error('Error al obtener ingresos totales:', error);
+            return { gananciasNetas: 0 };
+        }
+    },
+
+    getTransactionStatsByMethod: async () => {
+        try {
+            const response = await axios.get(`${API_URL}/methodCount`);
+            return response.data;
+        } catch (error) {
+            console.error('Error al obtener conteo por metodo:', error);
+            throw error;
+        }
     }
+
 };
 
 export default transactionApi;
