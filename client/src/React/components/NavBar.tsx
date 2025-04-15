@@ -15,6 +15,15 @@ const NavBar: React.FC = () => {
     const [superAdminStatus, setSuperAdminStatus] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
+    // Force component to re-render when client changes
+    const [clientBalance, setClientBalance] = useState(0);
+
+    useEffect(() => {
+        if (client) {
+            setClientBalance(client.balance);
+        }
+    }, [client]);
+
     useEffect(() => {
         setMobileMenuOpen(false);
         setDropdownOpen(false);
@@ -64,9 +73,8 @@ const NavBar: React.FC = () => {
         }
     };
 
-    useEffect(() => {
-        console.log("Cliente actualizado:", client);
-    }, [client]);
+    // Remove the unnecessary console.log effect
+    // This was potentially causing issues or at least not helping
 
     return (
         <nav className="main-navbar" role="navigation" aria-label="Menú principal">
@@ -108,7 +116,7 @@ const NavBar: React.FC = () => {
                                         className="navbar-user-avatar"
                                     />
                                     <span className="navbar-username">{user.nombre}</span>
-                                    <span className="navbar-user-coins">🪙 {client ? client.balance : 0}</span>
+                                    <span className="navbar-user-coins">🪙 {clientBalance}</span>
                                 </div>
                                 {dropdownOpen && (
                                     <div className="navbar-dropdown-content">

@@ -41,6 +41,21 @@ export const userService = {
         return usuarios;
     },
 
+    // En server/src/services/userService.ts
+    async getUserCount(): Promise<number> {
+        try {
+            const count = await prisma.usuario.count({
+                where: {
+                    administrador: null
+                }
+            });
+            return count;
+        } catch (error) {
+            console.error('Error al contar usuarios:', error);
+            throw { message: 'Error al contar usuarios', statusCode: 500 };
+        }
+    },
+
     // Actualizar un usuario
     updateUser: async (userId: number, userData: UserUpdateData) => {
         const { nombre, apellido, email, edad, dni, balance, influencer } = userData;

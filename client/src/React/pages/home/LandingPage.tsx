@@ -5,6 +5,9 @@ import backgroundVideo from "@assets/backgroundVideo.mp4";
 import {FaChevronDown} from 'react-icons/fa';
 import Footer from "@components/Footer.tsx";
 import NavBar from "@components/NavBar.tsx";
+import {useAuth} from "@context/AuthContext.tsx";
+import {useUser} from "@context/UserContext.tsx";
+
 
 const LandingPage: React.FC = () => {
     const [isVisible, setIsVisible] = useState(false);
@@ -27,6 +30,15 @@ const LandingPage: React.FC = () => {
             imagen: "game4"
         },
     ];
+
+    const { user } = useAuth();
+    const {getUserData} = useUser()
+
+    useEffect(() => {
+        if (user?.usuarioid) {
+            getUserData(user.usuarioid.toString());
+        }
+    }, [user?.usuarioid, getUserData]);
 
     useEffect(() => {
         setIsVisible(true);
@@ -78,7 +90,7 @@ const LandingPage: React.FC = () => {
 
     return (
         <>
-            <NavBar></NavBar>
+          <NavBar/>
             <div className="landing-container">
                 {/* Hero Section */}
                 <div className="hero-section">

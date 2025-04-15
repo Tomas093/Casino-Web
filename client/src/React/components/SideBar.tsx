@@ -2,8 +2,9 @@
 import '@css/SideBarStyle.css'
 import { Link } from "react-router-dom";
 import { useAuth } from '@context/AuthContext';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {useUser} from "@context/UserContext.tsx";
+import {useAdmin} from "@context/AdminContext.tsx";
 
 interface MenuItem {
     link: string;
@@ -30,9 +31,11 @@ const renderMenuItem = (item: MenuItem, index: number) => {
 
 const Sidebar: React.FC = () => {
     const { user, logout } = useAuth();
+    const { isSuperAdmin } = useAdmin();
     const {client} = useUser();
     const [imgError, setImgError] = useState(false);
     const [imgTimestamp, setImgTimestamp] = useState(Date.now());
+    const [superAdminStatus, setSuperAdminStatus] = useState(false);
 
     // URL base del servidor
     const serverBaseUrl = 'http://localhost:3001';
@@ -64,6 +67,7 @@ const Sidebar: React.FC = () => {
     };
 
     const menu: MenuItem[] = [
+        { link: '/home', text: 'Inicio' },
         { link: '/profile', text: 'Información' },
         { link: '/amigos', text: 'Amigos' },
         { link: '/estadisticas', text: 'Estadísticas' },
@@ -73,8 +77,24 @@ const Sidebar: React.FC = () => {
         { link: '/history', text: 'Historial' },
         { link: '/', text: 'Cerrar Sesión', action: handleLogout },
         { link: '/delete-account', text: 'Eliminar Cuenta' },
-
     ];
+
+
+    useEffect(() => {
+        const checkSuperAdmin = async () => {
+            if (user) {
+                const superadminStatus = await isSuperAdmin();
+                setSuperAdminStatus(superadminStatus);
+            } else {
+                setSuperAdminStatus(false);
+            }
+        };
+        checkSuperAdmin();
+    }, [user, isSuperAdmin]);
+
+    if (superAdminStatus) {
+        menu.push({ link: '/admin', text: 'Panel Admin' });
+    }
 
     return (
         <aside className="sidebar">
