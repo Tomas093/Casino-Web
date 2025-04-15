@@ -254,8 +254,9 @@ section {
 }
 
 /* Games Section */
-.games-section {
-    background: rgba(0, 0, 0, 0.7);
+
+.games-section-landing {
+    background-color: #000000;
 }
 
 .games-carousel {
@@ -265,9 +266,9 @@ section {
     flex-wrap: wrap;
 }
 
-.game-card {
+.game-card-landing {
     width: 300px;
-    background: rgba(40, 40, 40, 0.8);
+    background: rgb(25, 23, 23);
     border-radius: 15px;
     overflow: hidden;
     transition: transform 0.3s;
@@ -281,6 +282,22 @@ section {
     height: 180px;
     background-size: cover;
     background-position: center;
+}
+.game-info {
+    padding: 15px;
+    text-align: center;
+    color: white;
+}
+
+.game-info h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #facc15; /* Amarillo suave, podés ajustar el color */
+}
+
+.game-info p {
+    font-size: 0.95rem;
+    color: #ccc;
 }
 
 .game1 {
@@ -312,7 +329,7 @@ section {
 
 /* Promo Section */
 .promo-section {
-    background: rgba(0, 0, 0, 0.9);
+    background-color: var(--color-dark-gray);
 }
 
 .promo-slider {
@@ -435,7 +452,7 @@ section {
 /* Features Section */
 .australis-features {
     padding: 80px 0;
-    background: rgba(0, 0, 0, 0.8);
+    background-color: var(--color-dark-gray);
 }
 
 .australis-features__grid {

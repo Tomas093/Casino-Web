@@ -1,5 +1,7 @@
 import React, { useState, } from 'react';
 import '@css/MinesweeperStyle.css';
+import GameBackground from '../../pages/games/GameBackground.tsx';
+
 
 interface MineProps {
     initialCredits?: number;
@@ -164,104 +166,121 @@ const Minesweeper: React.FC<MineProps> = ({
     };
 
     return (
-        <div className="minesweeper-container">
-            <div className="game-layout">
-                {/* Left panel - Settings */}
-                <div className="settings-panel">
-                    <div className="setting-group">
-                        <h3>Bet Amount</h3>
-                        <div className="bet-input">
-                            <span className="currency-symbol">$</span>
-                            <input
-                                type="number"
-                                value={betAmount}
-                                onChange={(e) => setBetAmount(Math.max(1, parseInt(e.target.value) || 1))}
-                                min="1"
-                                max={totalCredits}
-                            />
-                        </div>
-                        <div className="bet-buttons">
-                            <button
-                                className="bet-btn half"
-                                onClick={() => adjustBet('half')}
-                            >
-                                1/2
-                            </button>
-                            <button
-                                className="bet-btn double"
-                                onClick={() => adjustBet('double')}
-                            >
-                                2x
-                            </button>
-                            <button
-                                className="bet-btn max"
-                                onClick={() => adjustBet('max')}
-                            >
-                                Max
-                            </button>
-                        </div>
-                    </div>
+        <GameBackground
+            currentGame="Minesweeper VIP"
+            userName="Usuario VIP"
+            balance={totalCredits}
+            onNavigate={(destination) => console.log(`Navegando a: ${destination}`)}
+            onDeposit={() => console.log('Abriendo depósito')}
+            onExit={() => console.log('Saliendo del juego')}
+            onSettings={() => console.log('Abriendo configuración')}
+        >
 
-                    <div className="setting-group">
-                        <h3>Grid Size</h3>
-                        <div className="option-buttons">
-                            {gridSizeOptions.map(size => (
+            <div className="minesweeper-container">
+                <div className="game-layout">
+                    {/* Left panel - Settings */}
+                    <div className="settings-panel">
+                        <div className="setting-group">
+                            <h3>Bet Amount</h3>
+                            <div className="bet-input">
+                                <span className="currency-symbol">$</span>
+                                <input
+                                    type="number"
+                                    value={betAmount}
+                                    onChange={(e) => setBetAmount(Math.max(1, parseInt(e.target.value) || 1))}
+                                    min="1"
+                                    max={totalCredits}
+                                />
+                            </div>
+                            <div className="bet-buttons">
                                 <button
-                                    key={size}
-                                    className={`option-btn ${gridSize === size ? 'selected' : ''}`}
-                                    onClick={() => setGridSize(size)}
+                                    className="bet-btn half"
+                                    onClick={() => adjustBet('half')}
                                 >
-                                    {size}
+                                    1/2
                                 </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="setting-group">
-                        <h3>Number of Mines</h3>
-                        <div className="option-buttons">
-                            {minesOptions.map(mines => (
                                 <button
-                                    key={mines}
-                                    className={`option-btn ${totalMines === mines ? 'selected' : ''}`}
-                                    onClick={() => setTotalMines(mines)}
+                                    className="bet-btn double"
+                                    onClick={() => adjustBet('double')}
                                 >
-                                    {mines}
+                                    2x
                                 </button>
-                            ))}
+                                <button
+                                    className="bet-btn max"
+                                    onClick={() => adjustBet('max')}
+                                >
+                                    Max
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
-                    <button
-                        className="start-game-btn"
-                        onClick={initGame}
-                        disabled={gameStarted && !gameOver}
-                    >
-                        Start Game
-                    </button>
+                        <div className="setting-group">
+                            <h3>Grid Size</h3>
+                            <div className="option-buttons">
+                                {gridSizeOptions.map(size => (
+                                    <button
+                                        key={size}
+                                        className={`option-btn ${gridSize === size ? 'selected' : ''}`}
+                                        onClick={() => setGridSize(size)}
+                                    >
+                                        {size}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
 
-                    {gameStarted && !gameOver && (
+                        <div className="setting-group">
+                            <h3>Number of Mines</h3>
+                            <div className="option-buttons">
+                                {minesOptions.map(mines => (
+                                    <button
+                                        key={mines}
+                                        className={`option-btn ${totalMines === mines ? 'selected' : ''}`}
+                                        onClick={() => setTotalMines(mines)}
+                                    >
+                                        {mines}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
                         <button
-                            className="cashout-btn"
-                            onClick={handleCashout}
-                            disabled={hitPoints === 0}
+                            className="start-game-btn"
+                            onClick={initGame}
+                            disabled={gameStarted && !gameOver}
                         >
-                            Cash Out (${currentWinAmount.toFixed(2)})
+                            Start Game
                         </button>
-                    )}
 
-                    <div className="credits-display">
-                        Credits: ${totalCredits.toFixed(2)}
+                        {gameStarted && !gameOver && (
+                            <button
+                                className="cashout-btn"
+                                onClick={handleCashout}
+                                disabled={hitPoints === 0}
+                            >
+                                Cash Out (${currentWinAmount.toFixed(2)})
+                            </button>
+                        )}
+
+                        <div className="credits-display">
+                            Credits: ${totalCredits.toFixed(2)}
+                        </div>
                     </div>
-                </div>
 
-                {/* Right panel - Game Grid */}
-                <div className="game-panel">
-                    {renderGrid()}
+                    {/* Right panel - Game Grid */}
+                    <div className="game-panel">
+                        {renderGrid()}
+                    </div>
                 </div>
             </div>
-        </div>
+        </GameBackground>
     );
 };
-
+// const CasinoGameExample: React.FC = () => {
+//     return (
+//         <GameBackground title="Ruleta Europea">
+//             <Minesweeper />
+//         </GameBackground>
+//     );
+// };
 export default Minesweeper;

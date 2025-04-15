@@ -100,5 +100,12 @@ const Minesweeper: React.FC<MineProps> = ({ totalMines = 4, gridSize = 20 }) => 
         </div>
     );
 };
+// const CasinoGameExample: React.FC = () => {
+//     return (
+//         <GameBackground title="Ruleta Europea">
+//             <Minesweeper totalMines={0} gridSize={0} />
+//         </GameBackground>
+//     );
+// };
 
 export default Minesweeper;
