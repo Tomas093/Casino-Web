@@ -38,6 +38,21 @@ const historyApi = {
                 throw error;
             }
         }
+    },
+
+    getAllHistory: async (userId: String | number): Promise<GameHistoryResponse> => {
+        try {
+            const response = await axios.get(`${API_URL}/allHistory/${userId}`);
+            return response.data;
+        } catch (error: any) {
+            console.error('Error al obtener historial de usuario:', error);
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error al obtener historial');
+            } else {
+                throw error;
+            }
+        }
+
     }
 };
 
