@@ -67,6 +67,7 @@ app.use('/history', historyRoutes)
 app.use('/play', playRoutes);
 app.use('/leaderboard',leaderboardRoutes)
 app.use('/limit', limitRoutes)
+app.use('/play', playRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

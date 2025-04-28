@@ -1,4 +1,4 @@
-// App.tsx
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from '../pages/home/LandingPage';
 import Register from '../pages/auth/Register';
@@ -18,7 +18,7 @@ import { AppProvider } from './appProvider';
 import RouletteGame from "../pages/games/RouletteGame.tsx";
 import StatisticsPage from "../pages/profile/StatisticsPage.tsx"
 import LeaderBoard from "@components/LeaderBoard.tsx";
-import Limit from "@pages/profile/LimitPage.tsx";
+import Limit from "../pages/profile/LimitPage.tsx";
 
 function App() {
     return (

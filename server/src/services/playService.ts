@@ -9,6 +9,7 @@ interface PlayData {
     retorno: number;
     apuesta: number;
 }
+
 interface UserPlayData {
     usuarioid: number;
     juegoid: number;
@@ -29,18 +30,6 @@ const findClienteById = async (clienteid: number) => {
 
     return cliente;
 };
-
-const findClienteByUsuarioId = async (usuarioid: number) => {
-    const cliente = await prisma.cliente.findUnique({
-        where: {usuarioid}
-    });
-
-    if (!cliente) {
-        throw new Error('Cliente no encontrado');
-    }
-
-    return cliente;
-}
 
 const findJuegoById = async (juegoid: number) => {
     const juego = await prisma.juego.findUnique({
@@ -179,11 +168,4 @@ export const playService = {
 
         return jugada;
     },
-
-    getJugadasCountByUserId: async (UserId: number) => {
-        const cliente = await findClienteById(UserId);
-        return prisma.jugada.count({
-            where: {clienteid: cliente.clienteid}
-        });
-    }
 }
