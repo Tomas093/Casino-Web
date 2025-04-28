@@ -78,7 +78,7 @@ router.get('/jugada/:jugadaid', isAuthenticated, async (req: Request, res: Respo
     }
 });
 
-// Obtener todas las jugadas con un retorno mayor a un valor específico
+// Obtener todas las jugadas con un retorno mayor a un valor especÃ­fico
 router.get('/jugadas/retorno/:retorno', isAuthenticated, async (req: Request, res: Response): Promise<void> => {
     const {retorno} = req.params;
     try {
