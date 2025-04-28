@@ -19,6 +19,7 @@ import RouletteGame from "../pages/games/RouletteGame.tsx";
 import StatisticsPage from "../pages/profile/StatisticsPage.tsx"
 import LeaderBoard from "@components/LeaderBoard.tsx";
 import Limit from "../pages/profile/LimitPage.tsx";
+import MonLimitTicketPage from "../pages/Tickets/MonLimitTicketPage.tsx";
 
 function App() {
     return (
@@ -41,6 +42,7 @@ function App() {
                         <Route path="/roulette" element={<RouletteGame />} />
                         <Route path="/mines" element={<MineSweeper />} />
                         <Route path="/limit" element={<Limit/>} />
+                        <Route path="/monLimitTicket" element={<MonLimitTicketPage />} />
                     </Route>
 
                     {/* rutas Solo para admins */}

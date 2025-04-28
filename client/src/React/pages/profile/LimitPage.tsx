@@ -5,7 +5,8 @@ import {useUser} from '@context/UserContext.tsx';
 import {useLimitContext} from '@context/LimitContext';
 import limitApi from '@api/limitApi.ts';
 import '@css/ProfileStyle.css';
-import '@css/LimitStyle.css'
+import '@css/LimitStyle.css';
+import { useNavigate } from 'react-router-dom';
 
 interface Limits {
     time: {
@@ -24,6 +25,7 @@ const LimitPage: React.FC = () => {
     const {user} = useAuth();
     const {getUserData} = useUser();
     const {getLimitHorario, getLimitMonetario, isLoading} = useLimitContext();
+    const navigate = useNavigate();
 
     const [limits, setLimits] = useState<Limits>({
         time: {
@@ -100,13 +102,15 @@ const LimitPage: React.FC = () => {
     };
 
     const handleIncrement = (category: 'time' | 'money', period: 'daily' | 'weekly' | 'monthly', amount: number) => {
-        setLimits(prev => ({
-            ...prev,
-            [category]: {
-                ...prev[category],
-                [period]: prev[category][period] + amount
+        // Navigate to the ticket page instead of directly incrementing
+        navigate('/monLimitTicket', {
+            state: {
+                category,
+                period,
+                currentValue: limits[category][period],
+                increment: amount
             }
-        }));
+        });
     };
 
     const handleDecrement = (category: 'time' | 'money', period: 'daily' | 'weekly' | 'monthly', amount: number) => {
