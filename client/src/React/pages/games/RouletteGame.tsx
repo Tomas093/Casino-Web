@@ -228,7 +228,7 @@ const RouletteGame: React.FC = () => {
                 )}
 
                 <div style={{ marginBottom: '1rem' }}>
-
+                    <h3>        c          </h3>
                     <ChipList
                         chips={chips}
                         selectedChip={selectedChip}
