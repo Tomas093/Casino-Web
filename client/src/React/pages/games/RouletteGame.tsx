@@ -218,7 +218,8 @@ const RouletteGame: React.FC = () => {
             loginButtonLabel="Iniciar Sesión"
             registerButtonLabel="Registrarse"
         />
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', padding: '20px' }}>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', padding: '20px', marginTop: '80px' }}>
 
                 {lastResults.length > 0 && (
                     <div>
@@ -228,7 +229,6 @@ const RouletteGame: React.FC = () => {
                 )}
 
                 <div style={{ marginBottom: '1rem' }}>
-                    <h3>        c          </h3>
                     <ChipList
                         chips={chips}
                         selectedChip={selectedChip}
