@@ -28,8 +28,6 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route path="/example" element={<Example/>} />
                     <Route path="/Mines" element={<MineSweeper />} />
-                    <Route path="/roulette" element={<RouletteGame />} />
-
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
                     <Route element={<ProtectedRoute />}>
@@ -38,6 +36,8 @@ function App() {
                         <Route path="/delete-account" element={<DeleteUser />} />
                         <Route path="/Transaccion" element={<Transaccion />} />
                         <Route path="/home" element={<Home />} />
+                        <Route path="/roulette" element={<RouletteGame />} />
+
                         {/*<Route path="/Mines" element={<MineSweeper />} />*/}
                     </Route>
 
