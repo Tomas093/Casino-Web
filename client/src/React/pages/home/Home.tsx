@@ -11,14 +11,12 @@ import { useUser } from "@context/UserContext.tsx";
 import { useAuth } from "@context/AuthContext.tsx";
 import { Link } from 'react-router-dom';
 
-
-
+// Resto de interfaces y componentes sin cambios...
 interface GameCardProps {
     title: string;
     image: string;
     route: string;  // Nueva propiedad para la ruta específica del juego
 }
-
 
 // Game Card Component
 const GameCard: React.FC<GameCardProps> = ({ title, image, route }) => {
@@ -36,7 +34,6 @@ const GameCard: React.FC<GameCardProps> = ({ title, image, route }) => {
         </div>
     );
 };
-
 
 // Statistical Indicator Component
 interface StatIndicatorProps {
@@ -208,9 +205,22 @@ const Home = () => {
         };
     }, []);
 
+    // Configuración personalizada para la navbar en Home
+    const homeNavLinks = [
+        {label: "Juegos", href: "#games-section-home", isAnchor: true},
+        {label: "Promociones", href: "#promos", isAnchor: true},
+        {label: "Nosotros", href: "#about-section", isAnchor: true},
+    ];
+
     return (
         <div className="homepage">
-            <NavBar/>
+            <NavBar
+                navLinks={homeNavLinks}
+                className="home-navbar"
+                variant="dark"
+                playButtonLabel="Jugar"
+                homeSectionId="games-section-home"
+            />
             <section className="hero-section">
                 <div className="hero-background">
                     <img alt="Casino Background" className="hero-image" />
@@ -258,6 +268,7 @@ const Home = () => {
                 </div>
             </section>
 
+            {/* Resto del componente sin cambios... */}
             <section className="stats-section">
                 <h2 className="section-title">ESTADÍSTICAS</h2>
                 <div className="stats-container">
@@ -279,7 +290,7 @@ const Home = () => {
                 </div>
             </section>
 
-            <section className="about-section">
+            <section id="about-section" className="about-section">
                 <h2 className="section-title">QUIENES SOMOS</h2>
                 <div className="about-container">
                     <div className="about-content">
