@@ -1,4 +1,4 @@
-// App.tsx
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from '../pages/home/LandingPage';
 import Register from '../pages/auth/Register';
@@ -15,9 +15,12 @@ import Transaccion from "../pages/transaction/Transaccion.tsx";
 import Home from "../pages/home/Home.tsx";
 import MineSweeper from "../pages/games/MineSweeperEnchanced.tsx";
 import { AppProvider } from './appProvider';
-import Example from "../games/components/Example.tsx"
-// import MineSweeper from "../games/components/MineSweeper.tsx";
 import RouletteGame from "../pages/games/RouletteGame.tsx";
+import StatisticsPage from "../pages/profile/StatisticsPage.tsx"
+import LeaderBoard from "@components/LeaderBoard.tsx";
+import Limit from "../pages/profile/LimitPage.tsx";
+import MonLimitTicketPage from "../pages/Tickets/MonLimitTicketPage.tsx";
+
 function App() {
     return (
         <BrowserRouter>
@@ -26,19 +29,20 @@ function App() {
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/example" element={<Example/>} />
-                    <Route path="/Mines" element={<MineSweeper />} />
+                    <Route path={"/leaderboard"} element={<LeaderBoard />} />
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
                     <Route element={<ProtectedRoute />}>
                         <Route path="/history" element={<HistoryPage />} />
+                        <Route path="/statistics" element={<StatisticsPage />} />
                         <Route path="/profile" element={<ProfilePage />} />
                         <Route path="/delete-account" element={<DeleteUser />} />
                         <Route path="/Transaccion" element={<Transaccion />} />
                         <Route path="/home" element={<Home />} />
                         <Route path="/roulette" element={<RouletteGame />} />
-
-                        {/*<Route path="/Mines" element={<MineSweeper />} />*/}
+                        <Route path="/mines" element={<MineSweeper />} />
+                        <Route path="/limit" element={<Limit/>} />
+                        <Route path="/monLimitTicket" element={<MonLimitTicketPage />} />
                     </Route>
 
                     {/* rutas Solo para admins */}

@@ -4,14 +4,15 @@ import {UserProvider} from '@context/UserContext';
 import {AdminProvider} from '@context/AdminContext';
 import {TransactionProvider} from '@context/TransactionContext';
 import {PlayProvider} from '@context/PlayContext.tsx';
-import { HistoryProvider } from '@context/HistoryContext.tsx'
+import {HistoryProvider} from '@context/HistoryContext.tsx'
 import {GameProvider} from '@context/GameContext'
+import {LeaderboardProvider} from '@context/LeaderboardContext.tsx'
+import {LimitProvider} from '@context/LimitContext.tsx'
 
 interface AppProviderProps {
     children: ReactNode;
 }
 
-// Este componente combina todos los providers para simplificar el árbol de componentes
 export const AppProvider = ({children}: AppProviderProps) => {
     return (
         <AuthProvider>
@@ -21,7 +22,11 @@ export const AppProvider = ({children}: AppProviderProps) => {
                         <PlayProvider>
                             <HistoryProvider>
                                 <GameProvider>
-                                    {children}
+                                    <LeaderboardProvider>
+                                        <LimitProvider>
+                                            {children}
+                                        </LimitProvider>
+                                    </LeaderboardProvider>
                                 </GameProvider>
                             </HistoryProvider>
                         </PlayProvider>

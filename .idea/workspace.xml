@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add game and history APIs; implement context providers for game and history management">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,7 +28,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Eliseo" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -44,7 +42,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Tomas093/Casino-Web.git&quot;,
-    &quot;accountId&quot;: &quot;96b38a8a-c17f-4a0e-9f99-e5bdad680b60&quot;
+    &quot;accountId&quot;: &quot;aeb8d57a-9bda-4d87-a562-02ae3e64d914&quot;
   },
   &quot;recentNewPullRequestHead&quot;: {
     &quot;server&quot;: {
@@ -76,7 +74,7 @@
     "RunOnceActivity.OpenDatabaseViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Eliseo",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/Eliseos/Faculty/Tercer Año/LaboratorioDefV5",
     "list.type.of.created.stylesheet": "CSS",
@@ -112,7 +110,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-WS-243.26053.12" />
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-WS-251.23774.424" />
       </set>
     </attachedChunks>
   </component>
@@ -160,6 +158,7 @@
       <workItem from="1744731593209" duration="1220000" />
       <workItem from="1745768161507" duration="9151000" />
       <workItem from="1745786532277" duration="16707000" />
+      <workItem from="1745852980728" duration="6991000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -401,7 +400,55 @@
       <option name="project" value="LOCAL" />
       <updated>1744728604967</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Remove fixed margin from main content to improve layout flexibility">
+      <option name="closed" value="true" />
+      <created>1745848702095</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1745848702095</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Fix">
+      <option name="closed" value="true" />
+      <created>1745849316330</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1745849316330</updated>
+    </task>
+    <task id="LOCAL-00033" summary="PopUp De Login.tsx">
+      <option name="closed" value="true" />
+      <created>1745849990063</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1745849990063</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Borro RouletteGame2.tsx">
+      <option name="closed" value="true" />
+      <created>1745850322465</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1745850322465</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Update workspace configuration and improve navigation in RouletteGame and Home components">
+      <option name="closed" value="true" />
+      <created>1745854122600</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1745854122601</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Cambio Statics">
+      <option name="closed" value="true" />
+      <created>1745859000791</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1745859000791</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -411,10 +458,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Refactor project structure and update styles for Vite + React integration" />
-    <MESSAGE value="Update workspace.xml to reflect changes in file paths and project structure" />
-    <MESSAGE value="Implement landing page, navigation bar, and footer components; update package dependencies" />
-    <MESSAGE value="Add promotional images to landing page and refactor promo card rendering" />
     <MESSAGE value="Refactor authentication context and add user data fetching; update styles for login and register pages" />
     <MESSAGE value="Refactor authentication context to include client data fetching; update Sidebar and HistoryPage components" />
     <MESSAGE value="Implement ProtectedRoute component for route protection; update AuthContext and Login handling" />
@@ -434,6 +477,12 @@
     <MESSAGE value="Refactor project structure; rename files and update import paths for improved organization and clarity" />
     <MESSAGE value="Add user count and transaction statistics endpoints; integrate payment methods chart in admin dashboard" />
     <MESSAGE value="Add game and history APIs; implement context providers for game and history management" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add game and history APIs; implement context providers for game and history management" />
+    <MESSAGE value="Remove fixed margin from main content to improve layout flexibility" />
+    <MESSAGE value="Fix" />
+    <MESSAGE value="PopUp De Login.tsx" />
+    <MESSAGE value="Borro RouletteGame2.tsx" />
+    <MESSAGE value="Update workspace configuration and improve navigation in RouletteGame and Home components" />
+    <MESSAGE value="Cambio Statics" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
 </project>

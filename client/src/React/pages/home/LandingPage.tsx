@@ -7,11 +7,18 @@ import Footer from "@components/Footer.tsx";
 import NavBar from "@components/NavBar.tsx";
 import {useAuth} from "@context/AuthContext.tsx";
 import {useUser} from "@context/UserContext.tsx";
+import { useNavigate } from 'react-router-dom';
 
 
 const LandingPage: React.FC = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [activePromo, setActivePromo] = useState(0);
+    const navigate = useNavigate();
+
+    const handlePlayClick = () => {
+        // Navegamos a la página Home y específicamente a la sección de juegos
+        navigate("/home#games-section-home");
+    };
 
     const promociones = [
         {titulo: "Bono de Bienvenida", descripcion: "¡100% en tu primer depósito hasta $500!", imagen: "promo1"},
@@ -54,19 +61,6 @@ const LandingPage: React.FC = () => {
         document.querySelector('.australis-features')?.scrollIntoView({behavior: 'smooth'});
     };
 
-    /* con imagenes por las dudas
-    const renderPromoCards = () => {
-        return promociones.map((promo, index) => (
-            <div key={index} className={`promo-card ${index === activePromo ? 'active' : ''}`}>
-                <img src={`./assets/${promo.imagen}`} alt={promo.titulo} className="promo-image" />
-                <h3>{promo.titulo}</h3>
-                <p>{promo.descripcion}</p>
-                <Link to="/register" className="promo-btn">Obtener Ahora</Link>
-            </div>
-        ));
-    };
-    */
-
     const renderPromoCards = () => {
         return promociones.map((promo, index) => (
             <div key={index} className={`promo-card ${promo.imagen} ${index === activePromo ? 'active' : ''}`}>
@@ -88,9 +82,26 @@ const LandingPage: React.FC = () => {
         ));
     };
 
+    // Configuración personalizada para la navbar en LandingPage
+    const landingNavLinks = [
+        {label: "Juegos", href: "#games", isAnchor: true},
+        {label: "Promociones", href: "#promos", isAnchor: true},
+        {label: "Nosotros", href: "#about", isAnchor: true}
+    ];
+
     return (
         <>
-          <NavBar/>
+            <NavBar
+                navLinks={landingNavLinks}
+                className="landing-navbar"
+                variant="light"
+                showBalance={false}
+                playButtonLabel="Jugar"
+                loginButtonLabel="Iniciar Sesión"
+                registerButtonLabel="Registrarse"
+                onPlayClick={handlePlayClick}
+                targetSection="games-section-home"
+            />
             <div className="landing-container">
                 {/* Hero Section */}
                 <div className="hero-section">
@@ -116,6 +127,8 @@ const LandingPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* Resto del código sin cambios... */}
 
                 {/* Características */}
                 <section className="australis-features">

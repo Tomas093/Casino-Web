@@ -9,6 +9,7 @@ interface PlayData {
     retorno: number;
     apuesta: number;
 }
+
 interface UserPlayData {
     usuarioid: number;
     juegoid: number;
