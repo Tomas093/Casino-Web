@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, { useRef, useEffect, useState} from 'react';
 import '@css/HomeStyle.css';
 import slotImg from '@assets/slots.jpg';
 import ruletaImg from '@assets/ruleta.jpg';
@@ -7,29 +7,36 @@ import dadosImg from '@assets/dados.jpg';
 import AnimatedCounter from "../../animations/AnimatedCounter";
 import Footer from '@components/Footer';
 import NavBar from "@components/NavBar.tsx";
-import {useUser} from "@context/UserContext.tsx";
-import {useAuth} from "@context/AuthContext.tsx";
-import LeaderBoard from "@components/LeaderBoard";
+import { useUser } from "@context/UserContext.tsx";
+import { useAuth } from "@context/AuthContext.tsx";
+import { Link } from 'react-router-dom';
+
+
 
 interface GameCardProps {
     title: string;
     image: string;
+    route: string;  // Nueva propiedad para la ruta específica del juego
 }
 
+
 // Game Card Component
-const GameCard: React.FC<GameCardProps> = ({title, image}) => {
+const GameCard: React.FC<GameCardProps> = ({ title, image, route }) => {
     return (
         <div className="game-card hover-card">
             <div className="game-card-inner">
-                <img src={image} alt={title} className="game-card-image"/>
+                <img src={image} alt={title} className="game-card-image" />
                 <div className="game-card-overlay">
                     <h3 className="game-card-title">{title}</h3>
-                    <button className="game-card-button">Jugar ahora</button>
+                    <Link to={route}>
+                        <button className="game-card-button">Jugar ahora</button>
+                    </Link>
                 </div>
             </div>
         </div>
     );
 };
+
 
 // Statistical Indicator Component
 interface StatIndicatorProps {
@@ -38,7 +45,7 @@ interface StatIndicatorProps {
     label: string;
 }
 
-const StatIndicator: React.FC<StatIndicatorProps> = ({icon, value, label}) => {
+const StatIndicator: React.FC<StatIndicatorProps> = ({ icon, value, label }) => {
     return (
         <div className="stat-indicator">
             <div className="stat-icon">{icon}</div>
@@ -56,7 +63,7 @@ interface FAQItemProps {
     onClick: () => void;
 }
 
-const FAQItem: React.FC<FAQItemProps> = ({question, answer, isOpen, onClick}) => {
+const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onClick }) => {
     return (
         <div className={`faq-item ${isOpen ? 'open' : ''}`} onClick={onClick}>
             <div className="faq-question">
@@ -71,7 +78,7 @@ const FAQItem: React.FC<FAQItemProps> = ({question, answer, isOpen, onClick}) =>
 };
 
 // Main Component
-const HomeDef = () => {
+const Home = () => {
     // References for scroll with zoom effect
     const containerRef = useRef(null);
     const showcaseRef = useRef(null);
@@ -85,14 +92,14 @@ const HomeDef = () => {
 
     // Sample game list
     const games = [
-        {id: 1, title: "Ruleta VIP", image: ruletaImg},
-        {id: 2, title: "BlackJack", image: blackjackImg},
-        {id: 3, title: "Slots", image: slotImg},
-        {id: 4, title: "Dados", image: dadosImg},
-        {id: 5, title: "Ruleta VIP", image: ruletaImg},
-        {id: 6, title: "BlackJack", image: blackjackImg},
-        {id: 7, title: "Slots", image: slotImg},
-        {id: 8, title: "Dados", image: dadosImg}
+        { id: 1, title: "Ruleta VIP", image: ruletaImg, route: "/roulette" },
+        { id: 2, title: "BlackJack", image: blackjackImg, route: "/blackjack" },
+        { id: 3, title: "Slots", image: slotImg, route: "/slots" },
+        { id: 4, title: "Dados", image: dadosImg, route: "/dados" },
+        { id: 5, title: "Ruleta VIP", image: ruletaImg, route: "/roulette" },
+        { id: 6, title: "BlackJack", image: blackjackImg, route: "/blackjack" },
+        { id: 7, title: "Slots", image: slotImg, route: "/slots" },
+        { id: 8, title: "Dados", image: dadosImg, route: "/dados" }
     ];
 
     // FAQ data
@@ -129,7 +136,7 @@ const HomeDef = () => {
         setOpenFAQ((prev: number | null) => (prev === id ? null : id));
     };
 
-    const {user} = useAuth();
+    const { user } = useAuth();
     const {getUserData} = useUser()
 
     useEffect(() => {
@@ -206,7 +213,7 @@ const HomeDef = () => {
             <NavBar/>
             <section className="hero-section">
                 <div className="hero-background">
-                    <img alt="Casino Background" className="hero-image"/>
+                    <img alt="Casino Background" className="hero-image" />
                     <div className="overlay"></div>
                 </div>
                 <div className="hero-content">
@@ -235,12 +242,17 @@ const HomeDef = () => {
                 </div>
             </section>
 
-            <section className="games-section">
+            <section id="games-section-home" className="games-section-home">
                 <h2 className="section-title">NUESTROS JUEGOS EXCLUSIVOS</h2>
                 <div ref={containerRef} className="scroll-container">
                     <div ref={showcaseRef} className="scroll-showcase">
                         {games.map(game => (
-                            <GameCard key={game.id} title={game.title} image={game.image}/>
+                            <GameCard
+                                key={game.id}
+                                title={game.title}
+                                image={game.image}
+                                route={game.route}
+                            />
                         ))}
                     </div>
                 </div>
@@ -251,26 +263,19 @@ const HomeDef = () => {
                 <div className="stats-container">
                     <StatIndicator
                         icon="💰"
-                        value={<AnimatedCounter end={1500000} prefix="$"/>}
+                        value={<AnimatedCounter end={1500000} prefix="$" />}
                         label="Pozo acumulado"
                     />
                     <StatIndicator
                         icon="👥"
-                        value={<AnimatedCounter end={2345}/>}
+                        value={<AnimatedCounter end={2345} />}
                         label="Jugadores online"
                     />
                     <StatIndicator
                         icon="🏆"
-                        value={<AnimatedCounter end={250000} prefix="$"/>}
+                        value={<AnimatedCounter end={250000} prefix="$" />}
                         label="Mayor premio del día"
                     />
-                </div>
-            </section>
-
-            <section className="leaderboard-section">
-                <h2 className="section-title">TABLA DE CLASIFICACIÓN</h2>
-                <div className="leaderboard-wrapper">
-                    <LeaderBoard limit={5} compact={false}/>
                 </div>
             </section>
 
@@ -280,38 +285,30 @@ const HomeDef = () => {
                     <div className="about-content">
                         <h3 className="about-subtitle">EXCELENCIA EN ENTRETENIMIENTO DESDE 2004 </h3>
                         <p className="about-text">
-                            Australis Casino nació con una visión clara: revolucionar la experiencia de juego online
-                            combinando tecnología de vanguardia con la elegancia de los casinos tradicionales.
+                            Australis Casino nació con una visión clara: revolucionar la experiencia de juego online combinando tecnología de vanguardia con la elegancia de los casinos tradicionales.
                         </p>
                         <p className="about-text">
-                            Con más de una década de experiencia en la industria, nos hemos consolidado como líderes en
-                            el mercado de entretenimiento digital, ofreciendo a nuestros usuarios una plataforma segura,
-                            transparente y emocionante.
+                            Con más de una década de experiencia en la industria, nos hemos consolidado como líderes en el mercado de entretenimiento digital, ofreciendo a nuestros usuarios una plataforma segura, transparente y emocionante.
                         </p>
                         <p className="about-text">
-                            Nuestro equipo está formado por expertos en desarrollo de software, seguridad informática y
-                            atención al cliente, comprometidos con ofrecer una experiencia de juego excepcional las 24
-                            horas del día.
+                            Nuestro equipo está formado por expertos en desarrollo de software, seguridad informática y atención al cliente, comprometidos con ofrecer una experiencia de juego excepcional las 24 horas del día.
                         </p>
                     </div>
                     <div className="about-features">
                         <div className="feature-item">
                             <div className="feature-icon">🔒</div>
                             <h4 className="feature-title">Seguridad Garantizada</h4>
-                            <p className="feature-text">Utilizamos tecnología de encriptación avanzada para proteger sus
-                                datos y transacciones.</p>
+                            <p className="feature-text">Utilizamos tecnología de encriptación avanzada para proteger sus datos y transacciones.</p>
                         </div>
                         <div className="feature-item">
                             <div className="feature-icon">🏆</div>
                             <h4 className="feature-title">Juego Responsable</h4>
-                            <p className="feature-text">Promovemos prácticas de juego saludables y ofrecemos
-                                herramientas de control personal.</p>
+                            <p className="feature-text">Promovemos prácticas de juego saludables y ofrecemos herramientas de control personal.</p>
                         </div>
                         <div className="feature-item">
                             <div className="feature-icon">💎</div>
                             <h4 className="feature-title">Innovación Constante</h4>
-                            <p className="feature-text">Actualizamos regularmente nuestra plataforma con los últimos
-                                avances tecnológicos.</p>
+                            <p className="feature-text">Actualizamos regularmente nuestra plataforma con los últimos avances tecnológicos.</p>
                         </div>
                     </div>
                 </div>
@@ -332,9 +329,9 @@ const HomeDef = () => {
                 </div>
             </section>
 
-            <Footer/>
+            <Footer />
         </div>
     );
 };
 
-export default HomeDef;
+export default Home;

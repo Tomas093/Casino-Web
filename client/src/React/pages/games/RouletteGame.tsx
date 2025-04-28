@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { RouletteWheel, RouletteTable, useRoulette, ChipList } from 'react-casino-roulette';
+import React, {useState} from 'react';
+import {RouletteWheel, RouletteTable, useRoulette, ChipList} from 'react-casino-roulette';
 import 'react-casino-roulette/dist/index.css';
 
 import whiteChip from '@assets/Javo.jpg';
 import blueChip from '@assets/Javo.jpg';
 import blackChip from '@assets/Javo.jpg';
 import cyanChip from '@assets/Javo.jpg';
-import { useAuth } from "@context/AuthContext.tsx";
-import { usePlay } from '@context/PlayContext.tsx';
-import { useUser } from '@context/UserContext';
+import {useAuth} from "@context/AuthContext.tsx";
+import {usePlay} from '@context/PlayContext.tsx';
+import {useUser} from '@context/UserContext';
 
 // Definición de números rojos y negros en la ruleta
 const RED_NUMBERS = ['1', '3', '5', '7', '9', '12', '14', '16', '18', '19', '21', '23', '25', '27', '30', '32', '34', '36'];
@@ -22,7 +22,6 @@ const chips = {
     '500': cyanChip,
 };
 
-// ID del juego de ruleta
 const ROULETTE_GAME_ID = 2;
 
 interface BetResult {
@@ -38,11 +37,11 @@ const RouletteGame: React.FC = () => {
     const [wheelStart, setWheelStart] = useState(false);
     const [lastResults, setLastResults] = useState<string[]>([]);
     const [betResults, setBetResults] = useState<BetResult[]>([]);
-    const { user } = useAuth();
-    const { createPlay, isLoading } = usePlay();
-    const { client, getUserData } = useUser();
+    const {user} = useAuth();
+    const {createPlay, isLoading} = usePlay();
+    const {client, getUserData} = useUser();
 
-    const { bets, onBet, clearBets, total: totalBet, hasBets } = useRoulette();
+    const {bets, onBet, clearBets, total: totalBet, hasBets} = useRoulette();
 
     // Función para determinar si un número es rojo o negro
     const getNumberColor = (number: string): 'red' | 'black' | 'green' => {
@@ -170,7 +169,7 @@ const RouletteGame: React.FC = () => {
 
     // Componente para mostrar el historial de resultados con colores
     const ResultHistory = () => (
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '1rem' }}>
+        <div style={{display: 'flex', gap: '8px', marginBottom: '1rem'}}>
             {lastResults.map((num, idx) => {
                 const color = getNumberColor(num);
                 return (
@@ -194,7 +193,7 @@ const RouletteGame: React.FC = () => {
 
     // Componente para los botones de apuesta rápida por color
     const QuickColorBets = () => (
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+        <div style={{display: 'flex', gap: '1rem', marginBottom: '1rem'}}>
             <button
                 onClick={() => onBet(Number(selectedChip), 'add')(['RED'], 'RED')}
                 style={{
@@ -225,8 +224,8 @@ const RouletteGame: React.FC = () => {
     );
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', padding: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{display: 'flex', flexDirection: 'column', gap: '2rem', padding: '20px'}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <h2>Ruleta de Casino</h2>
                 <div style={{
                     padding: '10px 20px',
@@ -241,11 +240,11 @@ const RouletteGame: React.FC = () => {
             {lastResults.length > 0 && (
                 <div>
                     <h3>Últimos resultados</h3>
-                    <ResultHistory />
+                    <ResultHistory/>
                 </div>
             )}
 
-            <div style={{ marginBottom: '1rem' }}>
+            <div style={{marginBottom: '1rem'}}>
                 <h3>Seleccionar ficha</h3>
                 <ChipList
                     chips={chips}
@@ -255,9 +254,9 @@ const RouletteGame: React.FC = () => {
                 />
             </div>
 
-            <QuickColorBets />
+            <QuickColorBets/>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '2rem'}}>
                 <RouletteTable
                     chips={chips}
                     bets={bets}
@@ -265,7 +264,7 @@ const RouletteGame: React.FC = () => {
                     readOnly={wheelStart}
                 />
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <div>
                         <RouletteWheel
                             start={wheelStart}
@@ -273,7 +272,7 @@ const RouletteGame: React.FC = () => {
                             onSpinningEnd={handleEndSpin}
                         />
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
                         <button
                             onClick={handleSpin}
                             disabled={wheelStart || !hasBets || isLoading}
@@ -309,7 +308,7 @@ const RouletteGame: React.FC = () => {
             </div>
 
             {betResults.length > 0 && (
-                <div style={{ marginTop: '2rem' }}>
+                <div style={{marginTop: '2rem'}}>
                     <h3>Resultados de las apuestas</h3>
                     <div style={{
                         display: 'flex',

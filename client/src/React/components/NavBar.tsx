@@ -102,7 +102,18 @@ const NavBar: React.FC = () => {
 
                     {user ? (
                         <>
-                            <Link to="/HomeDef#games-section" className="navbar-btn navbar-play-btn">Jugar</Link>
+                            <Link
+                                to="/Home#games-section-home"
+                                className="navbar-btn navbar-play-btn"
+                                onClick={(e) => {
+                                    if (location.pathname === '/Home') {
+                                        e.preventDefault();
+                                        document.getElementById('games-section-home')?.scrollIntoView({ behavior: 'smooth' });
+                                    }
+                                }}
+                            >
+                                Jugar
+                            </Link>
                             <div className="navbar-user-dropdown" ref={dropdownRef}>
                                 <div
                                     className="navbar-user-info"

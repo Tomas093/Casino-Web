@@ -5,7 +5,8 @@ import Footer from '@components//Footer';
 import NavBar from '@components//NavBar';
 import { useAuth } from '@context/AuthContext';
 import { useUser } from "@context/UserContext.tsx";
-import {useTransaction} from "@context/TransactionContext.tsx";
+import { useTransaction } from "@context/TransactionContext.tsx";
+import { useLimitContext } from "@context/LimitContext.tsx";
 
 // Métodos disponibles
 const METODOS_INGRESO = [
@@ -251,14 +252,33 @@ const DetalleMetodo: React.FC<MetodoProps> = ({ metodo, via }) => {
 
 // Componente principal
 const Transaccion: React.FC = () => {
-    const { user,} = useAuth();
-    const { client, getUserData } = useUser()
-    const { getTransactions, createIngreso, createEgreso } = useTransaction()
+    const { user } = useAuth();
+    const { client, getUserData } = useUser();
+    const { getTransactions, createIngreso, createEgreso } = useTransaction();
+    const { getLimitMonetario } = useLimitContext();
     const [activeTab, setActiveTab] = useState<'ingreso' | 'retiro'>('ingreso');
     const [monto, setMonto] = useState<string>('');
     const [metodo, setMetodo] = useState<string>('Tarjeta');
     const [historial, setHistorial] = useState<TransaccionUI[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const [monetaryLimits, setMonetaryLimits] = useState<any>(null);
+
+    // Fetch monetary limits on component mount
+    useEffect(() => {
+        const fetchLimits = async () => {
+            if (!user) return;
+            try {
+                const limits = await getLimitMonetario(user.usuarioid);
+                if (limits && limits.length > 0) {
+                    setMonetaryLimits(limits[0]);
+                }
+            } catch (error) {
+                console.error("Error al cargar límites monetarios:", error);
+            }
+        };
+
+        fetchLimits();
+    }, [user, getLimitMonetario]);
 
     // Cambiar automáticamente el método según la pestaña
     useEffect(() => {
@@ -287,6 +307,34 @@ const Transaccion: React.FC = () => {
         fetchHistorial();
     }, [user, getTransactions]);
 
+    // Calculate current usage for limits
+    const calculateCurrentUsage = () => {
+        if (!historial.length) return { daily: 0, weekly: 0, monthly: 0 };
+
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const weekStart = new Date(now);
+        weekStart.setDate(now.getDate() - now.getDay());
+        const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+        // Filter ingreso transactions by time periods
+        const ingresos = historial.filter(t => t.tipo === 'ingreso');
+
+        const dailyTotal = ingresos
+            .filter(t => t.fecha >= today)
+            .reduce((sum, t) => sum + t.monto, 0);
+
+        const weeklyTotal = ingresos
+            .filter(t => t.fecha >= weekStart)
+            .reduce((sum, t) => sum + t.monto, 0);
+
+        const monthlyTotal = ingresos
+            .filter(t => t.fecha >= monthStart)
+            .reduce((sum, t) => sum + t.monto, 0);
+
+        return { daily: dailyTotal, weekly: weeklyTotal, monthly: monthlyTotal };
+    };
+
     const getMetodosDisponibles = () => {
         return activeTab === 'ingreso' ? METODOS_INGRESO : METODOS_RETIRO;
     };
@@ -304,8 +352,31 @@ const Transaccion: React.FC = () => {
             return;
         }
 
+        const montoNum = parseFloat(monto);
+
+        // Check monetary limits for deposits
+        if (activeTab === 'ingreso' && monetaryLimits) {
+            const usage = calculateCurrentUsage();
+
+            // Check if deposit would exceed any limit
+            if (usage.daily + montoNum > monetaryLimits.limitediario) {
+                alert(`Este depósito excedería su límite diario de $${monetaryLimits.limitediario}`);
+                return;
+            }
+
+            if (usage.weekly + montoNum > monetaryLimits.limitesemanal) {
+                alert(`Este depósito excedería su límite semanal de $${monetaryLimits.limitesemanal}`);
+                return;
+            }
+
+            if (usage.monthly + montoNum > monetaryLimits.limitemensual) {
+                alert(`Este depósito excedería su límite mensual de $${monetaryLimits.limitemensual}`);
+                return;
+            }
+        }
+
         // Para retiros, verificar si hay suficiente balance
-        if (activeTab === 'retiro' && client && parseFloat(monto) > client.balance) {
+        if (activeTab === 'retiro' && client && montoNum > client.balance) {
             alert('No tiene suficiente saldo para realizar este retiro');
             return;
         }
@@ -313,7 +384,6 @@ const Transaccion: React.FC = () => {
         setLoading(true);
 
         try {
-            const montoNum = parseFloat(monto);
             const fecha = new Date().toISOString();
 
             // Datos para la transacción
