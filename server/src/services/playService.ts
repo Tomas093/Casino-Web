@@ -10,6 +10,14 @@ interface PlayData {
     apuesta: number;
 }
 
+interface UserPlayData {
+    usuarioid: number;
+    juegoid: number;
+    fecha: string;
+    retorno: number;
+    apuesta: number;
+}
+
 // Funciones auxiliares privadas
 const findClienteById = async (clienteid: number) => {
     const cliente = await prisma.cliente.findUnique({
@@ -35,48 +43,80 @@ const findJuegoById = async (juegoid: number) => {
     return juego;
 };
 
+const findClienteByUsuarioId = async (usuarioid: number) => {
+    const cliente = await prisma.cliente.findUnique({
+        where: {usuarioid}
+    });
+
+    if (!cliente) {
+        throw new Error(`Cliente no encontrado para el usuario ID: ${usuarioid}`);
+    }
+
+    return cliente;
+}
+
 export const playService = {
+    createJugada: async (data: UserPlayData) => {
+        try {
+            const {usuarioid, juegoid, fecha, retorno, apuesta} = data;
 
-    createJugada: async (data: PlayData) => {
-        const {clienteid, juegoid, fecha, retorno, apuesta} = data;
+            // Primero encontramos el cliente asociado al usuario
+            const client = await findClienteByUsuarioId(usuarioid);
+            if (!client) {
+                throw new Error(`Cliente no encontrado para el usuario ID: ${usuarioid}`);
+            }
 
-        // Validar cliente y juego
-        await findClienteById(clienteid);
-        await findJuegoById(juegoid);
+            const clienteid = client.clienteid;
 
-        // Actualizar el balance del cliente
-        await prisma.cliente.update({
-            where: {clienteid},
-            data: {
-                balance: {
-                    increment: retorno - apuesta
+            // Verificamos que el juego exista
+            await findJuegoById(juegoid);
+
+            console.log(`Creando jugada para cliente ID: ${clienteid}, juego ID: ${juegoid}`);
+
+            // Actualizar el balance del cliente
+            await prisma.cliente.update({
+                where: {clienteid},
+                data: {
+                    balance: {
+                        increment: retorno - apuesta
+                    }
                 }
-            }
-        });
+            });
 
-        // Crear la jugada
-        return prisma.jugada.create({
-            data: {
-                clienteid,
-                juegoid,
-                fecha: new Date(fecha),
-                apuesta,
-                retorno: retorno
-            }
-        });
+            // Crear la jugada
+            const newJugada = await prisma.jugada.create({
+                data: {
+                    clienteid,
+                    juegoid,
+                    fecha: new Date(fecha),
+                    apuesta,
+                    retorno: retorno
+                }
+            });
 
+            console.log(`Jugada creada con ID: ${newJugada.jugadaid}`);
+            return newJugada;
+        } catch (error) {
+            console.error('Error en playService.createJugada:', error);
+            throw error;
+        }
     },
 
     // Obtener todas las jugadas de un usuario
     getJugadasByUserId: async (userId: number) => {
-        const cliente = await findClienteById(userId);
-        return prisma.jugada.findMany({
-            where: {clienteid: cliente.clienteid},
-            include: {
-                cliente: true,
-                juego: true
-            }
-        });
+        try {
+            const cliente = await findClienteByUsuarioId(userId);
+            return prisma.jugada.findMany({
+                where: {clienteid: cliente.clienteid},
+                include: {
+                    cliente: true,
+                    juego: true
+                }
+            });
+        } catch (error) {
+            console.error(`Error al obtener jugadas para usuario ID: ${userId}`, error);
+            throw error;
+        }
     },
 
     // Obtener todas las jugadas de un juego

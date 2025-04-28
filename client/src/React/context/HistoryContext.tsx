@@ -1,30 +1,31 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import historyApi, { GameHistoryResponse } from '../api/historyApi';
 
-// Definir la interfaz del contexto
 interface HistoryContextType {
   userHistory: GameHistoryResponse | null;
+  fullHistory: any | null;
   loading: boolean;
   error: string | null;
   getUserHistory: (userId: string | number) => Promise<GameHistoryResponse>;
+  getAllUserHistory: (userId: string | number) => Promise<any>;
   clearHistory: () => void;
 }
 
-// Crear el contexto
+
 const HistoryContext = createContext<HistoryContextType | undefined>(undefined);
 
-// Props para el proveedor del contexto
+
 interface HistoryProviderProps {
   children: ReactNode;
 }
 
-// Componente proveedor del contexto
+
 export const HistoryProvider: React.FC<HistoryProviderProps> = ({ children }) => {
   const [userHistory, setUserHistory] = useState<GameHistoryResponse | null>(null);
+  const [fullHistory, setFullHistory] = useState<any | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Obtener el historial de un usuario específico
   const getUserHistory = useCallback(async (userId: string | number): Promise<GameHistoryResponse> => {
     setLoading(true);
     setError(null);
@@ -41,22 +42,45 @@ export const HistoryProvider: React.FC<HistoryProviderProps> = ({ children }) =>
     }
   }, []);
 
+  const getAllUserHistory = useCallback(async (userId: string | number): Promise<any> => {
+    setLoading(true);
+    setError(null);
+    try {
+
+      const data = await historyApi.getAllHistory(userId);
+      setFullHistory(data);
+      return data;
+    } catch (err: any) {
+      setError(err.message || 'Error al obtener el historial completo del usuario');
+      console.error('Error al obtener historial completo:', err);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+
+
+
   // Limpiar los datos del historial
   const clearHistory = useCallback(() => {
     setUserHistory(null);
+    setFullHistory(null);
     setError(null);
   }, []);
 
   return (
-    <HistoryContext.Provider value={{
-      userHistory,
-      loading,
-      error,
-      getUserHistory,
-      clearHistory
-    }}>
-      {children}
-    </HistoryContext.Provider>
+      <HistoryContext.Provider value={{
+        userHistory,
+        fullHistory,
+        loading,
+        error,
+        getUserHistory,
+        getAllUserHistory,
+        clearHistory
+      }}>
+        {children}
+      </HistoryContext.Provider>
   );
 };
 

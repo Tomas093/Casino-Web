@@ -23,8 +23,8 @@ model amistad {
   clienteid                           Int?
   cliente2id                          Int?
   aceptada                            Boolean?
-  cliente_amistad_cliente2idTocliente cliente? @relation("amistad_cliente2idTocliente", fields: [cliente2id], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
-  cliente_amistad_clienteidTocliente  cliente? @relation("amistad_clienteidTocliente", fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  cliente_amistad_cliente2idTocliente cliente? @relation("amistad_cliente2idTocliente", fields: [cliente2id], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
+  cliente_amistad_clienteidTocliente  cliente? @relation("amistad_clienteidTocliente", fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model aumentolimitehorario {
@@ -34,8 +34,8 @@ model aumentolimitehorario {
   adminid         Int?
   fechaabierto    DateTime?      @db.Timestamp(6)
   fecharesuelto   DateTime?      @db.Timestamp(6)
-  administrador   administrador? @relation(fields: [adminid], references: [adminid], onDelete: NoAction, onUpdate: NoAction)
-  cliente         cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  administrador   administrador? @relation(fields: [adminid], references: [adminid], onDelete: Cascade, onUpdate: NoAction)
+  cliente         cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model aumentolimitesmonetario {
@@ -45,8 +45,8 @@ model aumentolimitesmonetario {
   adminid            Int?
   fechaabierto       DateTime?      @db.Timestamp(6)
   fecharesuelto      DateTime?      @db.Timestamp(6)
-  administrador      administrador? @relation(fields: [adminid], references: [adminid], onDelete: NoAction, onUpdate: NoAction)
-  cliente            cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  administrador      administrador? @relation(fields: [adminid], references: [adminid], onDelete: Cascade, onUpdate: NoAction)
+  cliente            cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model cliente {
@@ -78,7 +78,7 @@ model disminucionlimitehorario {
   clienteid            Int?
   cantidad             Int?
   fecha                DateTime? @db.Timestamp(6)
-  cliente              cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  cliente              cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model disminucionlimitemonetario {
@@ -86,7 +86,7 @@ model disminucionlimitemonetario {
   clienteid             Int?
   cantidad              Decimal?  @db.Decimal(10, 2)
   fecha                 DateTime? @db.Timestamp(6)
-  cliente               cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  cliente               cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model egreso {
@@ -95,7 +95,7 @@ model egreso {
   monto     Decimal?  @db.Decimal(10, 2)
   fecha     DateTime? @db.Timestamp(6)
   metodo    String?   @db.VarChar(255)
-  cliente   cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  cliente   cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model ingreso {
@@ -105,7 +105,7 @@ model ingreso {
   fecha     DateTime? @db.Timestamp(6)
   cuponid   Int?
   metodo    String?   @db.VarChar(255)
-  cliente   cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  cliente   cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model juego {
@@ -123,7 +123,7 @@ model jugada {
   apuesta   Int?
   juegoid   Int?
   juego     juego?    @relation(fields: [juegoid], references: [juegoid], onDelete: NoAction, onUpdate: NoAction, map: "fk_juegoid")
-  cliente   cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  cliente   cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model limitehorario {
@@ -131,7 +131,7 @@ model limitehorario {
   limitediario  Int?
   limitesemanal Int?
   limitemensual Int?
-  cliente       cliente @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  cliente       cliente @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model limitemonetario {
@@ -139,13 +139,13 @@ model limitemonetario {
   limitediario  Decimal? @db.Decimal(10, 2)
   limitesemanal Decimal? @db.Decimal(10, 2)
   limitemensual Decimal? @db.Decimal(10, 2)
-  cliente       cliente  @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  cliente       cliente  @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model mensajes {
   ticketid Int     @id
   mensaje  String?
-  tickets  tickets @relation(fields: [ticketid], references: [ticketid], onDelete: NoAction, onUpdate: NoAction)
+  tickets  tickets @relation(fields: [ticketid], references: [ticketid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model partida {
@@ -154,7 +154,7 @@ model partida {
   fecha           DateTime? @db.Timestamp(6)
   gananciaperdida Int?
   apuesta         Int?
-  cliente         cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  cliente         cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model pausa {
@@ -162,7 +162,7 @@ model pausa {
   fechainicio DateTime? @db.Timestamp(6)
   fechafin    DateTime? @db.Timestamp(6)
   duracion    Int?
-  cliente     cliente   @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  cliente     cliente   @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model promocion {
@@ -184,8 +184,8 @@ model suspendidos {
   duracion      Int?
   adminid       Int?
   razon         String?
-  administrador administrador? @relation(fields: [adminid], references: [adminid], onDelete: NoAction, onUpdate: NoAction)
-  cliente       cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  administrador administrador? @relation(fields: [adminid], references: [adminid], onDelete: Cascade, onUpdate: NoAction)
+  cliente       cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model tickets {
@@ -195,15 +195,15 @@ model tickets {
   resuelto      Boolean?
   idadmin       Int?
   mensajes      mensajes?
-  cliente       cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
-  administrador administrador? @relation(fields: [idadmin], references: [adminid], onDelete: NoAction, onUpdate: NoAction)
+  cliente       cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
+  administrador administrador? @relation(fields: [idadmin], references: [adminid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model tiempodejuego {
   clienteid Int
   fecha     DateTime @db.Timestamp(6)
   tiempo    Int?
-  cliente   cliente  @relation(fields: [clienteid], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  cliente   cliente  @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 
   @@id([clienteid, fecha])
 }

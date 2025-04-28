@@ -1,0 +1,66 @@
+/* ...existing code... */
+
+/* Estilos para el modo compacto */
+.leaderboard-filters-compact {
+    display: flex;
+    justify-content: flex-start; /* Cambiado de 'center' a 'flex-start' para alinear a la izquierda */
+    align-items: center;
+    margin: 1rem 0;
+    gap: 0.5rem;
+    padding-left: 1rem; /* Agregado un padding para que no quede pegado al borde */
+}
+
+.filter-dropdown {
+    padding: 0.5rem 1rem;
+    background-color: #2c2744;
+    color: #fff;
+    border: 1px solid #483d8b;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem top 50%;
+    background-size: 0.8rem auto;
+    padding-right: 2rem;
+    min-width: 180px;
+}
+
+.order-btn {
+    padding: 0.5rem 0.8rem;
+    background-color: #2c2744;
+    color: #fff;
+    border: 1px solid #483d8b;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.order-btn:hover,
+.filter-dropdown:hover {
+    background-color: #3a3559;
+}
+
+.order-indicator {
+    margin-left: 4px;
+    font-weight: bold;
+    opacity: 0.8;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .filter-dropdown {
+        min-width: 140px;
+        font-size: 0.8rem;
+    }
+    
+    .order-btn {
+        padding: 0.45rem 0.7rem;
+    }
+}
+

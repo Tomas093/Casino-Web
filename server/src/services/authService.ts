@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import {PrismaClient} from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -24,14 +24,14 @@ interface AdminData extends RegisterData {
 export const authService = {
     // Registrar un nuevo usuario
     async register(userData: RegisterData) {
-        const { nombre, apellido, email, password, edad, dni } = userData;
+        const {nombre, apellido, email, password, edad, dni} = userData;
 
         // Verificar si ya existe un usuario con ese email o DNI
         const existingUser = await prisma.usuario.findFirst({
             where: {
                 OR: [
-                    { email },
-                    { dni }
+                    {email},
+                    {dni}
                 ]
             }
         });
@@ -55,12 +55,29 @@ export const authService = {
             }
         });
 
-        // Crear cliente asociado
-        await prisma.cliente.create({
+        const nuevoCliente = await prisma.cliente.create({
             data: {
                 usuarioid: nuevoUsuario.usuarioid,
                 balance: 0,
                 influencer: false
+            }
+        });
+
+        await prisma.limitehorario.create({
+            data: {
+                clienteid: nuevoCliente.clienteid,
+                limitediario: 5,
+                limitesemanal: 30,
+                limitemensual: 100
+            }
+        });
+
+        await prisma.limitemonetario.create({
+            data: {
+                clienteid: nuevoCliente.clienteid,
+                limitediario: 5000,
+                limitesemanal: 500000,
+                limitemensual: 5000000
             }
         });
 
@@ -69,9 +86,9 @@ export const authService = {
 
     // Login de usuario
     async login(loginData: LoginData) {
-        const { email, password } = loginData;
+        const {email, password} = loginData;
 
-        const usuario = await prisma.usuario.findUnique({ where: { email } });
+        const usuario = await prisma.usuario.findUnique({where: {email}});
 
         if (!usuario || !usuario.password) {
             throw new Error('Email o contraseña incorrectos');
@@ -83,20 +100,20 @@ export const authService = {
         }
 
         // Eliminar la contraseña del objeto usuario
-        const { password: _, ...usuarioSinPassword } = usuario;
+        const {password: _, ...usuarioSinPassword} = usuario;
         return usuarioSinPassword;
     },
 
     // Crear un administrador
     async createAdmin(adminData: AdminData) {
-        const { nombre, apellido, email, password, edad, dni, superadmin } = adminData;
+        const {nombre, apellido, email, password, edad, dni, superadmin} = adminData;
 
         // Verificar si ya existe un usuario con ese email o DNI
         const existingUser = await prisma.usuario.findFirst({
             where: {
                 OR: [
-                    { email },
-                    { dni }
+                    {email},
+                    {dni}
                 ]
             }
         });
