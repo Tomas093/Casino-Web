@@ -23,6 +23,7 @@ interface FormProps {
     submitButtonText?: string;
     termsText?: React.ReactNode;
     onSubmit: (formData: Record<string, string>) => void;
+    errorMessage?: string;
 }
 
 const Form: React.FC<FormProps> = ({
