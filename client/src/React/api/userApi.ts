@@ -12,9 +12,6 @@ export interface EditUserData {
     influencer: boolean;
 }
 
-
-
-
 const userApi = {
     getUserById: async (userId: string) => {
         try {

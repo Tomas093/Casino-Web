@@ -4,11 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Pusheo LeaderBoard.tsx en Home">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Remove fixed margin from main content to improve layout flexibility">
+      <change afterPath="$PROJECT_DIR$/client/src/Css/LimitStyle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/api/limitApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/context/LimitContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/profile/LimitPage.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/routes/limitRoutes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/services/limitService.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/SideBarStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/SideBarStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/userApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/userApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/appProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/appProvider.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/components/SideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/SideBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/StatisticsPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/StatisticsPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/playRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/playRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/authService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/authService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/playService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/playService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,9 +35,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="CSS File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -67,32 +78,32 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2vGcaxnqELLcxdc86qh2iWUSxuW" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Tomas",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/Casino-Web/server",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
-    "ts.external.directory.path": "C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Tomas&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/Casino-Web/server&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server" />
@@ -115,7 +126,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-WS-243.26053.12" />
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-WS-251.23774.424" />
       </set>
     </attachedChunks>
   </component>
@@ -160,7 +171,22 @@
       <workItem from="1744650290859" duration="27307000" />
       <workItem from="1744716715867" duration="1443000" />
       <workItem from="1744718197767" duration="10332000" />
-      <workItem from="1744731593209" duration="19272000" />
+      <workItem from="1744731593209" duration="19598000" />
+      <workItem from="1744822544857" duration="82000" />
+      <workItem from="1744834033996" duration="701000" />
+      <workItem from="1745204455269" duration="3000" />
+      <workItem from="1745324144941" duration="633000" />
+      <workItem from="1745324931362" duration="906000" />
+      <workItem from="1745326043705" duration="3145000" />
+      <workItem from="1745329963769" duration="7617000" />
+      <workItem from="1745522246857" duration="8000" />
+      <workItem from="1745605997720" duration="2532000" />
+      <workItem from="1745614418744" duration="250000" />
+      <workItem from="1745672897724" duration="25000" />
+      <workItem from="1745687499789" duration="19000" />
+      <workItem from="1745780586945" duration="40000" />
+      <workItem from="1745790961502" duration="459000" />
+      <workItem from="1745802170543" duration="4777000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -426,7 +452,23 @@
       <option name="project" value="LOCAL" />
       <updated>1744750663116</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Update sidebar styles and links; change position to fixed and adjust layout for responsiveness">
+      <option name="closed" value="true" />
+      <created>1744751464425</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1744751464425</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Remove fixed margin from main content to improve layout flexibility">
+      <option name="closed" value="true" />
+      <created>1744751715148</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1744751715148</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -447,8 +489,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Update workspace.xml to reflect changes in file paths and project structure" />
-    <MESSAGE value="Implement landing page, navigation bar, and footer components; update package dependencies" />
     <MESSAGE value="Add promotional images to landing page and refactor promo card rendering" />
     <MESSAGE value="Refactor authentication context and add user data fetching; update styles for login and register pages" />
     <MESSAGE value="Refactor authentication context to include client data fetching; update Sidebar and HistoryPage components" />
@@ -472,6 +512,8 @@
     <MESSAGE value="Pusheo Historial Andando" />
     <MESSAGE value="Pusheo Estadisticas" />
     <MESSAGE value="Pusheo LeaderBoard.tsx en Home" />
-    <option name="LAST_COMMIT_MESSAGE" value="Pusheo LeaderBoard.tsx en Home" />
+    <MESSAGE value="Update sidebar styles and links; change position to fixed and adjust layout for responsiveness" />
+    <MESSAGE value="Remove fixed margin from main content to improve layout flexibility" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove fixed margin from main content to improve layout flexibility" />
   </component>
 </project>

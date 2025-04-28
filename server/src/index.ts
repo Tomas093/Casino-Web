@@ -13,6 +13,7 @@ import gameRoutes from "./routes/gameRoutes";
 import historyRoutes  from "./routes/historyRoutes";
 import playRoutes from "./routes/playRoutes"
 import leaderboardRoutes from "./routes/leaderboardRoutes";
+import limitRoutes from "./routes/limitRoutes";
 
 const app = express();
 
@@ -65,6 +66,7 @@ app.use('/game', gameRoutes);
 app.use('/history', historyRoutes)
 app.use('/play', playRoutes);
 app.use('/leaderboard',leaderboardRoutes)
+app.use('/limit', limitRoutes)
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
