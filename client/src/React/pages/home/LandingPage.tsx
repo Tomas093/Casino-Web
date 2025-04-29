@@ -26,15 +26,15 @@ const LandingPage: React.FC = () => {
         {titulo: "Giros Gratis", descripcion: "20 giros gratis en nuestros juegos premium", imagen: "promo3"}
     ];
 
-    const juegos = [
-        {id: 1, nombre: "Slots", descripcion: "La emoción de los giros", imagen: "game1"},
-        {id: 2, nombre: "Ruleta Premium", descripcion: "La elegancia y el azar se combinan", imagen: "game2"},
-        {id: 3, nombre: "Blackjack VIP", descripcion: "Estrategia y suerte al máximo nivel", imagen: "game3"},
+    const australisJuegos = [
+        {id: 1, nombre: "Slots", descripcion: "La emoción de los giros", imagen: "australis-game1"},
+        {id: 2, nombre: "Ruleta Premium", descripcion: "La elegancia y el azar se combinan", imagen: "australis-game2"},
+        {id: 3, nombre: "Blackjack VIP", descripcion: "Estrategia y suerte al máximo nivel", imagen: "australis-game3"},
         {
             id: 4,
             nombre: "Dado",
             descripcion: "100 posibilidades, una sola decisión: ¡Lánzalo y deja que el destino hable!",
-            imagen: "game4"
+            imagen: "australis-game4"
         },
     ];
 
@@ -72,12 +72,14 @@ const LandingPage: React.FC = () => {
     };
 
 
-    const renderGameCards = () => {
-        return juegos.map(juego => (
-            <div key={juego.id} className="game-card">
-                <div className={`game-image ${juego.imagen}`}></div>
-                <h3>{juego.nombre}</h3>
-                <p>{juego.descripcion}</p>
+    const renderAustralisGameCards = () => {
+        return australisJuegos.map(juego => (
+            <div key={juego.id} className="australis-game-card">
+                <div className={`australis-game-image ${juego.imagen}`}></div>
+                <div className="australis-game-info">
+                    <h3 className="australis-game-title">{juego.nombre}</h3>
+                    <p className="australis-game-description">{juego.descripcion}</p>
+                </div>
             </div>
         ));
     };
@@ -95,7 +97,7 @@ const LandingPage: React.FC = () => {
                 navLinks={landingNavLinks}
                 className="landing-navbar"
                 variant="light"
-                showBalance={false}
+                showBalance={true}
                 playButtonLabel="Jugar"
                 loginButtonLabel="Iniciar Sesión"
                 registerButtonLabel="Registrarse"
@@ -127,8 +129,6 @@ const LandingPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-
-                {/* Resto del código sin cambios... */}
 
                 {/* Características */}
                 <section className="australis-features">
@@ -172,7 +172,7 @@ const LandingPage: React.FC = () => {
                 <section id="games" className="games-section">
                     <h2 className="section-title">Juegos Populares</h2>
                     <div className="games-carousel">
-                        {renderGameCards()}
+                        {renderAustralisGameCards()}
                     </div>
                 </section>
 

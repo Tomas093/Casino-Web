@@ -253,78 +253,77 @@ section {
     color: #fff;
 }
 
-/* Games Section */
-
-.games-section-landing {
+/* Games Section - Nuevo estilo mejorado */
+#games {
     background-color: #000000;
+    padding: 80px 20px;
 }
 
 .games-carousel {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 25px;
     flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.game-card-landing {
-    width: 300px;
-    background: rgb(25, 23, 23);
-    border-radius: 15px;
+.australis-game-card {
+    width: 250px;
+    background: #141414;
+    border-radius: 12px;
     overflow: hidden;
-    transition: transform 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin-bottom: 20px;
 }
 
-.game-card:hover {
-    transform: scale(1.05);
+.australis-game-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
 }
 
-.game-image {
-    height: 180px;
+.australis-game-image {
+    height: 160px;
     background-size: cover;
     background-position: center;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
 }
-.game-info {
-    padding: 15px;
+
+australis-game-info {
+    padding: 20px;
     text-align: center;
-    color: white;
+    background-color: #1c1c1c; /* Color unificado para todos los juegos */
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
 }
-
-.game-info h3 {
-    font-size: 1.4rem;
+.australis-game-title {
+    font-size: 1.5rem;
     margin-bottom: 10px;
-    color: #facc15; /* Amarillo suave, podés ajustar el color */
+    color: #ffd700;
+    font-weight: 600;
 }
 
-.game-info p {
+.australis-game-description {
     font-size: 0.95rem;
     color: #ccc;
+    line-height: 1.4;
 }
 
-.game1 {
+.australis-game1 {
     background-image: url('@assets/slots.jpg');
 }
 
-.game2 {
-    background-image: url("@assets/ruleta.jpg");
+.australis-game2 {
+    background-image: url('@assets/ruleta.jpg');
 }
 
-.game3 {
+.australis-game3 {
     background-image: url('@assets/blackjack.jpg');
 }
 
-.game4 {
+.australis-game4 {
     background-image: url('@assets/dados.jpg');
-}
-
-
-.game-card h3 {
-    padding: 20px 20px 10px;
-    font-size: 1.3rem;
-}
-
-.game-card p {
-    padding: 0 20px 20px;
-    color: #ccc;
 }
 
 /* Promo Section */
@@ -447,8 +446,6 @@ section {
     box-shadow: 0 3px 10px rgba(255, 215, 0, 0.5);
 }
 
-
-
 /* Features Section */
 .australis-features {
     padding: 80px 0;
@@ -555,4 +552,17 @@ section {
 
 .australis-feature:nth-child(4) {
     animation: float 5s ease infinite 3s;
+}
+
+/* Variables CSS para evitar conflictos */
+:root {
+    --color-dark-gray: #121212;
+    --light-gray: #2a2a2a;
+    --green: #28a745;
+    --gold: #ffd700;
+    --red: #e53935;
+    --white: #ffffff;
+    --text-light: #e6e6e6;
+    --text-muted: #b3b3b3;
+    --transition: all 0.3s ease;
 }

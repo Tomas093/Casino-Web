@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/RouletteGame.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/RouletteGame.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/LandingPageStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LandingPageStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/home/LandingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/home/LandingPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/ProfilePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/ProfilePage.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
