@@ -7,7 +7,7 @@ import Footer from "@components/Footer.tsx";
 import NavBar from "@components/NavBar.tsx";
 import {useAuth} from "@context/AuthContext.tsx";
 import {useUser} from "@context/UserContext.tsx";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 const LandingPage: React.FC = () => {
@@ -38,7 +38,7 @@ const LandingPage: React.FC = () => {
         },
     ];
 
-    const {user} = useAuth();
+    const { user } = useAuth();
     const {getUserData} = useUser()
 
     useEffect(() => {

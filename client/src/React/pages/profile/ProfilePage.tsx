@@ -83,14 +83,17 @@ const ProfilePage: React.FC = () => {
                 nombre: formData.nombre,
                 apellido: formData.apellido,
                 email: formData.email,
-                edad: parseInt(user.edad) || 0, // Usar el valor original del usuario
-                dni: user.dni, // Usar el valor original del usuario
+                edad: parseInt(user.edad) || 0,
+                dni: user.dni,
                 balance: client?.balance || 0,
                 influencer: client?.influencer || false
             };
 
             await editUser(user.usuarioid.toString(), updatedData);
+
+            // Recargar explícitamente los datos del usuario
             await getUserData(user.usuarioid.toString());
+
             setSuccess('Información actualizada correctamente');
             setIsEditing(false);
         } catch (err: any) {

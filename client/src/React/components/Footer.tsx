@@ -57,7 +57,7 @@ const Footer: React.FC = () => {
                         <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><FaFacebookF /></a>
                         <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
                         <a href="https://github.com/Tomas093/Casino-Web" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
-                        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"><FaYoutube /></a>
+                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer"><FaYoutube /></a>
                     </div>
                 </div>
             </div>
