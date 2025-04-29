@@ -223,7 +223,7 @@ const MonLimitTicketPage: React.FC = () => {
                   <button 
                     type="button" 
                     className="cancel-btn" 
-                    onClick={() => navigate('/profile/limits')}
+                    onClick={() => navigate('/limit')}
                     disabled={isSubmitting}
                   >
                     Cancelar
