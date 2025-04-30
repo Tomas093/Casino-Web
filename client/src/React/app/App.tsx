@@ -20,16 +20,19 @@ import StatisticsPage from "../pages/profile/StatisticsPage.tsx"
 import LeaderBoard from "@components/LeaderBoard.tsx";
 import Limit from "../pages/profile/LimitPage.tsx";
 import MonLimitTicketPage from "../pages/Tickets/MonLimitTicketPage.tsx";
+import NotFound from "@components/Error/NotFound.tsx";
 
 function App() {
     return (
         <BrowserRouter>
             <AppProvider>
                 <Routes>
+                    {/* Rutas publicas */}
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path={"/leaderboard"} element={<LeaderBoard />} />
+                    <Route path="/notfound" element={<NotFound />} />
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
                     <Route element={<ProtectedRoute />}>

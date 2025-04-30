@@ -9,26 +9,22 @@ import Footer from '@components/Footer';
 import NavBar from "@components/NavBar.tsx";
 import { useUser } from "@context/UserContext.tsx";
 import { useAuth } from "@context/AuthContext.tsx";
-import { Link } from 'react-router-dom';
+import LeaderBoard from "@components/LeaderBoard";
 
-// Resto de interfaces y componentes sin cambios...
 interface GameCardProps {
     title: string;
     image: string;
-    route: string;  // Nueva propiedad para la ruta específica del juego
 }
 
 // Game Card Component
-const GameCard: React.FC<GameCardProps> = ({ title, image, route }) => {
+const GameCard: React.FC<GameCardProps> = ({ title, image }) => {
     return (
         <div className="game-card hover-card">
             <div className="game-card-inner">
                 <img src={image} alt={title} className="game-card-image" />
                 <div className="game-card-overlay">
                     <h3 className="game-card-title">{title}</h3>
-                    <Link to={route}>
-                        <button className="game-card-button">Jugar ahora</button>
-                    </Link>
+                    <button className="game-card-button">Jugar ahora</button>
                 </div>
             </div>
         </div>
@@ -75,7 +71,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onClick }) 
 };
 
 // Main Component
-const Home = () => {
+const HomeDef = () => {
     // References for scroll with zoom effect
     const containerRef = useRef(null);
     const showcaseRef = useRef(null);
@@ -89,14 +85,14 @@ const Home = () => {
 
     // Sample game list
     const games = [
-        { id: 1, title: "Ruleta VIP", image: ruletaImg, route: "/roulette" },
-        { id: 2, title: "BlackJack", image: blackjackImg, route: "/blackjack" },
-        { id: 3, title: "Slots", image: slotImg, route: "/slots" },
-        { id: 4, title: "Dados", image: dadosImg, route: "/dados" },
-        { id: 5, title: "Ruleta VIP", image: ruletaImg, route: "/roulette" },
-        { id: 6, title: "BlackJack", image: blackjackImg, route: "/blackjack" },
-        { id: 7, title: "Slots", image: slotImg, route: "/slots" },
-        { id: 8, title: "Dados", image: dadosImg, route: "/dados" }
+        { id: 1, title: "Ruleta VIP", image: ruletaImg },
+        { id: 2, title: "BlackJack", image: blackjackImg },
+        { id: 3, title: "Slots", image: slotImg },
+        { id: 4, title: "Dados", image: dadosImg },
+        { id: 5, title: "Ruleta VIP", image: ruletaImg },
+        { id: 6, title: "BlackJack", image: blackjackImg },
+        { id: 7, title: "Slots", image: slotImg},
+        { id: 8, title: "Dados", image: dadosImg }
     ];
 
     // FAQ data
@@ -205,22 +201,9 @@ const Home = () => {
         };
     }, []);
 
-    // Configuración personalizada para la navbar en Home
-    const homeNavLinks = [
-        {label: "Juegos", href: "#games-section-home", isAnchor: true},
-        {label: "Promociones", href: "#promos", isAnchor: true},
-        {label: "Nosotros", href: "#about-section", isAnchor: true},
-    ];
-
     return (
         <div className="homepage">
-            <NavBar
-                navLinks={homeNavLinks}
-                className="home-navbar"
-                variant="dark"
-                playButtonLabel="Jugar"
-                homeSectionId="games-section-home"
-            />
+            <NavBar/>
             <section className="hero-section">
                 <div className="hero-background">
                     <img alt="Casino Background" className="hero-image" />
@@ -252,23 +235,17 @@ const Home = () => {
                 </div>
             </section>
 
-            <section id="games-section-home" className="games-section-home">
+            <section className="games-section">
                 <h2 className="section-title">NUESTROS JUEGOS EXCLUSIVOS</h2>
                 <div ref={containerRef} className="scroll-container">
                     <div ref={showcaseRef} className="scroll-showcase">
                         {games.map(game => (
-                            <GameCard
-                                key={game.id}
-                                title={game.title}
-                                image={game.image}
-                                route={game.route}
-                            />
+                            <GameCard key={game.id} title={game.title} image={game.image} />
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* Resto del componente sin cambios... */}
             <section className="stats-section">
                 <h2 className="section-title">ESTADÍSTICAS</h2>
                 <div className="stats-container">
@@ -290,7 +267,14 @@ const Home = () => {
                 </div>
             </section>
 
-            <section id="about-section" className="about-section">
+            <section className="leaderboard-section">
+                <h2 className="section-title">TABLA DE CLASIFICACIÓN</h2>
+                <div className="leaderboard-wrapper">
+                    <LeaderBoard limit={5} compact={false} />
+                </div>
+            </section>
+
+            <section className="about-section">
                 <h2 className="section-title">QUIENES SOMOS</h2>
                 <div className="about-container">
                     <div className="about-content">
@@ -345,4 +329,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default HomeDef;

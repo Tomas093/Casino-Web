@@ -1,11 +1,38 @@
 import {Link} from 'react-router-dom';
 import Form from '@components/Form';
-import React from 'react';
+import React, {useState} from 'react';
 import '@css/RegisterStyle.css';
+import Message from "@components/Error/Message.tsx";
 
 const Register: React.FC = () => {
+    const [showMessage, setShowMessage] = useState(false);
+    const [message, setMessage] = useState('');
+    const [messageType, setMessageType] = useState<'error' | 'warning' | 'info' | 'success'>('warning');
+
     return (
         <div className="register-page">
+            <div style={{
+                position: 'absolute',
+                top: '20px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 100,
+                width: '100%',
+                maxWidth: '500px',
+                display: 'flex',
+                justifyContent: 'center'
+            }}>
+                {showMessage && (
+                    <Message
+                        message={message}
+                        type={messageType}
+                        icon={messageType === 'error' 
+                            ? <span style={{fontSize: '24px'}}>⛔</span> 
+                            : <span style={{fontSize: '24px'}}>⚠️</span>}
+                        onClose={() => setShowMessage(false)}
+                    />
+                )}
+            </div>
             <div className="body">
                 <Form
                     title="Australis"
@@ -26,7 +53,8 @@ const Register: React.FC = () => {
                     ]}
                     termsText={
                         <>
-                            Al registrarme, declaro que soy mayor de 18 años, que no me encuentro incluido dentro de ninguna de
+                            Al registrarme, declaro que soy mayor de 18 años, que no me encuentro incluido dentro de
+                            ninguna de
                             las prohibiciones conforme la normativa vigente,
                             acepto los <Link to="/TerminosyCondiciones" className="no-link"><strong> Términos y
                             Condiciones</strong></Link>
@@ -38,13 +66,17 @@ const Register: React.FC = () => {
                         try {
                             //verficar que el dni tenga solo numeros
                             if (!/^\d+$/.test(formData.dni)) {
-                                alert('El DNI solo puede contener números');
+                                setMessage('El DNI solo puede contener números');
+                                setMessageType('warning');
+                                setShowMessage(true);
                                 return;
                             }
 
                             // Veirficar si las contraseñas coinciden
                             if (formData.password !== formData.confirmPassword) {
-                                alert('Las contraseñas no coinciden');
+                                setMessage('Las contraseñas no coinciden');
+                                setMessageType('warning');
+                                setShowMessage(true);
                                 return;
                             }
 
@@ -62,15 +94,17 @@ const Register: React.FC = () => {
                             }
 
                             console.log('Usuario registrado:', await response.json());
-                            alert('Usuario registrado correctamente');
                             window.location.href = '/login';
                         } catch (error: any) {
                             console.error('Error al registrar:', error.message);
                             if (error.message.includes('Ya existe un usuario')) {
-                                alert('Ya existe un usuario con ese email o DNI');
+                                setMessage('Ya existe un usuario con ese email o DNI');
+                                setMessageType('warning');
                             } else {
-                                alert('Error al registrar usuario');
+                                setMessage('Error al registrar usuario');
+                                setMessageType('error');
                             }
+                            setShowMessage(true);
                         }
                     }}
                 />
@@ -80,3 +114,4 @@ const Register: React.FC = () => {
 };
 
 export default Register;
+
