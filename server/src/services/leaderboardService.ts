@@ -1,11 +1,12 @@
 import {PrismaClient} from '@prisma/client';
 
-type Timeframe = 'day' | 'month' | 'year' | 'historical';
+type Timeframe = 'day' | 'month' | 'year' | 'historical' | 'all';
+type OrderByField = 'retorno' | 'apuesta';
 
 const prisma = new PrismaClient();
 
 function buildDateFilter(timeframe: Timeframe, refDate: Date = new Date()) {
-    if (timeframe === 'historical') return undefined;
+    if (timeframe === 'historical' || timeframe === 'all') return undefined;
 
     const start = new Date(refDate);
     const end = new Date(refDate);
@@ -32,27 +33,120 @@ function buildDateFilter(timeframe: Timeframe, refDate: Date = new Date()) {
     return {gte: start, lte: end};
 }
 
+async function getTopPlays(
+    limit: number,
+    timeframe: Timeframe,
+    orderByField: OrderByField,
+    date?: Date
+) {
+    try {
+        const df = buildDateFilter(timeframe, date);
+
+        return prisma.jugada.findMany({
+            where: df ? {fecha: df} : {},
+            include: {
+                cliente: {
+                    include: {
+                        usuario: {
+                            select: {
+                                usuarioid: true,
+                                nombre: true,
+                                apellido: true,
+                                img: true
+                            }
+                        }
+                    }
+                },
+                juego: {
+                    select: {
+                        nombre: true
+                    }
+                }
+            },
+            orderBy: {
+                [orderByField]: 'desc'
+            },
+            take: limit
+        }).then(plays => {
+            return plays.map(play => ({
+                ...play,
+                juegoNombre: play.juego?.nombre || 'Unknown'
+            }));
+        });
+    } catch (error) {
+        console.error(`Error in getTopPlays (${orderByField}):`, error);
+        return [];
+    }
+}
+
+async function getClientAggregations(
+    limit: number,
+    timeframe: Timeframe,
+    date?: Date
+) {
+    try {
+        const df = buildDateFilter(timeframe, date);
+
+        return prisma.cliente.findMany({
+            select: {
+                clienteid: true,
+                balance: true,
+                usuario: {
+                    select: {
+                        nombre: true,
+                        apellido: true,
+                        img: true
+                    }
+                },
+                jugada: df ? {
+                    where: {fecha: df},
+                    select: {
+                        retorno: true,
+                        apuesta: true
+                    }
+                } : {
+                    select: {
+                        retorno: true,
+                        apuesta: true
+                    }
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Error in getClientAggregations:', error);
+        return [];
+    }
+}
+
 export const leaderboardService = {
     async getTopPlayersByPlays(
         limit: number = 10,
         timeframe: Timeframe = 'historical',
         date?: Date
     ) {
-        const dateFilter = buildDateFilter(timeframe, date);
-        const players = await prisma.cliente.findMany({
-            include: {
-                usuario: {select: {usuarioid: true, nombre: true, apellido: true, img: true}},
-                jugada: true
-            },
-            where: dateFilter ? {jugada: {some: {fecha: dateFilter}}} : {}
-        });
-        return players
-            .map(player => ({
-                ...player,
-                jugadaCount: player.jugada.length
-            }))
-            .sort((a, b) => b.jugadaCount - a.jugadaCount)
-            .slice(0, limit);
+        try {
+            const dateFilter = buildDateFilter(timeframe, date);
+            const players = await prisma.cliente.findMany({
+                include: {
+                    usuario: {select: {usuarioid: true, nombre: true, apellido: true, img: true}},
+                    jugada: true
+                },
+                where: dateFilter ? {jugada: {some: {fecha: dateFilter}}} : {}
+            });
+            return players
+                .map(player => ({
+                    clienteid: player.clienteid,
+                    nombre: player.usuario.nombre,
+                    apellido: player.usuario.apellido,
+                    img: player.usuario.img,
+                    jugadaCount: player.jugada.length
+                }))
+                .sort((a, b) => b.jugadaCount - a.jugadaCount)
+                .slice(0, limit);
+        } catch (error) {
+            console.error('Error in getTopPlayersByPlays:', error);
+            return [];
+        }
     },
 
     async getTopPlaysByReturn(
@@ -60,15 +154,7 @@ export const leaderboardService = {
         timeframe: Timeframe = 'historical',
         date?: Date
     ) {
-        const df = buildDateFilter(timeframe, date);
-        return prisma.jugada.findMany({
-            include: {
-                cliente: {include: {usuario: {select: {usuarioid: true, nombre: true, apellido: true, img: true}}}}
-            },
-            where: df ? {fecha: df} : {},
-            orderBy: {retorno: 'desc'},
-            take: limit
-        });
+        return getTopPlays(limit, timeframe, 'retorno', date);
     },
 
     async getTopPlaysByBet(
@@ -76,15 +162,7 @@ export const leaderboardService = {
         timeframe: Timeframe = 'historical',
         date?: Date
     ) {
-        const df = buildDateFilter(timeframe, date);
-        return prisma.jugada.findMany({
-            include: {
-                cliente: {include: {usuario: {select: {usuarioid: true, nombre: true, apellido: true, img: true}}}}
-            },
-            where: df ? {fecha: df} : {},
-            orderBy: {apuesta: 'desc'},
-            take: limit
-        });
+        return getTopPlays(limit, timeframe, 'apuesta', date);
     },
 
     async getCumulativeEarnings(
@@ -92,29 +170,28 @@ export const leaderboardService = {
         timeframe: Timeframe = 'historical',
         date?: Date
     ) {
-        const df = buildDateFilter(timeframe, date);
-        const groups = await prisma.jugada.groupBy({
-            by: ['clienteid'],
-            where: df ? {fecha: df} : {},
-            _sum: {retorno: true}
-        });
+        try {
+            const results = await getClientAggregations(limit, timeframe, date);
 
-        const enriched = await Promise.all(
-            groups.map(async (g) => {
-                const cliente = await prisma.cliente.findUnique({
-                    where: {clienteid: g.clienteid ?? undefined},
-                    include: {usuario: {select: {usuarioid: true, nombre: true, apellido: true, img: true}}}
-                });
+            return results.map(client => {
+                const totalRetorno = client.jugada.reduce((sum, j) => sum + Number(j.retorno), 0);
+                const totalApuesta = client.jugada.reduce((sum, j) => sum + Number(j.apuesta), 0);
+                const totalReturn = totalRetorno - totalApuesta;
+
                 return {
-                    cliente,
-                    totalReturn: g._sum.retorno ?? 0
+                    clienteid: client.clienteid,
+                    nombre: client.usuario.nombre,
+                    apellido: client.usuario.apellido,
+                    img: client.usuario.img,
+                    totalReturn
                 };
             })
-        );
-
-        return enriched
-            .sort((a, b) => b.totalReturn - a.totalReturn)
-            .slice(0, limit);
+                .sort((a, b) => b.totalReturn - a.totalReturn)
+                .slice(0, limit);
+        } catch (error) {
+            console.error('Error in getCumulativeEarnings:', error);
+            return [];
+        }
     },
 
     async getTopByPercentageGain(
@@ -122,32 +199,29 @@ export const leaderboardService = {
         timeframe: Timeframe = 'historical',
         date?: Date
     ) {
-        const df = buildDateFilter(timeframe, date);
-        const groups = await prisma.jugada.groupBy({
-            by: ['clienteid'],
-            where: df ? {fecha: df} : {},
-            _sum: {retorno: true, apuesta: true}
-        });
+        try {
+            const results = await getClientAggregations(limit, timeframe, date);
 
-        const enriched = await Promise.all(
-            groups.map(async (g) => {
-                const {_sum: sums, clienteid} = g;
-                const retorno = sums.retorno ?? 0;
-                const apuesta = sums.apuesta ?? 0;
-                const percentGain = apuesta > 0 ? (retorno - apuesta) / apuesta : 0;
-                const cliente = await prisma.cliente.findUnique({
-                    where: {clienteid: clienteid ?? undefined},
-                    include: {usuario: {select: {usuarioid: true, nombre: true, apellido: true, img: true}}}
-                });
+            return results.map(client => {
+                const totalRetorno = client.jugada.reduce((sum, j) => sum + Number(j.retorno), 0);
+                const totalApuesta = client.jugada.reduce((sum, j) => sum + Number(j.apuesta), 0);
+                const percentGain = totalApuesta > 0 ? totalRetorno / totalApuesta : 0;
+
                 return {
-                    cliente,
-                    percentGain
+                    clienteid: client.clienteid,
+                    nombre: client.usuario.nombre,
+                    apellido: client.usuario.apellido,
+                    img: client.usuario.img,
+                    percentGain,
+                    saldo: client.balance
                 };
             })
-        );
-
-        return enriched
-            .sort((a, b) => b.percentGain - a.percentGain)
-            .slice(0, limit);
+                .filter(client => client.percentGain > 0)
+                .sort((a, b) => b.percentGain - a.percentGain)
+                .slice(0, limit);
+        } catch (error) {
+            console.error('Error in getTopByPercentageGain:', error);
+            return [];
+        }
     }
 };

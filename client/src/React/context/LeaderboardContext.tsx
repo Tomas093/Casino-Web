@@ -4,11 +4,12 @@ import leaderboardApi from '../api/leaderboardApi';
 // Type for timeframe filtering
 export type TimeFrame = 'day' | 'month' | 'year' | 'all';
 
-// Interfaces for data types
+// Updated interfaces to match flattened API responses
 interface GameWinner {
     clienteid: number;
     nombre: string;
     apellido: string;
+    img?: string | null;
     profit: string; // BigInt is serialized as string
 }
 
@@ -17,6 +18,7 @@ interface HighestBet {
     clienteid: number;
     nombre: string;
     apellido: string;
+    img?: string | null;
     apuesta: string; // BigInt is serialized as string
     fecha: string;
     juegoNombre: string;
@@ -27,6 +29,7 @@ interface HighestReturn {
     clienteid: number;
     nombre: string;
     apellido: string;
+    img?: string | null;
     retorno: string; // BigInt is serialized as string
     fecha: string;
     juegoNombre: string;
@@ -36,6 +39,7 @@ interface AccumulatedWinning {
     clienteid: number;
     nombre: string;
     apellido: string;
+    img?: string | null;
     totalProfit: string; // BigInt is serialized as string
 }
 
@@ -43,10 +47,17 @@ interface WinPercentage {
     clienteid: number;
     nombre: string;
     apellido: string;
-    totalBets: number;
-    wins: number;
+    img?: string | null;
     winPercentage: number;
     totalProfit: string; // BigInt is serialized as string
+}
+
+interface MostPlayed {
+    clienteid: number;
+    nombre: string;
+    apellido: string;
+    img?: string | null;
+    jugadaCount: number;
 }
 
 // Context state
@@ -62,11 +73,13 @@ interface LeaderboardContextState {
     highestReturns: HighestReturn[];
     accumulatedWinnings: AccumulatedWinning[];
     topWinPercentages: WinPercentage[];
+    mostPlayed: MostPlayed[];
     fetchGameWinners: (gameType: string) => Promise<void>;
     fetchHighestBets: () => Promise<void>;
     fetchHighestReturns: () => Promise<void>;
     fetchAccumulatedWinnings: () => Promise<void>;
     fetchTopWinPercentages: () => Promise<void>;
+    fetchMostPlayed: () => Promise<void>;
     fetchAllLeaderboards: () => Promise<void>;
 }
 
@@ -78,11 +91,12 @@ export const LeaderboardProvider = ({children}: { children: ReactNode }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [timeframe, setTimeframe] = useState<TimeFrame>('all');
-    const [gameWinners, setGameWinners] = useState<{[gameType: string]: GameWinner[]}>({});
+    const [gameWinners, setGameWinners] = useState<{ [gameType: string]: GameWinner[] }>({});
     const [highestBets, setHighestBets] = useState<HighestBet[]>([]);
     const [highestReturns, setHighestReturns] = useState<HighestReturn[]>([]);
     const [accumulatedWinnings, setAccumulatedWinnings] = useState<AccumulatedWinning[]>([]);
     const [topWinPercentages, setTopWinPercentages] = useState<WinPercentage[]>([]);
+    const [mostPlayed, setMostPlayed] = useState<MostPlayed[]>([]);
 
     // Fetch winners by game type
     const fetchGameWinners = async (gameType: string) => {
@@ -154,17 +168,34 @@ export const LeaderboardProvider = ({children}: { children: ReactNode }) => {
         }
     };
 
+    // Fetch most played
+    const fetchMostPlayed = async () => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            const data = await leaderboardApi.getMostPlays(timeframe);
+            setMostPlayed(data);
+        } catch (err: any) {
+            setError(err.message || 'Error loading most played leaderboard');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     // Fetch all leaderboard data at once
     const fetchAllLeaderboards = async () => {
         setIsLoading(true);
         setError(null);
         try {
             const data = await leaderboardApi.getAllLeaderboards(timeframe);
-            setGameWinners(data.gameWinners);
-            setHighestBets(data.highestBets);
-            setHighestReturns(data.highestReturns);
-            setAccumulatedWinnings(data.accumulatedWinnings);
-            setTopWinPercentages(data.topWinPercentages);
+
+            // Handle the data structure returned from the API
+            if (data.gameWinners) setGameWinners(data.gameWinners);
+            if (data.highestBets) setHighestBets(data.highestBets);
+            if (data.highestReturns) setHighestReturns(data.highestReturns);
+            if (data.accumulatedWinnings) setAccumulatedWinnings(data.accumulatedWinnings);
+            if (data.topWinPercentages) setTopWinPercentages(data.topWinPercentages);
+            if (data.mostPlays) setMostPlayed(data.mostPlays);
         } catch (err: any) {
             setError(err.message || 'Error loading leaderboards');
         } finally {
@@ -182,11 +213,13 @@ export const LeaderboardProvider = ({children}: { children: ReactNode }) => {
         highestReturns,
         accumulatedWinnings,
         topWinPercentages,
+        mostPlayed,
         fetchGameWinners,
         fetchHighestBets,
         fetchHighestReturns,
         fetchAccumulatedWinnings,
         fetchTopWinPercentages,
+        fetchMostPlayed,
         fetchAllLeaderboards
     };
 

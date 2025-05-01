@@ -4,6 +4,7 @@ import {useAuth} from '@context/AuthContext.tsx';
 
 // Tipo para cliente
     interface Client {
+        clienteid: number;
         usuarioid: number;
         balance: number;
         influencer: boolean;

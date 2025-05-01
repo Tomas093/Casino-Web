@@ -13,13 +13,14 @@ interface UserRanking {
     mayorRetorno: string;
     mayorApuesta: string;
     winPercentage: number;
+    jugadaCount?: number; // Added jugadaCount
     juegoNombre?: string;
 }
 
 interface LeaderboardProps {
-    limit?: number; // Número máximo de usuarios a mostrar
-    compact?: boolean; // Modo compacto para mostrar menos columnas
-    defaultGameFilter?: string; // Filtro de juego predeterminado
+    limit?: number;
+    compact?: boolean;
+    defaultGameFilter?: string;
 }
 
 const LeaderBoard: React.FC<LeaderboardProps> = ({
@@ -27,12 +28,12 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                                                      compact = false,
                                                      defaultGameFilter
                                                  }) => {
-    const {user} = useAuth();
-    const {client} = useUser()
+    const {} = useAuth();
+    const {client} = useUser();
     const [rankings, setRankings] = useState<UserRanking[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [sortCriteria, setSortCriteria] = useState<'gananciaNeta' | 'mayorRetorno' | 'mayorApuesta' | 'winPercentage'>('gananciaNeta');
+    const [sortCriteria, setSortCriteria] = useState<'gananciaNeta' | 'mayorRetorno' | 'mayorApuesta' | 'winPercentage' | 'jugadaCount'>('gananciaNeta');
     const [isAscending, setIsAscending] = useState<boolean>(false);
     const [selectedGame, setSelectedGame] = useState<string | null>(defaultGameFilter || null);
     const [availableGames, setAvailableGames] = useState<string[]>([]);
@@ -47,20 +48,22 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
         highestReturns,
         accumulatedWinnings,
         topWinPercentages,
+        mostPlayed, // Add mostPlayed from context
         fetchAllLeaderboards
     } = useLeaderboard();
 
     useEffect(() => {
-        // Fetch data on component mount or when timeframe changes
         fetchAllLeaderboards();
     }, [timeframe]);
 
+    // Updated to safely handle gameWinners
     useEffect(() => {
-        if (gameWinners) {
+        if (gameWinners && Object.keys(gameWinners).length > 0) {
             setAvailableGames(Object.keys(gameWinners));
         }
     }, [gameWinners]);
 
+    // Generate rankings based on current criteria and filters
     useEffect(() => {
         const generateRankingsData = () => {
             try {
@@ -78,74 +81,99 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
 
                 let leaderboardData: UserRanking[] = [];
 
-                // Choose data source based on sortCriteria
-                if (sortCriteria === 'gananciaNeta') {
-                    if (selectedGame && gameWinners && gameWinners[selectedGame]) {
-                        // Game-specific earnings
-                        leaderboardData = gameWinners[selectedGame].map(winner => ({
-                            clienteid: winner.clienteid,
-                            nombre: winner.nombre,
-                            apellido: winner.apellido,
-                            img: winner.img,
-                            gananciaNeta: winner.profit || '0',
-                            mayorRetorno: '0',
-                            mayorApuesta: '0',
-                            winPercentage: 0,
-                            juegoNombre: selectedGame
-                        }));
-                    } else if (accumulatedWinnings) {
-                        // Accumulated earnings (all games)
-                        leaderboardData = accumulatedWinnings.map(winner => ({
-                            clienteid: winner.clienteid,
-                            nombre: winner.nombre,
-                            apellido: winner.apellido,
-                            img: winner.img,
-                            gananciaNeta: winner.totalProfit || '0',
-                            mayorRetorno: '0',
-                            mayorApuesta: '0',
-                            winPercentage: 0
-                        }));
-                    }
-                } else if (sortCriteria === 'mayorApuesta' && highestBets) {
-                    // Highest bets
-                    leaderboardData = highestBets.map(bet => ({
-                        clienteid: bet.clienteid,
-                        nombre: bet.nombre || '',
-                        apellido: bet.apellido || '',
-                        img: bet.img,
-                        gananciaNeta: '0',
-                        mayorRetorno: '0',
-                        mayorApuesta: bet.apuesta || '0',
-                        winPercentage: 0,
-                        juegoNombre: bet.juegoNombre
-                    }));
-                } else if (sortCriteria === 'mayorRetorno' && highestReturns) {
-                    // Highest returns
-                    leaderboardData = highestReturns.map(bet => ({
-                        clienteid: bet.clienteid,
-                        nombre: bet.nombre || '',
-                        apellido: bet.apellido || '',
-                        img: bet.img,
-                        gananciaNeta: '0',
-                        mayorRetorno: bet.retorno || '0',
-                        mayorApuesta: '0',
-                        winPercentage: 0,
-                        juegoNombre: bet.juegoNombre
-                    }));
-                } else if (sortCriteria === 'winPercentage' && topWinPercentages) {
-                    // Win percentage
-                    leaderboardData = topWinPercentages.map(stats => ({
-                        clienteid: stats.clienteid,
-                        nombre: stats.nombre || '',
-                        apellido: stats.apellido || '',
-                        img: stats.img,
-                        gananciaNeta: stats.totalProfit || '0',
-                        mayorRetorno: '0',
-                        mayorApuesta: '0',
-                        winPercentage: typeof stats.winPercentage === 'number' ? stats.winPercentage : 0
-                    }));
+                switch (sortCriteria) {
+                    case 'gananciaNeta':
+                        if (selectedGame && gameWinners && gameWinners[selectedGame]) {
+                            leaderboardData = gameWinners[selectedGame].map(winner => ({
+                                clienteid: Number(winner.clienteid) || 0,
+                                nombre: winner.nombre || '',
+                                apellido: winner.apellido || '',
+                                img: winner.img || null,
+                                gananciaNeta: winner.profit || '0',
+                                mayorRetorno: '0',
+                                mayorApuesta: '0',
+                                winPercentage: 0,
+                                juegoNombre: selectedGame
+                            }));
+                        } else if (accumulatedWinnings?.length > 0) {
+                            leaderboardData = accumulatedWinnings.map(winner => ({
+                                clienteid: Number(winner.clienteid) || 0,
+                                nombre: winner.nombre || '',
+                                apellido: winner.apellido || '',
+                                img: winner.img || null,
+                                gananciaNeta: winner.totalProfit || '0',
+                                mayorRetorno: '0',
+                                mayorApuesta: '0',
+                                winPercentage: 0
+                            }));
+                        }
+                        break;
+
+                    case 'mayorApuesta':
+                        if (highestBets?.length > 0) {
+                            leaderboardData = highestBets.map(bet => ({
+                                clienteid: Number(bet.clienteid) || 0,
+                                nombre: bet.nombre || '',
+                                apellido: bet.apellido || '',
+                                img: bet.img || null,
+                                gananciaNeta: '0',
+                                mayorRetorno: '0',
+                                mayorApuesta: bet.apuesta || '0',
+                                winPercentage: 0,
+                                juegoNombre: bet.juegoNombre || ''
+                            }));
+                        }
+                        break;
+
+                    case 'mayorRetorno':
+                        if (highestReturns?.length > 0) {
+                            leaderboardData = highestReturns.map(returnData => ({
+                                clienteid: Number(returnData.clienteid) || 0,
+                                nombre: returnData.nombre || '',
+                                apellido: returnData.apellido || '',
+                                img: returnData.img || null,
+                                gananciaNeta: '0',
+                                mayorRetorno: returnData.retorno || '0',
+                                mayorApuesta: '0',
+                                winPercentage: 0,
+                                juegoNombre: returnData.juegoNombre || ''
+                            }));
+                        }
+                        break;
+
+                    case 'winPercentage':
+                        if (topWinPercentages?.length > 0) {
+                            leaderboardData = topWinPercentages.map(stats => ({
+                                clienteid: Number(stats.clienteid) || 0,
+                                nombre: stats.nombre || '',
+                                apellido: stats.apellido || '',
+                                img: stats.img || null,
+                                gananciaNeta: stats.totalProfit || '0',
+                                mayorRetorno: '0',
+                                mayorApuesta: '0',
+                                winPercentage: stats.winPercentage || 0
+                            }));
+                        }
+                        break;
+
+                    case 'jugadaCount':
+                        if (mostPlayed?.length > 0) {
+                            leaderboardData = mostPlayed.map(player => ({
+                                clienteid: Number(player.clienteid) || 0,
+                                nombre: player.nombre || '',
+                                apellido: player.apellido || '',
+                                img: player.img || null,
+                                gananciaNeta: '0',
+                                mayorRetorno: '0',
+                                mayorApuesta: '0',
+                                winPercentage: 0,
+                                jugadaCount: player.jugadaCount || 0
+                            }));
+                        }
+                        break;
                 }
 
+                // Sort the data according to criteria and direction
                 const sortedRankings = sortRankings(leaderboardData, sortCriteria, isAscending);
                 setRankings(sortedRankings.slice(0, limit));
                 setLoading(false);
@@ -165,37 +193,40 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
         highestReturns,
         accumulatedWinnings,
         topWinPercentages,
+        mostPlayed, // Add mostPlayed dependency
         sortCriteria,
         isAscending,
         selectedGame,
         limit
     ]);
 
+    // Sort rankings based on the selected criteria
     const sortRankings = (data: UserRanking[], criteria: string, ascending: boolean): UserRanking[] => {
         return [...data].sort((a, b) => {
             let valueA, valueB;
 
-            // Handle numeric string values (for profits, bets, etc.)
-            if (criteria !== 'winPercentage') {
+            if (criteria === 'winPercentage') {
+                valueA = a.winPercentage || 0;
+                valueB = b.winPercentage || 0;
+            } else if (criteria === 'jugadaCount') {
+                valueA = a.jugadaCount || 0;
+                valueB = b.jugadaCount || 0;
+            } else {
                 valueA = parseFloat(a[criteria as keyof UserRanking] as string) || 0;
                 valueB = parseFloat(b[criteria as keyof UserRanking] as string) || 0;
-            } else {
-                valueA = a.winPercentage;
-                valueB = b.winPercentage;
             }
 
             return ascending ? valueA - valueB : valueB - valueA;
         });
     };
 
-    const handleSortChange = (criteria: 'gananciaNeta' | 'mayorRetorno' | 'mayorApuesta' | 'winPercentage') => {
+    const handleSortChange = (criteria: 'gananciaNeta' | 'mayorRetorno' | 'mayorApuesta' | 'winPercentage' | 'jugadaCount') => {
         if (sortCriteria === criteria) {
             setIsAscending(!isAscending);
         } else {
             setSortCriteria(criteria);
             setIsAscending(false);
 
-            // Reset game filter for certain criteria
             if (criteria !== 'gananciaNeta') {
                 setSelectedGame(null);
             }
@@ -211,7 +242,6 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
         setTimeframe(event.target.value as TimeFrame);
     };
 
-    // Get label for sort criteria
     const getSortCriteriaLabel = (criteria: string): string => {
         switch (criteria) {
             case 'gananciaNeta':
@@ -221,7 +251,9 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
             case 'mayorApuesta':
                 return 'Mayor Apuesta';
             case 'winPercentage':
-                return 'Porcentaje de Victoria';
+                return 'Porcentaje de Ganancia';
+            case 'jugadaCount':
+                return 'Cantidad de Jugadas';
             default:
                 return criteria;
         }
@@ -235,25 +267,21 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
         return <div className="leaderboard__error">{error || contextError}</div>;
     }
 
-    // Helper component for rendering a user row
     const LeaderboardRow = ({ranking, index}: { ranking: UserRanking, index: number }) => {
-        // Determine if this row represents the current user
-        const isCurrentUser = user?.cliente?.some(cliente =>
-            cliente.clienteid === ranking.clienteid
-        );
+        const isCurrentUser = client?.clienteid === ranking.clienteid; // Fixed property name mismatch
 
-        // Determine rank styling
         const rankClassName =
             index === 0 ? 'leaderboard__rank leaderboard__rank--top1' :
                 index === 1 ? 'leaderboard__rank leaderboard__rank--top2' :
                     index === 2 ? 'leaderboard__rank leaderboard__rank--top3' :
                         'leaderboard__rank';
 
-        // Ensure winPercentage is a number to prevent toFixed() errors
-        const winPercentage = typeof ranking.winPercentage === 'number' ? ranking.winPercentage : 0;
+        // Handle null/undefined values
+        const winPercentage = ranking.winPercentage;
         const gananciaNeta = ranking.gananciaNeta || '0';
         const mayorRetorno = ranking.mayorRetorno || '0';
         const mayorApuesta = ranking.mayorApuesta || '0';
+        const jugadaCount = ranking.jugadaCount || 0;
 
         return (
             <div
@@ -306,8 +334,11 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                             {winPercentage.toFixed(1)}%
                         </span>
                     )}
+                    {sortCriteria === 'jugadaCount' && (
+                        <span>{jugadaCount.toLocaleString()} jugadas</span>
+                    )}
                 </div>
-                {!compact && sortCriteria !== 'gananciaNeta' && ranking.juegoNombre && (
+                {!compact && sortCriteria !== 'gananciaNeta' && sortCriteria !== 'jugadaCount' && ranking.juegoNombre && (
                     <div className="leaderboard__game">
                         {ranking.juegoNombre}
                     </div>
@@ -319,7 +350,6 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
     return (
         <div className="leaderboard">
             <div className="leaderboard__header">
-
                 <div className="leaderboard__filters-row">
                     <div className="leaderboard__timeframe-filter">
                         <label>Periodo:</label>
@@ -334,6 +364,23 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                             <option value="all">Todo</option>
                         </select>
                     </div>
+
+                    {/* Show game filter dropdown regardless of layout mode */}
+                    {sortCriteria === 'gananciaNeta' && availableGames.length > 0 && (
+                        <div className="leaderboard__game-filter">
+                            <label>Juego:</label>
+                            <select
+                                className="leaderboard__dropdown"
+                                value={selectedGame || "all"}
+                                onChange={handleGameFilterChange}
+                            >
+                                <option value="all">Todos los Juegos</option>
+                                {availableGames.map(game => (
+                                    <option key={game} value={game}>{game}</option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
                 </div>
 
                 {compact ? (
@@ -346,21 +393,9 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                             <option value="gananciaNeta">Ganancias Acumuladas</option>
                             <option value="mayorRetorno">Mayor Retorno</option>
                             <option value="mayorApuesta">Mayor Apuesta</option>
-                            <option value="winPercentage">% de Victoria</option>
+                            <option value="winPercentage">% de Ganancia</option>
+                            <option value="jugadaCount">Cantidad de Jugadas</option>
                         </select>
-
-                        {sortCriteria === 'gananciaNeta' && (
-                            <select
-                                className="leaderboard__dropdown"
-                                value={selectedGame || "all"}
-                                onChange={handleGameFilterChange}
-                            >
-                                <option value="all">Todos los Juegos</option>
-                                {availableGames.map(game => (
-                                    <option key={game} value={game}>{game}</option>
-                                ))}
-                            </select>
-                        )}
 
                         <button
                             className="leaderboard__order-btn"
@@ -393,21 +428,14 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                             className={`leaderboard__filter-btn ${sortCriteria === 'winPercentage' ? 'active' : ''}`}
                             onClick={() => handleSortChange('winPercentage')}
                         >
-                            % Victoria {sortCriteria === 'winPercentage' && (isAscending ? '↑' : '↓')}
+                            % Ganancia {sortCriteria === 'winPercentage' && (isAscending ? '↑' : '↓')}
                         </button>
-
-                        {sortCriteria === 'gananciaNeta' && (
-                            <select
-                                className="leaderboard__dropdown"
-                                value={selectedGame || "all"}
-                                onChange={handleGameFilterChange}
-                            >
-                                <option value="all">Todos los Juegos</option>
-                                {availableGames.map(game => (
-                                    <option key={game} value={game}>{game}</option>
-                                ))}
-                            </select>
-                        )}
+                        <button
+                            className={`leaderboard__filter-btn ${sortCriteria === 'jugadaCount' ? 'active' : ''}`}
+                            onClick={() => handleSortChange('jugadaCount')}
+                        >
+                            Jugadas {sortCriteria === 'jugadaCount' && (isAscending ? '↑' : '↓')}
+                        </button>
                     </div>
                 )}
             </div>
@@ -420,7 +448,7 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                         {getSortCriteriaLabel(sortCriteria)}
                         <span className="leaderboard__order-indicator">{isAscending ? ' ↑' : ' ↓'}</span>
                     </div>
-                    {!compact && sortCriteria !== 'gananciaNeta' && (
+                    {!compact && sortCriteria !== 'gananciaNeta' && sortCriteria !== 'jugadaCount' && (
                         <div className="leaderboard__game">Juego</div>
                     )}
                 </div>
