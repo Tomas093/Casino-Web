@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add game and history APIs; implement context providers for game and history management">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/LandingPageStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LandingPageStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/home/LandingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/home/LandingPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/ProfilePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/ProfilePage.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Eliseo" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -48,7 +44,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Tomas093/Casino-Web.git&quot;,
-    &quot;accountId&quot;: &quot;aeb8d57a-9bda-4d87-a562-02ae3e64d914&quot;
+    &quot;accountId&quot;: &quot;96b38a8a-c17f-4a0e-9f99-e5bdad680b60&quot;
   },
   &quot;recentNewPullRequestHead&quot;: {
     &quot;server&quot;: {
@@ -68,32 +64,37 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2vGcaxnqELLcxdc86qh2iWUSxuW" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Eliseos/Faculty/Tercer Año/LaboratorioDefV5&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Eliseos/Faculty/Tercer Año/LaboratorioDefV5",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "ts.external.directory.path": "C:\\Users\\Eliseos\\Faculty\\Tercer Año\\LaboratorioDefV5\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server" />
@@ -116,7 +117,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-WS-251.23774.424" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-WS-243.26053.12" />
       </set>
     </attachedChunks>
   </component>
@@ -166,6 +167,7 @@
       <workItem from="1745786532277" duration="16707000" />
       <workItem from="1745887871467" duration="263000" />
       <workItem from="1745926469631" duration="793000" />
+      <workItem from="1746122947088" duration="378000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
