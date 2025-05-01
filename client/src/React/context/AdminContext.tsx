@@ -1,5 +1,5 @@
-import { createContext, useContext, ReactNode, useState } from 'react';
-import { adminApi } from '@api/adminApi';
+import {createContext, ReactNode, useContext, useState} from 'react';
+import {adminApi} from '@api/adminApi';
 
 interface AdminContextType {
     isLoading: boolean;

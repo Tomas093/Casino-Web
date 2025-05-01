@@ -1,8 +1,8 @@
-import {createContext, ReactNode, useContext, useState, useEffect, useCallback} from 'react';
-    import userApi, {EditUserData} from '@api/userApi';
-    import {useAuth} from '@context/AuthContext.tsx';
+import {createContext, ReactNode, useCallback, useContext, useEffect, useState} from 'react';
+import userApi, {EditUserData} from '@api/userApi';
+import {useAuth} from '@context/AuthContext.tsx';
 
-    // Tipo para cliente
+// Tipo para cliente
     interface Client {
         usuarioid: number;
         balance: number;

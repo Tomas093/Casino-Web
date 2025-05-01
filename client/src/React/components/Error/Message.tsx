@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, {useState} from 'react';
+import {AnimatePresence, motion} from 'framer-motion';
 import '@css/LandingPageStyle.css';
 
 interface MessageProps {

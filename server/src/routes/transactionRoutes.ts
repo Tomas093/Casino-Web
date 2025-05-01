@@ -1,6 +1,6 @@
-import { Router, Request, Response } from 'express';
-import { isAuthenticated } from '../middlewares/authMiddleware';
-import { transactionService } from '../services/transactionService';
+import {Request, Response, Router} from 'express';
+import {isAuthenticated} from '../middlewares/authMiddleware';
+import {transactionService} from '../services/transactionService';
 
 const router = Router();
 

@@ -1,4 +1,4 @@
-import {createContext, useContext, useState, ReactNode, useEffect} from 'react';
+import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 import leaderboardApi from '../api/leaderboardApi';
 
 // Interfaces para los tipos de datos

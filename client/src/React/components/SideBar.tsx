@@ -2,7 +2,7 @@
 import '@css/SideBarStyle.css'
 import {Link} from "react-router-dom";
 import {useAuth} from '@context/AuthContext';
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useUser} from "@context/UserContext.tsx";
 import {useAdmin} from "@context/AdminContext.tsx";
 
@@ -35,7 +35,7 @@ const renderMenuItem = (item: MenuItem, index: number) => {
 const Sidebar: React.FC = () => {
     const {user, logout} = useAuth();
     const {isSuperAdmin} = useAdmin();
-    const {client, imageUpdateTimestamp} = useUser();
+    const {client} = useUser();
     const [imgError, setImgError] = useState(false);
     const [imgTimestamp, setImgTimestamp] = useState(Date.now());
     const [superAdminStatus, setSuperAdminStatus] = useState(false);
@@ -46,12 +46,12 @@ const Sidebar: React.FC = () => {
     // Imagen por defecto en caso de error o si no hay imagen
     const defaultImage = '/path/to/default-avatar.jpg';
 
-    // Actualizar la imagen cuando cambie user o imageUpdateTimestamp
+    // Actualizar la imagen cuando cambie user, client o la imagen del usuario
     useEffect(() => {
         console.log("Actualizando imagen en Sidebar", Date.now());
         setImgTimestamp(Date.now());
         setImgError(false);
-    }, [user, imageUpdateTimestamp]);
+    }, [user, client, user?.img]);
 
     // Construir la URL completa de la imagen con timestamp para evitar caché
     const profileImageUrl = user && user.img

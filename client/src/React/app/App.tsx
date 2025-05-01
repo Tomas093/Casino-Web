@@ -1,4 +1,4 @@
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import LandingPage from '../pages/home/LandingPage';
 import Register from '../pages/auth/Register';
 import Login from '../pages/auth/Login';
@@ -20,6 +20,7 @@ import LeaderBoard from "@components/LeaderBoard.tsx";
 import Limit from "../pages/profile/LimitPage.tsx";
 import MonLimitTicketPage from "../pages/Tickets/MonLimitTicketPage.tsx";
 import NotFound from "@components/Error/Error404.tsx";
+
 
 function App() {
     return (
@@ -45,6 +46,8 @@ function App() {
                         <Route path="/mines" element={<MineSweeper/>}/>
                         <Route path="/limit" element={<Limit/>}/>
                         <Route path="/monLimitTicket" element={<MonLimitTicketPage/>}/>
+                        <Route path="/amigos" element={<div>NO IMPLEMENTADO NADA</div>}/>
+                        <Route path="/pausa" element={<div>NO IMPLEMENTADO NADA</div>}/>
                     </Route>
 
                     {/* rutas Solo para admins */}

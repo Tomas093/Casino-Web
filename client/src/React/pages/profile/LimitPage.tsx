@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Sidebar from '@components/SideBar.tsx';
 import {useAuth} from '@context/AuthContext';
 import {useUser} from '@context/UserContext.tsx';
@@ -6,7 +6,7 @@ import {useLimitContext} from '@context/LimitContext';
 import limitApi from '@api/limitApi.ts';
 import '@css/ProfileStyle.css';
 import '@css/LimitStyle.css';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 interface Limits {
     time: {

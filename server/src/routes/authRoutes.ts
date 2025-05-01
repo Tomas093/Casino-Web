@@ -1,5 +1,5 @@
-import { Router, Request, Response } from 'express';
-import { authService } from '../services/authService';
+import {Request, Response, Router} from 'express';
+import {authService} from '../services/authService';
 
 declare module 'express-session' {
     interface Session {
