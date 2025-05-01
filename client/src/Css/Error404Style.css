@@ -1,0 +1,446 @@
+/* Error 404 Page styles - Australis Casino */
+:root {
+    --black: #121212;
+    --dark-gray: #1e1e1e;
+    --light-gray: #2a2a2a;
+    --green: #1a9e5c;
+    --green-dark: #0e7a45;
+    --green-light: #27c376;
+    --gold: #d4af37;
+    --gold-light: #f9dc5c;
+    --gold-dark: #b08d24;
+    --red: #e53935;
+    --red-dark: #c62828;
+    --white: #f5f5f5;
+    --text-light: #e0e0e0;
+    --text-muted: #a0a0a0;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --card-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    --transition: all 0.3s ease;
+}
+
+.error404-page {
+    background-color: var(--dark-gray);
+    color: var(--text-light);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.error404-container {
+    text-align: center;
+    position: relative;
+    padding: 40px;
+    max-width: 800px;
+    z-index: 10;
+}
+
+.error404-code {
+    font-size: 140px;
+    font-weight: 700;
+    line-height: 1;
+    margin: 0;
+    background: linear-gradient(45deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+    letter-spacing: -5px;
+    position: relative;
+    animation: error404-pulse 3s infinite;
+}
+
+.error404-code.error404-winner {
+    background: linear-gradient(45deg, var(--green) 0%, var(--green-light) 50%, var(--green) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 40px rgba(26, 158, 92, 0.8);
+    animation: error404-winPulse 1.5s infinite;
+}
+
+.error404-title {
+    font-size: 32px;
+    color: var(--white);
+    margin-bottom: 24px;
+    text-align: center; /* Explicitly center the title */
+}
+
+.error404-message {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.error404-home-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px;
+    background-color: var(--gold);
+    color: var(--black);
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+    text-decoration: none;
+}
+
+.error404-home-button:hover {
+    background-color: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(212, 175, 55, 0.3);
+}
+
+.error404-button-icon {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.error404-try-luck {
+    color: var(--gold);
+    font-size: 18px;
+    margin-top: 40px;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: underline;
+    display: inline-block;
+}
+
+.error404-try-luck:hover {
+    color: var(--gold-light);
+    transform: scale(1.05);
+}
+
+.error404-animated-dice {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.error404-dice {
+    position: absolute;
+    font-size: 40px;
+    opacity: 0.6;
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
+    animation-name: error404-float;
+    animation-duration: 20s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+.error404-dice-1 { top: 10%; left: 10%; }
+.error404-dice-2 { top: 20%; right: 15%; }
+.error404-dice-3 { bottom: 15%; left: 15%; }
+.error404-dice-4 { bottom: 25%; right: 10%; }
+.error404-dice-5 { top: 40%; left: 5%; }
+.error404-dice-6 { top: 60%; right: 5%; }
+
+@keyframes error404-float {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(10px, 15px) rotate(90deg); }
+    50% { transform: translate(0, 30px) rotate(180deg); }
+    75% { transform: translate(-10px, 15px) rotate(270deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+.error404-casino-chip {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: error404-spin 12s linear infinite;
+}
+
+.error404-chip-1 {
+    top: 30%;
+    left: 20%;
+    background: radial-gradient(circle at center, var(--red), var(--red-dark));
+    box-shadow: 0 0 15px rgba(229, 57, 53, 0.5);
+}
+
+.error404-chip-2 {
+    top: 70%;
+    right: 20%;
+    background: radial-gradient(circle at center, var(--gold), var(--gold-dark));
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+}
+
+.error404-chip-3 {
+    top: 50%;
+    right: 50%;
+    background: radial-gradient(circle at center, var(--green), var(--green-dark));
+    box-shadow: 0 0 15px rgba(26, 158, 92, 0.5);
+}
+
+.error404-card {
+    position: absolute;
+    width: 60px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--white);
+    border-radius: 8px;
+    font-size: 32px;
+    transform: rotate(-15deg);
+    box-shadow: var(--card-shadow);
+    animation: error404-float 25s ease-in-out infinite alternate;
+}
+
+.error404-card-1 {
+    top: 15%;
+    right: 25%;
+    z-index: 0;
+}
+
+.error404-card-2 {
+    bottom: 20%;
+    left: 25%;
+    transform: rotate(15deg);
+    animation-delay: -12s;
+    animation-direction: alternate-reverse;
+}
+
+.error404-roulette {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    bottom: 10%;
+    right: 10%;
+    background: conic-gradient(
+        var(--red) 0deg 10deg,
+        var(--black) 10deg 20deg,
+        var(--red) 20deg 30deg,
+        var(--black) 30deg 40deg,
+        var(--red) 40deg 50deg,
+        var(--black) 50deg 60deg,
+        var(--red) 60deg 70deg,
+        var(--black) 70deg 80deg,
+        var(--red) 80deg 90deg,
+        var(--black) 90deg 100deg,
+        var(--red) 100deg 110deg,
+        var(--black) 110deg 120deg,
+        var(--red) 120deg 130deg,
+        var(--black) 130deg 140deg,
+        var(--red) 140deg 150deg,
+        var(--black) 150deg 160deg,
+        var(--red) 160deg 170deg,
+        var(--black) 170deg 180deg,
+        var(--red) 180deg 190deg,
+        var(--black) 190deg 200deg,
+        var(--red) 200deg 210deg,
+        var(--black) 210deg 220deg,
+        var(--red) 220deg 230deg,
+        var(--black) 230deg 240deg,
+        var(--red) 240deg 250deg,
+        var(--black) 250deg 260deg,
+        var(--red) 260deg 270deg,
+        var(--black) 270deg 280deg,
+        var(--red) 280deg 290deg,
+        var(--black) 290deg 300deg,
+        var(--red) 300deg 310deg,
+        var(--black) 310deg 320deg,
+        var(--red) 320deg 330deg,
+        var(--black) 330deg 340deg,
+        var(--red) 340deg 350deg,
+        var(--black) 350deg 360deg
+    );
+    opacity: 0.8;
+    animation: error404-spin 20s linear infinite;
+    box-shadow: 0 0 25px rgba(229, 57, 53, 0.3);
+    z-index: 0;
+}
+
+.error404-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(50px);
+    animation: error404-pulse 5s ease-in-out infinite alternate;
+    z-index: 0;
+}
+
+@keyframes error404-pulse {
+    0% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.2); }
+}
+
+@keyframes error404-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes error404-winPulse {
+    0% { text-shadow: 0 0 10px rgba(26, 158, 92, 0.5); }
+    50% { text-shadow: 0 0 30px rgba(26, 158, 92, 1), 0 0 50px rgba(26, 158, 92, 0.8); }
+    100% { text-shadow: 0 0 10px rgba(26, 158, 92, 0.5); }
+}
+
+/* Slot Machine Styles */
+.error404-slot-machine {
+    display: flex;
+    gap: 5px;
+    margin: 30px auto;
+    max-width: 400px;
+    background: var(--black);
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+    height: 0;
+    overflow: hidden;
+}
+
+.error404-slot-machine.error404-visible {
+    opacity: 1;
+    transform: translateY(0);
+    height: 180px;
+}
+
+.error404-slot {
+    flex: 1;
+    height: 120px;
+    background: var(--dark-gray);
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid var(--light-gray);
+}
+
+.error404-slot::before, .error404-slot::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 40px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.error404-slot::before {
+    top: 0;
+    background: linear-gradient(to bottom, var(--black) 0%, transparent 100%);
+}
+
+.error404-slot::after {
+    bottom: 0;
+    background: linear-gradient(to top, var(--black) 0%, transparent 100%);
+}
+
+.error404-slot-content {
+    position: absolute;
+    width: 100%;
+    transition: top 3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.error404-slot-item {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    font-weight: bold;
+    color: var(--gold-light);
+    text-shadow: 0 0 8px var(--gold);
+}
+
+.error404-spin-button {
+    background-color: var(--red);
+    color: var(--white);
+    border: none;
+    padding: 12px 30px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: var(--transition);
+}
+
+.error404-spin-button:hover:not(:disabled) {
+    background-color: var(--red-dark);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(229, 57, 53, 0.5);
+}
+
+.error404-spin-button:disabled {
+    background-color: var(--light-gray);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .error404-code {
+        font-size: 100px;
+    }
+
+    .error404-title {
+        font-size: 28px;
+    }
+
+    .error404-message {
+        font-size: 16px;
+    }
+
+    .error404-slot-machine {
+        max-width: 300px;
+    }
+
+    .error404-slot-item {
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .error404-code {
+        font-size: 80px;
+    }
+
+    .error404-dice {
+        font-size: 30px;
+    }
+
+    .error404-casino-chip {
+        width: 40px;
+        height: 40px;
+    }
+
+    .error404-card {
+        width: 40px;
+        height: 60px;
+        font-size: 24px;
+    }
+
+    .error404-roulette {
+        width: 80px;
+        height: 80px;
+    }
+}
+
