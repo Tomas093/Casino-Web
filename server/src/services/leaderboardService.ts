@@ -1,129 +1,153 @@
 import {PrismaClient} from '@prisma/client';
 
+type Timeframe = 'day' | 'month' | 'year' | 'historical';
+
 const prisma = new PrismaClient();
 
+function buildDateFilter(timeframe: Timeframe, refDate: Date = new Date()) {
+    if (timeframe === 'historical') return undefined;
+
+    const start = new Date(refDate);
+    const end = new Date(refDate);
+
+    switch (timeframe) {
+        case 'day':
+            start.setHours(0, 0, 0, 0);
+            end.setHours(23, 59, 59, 999);
+            break;
+        case 'month':
+            start.setDate(1);
+            start.setHours(0, 0, 0, 0);
+            end.setMonth(start.getMonth() + 1, 0);
+            end.setHours(23, 59, 59, 999);
+            break;
+        case 'year':
+            start.setMonth(0, 1);
+            start.setHours(0, 0, 0, 0);
+            end.setFullYear(start.getFullYear() + 1, 0, 0);
+            end.setHours(23, 59, 59, 999);
+            break;
+    }
+
+    return {gte: start, lte: end};
+}
+
 export const leaderboardService = {
-
-    // get Top 10 players with the highest balance
-    async getTop10PlayersBalance() {
-        try {
-            return await prisma.cliente.findMany({
-                include: {
-                    usuario: {
-                        select: {
-                            usuarioid: true,
-                            nombre: true,
-                            apellido: true,
-                            img: true // Añadido el campo img
-                        }
-                    }
-                },
-                orderBy: {
-                    balance: 'desc'
-                },
-                take: 10
-            });
-        } catch (error) {
-            throw new Error('Error al obtener los mejores jugadores');
-        }
+    async getTopPlayersByPlays(
+        limit: number = 10,
+        timeframe: Timeframe = 'historical',
+        date?: Date
+    ) {
+        const dateFilter = buildDateFilter(timeframe, date);
+        const players = await prisma.cliente.findMany({
+            include: {
+                usuario: {select: {usuarioid: true, nombre: true, apellido: true, img: true}},
+                jugada: true
+            },
+            where: dateFilter ? {jugada: {some: {fecha: dateFilter}}} : {}
+        });
+        return players
+            .map(player => ({
+                ...player,
+                jugadaCount: player.jugada.length
+            }))
+            .sort((a, b) => b.jugadaCount - a.jugadaCount)
+            .slice(0, limit);
     },
 
-    // get Top 10 players with the highest number of plays
-    async getTop10PlayersPlays() {
-        try {
-            return await prisma.cliente.findMany({
-                include: {
-                    usuario: {
-                        select: {
-                            usuarioid: true,
-                            nombre: true,
-                            apellido: true,
-                            img: true
-                        }
-                    },
-                    jugada: true // Corrected property name
-                },
-                orderBy: {
-                    jugada: {
-                        _count: 'desc' // Corrected property name
-                    }
-                },
-                take: 10
-            });
-        } catch (error) {
-            throw new Error('Error al obtener los mejores jugadores');
-        }
+    async getTopPlaysByReturn(
+        limit: number = 10,
+        timeframe: Timeframe = 'historical',
+        date?: Date
+    ) {
+        const df = buildDateFilter(timeframe, date);
+        return prisma.jugada.findMany({
+            include: {
+                cliente: {include: {usuario: {select: {usuarioid: true, nombre: true, apellido: true, img: true}}}}
+            },
+            where: df ? {fecha: df} : {},
+            orderBy: {retorno: 'desc'},
+            take: limit
+        });
     },
 
-    // get Top 10 players with the highest average return
-    async getTop10PlayersAverageReturn() {
-        try {
-            const players = await prisma.jugada.groupBy({
-                by: ['clienteid'],
-                _avg: {
-                    retorno: true
-                },
-                orderBy: {
-                    _avg: {
-                        retorno: 'desc'
-                    }
-                },
-                take: 10
-            });
-
-            return await Promise.all(
-                players.map(async (player) => {
-                    // Verificamos si clienteid es null
-                    if (player.clienteid === null) {
-                        return { averageReturn: player._avg.retorno ?? 0 };
-                    }
-
-                    const cliente = await prisma.cliente.findUnique({
-                        where: { clienteid: player.clienteid },
-                        include: {
-                            usuario: {
-                                select: {
-                                    usuarioid: true,
-                                    nombre: true,
-                                    apellido: true,
-                                    img: true // Añadido el campo img
-                                }
-                            }
-                        }
-                    });
-                    return { ...cliente, averageReturn: player._avg.retorno ?? 0 };
-                })
-            );
-        } catch (error) {
-            throw new Error('Error al obtener los mejores jugadores');
-        }
+    async getTopPlaysByBet(
+        limit: number = 10,
+        timeframe: Timeframe = 'historical',
+        date?: Date
+    ) {
+        const df = buildDateFilter(timeframe, date);
+        return prisma.jugada.findMany({
+            include: {
+                cliente: {include: {usuario: {select: {usuarioid: true, nombre: true, apellido: true, img: true}}}}
+            },
+            where: df ? {fecha: df} : {},
+            orderBy: {apuesta: 'desc'},
+            take: limit
+        });
     },
 
-    // get Top 10 players with the highest returns
-    async getTop10PlayersReturns() {
-        try {
-            return await prisma.jugada.findMany({
-                include: {
-                    cliente: {
-                        include: {
-                            usuario: {
-                                select: {
-                                    usuarioid: true,
-                                    nombre: true,
-                                    apellido: true,
-                                    img: true // Añadido el campo img
-                                }
-                            }
-                        }
-                    }
-                },
-                orderBy: {
-                    retorno: 'desc'
-                },
-                take: 10
-            });
-        } catch (error) {
-            throw new Error('Error al obtener los mejores jugadores');
-        }
+    async getCumulativeEarnings(
+        limit: number = 10,
+        timeframe: Timeframe = 'historical',
+        date?: Date
+    ) {
+        const df = buildDateFilter(timeframe, date);
+        const groups = await prisma.jugada.groupBy({
+            by: ['clienteid'],
+            where: df ? {fecha: df} : {},
+            _sum: {retorno: true}
+        });
+
+        const enriched = await Promise.all(
+            groups.map(async (g) => {
+                const cliente = await prisma.cliente.findUnique({
+                    where: {clienteid: g.clienteid ?? undefined},
+                    include: {usuario: {select: {usuarioid: true, nombre: true, apellido: true, img: true}}}
+                });
+                return {
+                    cliente,
+                    totalReturn: g._sum.retorno ?? 0
+                };
+            })
+        );
+
+        return enriched
+            .sort((a, b) => b.totalReturn - a.totalReturn)
+            .slice(0, limit);
+    },
+
+    async getTopByPercentageGain(
+        limit: number = 10,
+        timeframe: Timeframe = 'historical',
+        date?: Date
+    ) {
+        const df = buildDateFilter(timeframe, date);
+        const groups = await prisma.jugada.groupBy({
+            by: ['clienteid'],
+            where: df ? {fecha: df} : {},
+            _sum: {retorno: true, apuesta: true}
+        });
+
+        const enriched = await Promise.all(
+            groups.map(async (g) => {
+                const {_sum: sums, clienteid} = g;
+                const retorno = sums.retorno ?? 0;
+                const apuesta = sums.apuesta ?? 0;
+                const percentGain = apuesta > 0 ? (retorno - apuesta) / apuesta : 0;
+                const cliente = await prisma.cliente.findUnique({
+                    where: {clienteid: clienteid ?? undefined},
+                    include: {usuario: {select: {usuarioid: true, nombre: true, apellido: true, img: true}}}
+                });
+                return {
+                    cliente,
+                    percentGain
+                };
+            })
+        );
+
+        return enriched
+            .sort((a, b) => b.percentGain - a.percentGain)
+            .slice(0, limit);
     }
 };

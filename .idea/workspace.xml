@@ -4,60 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor LandingPage and styles; update game card components and footer links">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add authentication middleware; implement user and admin verification with JWT">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/animations/AnimatedCounter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/animations/AnimatedCounter.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/Error/Error404.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Error/Error404.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/Error/Message.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Error/Message.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/HistoryItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/HistoryItems.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/ImageUpload.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/ImageUpload.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/LeaderboardStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LeaderboardStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/leaderboardApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/leaderboardApi.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/components/LeaderBoard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/LeaderBoard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/NavBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/NavBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/PieChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/PieChart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/SideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/SideBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/AdminContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/AdminContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/AuthContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/GameContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/GameContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/HistoryContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/HistoryContext.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/context/LeaderboardContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/LeaderboardContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/LimitContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/LimitContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/PlayContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/PlayContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/TransactionContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/TransactionContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/UserContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/UserContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/games/components/MineSweeper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/games/components/MineSweeper.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/Tickets/MonLimitTicketPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/Tickets/MonLimitTicketPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/deletes/DeleteSpecificAccount.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/deletes/DeleteSpecificAccount.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/GameBackground.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/GameBackground.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/MineSweeperEnchanced.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/MineSweeperEnchanced.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/RouletteGame.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/RouletteGame.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/home/LandingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/home/LandingPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/HistoryPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/HistoryPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/LimitPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/LimitPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/ProfilePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/ProfilePage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/StatisticsPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/StatisticsPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/transaction/Transaccion.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/transaction/Transaccion.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/routes/AdminRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/routes/AdminRoutes.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/routes/ProtectedRoute.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/routes/ProtectedRoute.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/routes/SuperAdminRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/routes/SuperAdminRoutes.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/middlewares/authMiddleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/middlewares/authMiddleware.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/adminRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/adminRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/authRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/authRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/gameRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/gameRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/historyRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/historyRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/routes/leaderboardRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/leaderboardRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/limitRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/limitRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/playRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/playRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/transactionRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/transactionRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/uploads.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/uploads.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/userRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/userRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/services/userService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/userService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/leaderboardService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/leaderboardService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,7 +174,7 @@
       <workItem from="1746036108614" duration="3025000" />
       <workItem from="1746059880702" duration="12000" />
       <workItem from="1746059995168" duration="78000" />
-      <workItem from="1746098765321" duration="839000" />
+      <workItem from="1746098765321" duration="8633000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -477,7 +432,23 @@
       <option name="project" value="LOCAL" />
       <updated>1745927549345</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Refactor imports for consistency; update component structure and styles across multiple files y agrego que se actualice al toque (Era problema del Local Storage)">
+      <option name="closed" value="true" />
+      <created>1746099769634</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1746099769634</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Add authentication middleware; implement user and admin verification with JWT">
+      <option name="closed" value="true" />
+      <created>1746099801522</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1746099801522</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -510,8 +481,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Refactor project structure and update styles for Vite + React integration" />
-    <MESSAGE value="Update workspace.xml to reflect changes in file paths and project structure" />
     <MESSAGE value="Implement landing page, navigation bar, and footer components; update package dependencies" />
     <MESSAGE value="Add promotional images to landing page and refactor promo card rendering" />
     <MESSAGE value="Refactor authentication context and add user data fetching; update styles for login and register pages" />
@@ -533,7 +502,10 @@
     <MESSAGE value="Refactor project structure; rename files and update import paths for improved organization and clarity" />
     <MESSAGE value="Add user count and transaction statistics endpoints; integrate payment methods chart in admin dashboard" />
     <MESSAGE value="Add game and history APIs; implement context providers for game and history management" />
+    <MESSAGE value="Merge pull request #30 from Tomas093/main&#10;&#10;Yo" />
     <MESSAGE value="Refactor LandingPage and styles; update game card components and footer links" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor LandingPage and styles; update game card components and footer links" />
+    <MESSAGE value="Refactor imports for consistency; update component structure and styles across multiple files y agrego que se actualice al toque (Era problema del Local Storage)" />
+    <MESSAGE value="Add authentication middleware; implement user and admin verification with JWT" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add authentication middleware; implement user and admin verification with JWT" />
   </component>
 </project>
