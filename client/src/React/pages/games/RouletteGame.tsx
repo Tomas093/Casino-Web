@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { RouletteWheel, RouletteTable, useRoulette, ChipList } from 'react-casino-roulette';
+import React, {useState} from 'react';
+import {ChipList, RouletteTable, RouletteWheel, useRoulette} from 'react-casino-roulette';
 import 'react-casino-roulette/dist/index.css';
 import '@css/NavBarStyle.css';
 
@@ -7,9 +7,9 @@ import whiteChip from '@assets/Javo.jpg';
 import blueChip from '@assets/Javo.jpg';
 import blackChip from '@assets/Javo.jpg';
 import cyanChip from '@assets/Javo.jpg';
-import { useAuth } from "@context/AuthContext.tsx";
-import { usePlay } from '@context/PlayContext.tsx';
-import { useUser } from '@context/UserContext';
+import {useAuth} from "@context/AuthContext.tsx";
+import {usePlay} from '@context/PlayContext.tsx';
+import {useUser} from '@context/UserContext';
 import NavBar from "@components/NavBar.tsx";
 
 // Definición de números rojos y negros en la ruleta
@@ -218,7 +218,6 @@ const RouletteGame: React.FC = () => {
             loginButtonLabel="Iniciar Sesión"
             registerButtonLabel="Registrarse"
         />
-
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', padding: '20px', marginTop: '80px' }}>
 
                 {lastResults.length > 0 && (

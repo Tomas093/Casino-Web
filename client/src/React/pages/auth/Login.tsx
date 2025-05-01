@@ -3,12 +3,14 @@ import Form from '@components/Form';
 import {useAuth} from '@context/AuthContext.tsx';
 import '@css/LoginStyle.css';
 import {useState} from 'react';
+import Message from "@components/Error/Message.tsx";
 
 const Login = () => {
     const {login} = useAuth();
     const navigate = useNavigate();
-    const [showErrorPopup, setShowErrorPopup] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [showMessage, setShowMessage] = useState(false);
+    const [message, setMessage] = useState('');
+    const [messageType, setMessageType] = useState<'error' | 'warning' | 'info' | 'success'>('warning');
 
     const handleSubmit = async (data: any) => {
         try {
@@ -16,54 +18,39 @@ const Login = () => {
             if (success) {
                 navigate('/home');
             } else {
-                setErrorMessage('Email o contraseña incorrectos. Por favor intente nuevamente.');
-                setShowErrorPopup(true);
+                setMessage('Email o contraseña incorrectos. Por favor intente nuevamente.');
+                setMessageType('warning');
+                setShowMessage(true);
             }
         } catch (error) {
-            setErrorMessage('Email o contraseña incorrectos. Por favor intente nuevamente.');
-            setShowErrorPopup(true);
+            setMessage('Email o contraseña incorrectos. Por favor intente nuevamente.');
+            setMessageType('warning');
+            setShowMessage(true);
         }
-    };
-
-    const closePopup = () => {
-        setShowErrorPopup(false);
     };
 
     return (
         <div className="login-page">
-            {showErrorPopup && (
-                <div className="error-popup" style={{
-                    position: 'fixed',
-                    top: '25%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    backgroundColor: '#ff4444',
-                    color: 'white',
-                    padding: '15px 25px',
-                    borderRadius: '5px',
-                    boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
-                    zIndex: 1000,
-                    maxWidth: '80%',
-                    textAlign: 'center'
-                }}>
-                    <span>{errorMessage}</span>
-                    <button
-                        onClick={closePopup}
-                        style={{
-                            position: 'absolute',
-                            top: '5px',
-                            right: '5px',
-                            background: 'none',
-                            border: 'none',
-                            color: 'white',
-                            fontSize: '16px',
-                            cursor: 'pointer'
-                        }}
-                    >
-                        ✕
-                    </button>
-                </div>
-            )}
+            <div style={{
+                position: 'absolute',
+                top: '20px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 100,
+                width: '100%',
+                maxWidth: '500px',
+                display: 'flex',
+                justifyContent: 'center'
+            }}>
+                {showMessage && (
+                    <Message
+                        message={message}
+                        type={messageType}
+                        icon={<span style={{fontSize: '24px'}}>⚠️</span>}
+                        onClose={() => setShowMessage(false)}
+                    />
+                )}
+            </div>
             <Form
                 title="Australis"
                 subtitle="Ingresa a tu cuenta"

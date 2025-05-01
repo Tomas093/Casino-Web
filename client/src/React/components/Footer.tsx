@@ -1,14 +1,6 @@
 import React from 'react';
 import '@css/FooterStyle.css';
-import {
-    FaFacebookF,
-    FaInstagram,
-    FaYoutube,
-    FaHeadset,
-    FaPhone,
-    FaMapMarkerAlt,
-    FaGithub
-} from 'react-icons/fa';
+import {FaFacebookF, FaGithub, FaHeadset, FaInstagram, FaMapMarkerAlt, FaPhone, FaYoutube} from 'react-icons/fa';
 
 const Footer: React.FC = () => {
     return (

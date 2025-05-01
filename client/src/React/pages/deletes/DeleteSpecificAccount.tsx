@@ -1,8 +1,8 @@
 import '@css/DeleteUserStyle.css';
-import React, { useEffect } from "react";
-import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '@context/AuthContext.tsx';
-import { useUser } from '@context/UserContext.tsx'
+import React, {useEffect} from "react";
+import {useNavigate, useParams} from 'react-router-dom';
+import {useAuth} from '@context/AuthContext.tsx';
+import {useUser} from '@context/UserContext.tsx'
 
 const DeleteSpecificAccount: React.FC = () => {
     const { id } = useParams<{ id: string }>();

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import Sidebar from '@components/SideBar.tsx';
-import { useHistory } from '@context/HistoryContext';
-import { useAuth } from '@context/AuthContext';
+import {useHistory} from '@context/HistoryContext';
+import {useAuth} from '@context/AuthContext';
 import '@css/StatisticStyle.css';
 import '@css/ProfileStyle.css'
 import mineImg from '@assets/mines.jpg';

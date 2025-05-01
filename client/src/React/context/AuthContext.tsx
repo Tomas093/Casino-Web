@@ -1,5 +1,5 @@
-import {createContext, useState, useEffect, ReactNode, useContext} from 'react';
-import authApi, { RegisterData } from '@api/authApi';
+import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
+import authApi, {RegisterData} from '@api/authApi';
 
 // Tipo para el usuario autenticado
 interface User {
@@ -20,6 +20,7 @@ interface AuthContextType {
     logout: () => Promise<void>;
     register: (userData: RegisterData) => Promise<any>;
     updateProfileImage: (imageUrl: string) => void;
+    updateUserData: (userData: Partial<User>) => void; // Nuevo método para actualizar datos del usuario
 }
 
 // Props para el AuthProvider
@@ -39,6 +40,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const updateProfileImage = (imageUrl: string) => {
         if (user) {
             const updatedUser = { ...user, img: imageUrl };
+            setUser(updatedUser);
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+        }
+    };
+
+    // Nuevo método para actualizar los datos del usuario
+    const updateUserData = (userData: Partial<User>) => {
+        if (user) {
+            const updatedUser = { ...user, ...userData };
             setUser(updatedUser);
             localStorage.setItem('user', JSON.stringify(updatedUser));
         }
@@ -117,7 +127,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         login,
         logout,
         register,
-        updateProfileImage
+        updateProfileImage,
+        updateUserData // Agregamos el nuevo método al contexto
     };
 
     return (

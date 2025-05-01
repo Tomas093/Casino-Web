@@ -1,4 +1,4 @@
-import React, {useState, FormEvent} from 'react';
+import React, {FormEvent, useState} from 'react';
 
 // Tipos de campos soportados
 type FieldType = 'text' | 'email' | 'password' | 'number';

@@ -1,4 +1,4 @@
-import {Router, Request, Response} from 'express';
+import {Request, Response, Router} from 'express';
 import {isAuthenticated} from '../middlewares/authMiddleware';
 import {playService} from '../services/playService';
 

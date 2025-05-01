@@ -215,8 +215,8 @@ model usuario {
   email         String?        @unique @db.VarChar(255)
   password      String?        @db.VarChar(255)
   dni           String?
-  edad          String?
   img           String?
+  edad          String?
   administrador administrador?
   cliente       cliente?
 }

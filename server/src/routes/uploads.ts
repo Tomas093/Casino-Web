@@ -1,9 +1,9 @@
 // routes/upload.ts
-import { Router, Request, Response } from 'express';
+import {Request, Response, Router} from 'express';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-import { PrismaClient } from '@prisma/client';
+import {PrismaClient} from '@prisma/client';
 
 const prisma = new PrismaClient();
 const router = Router();

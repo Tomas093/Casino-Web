@@ -1,8 +1,8 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, {ChangeEvent, FormEvent, useState} from 'react';
 import axios from 'axios';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Button } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import {Button} from '@mui/material';
+import {styled} from '@mui/material/styles';
 
 
 interface Props {

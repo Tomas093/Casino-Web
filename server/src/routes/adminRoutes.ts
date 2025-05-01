@@ -1,4 +1,4 @@
-import {Router, Request, Response} from 'express';
+import {Request, Response, Router} from 'express';
 import {PrismaClient} from '@prisma/client';
 import bcrypt from 'bcrypt';
 

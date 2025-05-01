@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
-import historyApi, { GameHistoryResponse } from '../api/historyApi';
+import React, {createContext, ReactNode, useCallback, useContext, useState} from 'react';
+import historyApi, {GameHistoryResponse} from '../api/historyApi';
 
 interface HistoryContextType {
   userHistory: GameHistoryResponse | null;

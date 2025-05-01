@@ -1,50 +1,75 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAuth} from '@context/AuthContext';
-import {useLeaderboard} from '@context/LeaderboardContext';
+import {useLeaderboard, TimeFrame} from '@context/LeaderboardContext';
 import '@css/LeaderboardStyle.css';
+import {useUser} from "@context/UserContext.tsx";
 
 interface UserRanking {
-    usuarioid: number;
+    clienteid: number;
     nombre: string;
     apellido: string;
-    img: string | null;
-    gananciaNeta: number;
-    partidasJugadas: number;
-    balance: number;
-    promedioRetorno: number;
-    mayorGanancia: number;
+    img?: string | null;
+    gananciaNeta: string;
+    mayorRetorno: string;
+    mayorApuesta: string;
+    winPercentage: number;
+    jugadaCount?: number; // Added jugadaCount
+    juegoNombre?: string;
 }
 
 interface LeaderboardProps {
-    limit?: number; // Número máximo de usuarios a mostrar
-    compact?: boolean; // Modo compacto para mostrar menos columnas
+    limit?: number;
+    compact?: boolean;
+    defaultGameFilter?: string;
 }
 
-const LeaderBoard: React.FC<LeaderboardProps> = ({limit = 10, compact = false}) => {
-    const {user} = useAuth();
+const LeaderBoard: React.FC<LeaderboardProps> = ({
+                                                     limit = 10,
+                                                     compact = false,
+                                                     defaultGameFilter
+                                                 }) => {
+    const {} = useAuth();
+    const {client} = useUser();
     const [rankings, setRankings] = useState<UserRanking[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [sortCriteria, setSortCriteria] = useState<'gananciaNeta' | 'partidasJugadas' | 'balance' | 'promedioRetorno' | 'mayorGanancia'>('gananciaNeta');
+    const [sortCriteria, setSortCriteria] = useState<'gananciaNeta' | 'mayorRetorno' | 'mayorApuesta' | 'winPercentage' | 'jugadaCount'>('gananciaNeta');
     const [isAscending, setIsAscending] = useState<boolean>(false);
+    const [selectedGame, setSelectedGame] = useState<string | null>(defaultGameFilter || null);
+    const [availableGames, setAvailableGames] = useState<string[]>([]);
 
     const {
         isLoading: contextLoading,
         error: contextError,
-        topPlayersByBalance,
-        topPlayersByPlays,
-        topPlayersByAverageReturn,
-        topJugadasByReturn,
+        timeframe,
+        setTimeframe,
+        gameWinners,
+        highestBets,
+        highestReturns,
+        accumulatedWinnings,
+        topWinPercentages,
+        mostPlayed, // Add mostPlayed from context
         fetchAllLeaderboards
     } = useLeaderboard();
 
     useEffect(() => {
-        const fetchLeaderboardData = async () => {
+        fetchAllLeaderboards();
+    }, [timeframe]);
+
+    // Updated to safely handle gameWinners
+    useEffect(() => {
+        if (gameWinners && Object.keys(gameWinners).length > 0) {
+            setAvailableGames(Object.keys(gameWinners));
+        }
+    }, [gameWinners]);
+
+    // Generate rankings based on current criteria and filters
+    useEffect(() => {
+        const generateRankingsData = () => {
             try {
                 setLoading(true);
 
                 if (contextLoading) {
-                    await fetchAllLeaderboards();
                     return;
                 }
 
@@ -56,294 +81,389 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({limit = 10, compact = false}) 
 
                 let leaderboardData: UserRanking[] = [];
 
-                if (sortCriteria === 'gananciaNeta' || sortCriteria === 'balance') {
-                    leaderboardData = topPlayersByBalance.map(player => {
-                        if (!player.usuario) {
-                            console.warn("Player sin usuario:", player);
-                            return null;
+                switch (sortCriteria) {
+                    case 'gananciaNeta':
+                        if (selectedGame && gameWinners && gameWinners[selectedGame]) {
+                            leaderboardData = gameWinners[selectedGame].map(winner => ({
+                                clienteid: Number(winner.clienteid) || 0,
+                                nombre: winner.nombre || '',
+                                apellido: winner.apellido || '',
+                                img: winner.img || null,
+                                gananciaNeta: winner.profit || '0',
+                                mayorRetorno: '0',
+                                mayorApuesta: '0',
+                                winPercentage: 0,
+                                juegoNombre: selectedGame
+                            }));
+                        } else if (accumulatedWinnings?.length > 0) {
+                            leaderboardData = accumulatedWinnings.map(winner => ({
+                                clienteid: Number(winner.clienteid) || 0,
+                                nombre: winner.nombre || '',
+                                apellido: winner.apellido || '',
+                                img: winner.img || null,
+                                gananciaNeta: winner.totalProfit || '0',
+                                mayorRetorno: '0',
+                                mayorApuesta: '0',
+                                winPercentage: 0
+                            }));
                         }
+                        break;
 
-                        const img = player.usuario.img || null;
-
-                        return {
-                            usuarioid: player.usuario.usuarioid,
-                            nombre: player.usuario.nombre || "Usuario",
-                            apellido: player.usuario.apellido || "",
-                            img: img,
-                            gananciaNeta: player.balance || 0,
-                            partidasJugadas: player.jugada?.length || 0,
-                            balance: player.balance || 0,
-                            promedioRetorno: 0,
-                            mayorGanancia: 0
-                        };
-                    }).filter(Boolean) as UserRanking[];
-                } else if (sortCriteria === 'partidasJugadas') {
-                    leaderboardData = topPlayersByPlays.map(player => {
-                        if (!player.usuario) {
-                            console.warn("Player sin usuario:", player);
-                            return null;
+                    case 'mayorApuesta':
+                        if (highestBets?.length > 0) {
+                            leaderboardData = highestBets.map(bet => ({
+                                clienteid: Number(bet.clienteid) || 0,
+                                nombre: bet.nombre || '',
+                                apellido: bet.apellido || '',
+                                img: bet.img || null,
+                                gananciaNeta: '0',
+                                mayorRetorno: '0',
+                                mayorApuesta: bet.apuesta || '0',
+                                winPercentage: 0,
+                                juegoNombre: bet.juegoNombre || ''
+                            }));
                         }
+                        break;
 
-                        const img = player.usuario.img || null;
-
-                        return {
-                            usuarioid: player.usuario.usuarioid,
-                            nombre: player.usuario.nombre || "Usuario",
-                            apellido: player.usuario.apellido || "",
-                            img: img,
-                            gananciaNeta: 0,
-                            partidasJugadas: player.jugada?.length || 0,
-                            balance: player.balance || 0,
-                            promedioRetorno: 0,
-                            mayorGanancia: 0
-                        };
-                    }).filter(Boolean) as UserRanking[];
-                } else if (sortCriteria === 'promedioRetorno') {
-                    leaderboardData = topPlayersByAverageReturn.map(player => {
-                        if (!player.usuario) {
-                            console.warn("Player sin usuario:", player);
-                            return null;
+                    case 'mayorRetorno':
+                        if (highestReturns?.length > 0) {
+                            leaderboardData = highestReturns.map(returnData => ({
+                                clienteid: Number(returnData.clienteid) || 0,
+                                nombre: returnData.nombre || '',
+                                apellido: returnData.apellido || '',
+                                img: returnData.img || null,
+                                gananciaNeta: '0',
+                                mayorRetorno: returnData.retorno || '0',
+                                mayorApuesta: '0',
+                                winPercentage: 0,
+                                juegoNombre: returnData.juegoNombre || ''
+                            }));
                         }
+                        break;
 
-                        const img = player.usuario.img || null;
-
-                        return {
-                            usuarioid: player.usuario.usuarioid,
-                            nombre: player.usuario.nombre || "Usuario",
-                            apellido: player.usuario.apellido || "",
-                            img: img,
-                            gananciaNeta: 0,
-                            partidasJugadas: 0,
-                            balance: player.balance || 0,
-                            promedioRetorno: Math.round(((player.averageReturn || 0) * 100)),
-                            mayorGanancia: 0
-                        };
-                    }).filter(Boolean) as UserRanking[];
-                } else if (sortCriteria === 'mayorGanancia') {
-                    const userMap = new Map<number, UserRanking>();
-
-                    topJugadasByReturn.forEach(jugada => {
-                        if (!jugada.cliente || !jugada.cliente.usuario) {
-                            console.warn("Jugada sin cliente o usuario:", jugada);
-                            return;
+                    case 'winPercentage':
+                        if (topWinPercentages?.length > 0) {
+                            leaderboardData = topWinPercentages.map(stats => ({
+                                clienteid: Number(stats.clienteid) || 0,
+                                nombre: stats.nombre || '',
+                                apellido: stats.apellido || '',
+                                img: stats.img || null,
+                                gananciaNeta: stats.totalProfit || '0',
+                                mayorRetorno: '0',
+                                mayorApuesta: '0',
+                                winPercentage: stats.winPercentage || 0
+                            }));
                         }
+                        break;
 
-                        const userId = jugada.cliente.usuario.usuarioid;
-
-                        const img = jugada.cliente.usuario.img || null;
-
-                        if (!userMap.has(userId) || jugada.retorno > userMap.get(userId)!.mayorGanancia) {
-                            userMap.set(userId, {
-                                usuarioid: userId,
-                                nombre: jugada.cliente.usuario.nombre || "Usuario",
-                                apellido: jugada.cliente.usuario.apellido || "",
-                                img: img,
-                                gananciaNeta: 0,
-                                partidasJugadas: 0,
-                                balance: 0,
-                                promedioRetorno: 0,
-                                mayorGanancia: jugada.retorno || 0
-                            });
+                    case 'jugadaCount':
+                        if (mostPlayed?.length > 0) {
+                            leaderboardData = mostPlayed.map(player => ({
+                                clienteid: Number(player.clienteid) || 0,
+                                nombre: player.nombre || '',
+                                apellido: player.apellido || '',
+                                img: player.img || null,
+                                gananciaNeta: '0',
+                                mayorRetorno: '0',
+                                mayorApuesta: '0',
+                                winPercentage: 0,
+                                jugadaCount: player.jugadaCount || 0
+                            }));
                         }
-                    });
-
-                    leaderboardData = Array.from(userMap.values());
+                        break;
                 }
 
+                // Sort the data according to criteria and direction
                 const sortedRankings = sortRankings(leaderboardData, sortCriteria, isAscending);
-
                 setRankings(sortedRankings.slice(0, limit));
                 setLoading(false);
             } catch (err) {
-                console.error('Error al cargar datos de leaderboard:', err);
-                setError('No se pudieron cargar los datos de clasificación');
+                console.error('Error al generar rankings:', err);
+                setError('No se pudieron generar las clasificaciones');
                 setLoading(false);
             }
         };
 
-        fetchLeaderboardData();
+        generateRankingsData();
     }, [
         contextLoading,
         contextError,
-        topPlayersByBalance,
-        topPlayersByPlays,
-        topPlayersByAverageReturn,
-        topJugadasByReturn,
-        fetchAllLeaderboards,
+        gameWinners,
+        highestBets,
+        highestReturns,
+        accumulatedWinnings,
+        topWinPercentages,
+        mostPlayed, // Add mostPlayed dependency
         sortCriteria,
         isAscending,
+        selectedGame,
         limit
     ]);
 
+    // Sort rankings based on the selected criteria
     const sortRankings = (data: UserRanking[], criteria: string, ascending: boolean): UserRanking[] => {
         return [...data].sort((a, b) => {
-            const valueA = a[criteria as keyof UserRanking] as number;
-            const valueB = b[criteria as keyof UserRanking] as number;
+            let valueA, valueB;
+
+            if (criteria === 'winPercentage') {
+                valueA = a.winPercentage || 0;
+                valueB = b.winPercentage || 0;
+            } else if (criteria === 'jugadaCount') {
+                valueA = a.jugadaCount || 0;
+                valueB = b.jugadaCount || 0;
+            } else {
+                valueA = parseFloat(a[criteria as keyof UserRanking] as string) || 0;
+                valueB = parseFloat(b[criteria as keyof UserRanking] as string) || 0;
+            }
+
             return ascending ? valueA - valueB : valueB - valueA;
         });
     };
 
-    const handleSortChange = (criteria: 'gananciaNeta' | 'partidasJugadas' | 'balance' | 'promedioRetorno' | 'mayorGanancia') => {
+    const handleSortChange = (criteria: 'gananciaNeta' | 'mayorRetorno' | 'mayorApuesta' | 'winPercentage' | 'jugadaCount') => {
         if (sortCriteria === criteria) {
             setIsAscending(!isAscending);
         } else {
             setSortCriteria(criteria);
             setIsAscending(false);
+
+            if (criteria !== 'gananciaNeta') {
+                setSelectedGame(null);
+            }
         }
     };
 
-    // Función para obtener el nombre descriptivo del criterio de clasificación
+    const handleGameFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = event.target.value;
+        setSelectedGame(value === "all" ? null : value);
+    };
+
+    const handleTimeframeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setTimeframe(event.target.value as TimeFrame);
+    };
+
     const getSortCriteriaLabel = (criteria: string): string => {
         switch (criteria) {
-            case 'gananciaNeta': return 'Ganancia Neta';
-            case 'partidasJugadas': return 'Partidas';
-            case 'balance': return 'Balance';
-            case 'promedioRetorno': return 'Promedio Retorno';
-            case 'mayorGanancia': return 'Mayor Ganancia';
-            default: return criteria;
+            case 'gananciaNeta':
+                return selectedGame ? `Ganancia en ${selectedGame}` : 'Ganancias Acumuladas';
+            case 'mayorRetorno':
+                return 'Mayor Retorno';
+            case 'mayorApuesta':
+                return 'Mayor Apuesta';
+            case 'winPercentage':
+                return 'Porcentaje de Ganancia';
+            case 'jugadaCount':
+                return 'Cantidad de Jugadas';
+            default:
+                return criteria;
         }
     };
 
     if (loading || contextLoading) {
-        return <div className="leaderboard-loading">Cargando clasificaciones...</div>;
+        return <div className="leaderboard__loading">Cargando clasificaciones...</div>;
     }
 
     if (error || contextError) {
-        return <div className="leaderboard-error">{error || contextError}</div>;
+        return <div className="leaderboard__error">{error || contextError}</div>;
     }
 
+    const LeaderboardRow = ({ranking, index}: { ranking: UserRanking, index: number }) => {
+        const isCurrentUser = client?.clienteid === ranking.clienteid; // Fixed property name mismatch
+
+        const rankClassName =
+            index === 0 ? 'leaderboard__rank leaderboard__rank--top1' :
+                index === 1 ? 'leaderboard__rank leaderboard__rank--top2' :
+                    index === 2 ? 'leaderboard__rank leaderboard__rank--top3' :
+                        'leaderboard__rank';
+
+        // Handle null/undefined values
+        const winPercentage = ranking.winPercentage;
+        const gananciaNeta = ranking.gananciaNeta || '0';
+        const mayorRetorno = ranking.mayorRetorno || '0';
+        const mayorApuesta = ranking.mayorApuesta || '0';
+        const jugadaCount = ranking.jugadaCount || 0;
+
+        return (
+            <div
+                className={`leaderboard__row ${compact ? 'leaderboard__row--compact' : ''} ${isCurrentUser ? 'current-user' : ''}`}>
+                <div className={rankClassName}>{index + 1}</div>
+                <div className="leaderboard__user">
+                    <div className="leaderboard__avatar">
+                        {ranking.img ? (
+                            <img
+                                src={`http://localhost:3001${ranking.img}`}
+                                alt={`${ranking.nombre} ${ranking.apellido}`}
+                                onError={(e) => {
+                                    const target = e.target as HTMLImageElement;
+                                    target.style.display = 'none';
+                                    const parent = target.parentElement;
+                                    if (parent) {
+                                        const div = document.createElement('div');
+                                        div.className = 'leaderboard__default-avatar';
+                                        div.textContent = `${ranking.nombre.charAt(0)}${ranking.apellido.charAt(0)}`;
+                                        parent.appendChild(div);
+                                    }
+                                }}
+                            />
+                        ) : (
+                            <div className="leaderboard__default-avatar">
+                                {ranking.nombre ? ranking.nombre.charAt(0) : ''}
+                                {ranking.apellido ? ranking.apellido.charAt(0) : ''}
+                            </div>
+                        )}
+                    </div>
+                    <span className="leaderboard__username">{ranking.nombre} {ranking.apellido}</span>
+                </div>
+                <div className="leaderboard__stat">
+                    {sortCriteria === 'gananciaNeta' && (
+                        <span className={parseFloat(gananciaNeta) >= 0 ? 'positive' : 'negative'}>
+                            {parseFloat(gananciaNeta) >= 0 ? '+' : ''}
+                            {parseFloat(gananciaNeta).toLocaleString()} AC
+                        </span>
+                    )}
+                    {sortCriteria === 'mayorRetorno' && (
+                        <span className="positive">
+                            +{parseFloat(mayorRetorno).toLocaleString()} AC
+                        </span>
+                    )}
+                    {sortCriteria === 'mayorApuesta' && (
+                        <span>{parseFloat(mayorApuesta).toLocaleString()} AC</span>
+                    )}
+                    {sortCriteria === 'winPercentage' && (
+                        <span className={winPercentage >= 50 ? 'positive' : ''}>
+                            {winPercentage.toFixed(1)}%
+                        </span>
+                    )}
+                    {sortCriteria === 'jugadaCount' && (
+                        <span>{jugadaCount.toLocaleString()} jugadas</span>
+                    )}
+                </div>
+                {!compact && sortCriteria !== 'gananciaNeta' && sortCriteria !== 'jugadaCount' && ranking.juegoNombre && (
+                    <div className="leaderboard__game">
+                        {ranking.juegoNombre}
+                    </div>
+                )}
+            </div>
+        );
+    };
+
     return (
-        <div className="leaderboard-container">
-            <div className="leaderboard-header">
-                <h2 className="leaderboard-title">Tabla de Clasificación</h2>
-                
+        <div className="leaderboard">
+            <div className="leaderboard__header">
+                <div className="leaderboard__filters-row">
+                    <div className="leaderboard__timeframe-filter">
+                        <label>Periodo:</label>
+                        <select
+                            className="leaderboard__dropdown"
+                            value={timeframe}
+                            onChange={handleTimeframeChange}
+                        >
+                            <option value="day">Hoy</option>
+                            <option value="month">Este Mes</option>
+                            <option value="year">Este Año</option>
+                            <option value="all">Todo</option>
+                        </select>
+                    </div>
+
+                    {/* Show game filter dropdown regardless of layout mode */}
+                    {sortCriteria === 'gananciaNeta' && availableGames.length > 0 && (
+                        <div className="leaderboard__game-filter">
+                            <label>Juego:</label>
+                            <select
+                                className="leaderboard__dropdown"
+                                value={selectedGame || "all"}
+                                onChange={handleGameFilterChange}
+                            >
+                                <option value="all">Todos los Juegos</option>
+                                {availableGames.map(game => (
+                                    <option key={game} value={game}>{game}</option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
+                </div>
+
                 {compact ? (
-                    <div className="leaderboard-filters-compact">
-                        <select 
-                            className="filter-dropdown"
+                    <div className="leaderboard__filters-compact">
+                        <select
+                            className="leaderboard__dropdown"
                             value={sortCriteria}
                             onChange={(e) => handleSortChange(e.target.value as any)}
                         >
-                            <option value="gananciaNeta">Ganancia Neta</option>
-                            <option value="partidasJugadas">Partidas</option>
-                            <option value="balance">Balance</option>
-                            <option value="promedioRetorno">Promedio Retorno</option>
-                            <option value="mayorGanancia">Mayor Ganancia</option>
+                            <option value="gananciaNeta">Ganancias Acumuladas</option>
+                            <option value="mayorRetorno">Mayor Retorno</option>
+                            <option value="mayorApuesta">Mayor Apuesta</option>
+                            <option value="winPercentage">% de Ganancia</option>
+                            <option value="jugadaCount">Cantidad de Jugadas</option>
                         </select>
-                        <button 
-                            className="order-btn"
+
+                        <button
+                            className="leaderboard__order-btn"
                             onClick={() => setIsAscending(!isAscending)}
                         >
                             {isAscending ? '↑' : '↓'}
                         </button>
                     </div>
                 ) : (
-                    <div className="leaderboard-filters">
+                    <div className="leaderboard__filters">
                         <button
-                            className={`filter-btn ${sortCriteria === 'gananciaNeta' ? 'active' : ''}`}
+                            className={`leaderboard__filter-btn ${sortCriteria === 'gananciaNeta' ? 'active' : ''}`}
                             onClick={() => handleSortChange('gananciaNeta')}
                         >
-                            Ganancia Neta {sortCriteria === 'gananciaNeta' && (isAscending ? '↑' : '↓')}
+                            Ganancias {sortCriteria === 'gananciaNeta' && (isAscending ? '↑' : '↓')}
                         </button>
                         <button
-                            className={`filter-btn ${sortCriteria === 'partidasJugadas' ? 'active' : ''}`}
-                            onClick={() => handleSortChange('partidasJugadas')}
+                            className={`leaderboard__filter-btn ${sortCriteria === 'mayorRetorno' ? 'active' : ''}`}
+                            onClick={() => handleSortChange('mayorRetorno')}
                         >
-                            Partidas {sortCriteria === 'partidasJugadas' && (isAscending ? '↑' : '↓')}
+                            Mayor Retorno {sortCriteria === 'mayorRetorno' && (isAscending ? '↑' : '↓')}
                         </button>
                         <button
-                            className={`filter-btn ${sortCriteria === 'balance' ? 'active' : ''}`}
-                            onClick={() => handleSortChange('balance')}
+                            className={`leaderboard__filter-btn ${sortCriteria === 'mayorApuesta' ? 'active' : ''}`}
+                            onClick={() => handleSortChange('mayorApuesta')}
                         >
-                            Balance {sortCriteria === 'balance' && (isAscending ? '↑' : '↓')}
+                            Mayor Apuesta {sortCriteria === 'mayorApuesta' && (isAscending ? '↑' : '↓')}
                         </button>
                         <button
-                            className={`filter-btn ${sortCriteria === 'promedioRetorno' ? 'active' : ''}`}
-                            onClick={() => handleSortChange('promedioRetorno')}
+                            className={`leaderboard__filter-btn ${sortCriteria === 'winPercentage' ? 'active' : ''}`}
+                            onClick={() => handleSortChange('winPercentage')}
                         >
-                            Promedio Retorno {sortCriteria === 'promedioRetorno' && (isAscending ? '↑' : '↓')}
+                            % Ganancia {sortCriteria === 'winPercentage' && (isAscending ? '↑' : '↓')}
                         </button>
                         <button
-                            className={`filter-btn ${sortCriteria === 'mayorGanancia' ? 'active' : ''}`}
-                            onClick={() => handleSortChange('mayorGanancia')}
+                            className={`leaderboard__filter-btn ${sortCriteria === 'jugadaCount' ? 'active' : ''}`}
+                            onClick={() => handleSortChange('jugadaCount')}
                         >
-                            Mayor Ganancia {sortCriteria === 'mayorGanancia' && (isAscending ? '↑' : '↓')}
+                            Jugadas {sortCriteria === 'jugadaCount' && (isAscending ? '↑' : '↓')}
                         </button>
                     </div>
                 )}
             </div>
 
-            <div className="leaderboard-table">
-                <div className="leaderboard-table-header">
-                    <div className="rank-column">Pos.</div>
-                    <div className="user-column">Jugador</div>
-                    <div className="stat-column">
+            <div className="leaderboard__table">
+                <div className={`leaderboard__table-header ${compact ? 'leaderboard__table-header--compact' : ''}`}>
+                    <div className="leaderboard__rank">Pos.</div>
+                    <div className="leaderboard__user">Jugador</div>
+                    <div className="leaderboard__stat">
                         {getSortCriteriaLabel(sortCriteria)}
-                        <span className="order-indicator">{isAscending ? ' ↑' : ' ↓'}</span>
+                        <span className="leaderboard__order-indicator">{isAscending ? ' ↑' : ' ↓'}</span>
                     </div>
+                    {!compact && sortCriteria !== 'gananciaNeta' && sortCriteria !== 'jugadaCount' && (
+                        <div className="leaderboard__game">Juego</div>
+                    )}
                 </div>
 
-                <div className="leaderboard-table-body">
+                <div className="leaderboard__table-body">
                     {rankings.length > 0 ? (
                         rankings.map((ranking, index) => (
-                            <div
-                                key={`${ranking.usuarioid}-${index}-${sortCriteria}`}
-                                className={`leaderboard-row ${user?.usuarioid ===
-                                ranking.usuarioid ? 'current-user' : ''}`}>
-                                <div className="rank-column">{index + 1}</div>
-                                <div className="user-column">
-                                    <div className="user-avatar">
-                                        {ranking.img ? (
-                                            <img
-                                                src={`http://localhost:3001${ranking.img}`}
-                                                alt={`${ranking.nombre} ${ranking.apellido}`}
-                                                onError={(e) => {
-                                                    const target = e.target as HTMLImageElement;
-                                                    target.style.display = 'none';
-                                                    const parent = target.parentElement;
-                                                    if (parent) {
-                                                        const div = document.createElement('div');
-                                                        div.className = 'default-avatar';
-                                                        div.textContent = `${ranking.nombre.charAt(0)}${ranking.apellido.charAt(0)}`;
-                                                        parent.appendChild(div);
-                                                    }
-                                                }}
-                                            />
-                                        ) : (
-                                            <div className="default-avatar">
-                                                {ranking.nombre ? ranking.nombre.charAt(0) : ''}
-                                                {ranking.apellido ? ranking.apellido.charAt(0) : ''}
-                                            </div>
-                                        )}
-                                    </div>
-                                    <span className="user-name">{ranking.nombre} {ranking.apellido}</span>
-                                </div>
-                                <div className="stat-column">
-                                    {sortCriteria === 'gananciaNeta' && (
-                                        <span className={ranking.gananciaNeta >= 0 ? 'positive' : 'negative'}>
-                                            {ranking.gananciaNeta >= 0 ? '+' : ''}{ranking.gananciaNeta} AC
-                                        </span>
-                                    )}
-                                    {sortCriteria === 'partidasJugadas' && (
-                                        <span>{ranking.partidasJugadas}</span>
-                                    )}
-                                    {sortCriteria === 'balance' && (
-                                        <span className={ranking.balance >= 0 ? 'positive' : 'negative'}>
-                                            {ranking.balance >= 0 ? '+' : ''}{ranking.balance} AC
-                                        </span>
-                                    )}
-                                    {sortCriteria === 'promedioRetorno' && (
-                                        <span className={ranking.promedioRetorno >= 0 ? 'positive' : 'negative'}>
-                                            {ranking.promedioRetorno >= 0 ? '+' : ''}{ranking.promedioRetorno} AC
-                                        </span>
-                                    )}
-                                    {sortCriteria === 'mayorGanancia' &&
-                                        <span className="positive">+{ranking.mayorGanancia} AC</span>}
-                                </div>
-                            </div>
+                            <LeaderboardRow
+                                key={`${ranking.clienteid}-${index}-${sortCriteria}`}
+                                ranking={ranking}
+                                index={index}
+                            />
                         ))
                     ) : (
-                        <div className="empty-leaderboard">No hay datos disponibles para mostrar en la
+                        <div className="leaderboard__empty">No hay datos disponibles para mostrar en la
                             clasificación</div>
                     )}
                 </div>

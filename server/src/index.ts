@@ -10,7 +10,7 @@ import adminRoutes from './routes/adminRoutes';
 import transactionRoutes from './routes/transactionRoutes';
 import uploadRoutes from './routes/uploads';
 import gameRoutes from "./routes/gameRoutes";
-import historyRoutes  from "./routes/historyRoutes";
+import historyRoutes from "./routes/historyRoutes";
 import playRoutes from "./routes/playRoutes"
 import leaderboardRoutes from "./routes/leaderboardRoutes";
 import limitRoutes from "./routes/limitRoutes";
