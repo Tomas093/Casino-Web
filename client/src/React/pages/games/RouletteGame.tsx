@@ -1,14 +1,16 @@
-import React, {useState} from 'react';
-import {RouletteWheel, RouletteTable, useRoulette, ChipList} from 'react-casino-roulette';
+import React, { useState } from 'react';
+import { RouletteWheel, RouletteTable, useRoulette, ChipList } from 'react-casino-roulette';
 import 'react-casino-roulette/dist/index.css';
+import '@css/NavBarStyle.css';
 
 import whiteChip from '@assets/Javo.jpg';
 import blueChip from '@assets/Javo.jpg';
 import blackChip from '@assets/Javo.jpg';
 import cyanChip from '@assets/Javo.jpg';
-import {useAuth} from "@context/AuthContext.tsx";
-import {usePlay} from '@context/PlayContext.tsx';
-import {useUser} from '@context/UserContext';
+import { useAuth } from "@context/AuthContext.tsx";
+import { usePlay } from '@context/PlayContext.tsx';
+import { useUser } from '@context/UserContext';
+import NavBar from "@components/NavBar.tsx";
 
 // Definición de números rojos y negros en la ruleta
 const RED_NUMBERS = ['1', '3', '5', '7', '9', '12', '14', '16', '18', '19', '21', '23', '25', '27', '30', '32', '34', '36'];
@@ -22,6 +24,7 @@ const chips = {
     '500': cyanChip,
 };
 
+// ID del juego de ruleta
 const ROULETTE_GAME_ID = 2;
 
 interface BetResult {
@@ -37,11 +40,12 @@ const RouletteGame: React.FC = () => {
     const [wheelStart, setWheelStart] = useState(false);
     const [lastResults, setLastResults] = useState<string[]>([]);
     const [betResults, setBetResults] = useState<BetResult[]>([]);
-    const {user} = useAuth();
-    const {createPlay, isLoading} = usePlay();
-    const {client, getUserData} = useUser();
+    const { user } = useAuth();
+    const { createPlay, isLoading } = usePlay();
+    const { client, getUserData } = useUser();
 
-    const {bets, onBet, clearBets, total: totalBet, hasBets} = useRoulette();
+    const { bets, onBet, clearBets, total: totalBet, hasBets } = useRoulette();
+
 
     // Función para determinar si un número es rojo o negro
     const getNumberColor = (number: string): 'red' | 'black' | 'green' => {
@@ -169,7 +173,7 @@ const RouletteGame: React.FC = () => {
 
     // Componente para mostrar el historial de resultados con colores
     const ResultHistory = () => (
-        <div style={{display: 'flex', gap: '8px', marginBottom: '1rem'}}>
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '1rem' }}>
             {lastResults.map((num, idx) => {
                 const color = getNumberColor(num);
                 return (
@@ -193,150 +197,129 @@ const RouletteGame: React.FC = () => {
 
     // Componente para los botones de apuesta rápida por color
     const QuickColorBets = () => (
-        <div style={{display: 'flex', gap: '1rem', marginBottom: '1rem'}}>
-            <button
-                onClick={() => onBet(Number(selectedChip), 'add')(['RED'], 'RED')}
-                style={{
-                    padding: '10px 20px',
-                    backgroundColor: 'red',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '5px',
-                    cursor: 'pointer'
-                }}
-            >
-                Apostar al Rojo
-            </button>
-            <button
-                onClick={() => onBet(Number(selectedChip), 'add')(['BLACK'], 'BLACK')}
-                style={{
-                    padding: '10px 20px',
-                    backgroundColor: 'black',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '5px',
-                    cursor: 'pointer'
-                }}
-            >
-                Apostar al Negro
-            </button>
+        <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+
+
         </div>
     );
-
+    const landingNavLinks = [
+        {label: "Home", href: "/home", isAnchor: true},
+        {label: "Depositar", href: "/Transaccion", isAnchor: true}
+    ];
     return (
-        <div style={{display: 'flex', flexDirection: 'column', gap: '2rem', padding: '20px'}}>
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                <h2>Ruleta de Casino</h2>
-                <div style={{
-                    padding: '10px 20px',
-                    backgroundColor: '#f0f0f0',
-                    borderRadius: '5px',
-                    fontWeight: 'bold'
-                }}>
-                    Saldo: ${client ? client.balance : 0}
-                </div>
-            </div>
+        <>
 
-            {lastResults.length > 0 && (
-                <div>
-                    <h3>Últimos resultados</h3>
-                    <ResultHistory/>
-                </div>
-            )}
+        <NavBar
+            navLinks={landingNavLinks}
+            className="landing-navbar"
+            variant="light"
+            showBalance={true}
+            playButtonLabel="Jugar"
+            loginButtonLabel="Iniciar Sesión"
+            registerButtonLabel="Registrarse"
+        />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', padding: '20px', marginTop: '80px' }}>
 
-            <div style={{marginBottom: '1rem'}}>
-                <h3>Seleccionar ficha</h3>
-                <ChipList
-                    chips={chips}
-                    selectedChip={selectedChip}
-                    onChipPressed={setSelectedChip}
-                    budget={client ? client.balance : 0}
-                />
-            </div>
-
-            <QuickColorBets/>
-
-            <div style={{display: 'flex', flexDirection: 'column', gap: '2rem'}}>
-                <RouletteTable
-                    chips={chips}
-                    bets={bets}
-                    onBet={onBet(Number(selectedChip), 'add')}
-                    readOnly={wheelStart}
-                />
-
-                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                {lastResults.length > 0 && (
                     <div>
-                        <RouletteWheel
-                            start={wheelStart}
-                            winningBet={winningBet}
-                            onSpinningEnd={handleEndSpin}
-                        />
+                        <h3>Últimos resultados</h3>
+                        <ResultHistory />
                     </div>
-                    <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
-                        <button
-                            onClick={handleSpin}
-                            disabled={wheelStart || !hasBets || isLoading}
-                            style={{
-                                padding: '12px 24px',
-                                backgroundColor: '#4CAF50',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '5px',
-                                cursor: wheelStart || !hasBets || isLoading ? 'not-allowed' : 'pointer',
-                                opacity: wheelStart || !hasBets || isLoading ? 0.7 : 1
-                            }}
-                        >
-                            {isLoading ? 'Procesando...' : 'Girar Ruleta'}
-                        </button>
-                        <button
-                            onClick={clearBets}
-                            disabled={wheelStart || !hasBets || isLoading}
-                            style={{
-                                padding: '12px 24px',
-                                backgroundColor: '#f44336',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '5px',
-                                cursor: wheelStart || !hasBets || isLoading ? 'not-allowed' : 'pointer',
-                                opacity: wheelStart || !hasBets || isLoading ? 0.7 : 1
-                            }}
-                        >
-                            Limpiar Apuestas
-                        </button>
-                    </div>
-                </div>
-            </div>
+                )}
 
-            {betResults.length > 0 && (
-                <div style={{marginTop: '2rem'}}>
-                    <h3>Resultados de las apuestas</h3>
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '8px',
-                        maxHeight: '200px',
-                        overflowY: 'auto',
-                        padding: '10px',
-                        backgroundColor: '#f9f9f9',
-                        borderRadius: '5px'
-                    }}>
-                        {betResults.map((result, idx) => (
-                            <div key={idx} style={{
-                                padding: '8px',
-                                backgroundColor: result.isWin ? '#d4edda' : '#f8d7da',
-                                borderRadius: '4px',
-                                display: 'flex',
-                                justifyContent: 'space-between'
-                            }}>
-                                <span>Apuesta: {result.betId}</span>
-                                <span>Monto: ${result.amount}</span>
-                                <span>{result.isWin ? `Ganancia: $${result.win}` : 'Perdida'}</span>
-                            </div>
-                        ))}
+                <div style={{ marginBottom: '1rem' }}>
+                    <ChipList
+                        chips={chips}
+                        selectedChip={selectedChip}
+                        onChipPressed={setSelectedChip}
+                        budget={client ? client.balance : 0}
+                    />
+                </div>
+
+                <QuickColorBets />
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                    <RouletteTable
+                        chips={chips}
+                        bets={bets}
+                        onBet={onBet(Number(selectedChip), 'add')}
+                        readOnly={wheelStart}
+                    />
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                            <RouletteWheel
+                                start={wheelStart}
+                                winningBet={winningBet}
+                                onSpinningEnd={handleEndSpin}
+                            />
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                            <button
+                                onClick={handleSpin}
+                                disabled={wheelStart || !hasBets || isLoading}
+                                style={{
+                                    padding: '12px 24px',
+                                    backgroundColor: '#4CAF50',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '5px',
+                                    cursor: wheelStart || !hasBets || isLoading ? 'not-allowed' : 'pointer',
+                                    opacity: wheelStart || !hasBets || isLoading ? 0.7 : 1
+                                }}
+                            >
+                                {isLoading ? 'Procesando...' : 'Girar Ruleta'}
+                            </button>
+                            <button
+                                onClick={clearBets}
+                                disabled={wheelStart || !hasBets || isLoading}
+                                style={{
+                                    padding: '12px 24px',
+                                    backgroundColor: '#f44336',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '5px',
+                                    cursor: wheelStart || !hasBets || isLoading ? 'not-allowed' : 'pointer',
+                                    opacity: wheelStart || !hasBets || isLoading ? 0.7 : 1
+                                }}
+                            >
+                                Limpiar Apuestas
+                            </button>
+                        </div>
                     </div>
                 </div>
-            )}
-        </div>
+
+                {betResults.length > 0 && (
+                    <div style={{ marginTop: '2rem' }}>
+                        <h3>Resultados de las apuestas</h3>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '8px',
+                            maxHeight: '200px',
+                            overflowY: 'auto',
+                            padding: '10px',
+                            backgroundColor: '#f9f9f9',
+                            borderRadius: '5px'
+                        }}>
+                            {betResults.map((result, idx) => (
+                                <div key={idx} style={{
+                                    padding: '8px',
+                                    backgroundColor: result.isWin ? '#d4edda' : '#f8d7da',
+                                    borderRadius: '4px',
+                                    display: 'flex',
+                                    justifyContent: 'space-between'
+                                }}>
+                                    <span>Apuesta: {result.betId}</span>
+                                    <span>Monto: ${result.amount}</span>
+                                    <span>{result.isWin ? `Ganancia: $${result.win}` : 'Perdida'}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+        </>
     );
 };
 

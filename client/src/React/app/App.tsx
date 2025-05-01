@@ -1,5 +1,4 @@
-
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import LandingPage from '../pages/home/LandingPage';
 import Register from '../pages/auth/Register';
 import Login from '../pages/auth/Login';
@@ -14,47 +13,54 @@ import DeleteSpecificAccount from "../pages/deletes/DeleteSpecificAccount.tsx";
 import Transaccion from "../pages/transaction/Transaccion.tsx";
 import Home from "../pages/home/Home.tsx";
 import MineSweeper from "../pages/games/MineSweeperEnchanced.tsx";
-import { AppProvider } from './appProvider';
+import {AppProvider} from './appProvider';
 import RouletteGame from "../pages/games/RouletteGame.tsx";
 import StatisticsPage from "../pages/profile/StatisticsPage.tsx"
 import LeaderBoard from "@components/LeaderBoard.tsx";
 import Limit from "../pages/profile/LimitPage.tsx";
 import MonLimitTicketPage from "../pages/Tickets/MonLimitTicketPage.tsx";
+import NotFound from "@components/Error/Error404.tsx";
 
 function App() {
     return (
         <BrowserRouter>
             <AppProvider>
                 <Routes>
-                    <Route path="/" element={<LandingPage />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path={"/leaderboard"} element={<LeaderBoard />} />
+                    {/* Rutas publicas */}
+                    <Route path="/" element={<LandingPage/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/register" element={<Register/>}/>
+                    <Route path={"/leaderboard"} element={<LeaderBoard/>}/>
+                    <Route path="/notfound" element={<NotFound/>}/>
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
-                    <Route element={<ProtectedRoute />}>
-                        <Route path="/history" element={<HistoryPage />} />
-                        <Route path="/statistics" element={<StatisticsPage />} />
-                        <Route path="/profile" element={<ProfilePage />} />
-                        <Route path="/delete-account" element={<DeleteUser />} />
-                        <Route path="/Transaccion" element={<Transaccion />} />
-                        <Route path="/home" element={<Home />} />
-                        <Route path="/roulette" element={<RouletteGame />} />
-                        <Route path="/mines" element={<MineSweeper />} />
-                        <Route path="/limit" element={<Limit/>} />
-                        <Route path="/monLimitTicket" element={<MonLimitTicketPage />} />
+                    <Route element={<ProtectedRoute/>}>
+                        <Route path="/history" element={<HistoryPage/>}/>
+                        <Route path="/statistics" element={<StatisticsPage/>}/>
+                        <Route path="/profile" element={<ProfilePage/>}/>
+                        <Route path="/delete-account" element={<DeleteUser/>}/>
+                        <Route path="/Transaccion" element={<Transaccion/>}/>
+                        <Route path="/home" element={<Home/>}/>
+                        <Route path="/roulette" element={<RouletteGame/>}/>
+                        <Route path="/mines" element={<MineSweeper/>}/>
+                        <Route path="/limit" element={<Limit/>}/>
+                        <Route path="/monLimitTicket" element={<MonLimitTicketPage/>}/>
                     </Route>
 
                     {/* rutas Solo para admins */}
-                    <Route element={<AdminRoutes />}>
-                        <Route path="/HIHIHIHIHI" element={<div>NO IMPLEMENTADO NADA</div>} />
+                    <Route element={<AdminRoutes/>}>
+                        <Route path="/HIHIHIHIHI" element={<div>NO IMPLEMENTADO NADA</div>}/>
                     </Route>
 
                     {/* Rutas protegidas Solo (Superadmin) */}
-                    <Route element={<SuperadminOnlyRoutes />}>
-                        <Route path="/admin" element={<AdminManagment />} />
-                        <Route path="/deleteSpecificaccount/:id" element={<DeleteSpecificAccount />} />
+                    <Route element={<SuperadminOnlyRoutes/>}>
+                        <Route path="/admin" element={<AdminManagment/>}/>
+                        <Route path="/deleteSpecificaccount/:id" element={<DeleteSpecificAccount/>}/>
                     </Route>
+
+                    {/* Cualquier otra ruta (Equivocada) */}
+                    <Route path="*" element={<NotFound/>}/>
+
                 </Routes>
             </AppProvider>
         </BrowserRouter>

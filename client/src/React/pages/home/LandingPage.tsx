@@ -7,11 +7,18 @@ import Footer from "@components/Footer.tsx";
 import NavBar from "@components/NavBar.tsx";
 import {useAuth} from "@context/AuthContext.tsx";
 import {useUser} from "@context/UserContext.tsx";
+import { useNavigate } from 'react-router-dom';
 
 
 const LandingPage: React.FC = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [activePromo, setActivePromo] = useState(0);
+    const navigate = useNavigate();
+
+    const handlePlayClick = () => {
+        // Navegamos a la página Home y específicamente a la sección de juegos
+        navigate("/home#games-section-home");
+    };
 
     const promociones = [
         {titulo: "Bono de Bienvenida", descripcion: "¡100% en tu primer depósito hasta $500!", imagen: "promo1"},
@@ -19,15 +26,15 @@ const LandingPage: React.FC = () => {
         {titulo: "Giros Gratis", descripcion: "20 giros gratis en nuestros juegos premium", imagen: "promo3"}
     ];
 
-    const juegos = [
-        {id: 1, nombre: "Slots", descripcion: "La emoción de los giros", imagen: "game1"},
-        {id: 2, nombre: "Ruleta Premium", descripcion: "La elegancia y el azar se combinan", imagen: "game2"},
-        {id: 3, nombre: "Blackjack VIP", descripcion: "Estrategia y suerte al máximo nivel", imagen: "game3"},
+    const australisJuegos = [
+        {id: 1, nombre: "Slots", descripcion: "La emoción de los giros", imagen: "australis-game1"},
+        {id: 2, nombre: "Ruleta Premium", descripcion: "La elegancia y el azar se combinan", imagen: "australis-game2"},
+        {id: 3, nombre: "Blackjack VIP", descripcion: "Estrategia y suerte al máximo nivel", imagen: "australis-game3"},
         {
             id: 4,
             nombre: "Dado",
             descripcion: "100 posibilidades, una sola decisión: ¡Lánzalo y deja que el destino hable!",
-            imagen: "game4"
+            imagen: "australis-game4"
         },
     ];
 
@@ -54,19 +61,6 @@ const LandingPage: React.FC = () => {
         document.querySelector('.australis-features')?.scrollIntoView({behavior: 'smooth'});
     };
 
-    /* con imagenes por las dudas
-    const renderPromoCards = () => {
-        return promociones.map((promo, index) => (
-            <div key={index} className={`promo-card ${index === activePromo ? 'active' : ''}`}>
-                <img src={`./assets/${promo.imagen}`} alt={promo.titulo} className="promo-image" />
-                <h3>{promo.titulo}</h3>
-                <p>{promo.descripcion}</p>
-                <Link to="/register" className="promo-btn">Obtener Ahora</Link>
-            </div>
-        ));
-    };
-    */
-
     const renderPromoCards = () => {
         return promociones.map((promo, index) => (
             <div key={index} className={`promo-card ${promo.imagen} ${index === activePromo ? 'active' : ''}`}>
@@ -78,19 +72,38 @@ const LandingPage: React.FC = () => {
     };
 
 
-    const renderGameCards = () => {
-        return juegos.map(juego => (
-            <div key={juego.id} className="game-card">
-                <div className={`game-image ${juego.imagen}`}></div>
-                <h3>{juego.nombre}</h3>
-                <p>{juego.descripcion}</p>
+    const renderAustralisGameCards = () => {
+        return australisJuegos.map(juego => (
+            <div key={juego.id} className="australis-game-card">
+                <div className={`australis-game-image ${juego.imagen}`}></div>
+                <div className="australis-game-info">
+                    <h3 className="australis-game-title">{juego.nombre}</h3>
+                    <p className="australis-game-description">{juego.descripcion}</p>
+                </div>
             </div>
         ));
     };
 
+    // Configuración personalizada para la navbar en LandingPage
+    const landingNavLinks = [
+        {label: "Juegos", href: "#games", isAnchor: true},
+        {label: "Promociones", href: "#promos", isAnchor: true},
+        {label: "Nosotros", href: "#about", isAnchor: true}
+    ];
+
     return (
         <>
-          <NavBar/>
+            <NavBar
+                navLinks={landingNavLinks}
+                className="landing-navbar"
+                variant="light"
+                showBalance={true}
+                playButtonLabel="Jugar"
+                loginButtonLabel="Iniciar Sesión"
+                registerButtonLabel="Registrarse"
+                onPlayClick={handlePlayClick}
+                targetSection="games-section-home"
+            />
             <div className="landing-container">
                 {/* Hero Section */}
                 <div className="hero-section">
@@ -159,7 +172,7 @@ const LandingPage: React.FC = () => {
                 <section id="games" className="games-section">
                     <h2 className="section-title">Juegos Populares</h2>
                     <div className="games-carousel">
-                        {renderGameCards()}
+                        {renderAustralisGameCards()}
                     </div>
                 </section>
 

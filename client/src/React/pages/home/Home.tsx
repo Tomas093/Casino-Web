@@ -9,34 +9,27 @@ import Footer from '@components/Footer';
 import NavBar from "@components/NavBar.tsx";
 import { useUser } from "@context/UserContext.tsx";
 import { useAuth } from "@context/AuthContext.tsx";
-import { Link } from 'react-router-dom';
-
-
+import LeaderBoard from "@components/LeaderBoard";
 
 interface GameCardProps {
     title: string;
     image: string;
-    route: string;  // Nueva propiedad para la ruta específica del juego
 }
 
-
 // Game Card Component
-const GameCard: React.FC<GameCardProps> = ({ title, image, route }) => {
+const GameCard: React.FC<GameCardProps> = ({ title, image }) => {
     return (
         <div className="game-card hover-card">
             <div className="game-card-inner">
                 <img src={image} alt={title} className="game-card-image" />
                 <div className="game-card-overlay">
                     <h3 className="game-card-title">{title}</h3>
-                    <Link to={route}>
-                        <button className="game-card-button">Jugar ahora</button>
-                    </Link>
+                    <button className="game-card-button">Jugar ahora</button>
                 </div>
             </div>
         </div>
     );
 };
-
 
 // Statistical Indicator Component
 interface StatIndicatorProps {
@@ -78,7 +71,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onClick }) 
 };
 
 // Main Component
-const Home = () => {
+const HomeDef = () => {
     // References for scroll with zoom effect
     const containerRef = useRef(null);
     const showcaseRef = useRef(null);
@@ -92,14 +85,14 @@ const Home = () => {
 
     // Sample game list
     const games = [
-        { id: 1, title: "Ruleta VIP", image: ruletaImg, route: "/roulette" },
-        { id: 2, title: "BlackJack", image: blackjackImg, route: "/blackjack" },
-        { id: 3, title: "Slots", image: slotImg, route: "/slots" },
-        { id: 4, title: "Dados", image: dadosImg, route: "/dados" },
-        { id: 5, title: "Ruleta VIP", image: ruletaImg, route: "/roulette" },
-        { id: 6, title: "BlackJack", image: blackjackImg, route: "/blackjack" },
-        { id: 7, title: "Slots", image: slotImg, route: "/slots" },
-        { id: 8, title: "Dados", image: dadosImg, route: "/dados" }
+        { id: 1, title: "Ruleta VIP", image: ruletaImg },
+        { id: 2, title: "BlackJack", image: blackjackImg },
+        { id: 3, title: "Slots", image: slotImg },
+        { id: 4, title: "Dados", image: dadosImg },
+        { id: 5, title: "Ruleta VIP", image: ruletaImg },
+        { id: 6, title: "BlackJack", image: blackjackImg },
+        { id: 7, title: "Slots", image: slotImg},
+        { id: 8, title: "Dados", image: dadosImg }
     ];
 
     // FAQ data
@@ -242,17 +235,12 @@ const Home = () => {
                 </div>
             </section>
 
-            <section id="games-section-home" className="games-section-home">
+            <section className="games-section">
                 <h2 className="section-title">NUESTROS JUEGOS EXCLUSIVOS</h2>
                 <div ref={containerRef} className="scroll-container">
                     <div ref={showcaseRef} className="scroll-showcase">
                         {games.map(game => (
-                            <GameCard
-                                key={game.id}
-                                title={game.title}
-                                image={game.image}
-                                route={game.route}
-                            />
+                            <GameCard key={game.id} title={game.title} image={game.image} />
                         ))}
                     </div>
                 </div>
@@ -276,6 +264,13 @@ const Home = () => {
                         value={<AnimatedCounter end={250000} prefix="$" />}
                         label="Mayor premio del día"
                     />
+                </div>
+            </section>
+
+            <section className="leaderboard-section">
+                <h2 className="section-title">TABLA DE CLASIFICACIÓN</h2>
+                <div className="leaderboard-wrapper">
+                    <LeaderBoard limit={5} compact={false} />
                 </div>
             </section>
 
@@ -334,4 +329,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default HomeDef;
