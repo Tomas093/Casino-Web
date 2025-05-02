@@ -23,6 +23,37 @@ interface FriendRequest {
     usuario_solicitudesamistad_id_receptorTousuario?: User;
 }
 
+// Reusable UserAvatar component
+const UserAvatar: React.FC<{ user: User | any, className?: string }> = ({user, className = "friends-avatar"}) => {
+    return (
+        <div className={`${className}-container`}>
+            {user.img ? (
+                <img
+                    src={`http://localhost:3001${user.img}`}
+                    alt={`${user.nombre || ''} ${user.apellido || ''}`}
+                    className={className}
+                    onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const parent = target.parentElement;
+                        if (parent) {
+                            const div = document.createElement('div');
+                            div.className = `${className}-fallback`;
+                            div.textContent = `${user.nombre?.charAt(0) || ''}${user.apellido?.charAt(0) || ''}`;
+                            parent.appendChild(div);
+                        }
+                    }}
+                />
+            ) : (
+                <div className={`${className}-fallback`}>
+                    {user.nombre?.charAt(0) || ''}
+                    {user.apellido?.charAt(0) || ''}
+                </div>
+            )}
+        </div>
+    );
+};
+
 const FriendsPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<string>('search');
     const [searchQuery, setSearchQuery] = useState<string>('');
@@ -87,8 +118,22 @@ const FriendsPage: React.FC = () => {
         setIsLoading(true);
         setError(null);
         try {
-            const userFriends = await getFriends(user!.usuarioid);
-            setFriends(userFriends);
+            const friendshipData = await getFriends(user!.usuarioid);
+            const transformedFriends = friendshipData.map((friendship: any) => {
+                const isFriendUser1 = friendship.usuario1_id !== user!.usuarioid;
+                const friendData = isFriendUser1
+                    ? friendship.usuario_amistad_usuario1_idTousuario
+                    : friendship.usuario_amistad_usuario2_idTousuario;
+
+                return {
+                    usuarioid: isFriendUser1 ? friendship.usuario1_id : friendship.usuario2_id,
+                    nombre: friendData.nombre,
+                    apellido: friendData.apellido,
+                    email: friendData.email,
+                    img: friendData.img
+                };
+            });
+            setFriends(transformedFriends);
         } catch (err) {
             console.error("Error loading friends:", err);
             setError("Error al cargar los amigos");
@@ -285,11 +330,7 @@ const FriendsPage: React.FC = () => {
                                                 {searchResults.map((user) => (
                                                     <li key={`search-${user.usuarioid}`} className="friends-list-item">
                                                         <div className="friends-user-text">
-                                                            <img
-                                                                src={user.img || '/default-avatar.png'}
-                                                                alt={`${user.nombre} ${user.apellido}`}
-                                                                className="friends-avatar"
-                                                            />
+                                                            <UserAvatar user={user}/>
                                                             <div className="friends-user-name">
                                                                 <h3>{user.nombre} {user.apellido}</h3>
                                                                 {user.email &&
@@ -324,11 +365,7 @@ const FriendsPage: React.FC = () => {
                                             {friends.map((friend) => (
                                                 <li key={`friend-${friend.usuarioid}`} className="friends-list-item">
                                                     <div className="friends-user-text">
-                                                        <img
-                                                            src={friend.img || '/default-avatar.png'}
-                                                            alt={`${friend.nombre} ${friend.apellido}`}
-                                                            className="friends-avatar"
-                                                        />
+                                                        <UserAvatar user={friend}/>
                                                         <div className="friends-user-name">
                                                             <h3>{friend.nombre} {friend.apellido}</h3>
                                                             {friend.email &&
@@ -364,11 +401,11 @@ const FriendsPage: React.FC = () => {
                                                 <li key={`pending-${request.id_solicitud}`}
                                                     className="friends-list-item">
                                                     <div className="friends-user-text">
-                                                        <img
-                                                            src={request.usuario_solicitudesamistad_id_remitenteTousuario?.img || '/default-avatar.png'}
-                                                            alt={`${request.usuario_solicitudesamistad_id_remitenteTousuario?.nombre || ''}`}
-                                                            className="friends-avatar"
-                                                        />
+                                                        <UserAvatar
+                                                            user={request.usuario_solicitudesamistad_id_remitenteTousuario || {
+                                                                nombre: '',
+                                                                apellido: ''
+                                                            }}/>
                                                         <div className="friends-user-name">
                                                             <h3>
                                                                 {request.usuario_solicitudesamistad_id_remitenteTousuario?.nombre || ''} {request.usuario_solicitudesamistad_id_remitenteTousuario?.apellido || ''}
@@ -413,11 +450,11 @@ const FriendsPage: React.FC = () => {
                                             {sentRequests.map((request) => (
                                                 <li key={`sent-${request.id_solicitud}`} className="friends-list-item">
                                                     <div className="friends-user-text">
-                                                        <img
-                                                            src={request.usuario_solicitudesamistad_id_receptorTousuario?.img || '/default-avatar.png'}
-                                                            alt={`${request.usuario_solicitudesamistad_id_receptorTousuario?.nombre || ''}`}
-                                                            className="friends-avatar"
-                                                        />
+                                                        <UserAvatar
+                                                            user={request.usuario_solicitudesamistad_id_receptorTousuario || {
+                                                                nombre: '',
+                                                                apellido: ''
+                                                            }}/>
                                                         <div className="friends-user-name">
                                                             <h3>
                                                                 {request.usuario_solicitudesamistad_id_receptorTousuario?.nombre || ''} {request.usuario_solicitudesamistad_id_receptorTousuario?.apellido || ''}

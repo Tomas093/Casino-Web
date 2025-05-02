@@ -158,8 +158,22 @@ export const friendRequestService = {
                 ]
             },
             include: {
-                usuario_amistad_usuario1_idTousuario: true,
-                usuario_amistad_usuario2_idTousuario: true
+                usuario_amistad_usuario1_idTousuario: {
+                    select: {
+                        nombre: true,
+                        apellido: true,
+                        email: true,
+                        img: true
+                    }
+                },
+                usuario_amistad_usuario2_idTousuario: {
+                    select: {
+                        nombre: true,
+                        apellido: true,
+                        email: true,
+                        img: true
+                    }
+                }
             }
         });
     },

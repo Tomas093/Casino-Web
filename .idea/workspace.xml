@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add friend request feature; implement API, context, and UI for managing friend requests">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add friend management features; implement APIs for getting friends, searching users, and deleting friends">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/friendRequestApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/friendRequestApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/FriendRequestContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/FriendRequestContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/FriendStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/FriendStyle.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/FriendsPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/FriendsPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/friendRequestRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/friendRequestRoutes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/services/friendRequestService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/friendRequestService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -177,7 +175,7 @@
       <workItem from="1746145874191" duration="2807000" />
       <workItem from="1746183662689" duration="7335000" />
       <workItem from="1746191501505" duration="10651000" />
-      <workItem from="1746203466615" duration="5121000" />
+      <workItem from="1746203466615" duration="6205000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -467,7 +465,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746204932323</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Add friend management features; implement APIs for getting friends, searching users, and deleting friends">
+      <option name="closed" value="true" />
+      <created>1746208966559</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1746208966559</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -500,7 +506,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Refactor authentication context and add user data fetching; update styles for login and register pages" />
     <MESSAGE value="Refactor authentication context to include client data fetching; update Sidebar and HistoryPage components" />
     <MESSAGE value="Implement ProtectedRoute component for route protection; update AuthContext and Login handling" />
     <MESSAGE value="Implement image upload functionality; add ImageUpload component and update ProfilePage and Sidebar components" />
@@ -525,6 +530,7 @@
     <MESSAGE value="Add authentication middleware; implement user and admin verification with JWT" />
     <MESSAGE value="Refactor leaderboard API and service; update endpoints for game winners, highest bets, returns, and accumulated winnings" />
     <MESSAGE value="Add friend request feature; implement API, context, and UI for managing friend requests" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add friend request feature; implement API, context, and UI for managing friend requests" />
+    <MESSAGE value="Add friend management features; implement APIs for getting friends, searching users, and deleting friends" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add friend management features; implement APIs for getting friends, searching users, and deleting friends" />
   </component>
 </project>

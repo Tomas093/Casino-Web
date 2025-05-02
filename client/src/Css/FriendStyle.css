@@ -22,6 +22,45 @@
     --offline-color: #9e9e9e;
 }
 
+.friends-default-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #c2c2c2;
+    color: white;
+    font-weight: bold;
+}
+
+.friends-avatar-container {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+
+.friends-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.friends-avatar-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: var(--dark-gray);
+    color: var(--text-light);
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
 /* Estilos generales de la página */
 .friends-page-container {
     padding-top: 2rem;
