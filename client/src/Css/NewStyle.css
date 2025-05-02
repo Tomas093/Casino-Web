@@ -1,0 +1,210 @@
+
+.roulette-table-container {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.roulette-table-container {
+    /* Paleta de colores de lujo */
+    --black-base: #080808;
+    --black-gradient: #1e1e1e;
+    --red: #aa0000;
+    --red-metallic: linear-gradient(145deg, #aa0000, #8b0000);
+    --gold: #d4af37;
+    --gold-light: #f4cf57;
+    --gold-metallic: linear-gradient(145deg, #d4af37, #b08a20);
+    --gold-border: #d6bd63;
+    --emerald: #00553e;
+    --emerald-hover: rgba(0, 85, 62, 0.7);
+    --roulette-romb-size: 12px;
+
+    font-size: 18px;
+    font-weight: 500;
+    font-family: 'Playfair Display', 'Roboto', serif;
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+
+    aspect-ratio: 2 / 1;
+    max-width: 100%;
+    background: linear-gradient(135deg, var(--black-gradient), var(--black-base));
+    border: 3px solid var(--gold);
+    border-radius: 8px;
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.35), inset 0 0 20px rgba(0, 0, 0, 0.8);
+    padding: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto de brillo en los bordes */
+.roulette-table-container::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid var(--gold-light);
+    border-radius: 10px;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+.roulette-table-container-first {
+    position: relative;
+    display: flex;
+    flex-flow: column-reverse wrap;
+    align-content: flex-start;
+    height: 62%;
+    border-bottom: 1px solid var(--gold-border);
+}
+
+.split-up-bet-catcher-top,
+.split-up-bet-catcher-right,
+.split-up-bet-catcher-bottom,
+.spleet-bet-catcher,
+.corner-bet-catcher,
+.six-lines-catcher,
+.basket-catcher-top,
+.basket-catcher-bottom,
+.double-street-catcher-top-right {
+    position: absolute;
+    z-index: 11;
+}
+
+.spleet-bet-catcher,
+.corner-bet-catcher,
+.six-lines-catcher,
+.double-street-catcher-top-right {
+    width: 30px;
+    height: 30px;
+    z-index: 12;
+    /* Hacemos invisible el fondo y borde en estado normal */
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.spleet-bet-catcher:hover,
+.corner-bet-catcher:hover,
+.six-lines-catcher:hover,
+.double-street-catcher-top-right:hover {
+    transform: scale(1.15);
+    background-color: var(--emerald-hover);
+    border: 1px solid var(--gold-light);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+.roulette-table-container.debug .split-up-bet-catcher-top,
+.roulette-table-container.debug .split-up-bet-catcher-right,
+.roulette-table-container.debug .split-up-bet-catcher-bottom,
+.roulette-table-container.debug .spleet-bet-catcher,
+.roulette-table-container.debug .corner-bet-catcher,
+.roulette-table-container.debug .six-lines-catcher,
+.roulette-table-container.debug .basket-catcher-top,
+.roulette-table-container.debug .basket-catcher-bottom,
+.roulette-table-container.debug .double-street-catcher-top-right {
+    background-color: rgba(255, 0, 0, 0.4);
+}
+
+.split-up-bet-catcher-top {
+    top: -3px;
+    width: 100%;
+    height: 5px;
+    background-color: transparent;
+}
+
+.split-up-bet-catcher-right {
+    top: 0;
+    bottom: 0;
+    right: -3px;
+    width: 5px;
+    background-color: transparent;
+}
+
+.split-up-bet-catcher-bottom {
+    bottom: -3px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 5px;
+    background-color: transparent;
+}
+
+/* Mejorado posicionamiento de los elementos catcher */
+.spleet-bet-catcher {
+    top: -15px;
+    left: -15px;
+    cursor: pointer;
+    /* Centrar en la intersección de las celdas */
+    transform: translate(50%, 50%);
+}
+
+.corner-bet-catcher {
+    top: -15px;
+    right: -15px;
+    cursor: pointer;
+    /* Centrar en la intersección de las celdas */
+    transform: translate(-50%, 50%);
+}
+
+.corner-bet-catcher.bottom {
+    top: auto;
+    bottom: -15px;
+    /* Centrar en la intersección de las celdas */
+    transform: translate(-50%, -50%);
+}
+
+.six-lines-catcher {
+    bottom: -15px;
+    right: -15px;
+    cursor: pointer;
+    /* Centrar en la intersección de las celdas */
+    transform: translate(-50%, -50%);
+}
+
+.double-street-catcher-top-right {
+    top: -15px;
+    right: -15px;
+    cursor: pointer;
+    /* Centrar en la intersección de las celdas */
+    transform: translate(-50%, 50%);
+}
+
+.basket-catcher-top,
+.basket-catcher-bottom {
+    width: 100%;
+    height: 5px;
+    background-color: transparent;
+}
+
+.basket-catcher-top {
+    top: -5px;
+}
+
+.basket-catcher-bottom {
+    bottom: -5px;
+}
+
+.roulette-table-container-second,
+.roulette-table-container-third {
+    display: flex;
+    justify-content: center;
+    width: calc(100% - 7.14% - 7.14%);
+    margin: 0 auto;
+    flex-flow: row wrap;
+    align-content: flex-start;
+    height: 19%;
+}
+
+.roulette-table-container-second {
+    border-bottom: 1px solid var(--gold-border);
+}
+
+/* Cuando aparecen fichas, asegurarse que sean visibles completamente */
+.chip-container {
+    position: absolute;
+    transform: translate(-50%, -50%); /* Centra la ficha exactamente */
+    z-index: 15;
+}

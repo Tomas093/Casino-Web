@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {ChipList, RouletteTable, RouletteWheel, useRoulette} from 'react-casino-roulette';
 import 'react-casino-roulette/dist/index.css';
 import '@css/NavBarStyle.css';
-
+import "@css/NewStyle.css"
 import whiteChip from '@assets/Javo.jpg';
 import blueChip from '@assets/Javo.jpg';
 import blackChip from '@assets/Javo.jpg';
@@ -146,7 +146,18 @@ const RouletteGame: React.FC = () => {
             alert('Hubo un error al registrar tu jugada. La ruleta funcionó correctamente, pero es posible que los datos no se hayan guardado.');
         }
     };
+    const handleBet = (betId: string) => {
+        const chipValue = Number(selectedChip);
+        const currentBetTotal = totalBet;
+        const newTotal = currentBetTotal + chipValue;
 
+        if (client && newTotal > client.balance) {
+            alert('No tienes suficiente saldo para realizar esta apuesta');
+            return;
+        }
+
+        onBet(chipValue, 'add')(betId);
+    };
     const handleEndSpin = async (winner: string) => {
         // Agregar el resultado al historial
         setLastResults(prev => {
@@ -242,7 +253,7 @@ const RouletteGame: React.FC = () => {
                     <RouletteTable
                         chips={chips}
                         bets={bets}
-                        onBet={onBet(Number(selectedChip), 'add')}
+                        onBet={handleBet}
                         readOnly={wheelStart}
                     />
 
