@@ -5,13 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor leaderboard API and service; update endpoints for game winners, highest bets, returns, and accumulated winnings">
+      <change afterPath="$PROJECT_DIR$/client/src/Css/FriendStyle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/api/friendRequestApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/components/SearchBar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/context/FriendRequestContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/profile/FriendsPage.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/routes/friendRequestRoutes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/services/friendRequestService.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/leaderboardApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/leaderboardApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/LeaderBoard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/LeaderBoard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/LeaderboardContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/LeaderboardContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/appProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/appProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/SideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/SideBar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/context/UserContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/UserContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/leaderboardRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/leaderboardRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/services/leaderboardService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/leaderboardService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/Tickets/MonLimitTicketPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/tickets/MonLimitTicketPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/middlewares/authMiddleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/middlewares/authMiddleware.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/userService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/userService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,9 +39,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="CSS File" />
         <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
-        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -174,6 +186,11 @@
       <workItem from="1746059880702" duration="12000" />
       <workItem from="1746059995168" duration="78000" />
       <workItem from="1746098765321" duration="16022000" />
+      <workItem from="1746140062161" duration="5217000" />
+      <workItem from="1746145874191" duration="2807000" />
+      <workItem from="1746183662689" duration="7335000" />
+      <workItem from="1746191501505" duration="10651000" />
+      <workItem from="1746203466615" duration="1247000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -472,7 +489,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="Tomas" />
                       </list>
                     </value>
                   </entry>

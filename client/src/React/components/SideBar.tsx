@@ -94,7 +94,7 @@ const Sidebar: React.FC = () => {
     const baseMenu: MenuItem[] = [
         {link: '/home', text: 'Inicio'},
         {link: '/profile', text: 'Información'},
-        {link: '/amigos', text: 'Amigos'},
+        {link: '/friends', text: 'Amigos'},
         {link: '/statistics', text: 'Estadísticas'},
         {link: '/transaccion', text: 'Ingreso / Retiro'},
         {link: '/limit', text: 'Límites'},

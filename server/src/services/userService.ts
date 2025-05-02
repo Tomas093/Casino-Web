@@ -33,8 +33,19 @@ export const userService = {
             where: {
                 administrador: null
             },
-            include: {
-                cliente: true
+            select: {
+                usuarioid: true,
+                nombre: true,
+                apellido: true,
+                email: true,
+                edad: true,
+                cliente: {
+                    select: {
+                        clienteid: true,
+                        balance: true,
+                        influencer: true
+                    }
+                }
             }
         });
 
@@ -134,22 +145,5 @@ export const userService = {
 
         return true;
     },
-
-    // Actualizar imagen de perfil
-    updateProfileImage: async (userId: number, imageUrl: string) => {
-        const usuario = await prisma.usuario.findUnique({
-            where: { usuarioid: userId }
-        });
-
-        if (!usuario) {
-            throw new Error('Usuario no encontrado');
-        }
-
-        const usuarioActualizado = await prisma.usuario.update({
-            where: { usuarioid: userId },
-            data: { img: imageUrl }
-        });
-
-        return usuarioActualizado;
-    }
+    
 };

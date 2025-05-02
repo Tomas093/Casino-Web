@@ -3,7 +3,6 @@ import session from 'express-session';
 import cors from 'cors';
 import path from "path";
 
-// Importar rutas refactorizadas
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
 import adminRoutes from './routes/adminRoutes';
@@ -14,6 +13,7 @@ import historyRoutes from "./routes/historyRoutes";
 import playRoutes from "./routes/playRoutes"
 import leaderboardRoutes from "./routes/leaderboardRoutes";
 import limitRoutes from "./routes/limitRoutes";
+import friendRequestRoutes from "./routes/friendRequestRoutes";
 
 const app = express();
 
@@ -68,6 +68,7 @@ app.use('/play', playRoutes);
 app.use('/leaderboard',leaderboardRoutes)
 app.use('/limit', limitRoutes)
 app.use('/play', playRoutes);
+app.use('/friendRequest', friendRequestRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
