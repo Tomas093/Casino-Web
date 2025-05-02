@@ -31,8 +31,8 @@ export const friendRequestService = {
         const {id_remitente, id_receptor} = data;
 
         // Validar que ambos usuarios existan
-        const remitenteExists = await prisma.usuario.findUnique({ where: { usuarioid: id_remitente } });
-        const receptorExists = await prisma.usuario.findUnique({ where: { usuarioid: id_receptor } });
+        const remitenteExists = await prisma.usuario.findUnique({where: {usuarioid: id_remitente}});
+        const receptorExists = await prisma.usuario.findUnique({where: {usuarioid: id_receptor}});
 
         if (!remitenteExists) {
             throw new Error(`El remitente con ID ${id_remitente} no existe`);
@@ -137,7 +137,6 @@ export const friendRequestService = {
         });
     },
 
-    // Obtener todas las solicitudes de amistad enviadas por un usuario
     getSentFriendRequests: async (usuarioid: number) => {
         return prisma.solicitudesamistad.findMany({
             where: {
@@ -149,4 +148,89 @@ export const friendRequestService = {
             }
         });
     },
+
+    getFriends: async (usuarioid: number) => {
+        return prisma.amistad.findMany({
+            where: {
+                OR: [
+                    {usuario1_id: usuarioid},
+                    {usuario2_id: usuarioid}
+                ]
+            },
+            include: {
+                usuario_amistad_usuario1_idTousuario: true,
+                usuario_amistad_usuario2_idTousuario: true
+            }
+        });
+    },
+
+    getUserSearch: async (usuarioid: number) => {
+        return prisma.usuario.findMany({
+            where: {
+                NOT: [
+                    {
+                        OR: [
+                            {
+                                amistad_amistad_usuario1_idTousuario: {
+                                    some: {
+                                        usuario1_id: usuarioid
+                                    }
+                                }
+                            },
+                            {
+                                amistad_amistad_usuario2_idTousuario: {
+                                    some: {
+                                        usuario2_id: usuarioid
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {usuarioid},
+                    {
+                        solicitudesamistad_solicitudesamistad_id_receptorTousuario: {
+                            some: {
+                                id_remitente: usuarioid,
+                                estado: 'pendiente'
+                            }
+                        }
+                    },
+                    {
+                        solicitudesamistad_solicitudesamistad_id_remitenteTousuario: {
+                            some: {
+                                id_receptor: usuarioid,
+                                estado: 'pendiente'
+                            }
+                        }
+                    }
+                ]
+            }
+        });
+    },
+
+    deleteFriend: async (id_remitente: number, id_receptor: number) => {
+        const request = await findFriendRequestByUsersId(id_remitente, id_receptor);
+
+        if (request.estado !== 'aceptada') {
+            throw new Error('No se puede eliminar la amistad, no está aceptada');
+        }
+
+        await prisma.solicitudesamistad.deleteMany({
+            where: {
+                OR: [
+                    {id_remitente, id_receptor},
+                    {id_remitente: id_receptor, id_receptor: id_remitente}
+                ]
+            }
+        });
+
+        return prisma.amistad.deleteMany({
+            where: {
+                OR: [
+                    {usuario1_id: id_remitente, usuario2_id: id_receptor},
+                    {usuario1_id: id_receptor, usuario2_id: id_remitente}
+                ]
+            }
+        });
+    }
 }

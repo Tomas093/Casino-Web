@@ -9,12 +9,52 @@ interface FriendRequestContextType {
     cancelFriendRequest: (id_remitente: number, id_receptor: number) => Promise<any>;
     getPendingFriendRequests: (id_usuario: number) => Promise<any>;
     getSentFriendRequests: (id_usuario: number) => Promise<any>;
+    getUserSearch: (id_usuario: number) => Promise<any>;
+    getFriends: (id_usuario: number) => Promise<any>;
+    deleteFriend: (id_remitente: number, id_receptor: number) => Promise<any>;
+
 }
 
 export const FriendRequestContext = createContext<FriendRequestContextType | null>(null);
 
 export const FriendRequestProvider = ({children}: { children: ReactNode }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const getUserSearch = useCallback(async (id_usuario: number) => {
+        setIsLoading(true);
+        try {
+            return await friendRequestApi.getUserSearch(id_usuario);
+        } catch (error) {
+            console.error('Error al obtener usuarios:', error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    const getFriends = useCallback(async (id_usuario: number) => {
+        setIsLoading(true);
+        try {
+            return await friendRequestApi.getFriends(id_usuario);
+        } catch (error) {
+            console.error('Error al obtener amigos:', error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    const deleteFriend = useCallback(async (id_remitente: number, id_receptor: number) => {
+        setIsLoading(true);
+        try {
+            return await friendRequestApi.deleteFriend(id_remitente, id_receptor);
+        } catch (error) {
+            console.error('Error al eliminar amigo:', error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
 
     const sendFriendRequest = useCallback(async (id_remitente: number, id_receptor: number) => {
         if (!id_remitente || !id_receptor) {
@@ -99,7 +139,10 @@ export const FriendRequestProvider = ({children}: { children: ReactNode }) => {
         rejectFriendRequest,
         cancelFriendRequest,
         getPendingFriendRequests,
-        getSentFriendRequests
+        getSentFriendRequests,
+        getUserSearch,
+        getFriends,
+        deleteFriend
     };
 
     return (

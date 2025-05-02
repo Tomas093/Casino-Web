@@ -1,12 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import "@css/FriendStyle.css";
 import SideBar from "@components/SideBar.tsx";
 import Message from "@components/Error/Message.tsx";
 import {useFriendRequestContext} from "@context/FriendRequestContext.tsx";
-import {useUser} from "@context/UserContext.tsx";
 import {useAuth} from "@context/AuthContext.tsx";
 
-// Types for our data
 interface User {
     usuarioid: number;
     nombre: string;
@@ -15,36 +13,140 @@ interface User {
     email?: string;
 }
 
+interface FriendRequest {
+    id_solicitud: number;
+    id_remitente: number;
+    id_receptor: number;
+    estado: string;
+    fecha_creacion: string;
+    usuario_solicitudesamistad_id_remitenteTousuario?: User;
+    usuario_solicitudesamistad_id_receptorTousuario?: User;
+}
+
 const FriendsPage: React.FC = () => {
+    const [activeTab, setActiveTab] = useState<string>('search');
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [searchResults, setSearchResults] = useState<User[]>([]);
     const [isSearching, setIsSearching] = useState<boolean>(false);
+    const [friends, setFriends] = useState<User[]>([]);
+    const [pendingRequests, setPendingRequests] = useState<FriendRequest[]>([]);
+    const [sentRequests, setSentRequests] = useState<FriendRequest[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    const {getAllUsers} = useUser();
     const {user} = useAuth();
-    const {sendFriendRequest} = useFriendRequestContext();
+    const {
+        sendFriendRequest,
+        acceptFriendRequest,
+        rejectFriendRequest,
+        cancelFriendRequest,
+        getPendingFriendRequests,
+        getSentFriendRequests,
+        getFriends,
+        getUserSearch,
+        deleteFriend
+    } = useFriendRequestContext();
 
-    // Search users function
+    const isUserAuthenticated = () => user && user.usuarioid;
+
+    const formatDate = (dateString: string | undefined) => {
+        if (!dateString) return "Sin fecha";
+
+        try {
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) {
+                return "Fecha inválida";
+            }
+            return date.toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        } catch (error) {
+            console.error("Error formatting date:", error);
+            return "Error de formato";
+        }
+    };
+
+    useEffect(() => {
+        if (isUserAuthenticated()) {
+            if (activeTab === 'friends') {
+                loadFriends();
+            } else if (activeTab === 'pending') {
+                loadPendingRequests();
+            } else if (activeTab === 'sent') {
+                loadSentRequests();
+            }
+        }
+    }, [user, activeTab]);
+
+    const loadFriends = async () => {
+        if (!isUserAuthenticated()) return;
+        setIsLoading(true);
+        setError(null);
+        try {
+            const userFriends = await getFriends(user!.usuarioid);
+            setFriends(userFriends);
+        } catch (err) {
+            console.error("Error loading friends:", err);
+            setError("Error al cargar los amigos");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const loadPendingRequests = async () => {
+        if (!isUserAuthenticated()) return;
+        setIsLoading(true);
+        setError(null);
+        try {
+            const requests = await getPendingFriendRequests(user!.usuarioid);
+            setPendingRequests(requests);
+        } catch (err) {
+            console.error("Error loading pending requests:", err);
+            setError("Error al cargar solicitudes pendientes");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const loadSentRequests = async () => {
+        if (!isUserAuthenticated()) return;
+        setIsLoading(true);
+        setError(null);
+        try {
+            const requests = await getSentFriendRequests(user!.usuarioid);
+            setSentRequests(requests);
+        } catch (err) {
+            console.error("Error loading sent requests:", err);
+            setError("Error al cargar solicitudes enviadas");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const searchUsers = async (query: string) => {
         if (!query.trim()) {
             setSearchResults([]);
             return;
         }
-
+        if (!isUserAuthenticated()) {
+            setError("Usuario no autenticado");
+            setIsSearching(false);
+            return;
+        }
         setIsSearching(true);
         setError(null);
-
         try {
-            const allUsers = await getAllUsers();
-            // Filter out current user and filter by search terms
+            const allUsers = await getUserSearch(user!.usuarioid);
             const filteredUsers = allUsers.filter((u: User) =>
-                u.usuarioid !== user?.usuarioid &&
+                u.usuarioid !== user!.usuarioid &&
                 (u.nombre.toLowerCase().includes(query.toLowerCase()) ||
                     u.apellido.toLowerCase().includes(query.toLowerCase()) ||
                     (u.email && u.email.toLowerCase().includes(query.toLowerCase())))
             );
-
             setSearchResults(filteredUsers);
         } catch (error) {
             console.error("Error searching users:", error);
@@ -55,129 +157,296 @@ const FriendsPage: React.FC = () => {
         }
     };
 
-    // Handle search input change
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
     };
 
-    // Handle search form submission
     const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         searchUsers(searchQuery);
     };
 
-    // Handle send friend request
     const handleSendRequest = async (userId: number) => {
-        if (user?.usuarioid !== undefined) {
-            try {
-                await sendFriendRequest(user.usuarioid, userId);
-                setSearchResults(searchResults.filter(user => user.usuarioid !== userId));
-            } catch (error) {
-                console.error("Error sending friend request:", error);
+        if (!isUserAuthenticated()) return;
+        try {
+            await sendFriendRequest(user!.usuarioid, userId);
+            setSearchResults(searchResults.filter(u => u.usuarioid !== userId));
+        } catch (error: any) {
+            console.error("Error sending friend request:", error);
+
+            if (error.message?.includes('already exists') ||
+                error.message?.includes('ya existe') ||
+                error.response?.status === 409) {
+                setError("Ya has enviado una solicitud de amistad a este usuario");
+            } else {
                 setError("Error al enviar solicitud de amistad");
             }
         }
     };
 
-    // Handle accept friend request
-    const handleAcceptRequest = async (userId: number) => {
-        if (user?.usuarioid !== undefined) {
-            try {
-                await sendFriendRequest(user.usuarioid, userId);
-                setSearchResults(searchResults.filter(user => user.usuarioid !== userId));
-            } catch (error) {
-                console.error("Error accepting friend request:", error);
-                setError("Error al aceptar solicitud de amistad");
-            }
+    const handleAcceptRequest = async (senderId: number) => {
+        if (!isUserAuthenticated()) return;
+        try {
+            await acceptFriendRequest(senderId, user!.usuarioid);
+            setPendingRequests(pendingRequests.filter(req => req.id_remitente !== senderId));
+            await loadFriends();
+        } catch (error) {
+            console.error("Error accepting friend request:", error);
+            setError("Error al aceptar solicitud de amistad");
         }
     };
 
-    // Handle reject friend request
-    const handleRejectRequest = async (userId: number) => {
-        if (user?.usuarioid !== undefined) {
-            try {
-                await sendFriendRequest(user.usuarioid, userId);
-                setSearchResults(searchResults.filter(user => user.usuarioid !== userId));
-            } catch (error) {
-                console.error("Error rejecting friend request:", error);
-                setError("Error al rechazar solicitud de amistad");
-            }
+    const handleRejectRequest = async (senderId: number) => {
+        if (!isUserAuthenticated()) return;
+        try {
+            await rejectFriendRequest(senderId, user!.usuarioid);
+            setPendingRequests(pendingRequests.filter(req => req.id_remitente !== senderId));
+        } catch (error) {
+            console.error("Error rejecting friend request:", error);
+            setError("Error al rechazar solicitud de amistad");
         }
     };
 
-    // Handle cancel friend request
-    const handleCancelRequest = async (userId: number) => {
-        if (user?.usuarioid !== undefined) {
-            try {
-                await sendFriendRequest(user.usuarioid, userId);
-                setSearchResults(searchResults.filter(user => user.usuarioid !== userId));
-            } catch (error) {
-                console.error("Error canceling friend request:", error);
-                setError("Error al cancelar solicitud de amistad");
-            }
+    const handleCancelRequest = async (receiverId: number) => {
+        if (!isUserAuthenticated()) return;
+        try {
+            await cancelFriendRequest(user!.usuarioid, receiverId);
+            setSentRequests(sentRequests.filter(req => req.id_receptor !== receiverId));
+        } catch (error) {
+            console.error("Error canceling friend request:", error);
+            setError("Error al cancelar solicitud de amistad");
+        }
+    };
+
+    const handleDeleteFriend = async (friendId: number) => {
+        if (!isUserAuthenticated()) return;
+        try {
+            await deleteFriend(user!.usuarioid, friendId);
+            setFriends(friends.filter(friend => friend.usuarioid !== friendId));
+        } catch (error) {
+            console.error("Error deleting friend:", error);
+            setError("Error al eliminar amigo");
         }
     };
 
     return (
         <div className="container">
             <SideBar/>
-
             <main className="main-content">
                 <header className="content-header">
-                    <h1>Buscar Amigos</h1>
+                    <h1>Amigos</h1>
                 </header>
-
                 {error && <Message type="error" message={error}/>}
-
                 <div className="friends-section">
                     <div className="friends-content-paper">
-                        <div className="friends-search-box">
-                            <form onSubmit={handleSearchSubmit} style={{width: '100%'}}>
-                                <input
-                                    type="text"
-                                    placeholder="Buscar por nombre o email..."
-                                    value={searchQuery}
-                                    onChange={handleSearchChange}
-                                    className="friends-search-input"
-                                />
-                                <button type="submit" className="friends-search-button" disabled={isSearching}>
-                                    {isSearching ? 'Buscando...' : 'Buscar'}
-                                </button>
-                            </form>
+                        <div className="friends-tabs">
+                            <div
+                                className={activeTab === 'search' ? 'friends-tab Mui-selected' : 'friends-tab'}
+                                onClick={() => setActiveTab('search')}>
+                                Buscar
+                            </div>
+                            <div
+                                className={activeTab === 'friends' ? 'friends-tab Mui-selected' : 'friends-tab'}
+                                onClick={() => setActiveTab('friends')}>
+                                Amigos
+                            </div>
+                            <div
+                                className={activeTab === 'pending' ? 'friends-tab Mui-selected' : 'friends-tab'}
+                                onClick={() => setActiveTab('pending')}>
+                                Solicitudes Recibidas
+                            </div>
+                            <div
+                                className={activeTab === 'sent' ? 'friends-tab Mui-selected' : 'friends-tab'}
+                                onClick={() => setActiveTab('sent')}>
+                                Solicitudes Enviadas
+                            </div>
                         </div>
-
-                        <div className="friends-search-results">
-                            {searchResults.length > 0 ? (
-                                <ul className="friends-list">
-                                    {searchResults.map((user) => (
-                                        <li key={user.usuarioid} className="friends-list-item">
-                                            <div className="friends-user-text">
-                                                <img
-                                                    src={user.img || '/default-avatar.png'}
-                                                    alt={`${user.nombre} ${user.apellido}`}
-                                                    className="friends-avatar"
-                                                />
-                                                <div className="friends-user-name">
-                                                    <h3>{user.nombre} {user.apellido}</h3>
-                                                    {user.email && <p className="friends-last-active">{user.email}</p>}
-                                                </div>
+                        <div className="friends-tab-content">
+                            {activeTab === 'search' && (
+                                <>
+                                    <div className="friends-search-box">
+                                        <form onSubmit={handleSearchSubmit} style={{width: '100%'}}>
+                                            <input
+                                                type="text"
+                                                placeholder="Buscar por nombre o email..."
+                                                value={searchQuery}
+                                                onChange={handleSearchChange}
+                                                className="friends-search-input"
+                                            />
+                                            <button type="submit" className="friends-search-button"
+                                                    disabled={isSearching}>
+                                                {isSearching ? 'Buscando...' : 'Buscar'}
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div className="friends-search-results">
+                                        {searchResults.length > 0 ? (
+                                            <ul className="friends-list">
+                                                {searchResults.map((user) => (
+                                                    <li key={`search-${user.usuarioid}`} className="friends-list-item">
+                                                        <div className="friends-user-text">
+                                                            <img
+                                                                src={user.img || '/default-avatar.png'}
+                                                                alt={`${user.nombre} ${user.apellido}`}
+                                                                className="friends-avatar"
+                                                            />
+                                                            <div className="friends-user-name">
+                                                                <h3>{user.nombre} {user.apellido}</h3>
+                                                                {user.email &&
+                                                                    <p className="friends-last-active">{user.email}</p>}
+                                                            </div>
+                                                        </div>
+                                                        <div className="friends-action-buttons">
+                                                            <button
+                                                                onClick={() => handleSendRequest(user.usuarioid)}
+                                                                className="friends-add-button"
+                                                            >
+                                                                Agregar
+                                                            </button>
+                                                        </div>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        ) : searchQuery && !isSearching ? (
+                                            <div className="friends-empty-container">
+                                                <p className="friends-empty-message">No se encontraron usuarios.</p>
                                             </div>
-                                            <div className="friends-action-buttons">
-                                                <button
-                                                    onClick={() => handleSendRequest(user.usuarioid)}
-                                                    className="friends-add-button"
-                                                >
-                                                    Agregar
-                                                </button>
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            ) : searchQuery && !isSearching ? (
-                                <div className="friends-empty-container">
-                                    <p className="friends-empty-message">No se encontraron usuarios.</p>
+                                        ) : null}
+                                    </div>
+                                </>
+                            )}
+                            {activeTab === 'friends' && (
+                                <div className="friends-search-results">
+                                    {isLoading ? (
+                                        <div className="friends-loading">Cargando amigos...</div>
+                                    ) : friends.length > 0 ? (
+                                        <ul className="friends-list">
+                                            {friends.map((friend) => (
+                                                <li key={`friend-${friend.usuarioid}`} className="friends-list-item">
+                                                    <div className="friends-user-text">
+                                                        <img
+                                                            src={friend.img || '/default-avatar.png'}
+                                                            alt={`${friend.nombre} ${friend.apellido}`}
+                                                            className="friends-avatar"
+                                                        />
+                                                        <div className="friends-user-name">
+                                                            <h3>{friend.nombre} {friend.apellido}</h3>
+                                                            {friend.email &&
+                                                                <p className="friends-last-active">{friend.email}</p>}
+                                                        </div>
+                                                    </div>
+                                                    <div className="friends-action-buttons">
+                                                        <button
+                                                            onClick={() => handleDeleteFriend(friend.usuarioid)}
+                                                            className="friends-reject-button"
+                                                        >
+                                                            Eliminar
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <div className="friends-empty-container">
+                                            <p className="friends-empty-message">No tienes amigos aún. ¡Busca usuarios
+                                                para agregar!</p>
+                                        </div>
+                                    )}
                                 </div>
-                            ) : null}
+                            )}
+                            {activeTab === 'pending' && (
+                                <div className="friends-search-results">
+                                    {isLoading ? (
+                                        <div className="friends-loading">Cargando solicitudes...</div>
+                                    ) : pendingRequests.length > 0 ? (
+                                        <ul className="friends-list">
+                                            {pendingRequests.map((request) => (
+                                                <li key={`pending-${request.id_solicitud}`}
+                                                    className="friends-list-item">
+                                                    <div className="friends-user-text">
+                                                        <img
+                                                            src={request.usuario_solicitudesamistad_id_remitenteTousuario?.img || '/default-avatar.png'}
+                                                            alt={`${request.usuario_solicitudesamistad_id_remitenteTousuario?.nombre || ''}`}
+                                                            className="friends-avatar"
+                                                        />
+                                                        <div className="friends-user-name">
+                                                            <h3>
+                                                                {request.usuario_solicitudesamistad_id_remitenteTousuario?.nombre || ''} {request.usuario_solicitudesamistad_id_remitenteTousuario?.apellido || ''}
+                                                            </h3>
+                                                            <p className="friends-last-active">
+                                                                Solicitud recibida
+                                                                el {formatDate(request.fecha_creacion)}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="friends-action-buttons">
+                                                        <button
+                                                            onClick={() => handleAcceptRequest(request.id_remitente)}
+                                                            className="friends-accept-button"
+                                                        >
+                                                            Aceptar
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleRejectRequest(request.id_remitente)}
+                                                            className="friends-reject-button"
+                                                        >
+                                                            Rechazar
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <div className="friends-empty-container">
+                                            <p className="friends-empty-message">No tienes solicitudes de amistad
+                                                pendientes.</p>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                            {activeTab === 'sent' && (
+                                <div className="friends-search-results">
+                                    {isLoading ? (
+                                        <div className="friends-loading">Cargando solicitudes...</div>
+                                    ) : sentRequests.length > 0 ? (
+                                        <ul className="friends-list">
+                                            {sentRequests.map((request) => (
+                                                <li key={`sent-${request.id_solicitud}`} className="friends-list-item">
+                                                    <div className="friends-user-text">
+                                                        <img
+                                                            src={request.usuario_solicitudesamistad_id_receptorTousuario?.img || '/default-avatar.png'}
+                                                            alt={`${request.usuario_solicitudesamistad_id_receptorTousuario?.nombre || ''}`}
+                                                            className="friends-avatar"
+                                                        />
+                                                        <div className="friends-user-name">
+                                                            <h3>
+                                                                {request.usuario_solicitudesamistad_id_receptorTousuario?.nombre || ''} {request.usuario_solicitudesamistad_id_receptorTousuario?.apellido || ''}
+                                                            </h3>
+                                                            <p className="friends-last-active">
+                                                                Solicitud enviada
+                                                                el {formatDate(request.fecha_creacion)}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="friends-action-buttons">
+                                                        <button
+                                                            onClick={() => handleCancelRequest(request.id_receptor)}
+                                                            className="friends-reject-button"
+                                                        >
+                                                            Cancelar
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <div className="friends-empty-container">
+                                            <p className="friends-empty-message">No has enviado solicitudes de
+                                                amistad.</p>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -185,7 +454,5 @@ const FriendsPage: React.FC = () => {
         </div>
     );
 };
-
-
 
 export default FriendsPage;

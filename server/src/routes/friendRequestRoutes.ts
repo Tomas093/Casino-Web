@@ -3,6 +3,44 @@ import {friendRequestService} from "../services/friendRequestService";
 
 const router = Router();
 
+
+router.get('/pending/:id_usuario', async (req: Request, res: Response) => {
+    const id_usuario = parseInt(req.params.id_usuario);
+
+    try {
+        const requests = await friendRequestService.getPendingFriendRequests(id_usuario);
+        res.status(200).json(requests);
+    } catch (error: any) {
+        console.error("Error al obtener solicitudes de amistad:", error);
+        res.status(error.statusCode || 500).json({error: error.message || 'Error al obtener las solicitudes de amistad'});
+    }
+});
+
+// Obtener todas las solicitudes de amistad enviadas por un usuario
+router.get('/sent/:id_usuario', async (req: Request, res: Response) => {
+    const id_usuario = parseInt(req.params.id_usuario);
+
+    try {
+        const requests = await friendRequestService.getSentFriendRequests(id_usuario);
+        res.status(200).json(requests);
+    } catch (error: any) {
+        console.error("Error al obtener solicitudes de amistad enviadas:", error);
+        res.status(error.statusCode || 500).json({error: error.message || 'Error al obtener las solicitudes de amistad enviadas'});
+    }
+});
+
+router.get('/friends/:id_usuario', async (req: Request, res: Response) => {
+    const id_usuario = parseInt(req.params.id_usuario);
+
+    try {
+        const friends = await friendRequestService.getFriends(id_usuario);
+        res.status(200).json(friends);
+    } catch (error: any) {
+        console.error("Error al obtener amigos:", error);
+        res.status(error.statusCode || 500).json({error: error.message || 'Error al obtener los amigos'});
+    }
+})
+
 // Enviar una solicitud de amistad
 router.post('/send', async (req: Request, res: Response) => {
     const {id_remitente, id_receptor} = req.body;
@@ -15,6 +53,33 @@ router.post('/send', async (req: Request, res: Response) => {
         res.status(error.statusCode || 500).json({error: error.message || 'Error al enviar la solicitud de amistad'});
     }
 });
+
+//Delete friend
+router.post('/delete', async (req: Request, res: Response) => {
+    const {id_remitente, id_receptor} = req.body;
+
+    try {
+        const request = await friendRequestService.deleteFriend(id_remitente, id_receptor);
+        res.status(200).json(request);
+    } catch (error: any) {
+        console.error("Error al eliminar amigo:", error);
+        res.status(error.statusCode || 500).json({error: error.message || 'Error al eliminar el amigo'});
+    }
+});
+
+// Obtener usuarios para enviar solicitudes de amistad
+router.get('/getUsers/:id_usuario', async (req: Request, res: Response) => {
+    const id_usuario = parseInt(req.params.id_usuario);
+
+    try {
+        const users = await friendRequestService.getUserSearch(id_usuario);
+        res.status(200).json(users);
+    } catch (error: any) {
+        console.error("Error al obtener usuarios:", error);
+        res.status(error.statusCode || 500).json({error: error.message || 'Error al obtener los usuarios'});
+    }
+});
+
 
 // Aceptar una solicitud de amistad
 router.post('/accept', async (req: Request, res: Response) => {
@@ -55,31 +120,6 @@ router.post('/cancel', async (req: Request, res: Response) => {
     }
 });
 
-
-router.get('/pending/:id_usuario', async (req: Request, res: Response) => {
-    const id_usuario = parseInt(req.params.id_usuario);
-
-    try {
-        const requests = await friendRequestService.getPendingFriendRequests(id_usuario);
-        res.status(200).json(requests);
-    } catch (error: any) {
-        console.error("Error al obtener solicitudes de amistad:", error);
-        res.status(error.statusCode || 500).json({error: error.message || 'Error al obtener las solicitudes de amistad'});
-    }
-});
-
-// Obtener todas las solicitudes de amistad enviadas por un usuario
-router.get('/sent/:id_usuario', async (req: Request, res: Response) => {
-    const id_usuario = parseInt(req.params.id_usuario);
-
-    try {
-        const requests = await friendRequestService.getSentFriendRequests(id_usuario);
-        res.status(200).json(requests);
-    } catch (error: any) {
-        console.error("Error al obtener solicitudes de amistad enviadas:", error);
-        res.status(error.statusCode || 500).json({error: error.message || 'Error al obtener las solicitudes de amistad enviadas'});
-    }
-});
 
 export default router;
 
