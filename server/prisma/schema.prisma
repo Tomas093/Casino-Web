@@ -140,12 +140,6 @@ model limitemonetario {
   cliente       cliente  @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
-model mensajes {
-  ticketid Int     @id
-  mensaje  String?
-  tickets  tickets @relation(fields: [ticketid], references: [ticketid], onDelete: Cascade, onUpdate: NoAction)
-}
-
 model partida {
   partidaid       Int       @id @default(autoincrement())
   clienteid       Int?
@@ -190,11 +184,19 @@ model tickets {
   ticketid      Int            @id @default(autoincrement())
   clienteid     Int?
   problema      String?
-  resuelto      Boolean?
+  resuelto      Boolean?       @default(false)
   idadmin       Int?
-  mensajes      mensajes?
-  cliente       cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
-  administrador administrador? @relation(fields: [idadmin], references: [adminid], onDelete: Cascade, onUpdate: NoAction)
+  fechacreacion DateTime?      @default(now()) @db.Timestamp(6)
+  fechacierre   DateTime?      @db.Timestamp(6)
+  prioridad     String?
+  categoria     String?
+  mensaje       mensaje[]
+  administrador administrador? @relation(fields: [idadmin], references: [adminid], onDelete: Cascade, onUpdate: NoAction, map: "fk_admin")
+  cliente       cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction, map: "fk_cliente")
+
+  @@index([clienteid], map: "idx_tickets_clienteid")
+  @@index([idadmin], map: "idx_tickets_idadmin")
+  @@index([resuelto], map: "idx_tickets_resuelto")
 }
 
 model tiempodejuego {
@@ -231,4 +233,14 @@ model solicitudesamistad {
   fecha_creacion                                   DateTime? @default(now()) @db.Timestamp(6)
   usuario_solicitudesamistad_id_receptorTousuario  usuario   @relation("solicitudesamistad_id_receptorTousuario", fields: [id_receptor], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
   usuario_solicitudesamistad_id_remitenteTousuario usuario   @relation("solicitudesamistad_id_remitenteTousuario", fields: [id_remitente], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model mensaje {
+  mensajeid  Int       @id @default(autoincrement())
+  ticketid   Int
+  contenido  String
+  fechaenvio DateTime? @default(now()) @db.Timestamp(6)
+  tickets    tickets   @relation(fields: [ticketid], references: [ticketid], onDelete: Cascade, onUpdate: NoAction, map: "fk_ticket")
+
+  @@index([ticketid], map: "idx_mensaje_ticketid")
 }
