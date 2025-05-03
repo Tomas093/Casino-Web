@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import "@css/FriendStyle.css";
+import React, { useState, useEffect } from 'react';
+import "@css/FriendStyle.css"; // Mantenemos la referencia al CSS existente
 import SideBar from "@components/SideBar.tsx";
 import Message from "@components/Error/Message.tsx";
-import {useFriendRequestContext} from "@context/FriendRequestContext.tsx";
-import {useAuth} from "@context/AuthContext.tsx";
+import { useFriendRequestContext } from "@context/FriendRequestContext.tsx";
+import { useAuth } from "@context/AuthContext.tsx";
 
 interface User {
     usuarioid: number;
@@ -23,8 +23,8 @@ interface FriendRequest {
     usuario_solicitudesamistad_id_receptorTousuario?: User;
 }
 
-// Reusable UserAvatar component
-const UserAvatar: React.FC<{ user: User | any, className?: string }> = ({user, className = "friends-avatar"}) => {
+// Componente mejorado para avatar de usuario con animación de hover
+const UserAvatar: React.FC<{ user: User | any, className?: string }> = ({ user, className = "friends-avatar" }) => {
     return (
         <div className={`${className}-container`}>
             {user.img ? (
@@ -54,6 +54,114 @@ const UserAvatar: React.FC<{ user: User | any, className?: string }> = ({user, c
     );
 };
 
+// Componente para mostrar tarjetas de usuario individuales
+const UserCard: React.FC<{
+    user: User | any,
+    type: 'search' | 'friend' | 'pending' | 'sent',
+    onAction: (id: number) => void,
+    onSecondaryAction?: (id: number) => void,
+    date?: string
+}> = ({ user, type, onAction, onSecondaryAction, date }) => {
+    const getActionButtons = () => {
+        switch (type) {
+            case 'search':
+                return (
+                    <button onClick={() => onAction(user.usuarioid)} className="friends-add-button">
+                        <i className="fas fa-user-plus"></i> Agregar
+                    </button>
+                );
+            case 'friend':
+                return (
+                    <button onClick={() => onAction(user.usuarioid)} className="friends-delete-button">
+                        <i className="fas fa-user-minus"></i> Eliminar
+                    </button>
+                );
+            case 'pending':
+                return (
+                    <div className="friends-action-group">
+                        <button onClick={() => onAction(user.id_remitente)} className="friends-accept-button">
+                            <i className="fas fa-check"></i> Aceptar
+                        </button>
+                        <button onClick={() => onSecondaryAction && onSecondaryAction(user.id_remitente)} className="friends-reject-button">
+                            <i className="fas fa-times"></i> Rechazar
+                        </button>
+                    </div>
+                );
+            case 'sent':
+                return (
+                    <button onClick={() => onAction(user.id_receptor)} className="friends-cancel-button">
+                        <i className="fas fa-ban"></i> Cancelar
+                    </button>
+                );
+            default:
+                return null;
+        }
+    };
+
+    const userData = type === 'pending'
+        ? user.usuario_solicitudesamistad_id_remitenteTousuario
+        : type === 'sent'
+            ? user.usuario_solicitudesamistad_id_receptorTousuario
+            : user;
+
+    return (
+        <div className="friend-card">
+            <div className="friend-card-avatar">
+                <UserAvatar user={userData || { nombre: '', apellido: '' }} />
+            </div>
+            <div className="friend-card-content">
+                <h3 className="friend-card-name">
+                    {userData?.nombre || ''} {userData?.apellido || ''}
+                </h3>
+                {userData?.email && (
+                    <p className="friend-card-email">{userData.email}</p>
+                )}
+                {date && (
+                    <p className="friend-card-date">
+                        {type === 'pending' ? 'Solicitud recibida el ' : 'Solicitud enviada el '}
+                        {date}
+                    </p>
+                )}
+            </div>
+            <div className="friend-card-actions">
+                {getActionButtons()}
+            </div>
+        </div>
+    );
+};
+
+// Componente de estado vacío mejorado
+const EmptyState: React.FC<{ type: string }> = ({ type }) => {
+    const messages: { [key: string]: { icon: string, message: string } } = {
+        search: {
+            icon: 'fa-search',
+            message: 'Usa el buscador para encontrar nuevos amigos'
+        },
+        friends: {
+            icon: 'fa-user-friends',
+            message: 'No tienes amigos aún. ¡Busca usuarios para agregar!'
+        },
+        pending: {
+            icon: 'fa-inbox',
+            message: 'No tienes solicitudes de amistad pendientes'
+        },
+        sent: {
+            icon: 'fa-paper-plane',
+            message: 'No has enviado solicitudes de amistad'
+        }
+    };
+
+    return (
+        <div className="empty-state">
+            <div className="empty-state-icon">
+                <i className={`fas ${messages[type].icon}`}></i>
+            </div>
+            <p className="empty-state-message">{messages[type].message}</p>
+        </div>
+    );
+};
+
+// Componente principal mejorado
 const FriendsPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<string>('search');
     const [searchQuery, setSearchQuery] = useState<string>('');
@@ -65,7 +173,7 @@ const FriendsPage: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    const {user} = useAuth();
+    const { user } = useAuth();
     const {
         sendFriendRequest,
         acceptFriendRequest,
@@ -274,216 +382,153 @@ const FriendsPage: React.FC = () => {
         }
     };
 
+    const renderTabContent = () => {
+        if (isLoading) {
+            return <div className="loading-spinner"><div className="spinner"></div><span>Cargando...</span></div>;
+        }
+
+        switch (activeTab) {
+            case 'search':
+                return (
+                    <>
+                        <div className="search-container">
+                            <form onSubmit={handleSearchSubmit} className="search-form">
+                                <div className="search-input-wrapper">
+                                    <i className="fas fa-search search-icon"></i>
+                                    <input
+                                        type="text"
+                                        placeholder="Buscar por nombre o email..."
+                                        value={searchQuery}
+                                        onChange={handleSearchChange}
+                                        className="search-input"
+                                    />
+                                </div>
+                                <button type="submit" className="search-button" disabled={isSearching}>
+                                    {isSearching ? <i className="fas fa-spinner fa-spin"></i> : 'Buscar'}
+                                </button>
+                            </form>
+                        </div>
+                        <div className="friends-cards-container">
+                            {searchResults.length > 0 ? (
+                                searchResults.map((user) => (
+                                    <UserCard
+                                        key={`search-${user.usuarioid}`}
+                                        user={user}
+                                        type="search"
+                                        onAction={handleSendRequest}
+                                    />
+                                ))
+                            ) : searchQuery && !isSearching ? (
+                                <EmptyState type="search" />
+                            ) : null}
+                        </div>
+                    </>
+                );
+            case 'friends':
+                return (
+                    <div className="friends-cards-container">
+                        {friends.length > 0 ? (
+                            friends.map((friend) => (
+                                <UserCard
+                                    key={`friend-${friend.usuarioid}`}
+                                    user={friend}
+                                    type="friend"
+                                    onAction={handleDeleteFriend}
+                                />
+                            ))
+                        ) : (
+                            <EmptyState type="friends" />
+                        )}
+                    </div>
+                );
+            case 'pending':
+                return (
+                    <div className="friends-cards-container">
+                        {pendingRequests.length > 0 ? (
+                            pendingRequests.map((request) => (
+                                <UserCard
+                                    key={`pending-${request.id_solicitud}`}
+                                    user={request}
+                                    type="pending"
+                                    onAction={handleAcceptRequest}
+                                    onSecondaryAction={handleRejectRequest}
+                                    date={formatDate(request.fecha_creacion)}
+                                />
+                            ))
+                        ) : (
+                            <EmptyState type="pending" />
+                        )}
+                    </div>
+                );
+            case 'sent':
+                return (
+                    <div className="friends-cards-container">
+                        {sentRequests.length > 0 ? (
+                            sentRequests.map((request) => (
+                                <UserCard
+                                    key={`sent-${request.id_solicitud}`}
+                                    user={request}
+                                    type="sent"
+                                    onAction={handleCancelRequest}
+                                    date={formatDate(request.fecha_creacion)}
+                                />
+                            ))
+                        ) : (
+                            <EmptyState type="sent" />
+                        )}
+                    </div>
+                );
+            default:
+                return null;
+        }
+    };
+
     return (
         <div className="container">
-            <SideBar/>
+            <SideBar />
             <main className="main-content">
-                <header className="content-header">
-                    <h1>Amigos</h1>
-                </header>
-                {error && <Message type="error" message={error}/>}
-                <div className="friends-section">
-                    <div className="friends-content-paper">
-                        <div className="friends-tabs">
-                            <div
-                                className={activeTab === 'search' ? 'friends-tab Mui-selected' : 'friends-tab'}
-                                onClick={() => setActiveTab('search')}>
-                                Buscar
-                            </div>
-                            <div
-                                className={activeTab === 'friends' ? 'friends-tab Mui-selected' : 'friends-tab'}
-                                onClick={() => setActiveTab('friends')}>
-                                Amigos
-                            </div>
-                            <div
-                                className={activeTab === 'pending' ? 'friends-tab Mui-selected' : 'friends-tab'}
-                                onClick={() => setActiveTab('pending')}>
-                                Solicitudes Recibidas
-                            </div>
-                            <div
-                                className={activeTab === 'sent' ? 'friends-tab Mui-selected' : 'friends-tab'}
-                                onClick={() => setActiveTab('sent')}>
-                                Solicitudes Enviadas
-                            </div>
+                <div className="friends-page">
+                    <header className="friends-header">
+                        <h1 className="friends-title">Amigos</h1>
+                        {error && <Message type="error" message={error} />}
+                    </header>
+
+                    <div className="friends-container">
+                        <div className="friends-navigation">
+                            <nav className="tab-navigation">
+                                <button
+                                    className={`tab-button ${activeTab === 'search' ? 'active' : ''}`}
+                                    onClick={() => setActiveTab('search')}
+                                >
+                                    <i className="fas fa-search"></i>
+                                    <span>Buscar</span>
+                                </button>
+                                <button
+                                    className={`tab-button ${activeTab === 'friends' ? 'active' : ''}`}
+                                    onClick={() => setActiveTab('friends')}
+                                >
+                                    <i className="fas fa-user-friends"></i>
+                                    <span>Amigos</span>
+                                </button>
+                                <button
+                                    className={`tab-button ${activeTab === 'pending' ? 'active' : ''}`}
+                                    onClick={() => setActiveTab('pending')}
+                                >
+                                    <i className="fas fa-inbox"></i>
+                                    <span>Recibidas</span>
+                                </button>
+                                <button
+                                    className={`tab-button ${activeTab === 'sent' ? 'active' : ''}`}
+                                    onClick={() => setActiveTab('sent')}
+                                >
+                                    <i className="fas fa-paper-plane"></i>
+                                    <span>Enviadas</span>
+                                </button>
+                            </nav>
                         </div>
-                        <div className="friends-tab-content">
-                            {activeTab === 'search' && (
-                                <>
-                                    <div className="friends-search-box">
-                                        <form onSubmit={handleSearchSubmit} style={{width: '100%'}}>
-                                            <input
-                                                type="text"
-                                                placeholder="Buscar por nombre o email..."
-                                                value={searchQuery}
-                                                onChange={handleSearchChange}
-                                                className="friends-search-input"
-                                            />
-                                            <button type="submit" className="friends-search-button"
-                                                    disabled={isSearching}>
-                                                {isSearching ? 'Buscando...' : 'Buscar'}
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <div className="friends-search-results">
-                                        {searchResults.length > 0 ? (
-                                            <ul className="friends-list">
-                                                {searchResults.map((user) => (
-                                                    <li key={`search-${user.usuarioid}`} className="friends-list-item">
-                                                        <div className="friends-user-text">
-                                                            <UserAvatar user={user}/>
-                                                            <div className="friends-user-name">
-                                                                <h3>{user.nombre} {user.apellido}</h3>
-                                                                {user.email &&
-                                                                    <p className="friends-last-active">{user.email}</p>}
-                                                            </div>
-                                                        </div>
-                                                        <div className="friends-action-buttons">
-                                                            <button
-                                                                onClick={() => handleSendRequest(user.usuarioid)}
-                                                                className="friends-add-button"
-                                                            >
-                                                                Agregar
-                                                            </button>
-                                                        </div>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        ) : searchQuery && !isSearching ? (
-                                            <div className="friends-empty-container">
-                                                <p className="friends-empty-message">No se encontraron usuarios.</p>
-                                            </div>
-                                        ) : null}
-                                    </div>
-                                </>
-                            )}
-                            {activeTab === 'friends' && (
-                                <div className="friends-search-results">
-                                    {isLoading ? (
-                                        <div className="friends-loading">Cargando amigos...</div>
-                                    ) : friends.length > 0 ? (
-                                        <ul className="friends-list">
-                                            {friends.map((friend) => (
-                                                <li key={`friend-${friend.usuarioid}`} className="friends-list-item">
-                                                    <div className="friends-user-text">
-                                                        <UserAvatar user={friend}/>
-                                                        <div className="friends-user-name">
-                                                            <h3>{friend.nombre} {friend.apellido}</h3>
-                                                            {friend.email &&
-                                                                <p className="friends-last-active">{friend.email}</p>}
-                                                        </div>
-                                                    </div>
-                                                    <div className="friends-action-buttons">
-                                                        <button
-                                                            onClick={() => handleDeleteFriend(friend.usuarioid)}
-                                                            className="friends-reject-button"
-                                                        >
-                                                            Eliminar
-                                                        </button>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <div className="friends-empty-container">
-                                            <p className="friends-empty-message">No tienes amigos aún. ¡Busca usuarios
-                                                para agregar!</p>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-                            {activeTab === 'pending' && (
-                                <div className="friends-search-results">
-                                    {isLoading ? (
-                                        <div className="friends-loading">Cargando solicitudes...</div>
-                                    ) : pendingRequests.length > 0 ? (
-                                        <ul className="friends-list">
-                                            {pendingRequests.map((request) => (
-                                                <li key={`pending-${request.id_solicitud}`}
-                                                    className="friends-list-item">
-                                                    <div className="friends-user-text">
-                                                        <UserAvatar
-                                                            user={request.usuario_solicitudesamistad_id_remitenteTousuario || {
-                                                                nombre: '',
-                                                                apellido: ''
-                                                            }}/>
-                                                        <div className="friends-user-name">
-                                                            <h3>
-                                                                {request.usuario_solicitudesamistad_id_remitenteTousuario?.nombre || ''} {request.usuario_solicitudesamistad_id_remitenteTousuario?.apellido || ''}
-                                                            </h3>
-                                                            <p className="friends-last-active">
-                                                                Solicitud recibida
-                                                                el {formatDate(request.fecha_creacion)}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="friends-action-buttons">
-                                                        <button
-                                                            onClick={() => handleAcceptRequest(request.id_remitente)}
-                                                            className="friends-accept-button"
-                                                        >
-                                                            Aceptar
-                                                        </button>
-                                                        <button
-                                                            onClick={() => handleRejectRequest(request.id_remitente)}
-                                                            className="friends-reject-button"
-                                                        >
-                                                            Rechazar
-                                                        </button>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <div className="friends-empty-container">
-                                            <p className="friends-empty-message">No tienes solicitudes de amistad
-                                                pendientes.</p>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-                            {activeTab === 'sent' && (
-                                <div className="friends-search-results">
-                                    {isLoading ? (
-                                        <div className="friends-loading">Cargando solicitudes...</div>
-                                    ) : sentRequests.length > 0 ? (
-                                        <ul className="friends-list">
-                                            {sentRequests.map((request) => (
-                                                <li key={`sent-${request.id_solicitud}`} className="friends-list-item">
-                                                    <div className="friends-user-text">
-                                                        <UserAvatar
-                                                            user={request.usuario_solicitudesamistad_id_receptorTousuario || {
-                                                                nombre: '',
-                                                                apellido: ''
-                                                            }}/>
-                                                        <div className="friends-user-name">
-                                                            <h3>
-                                                                {request.usuario_solicitudesamistad_id_receptorTousuario?.nombre || ''} {request.usuario_solicitudesamistad_id_receptorTousuario?.apellido || ''}
-                                                            </h3>
-                                                            <p className="friends-last-active">
-                                                                Solicitud enviada
-                                                                el {formatDate(request.fecha_creacion)}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="friends-action-buttons">
-                                                        <button
-                                                            onClick={() => handleCancelRequest(request.id_receptor)}
-                                                            className="friends-reject-button"
-                                                        >
-                                                            Cancelar
-                                                        </button>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <div className="friends-empty-container">
-                                            <p className="friends-empty-message">No has enviado solicitudes de
-                                                amistad.</p>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
+
+                        <div className="friends-content">
+                            {renderTabContent()}
                         </div>
                     </div>
                 </div>
