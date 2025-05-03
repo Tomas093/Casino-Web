@@ -3,10 +3,12 @@ import {ChipList, RouletteTable, RouletteWheel, useRoulette} from 'react-casino-
 import 'react-casino-roulette/dist/index.css';
 import '@css/NavBarStyle.css';
 import "@css/NewStyle.css"
-import whiteChip from '@assets/ficha11.png';
-import blueChip from '@assets/ficha10.png';
-import blackChip from '@assets/ficha50.png';
-import cyanChip from '@assets/ficha100.png';
+import oneChip from '@assets/ficha1.png';
+import tenChip from '@assets/ficha10.png';
+import fiftyChip from '@assets/ficha50.png';
+import oneHundredChip from '@assets/ficha100.png';
+import fiveHundredChip from '@assets/ficha500.png';
+import oneThousandChip from '@assets/ficha1000.png';
 import {useAuth} from "@context/AuthContext.tsx";
 import {usePlay} from '@context/PlayContext.tsx';
 import {useUser} from '@context/UserContext';
@@ -18,11 +20,14 @@ const BLACK_NUMBERS = ['2', '4', '6', '8', '10', '11', '13', '15', '17', '20', '
 
 // Definición de los chips
 const chips = {
-    '1': whiteChip,
-    '10': blueChip,
-    '100': blackChip,
-    '500': cyanChip,
+    '1': oneChip,
+    '10': tenChip,
+    '50': fiftyChip,
+    '100': oneHundredChip,
+    '500': fiveHundredChip,
+    '1000': oneThousandChip,
 };
+
 
 
 // ID del juego de ruleta
