@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useRef, useEffect, useState} from 'react';
 import '@css/HomeStyle.css';
 import slotImg from '@assets/slots.jpg';
 import ruletaImg from '@assets/ruleta.jpg';
@@ -7,24 +7,29 @@ import dadosImg from '@assets/dados.jpg';
 import AnimatedCounter from "../../animations/AnimatedCounter";
 import Footer from '@components/Footer';
 import NavBar from "@components/NavBar.tsx";
-import {useUser} from "@context/UserContext.tsx";
-import {useAuth} from "@context/AuthContext.tsx";
+import { useUser } from "@context/UserContext.tsx";
+import { useAuth } from "@context/AuthContext.tsx";
 import LeaderBoard from "@components/LeaderBoard";
+import { Link } from 'react-router-dom';
 
+// Resto de interfaces y componentes sin cambios...
 interface GameCardProps {
     title: string;
     image: string;
+    route: string;  // Nueva propiedad para la ruta específica del juego
 }
 
 // Game Card Component
-const GameCard: React.FC<GameCardProps> = ({ title, image }) => {
+const GameCard: React.FC<GameCardProps> = ({ title, image, route }) => {
     return (
         <div className="game-card hover-card">
             <div className="game-card-inner">
                 <img src={image} alt={title} className="game-card-image" />
                 <div className="game-card-overlay">
                     <h3 className="game-card-title">{title}</h3>
-                    <button className="game-card-button">Jugar ahora</button>
+                    <Link to={route}>
+                        <button className="game-card-button">Jugar ahora</button>
+                    </Link>
                 </div>
             </div>
         </div>
@@ -71,7 +76,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onClick }) 
 };
 
 // Main Component
-const HomeDef = () => {
+const Home = () => {
     // References for scroll with zoom effect
     const containerRef = useRef(null);
     const showcaseRef = useRef(null);
@@ -85,14 +90,14 @@ const HomeDef = () => {
 
     // Sample game list
     const games = [
-        { id: 1, title: "Ruleta VIP", image: ruletaImg },
-        { id: 2, title: "BlackJack", image: blackjackImg },
-        { id: 3, title: "Slots", image: slotImg },
-        { id: 4, title: "Dados", image: dadosImg },
-        { id: 5, title: "Ruleta VIP", image: ruletaImg },
-        { id: 6, title: "BlackJack", image: blackjackImg },
-        { id: 7, title: "Slots", image: slotImg},
-        { id: 8, title: "Dados", image: dadosImg }
+        { id: 1, title: "Ruleta VIP", image: ruletaImg, route: "/roulette" },
+        { id: 2, title: "BlackJack", image: blackjackImg, route: "/blackjack" },
+        { id: 3, title: "Slots", image: slotImg, route: "/slots" },
+        { id: 4, title: "Dados", image: dadosImg, route: "/dados" },
+        { id: 5, title: "Ruleta VIP", image: ruletaImg, route: "/roulette" },
+        { id: 6, title: "BlackJack", image: blackjackImg, route: "/blackjack" },
+        { id: 7, title: "Slots", image: slotImg, route: "/slots" },
+        { id: 8, title: "Dados", image: dadosImg, route: "/dados" }
     ];
 
     // FAQ data
@@ -201,132 +206,152 @@ const HomeDef = () => {
         };
     }, []);
 
+    // Configuración personalizada para la navbar en Home
+    const homeNavLinks = [
+        {label: "Juegos", href: "#games-section-home", isAnchor: true},
+        {label: "Leaderboard", href: "#leaderboard-section", isAnchor: true},
+        {label: "Nosotros", href: "#about-section", isAnchor: true},
+    ];
+
     return (
         <div className="homepage">
-            <NavBar/>
-            <section className="hero-section">
-                <div className="hero-background">
-                    <img alt="Casino Background" className="hero-image" />
-                    <div className="overlay"></div>
-                </div>
-                <div className="hero-content">
-                    <h1 className="main-title">Australis Casino</h1>
-                    <div className="typing-container">
-                        <p className="subtitle">{typedText}<span className="typing-cursor">|</span></p>
-                    </div>
-                    <div className="cta-container">
-                        <button className="cta-button">Jugar Ahora</button>
-                        <button className="cta-button secondary">Conocer más</button>
-                    </div>
-                    <div className="hero-features">
-                        <div className="hero-feature">
-                            <div className="feature-icon">🎁</div>
-                            <span>Bono de bienvenida de $500</span>
-                        </div>
-                        <div className="hero-feature">
-                            <div className="feature-icon">🔒</div>
-                            <span>100% Seguro</span>
-                        </div>
-                        <div className="hero-feature">
-                            <div className="feature-icon">🎮</div>
-                            <span>+300 Juegos</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <NavBar
+                navLinks={homeNavLinks}
+                className="home-navbar"
+                variant="dark"
+                playButtonLabel="Jugar"
+                homeSectionId="games-section-home"
+            />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', padding: '20px', marginTop: '70px' }}>
 
-            <section className="games-section">
-                <h2 className="section-title">NUESTROS JUEGOS EXCLUSIVOS</h2>
-                <div ref={containerRef} className="scroll-container">
-                    <div ref={showcaseRef} className="scroll-showcase">
-                        {games.map(game => (
-                            <GameCard key={game.id} title={game.title} image={game.image} />
+                <section className="hero-section">
+                    <div className="hero-background">
+                        <div className="overlay"></div>
+                    </div>
+                    <div className="hero-content">
+                        <h1 className="main-title">Australis Casino</h1>
+                        <div className="typing-container">
+                            <p className="subtitle">{typedText}<span className="typing-cursor">|</span></p>
+                        </div>
+                        <div className="cta-container">
+                            <button className="cta-button">Jugar Ahora</button>
+                            <button className="cta-button secondary">Conocer más</button>
+                        </div>
+                        <div className="hero-features">
+                            <div className="hero-feature">
+                                <div className="feature-icon">🎁</div>
+                                <span>Bono de bienvenida de $500</span>
+                            </div>
+                            <div className="hero-feature">
+                                <div className="feature-icon">🔒</div>
+                                <span>100% Seguro</span>
+                            </div>
+                            <div className="hero-feature">
+                                <div className="feature-icon">🎮</div>
+                                <span>+300 Juegos</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="games-section-home" className="games-section-home">
+                    <h2 className="section-title">NUESTROS JUEGOS EXCLUSIVOS</h2>
+                    <div ref={containerRef} className="scroll-container">
+                        <div ref={showcaseRef} className="scroll-showcase">
+                            {games.map(game => (
+                                <GameCard
+                                    key={game.id}
+                                    title={game.title}
+                                    image={game.image}
+                                    route={game.route}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* Resto del componente sin cambios... */}
+                <section className="stats-section">
+                    <h2 className="section-title">ESTADÍSTICAS</h2>
+                    <div className="stats-container">
+                        <StatIndicator
+                            icon="💰"
+                            value={<AnimatedCounter end={1500000} prefix="$" />}
+                            label="Pozo acumulado"
+                        />
+                        <StatIndicator
+                            icon="👥"
+                            value={<AnimatedCounter end={2345} />}
+                            label="Jugadores online"
+                        />
+                        <StatIndicator
+                            icon="🏆"
+                            value={<AnimatedCounter end={250000} prefix="$" />}
+                            label="Mayor premio del día"
+                        />
+                    </div>
+                </section>
+
+                <section id="leaderboard-section" className="leaderboard-section">
+                    <h2 className="section-title">TABLA DE CLASIFICACIÓN</h2>
+                    <div className="leaderboard-wrapper">
+                        <LeaderBoard limit={5} compact={false} />
+                    </div>
+                </section>
+
+                <section id="about-section" className="about-section">
+                    <h2 className="section-title">QUIENES SOMOS</h2>
+                    <div className="about-container">
+                        <div className="about-content">
+                            <h3 className="about-subtitle">EXCELENCIA EN ENTRETENIMIENTO DESDE 2004 </h3>
+                            <p className="about-text">
+                                Australis Casino nació con una visión clara: revolucionar la experiencia de juego online combinando tecnología de vanguardia con la elegancia de los casinos tradicionales.
+                            </p>
+                            <p className="about-text">
+                                Con más de una década de experiencia en la industria, nos hemos consolidado como líderes en el mercado de entretenimiento digital, ofreciendo a nuestros usuarios una plataforma segura, transparente y emocionante.
+                            </p>
+                            <p className="about-text">
+                                Nuestro equipo está formado por expertos en desarrollo de software, seguridad informática y atención al cliente, comprometidos con ofrecer una experiencia de juego excepcional las 24 horas del día.
+                            </p>
+                        </div>
+                        <div className="about-features">
+                            <div className="feature-item">
+                                <div className="feature-icon">🔒</div>
+                                <h4 className="feature-title">Seguridad Garantizada</h4>
+                                <p className="feature-text">Utilizamos tecnología de encriptación avanzada para proteger sus datos y transacciones.</p>
+                            </div>
+                            <div className="feature-item">
+                                <div className="feature-icon">🏆</div>
+                                <h4 className="feature-title">Juego Responsable</h4>
+                                <p className="feature-text">Promovemos prácticas de juego saludables y ofrecemos herramientas de control personal.</p>
+                            </div>
+                            <div className="feature-item">
+                                <div className="feature-icon">💎</div>
+                                <h4 className="feature-title">Innovación Constante</h4>
+                                <p className="feature-text">Actualizamos regularmente nuestra plataforma con los últimos avances tecnológicos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="faq-section">
+                    <h2 className="section-title">PREGUNTAS FRECUENTES</h2>
+                    <div className="faq-container">
+                        {faqData.map(faq => (
+                            <FAQItem
+                                key={faq.id}
+                                question={faq.question}
+                                answer={faq.answer}
+                                isOpen={openFAQ === faq.id}
+                                onClick={() => handleFAQToggle(faq.id)}
+                            />
                         ))}
                     </div>
-                </div>
-            </section>
-
-            <section className="stats-section">
-                <h2 className="section-title">ESTADÍSTICAS</h2>
-                <div className="stats-container">
-                    <StatIndicator
-                        icon="💰"
-                        value={<AnimatedCounter end={1500000} prefix="$" />}
-                        label="Pozo acumulado"
-                    />
-                    <StatIndicator
-                        icon="👥"
-                        value={<AnimatedCounter end={2345} />}
-                        label="Jugadores online"
-                    />
-                    <StatIndicator
-                        icon="🏆"
-                        value={<AnimatedCounter end={250000} prefix="$" />}
-                        label="Mayor premio del día"
-                    />
-                </div>
-            </section>
-
-            <section className="leaderboard-section">
-                <h2 className="section-title">TABLA DE CLASIFICACIÓN</h2>
-                <div className="leaderboard-wrapper">
-                    <LeaderBoard limit={5} compact={false} />
-                </div>
-            </section>
-
-            <section className="about-section">
-                <h2 className="section-title">QUIENES SOMOS</h2>
-                <div className="about-container">
-                    <div className="about-content">
-                        <h3 className="about-subtitle">EXCELENCIA EN ENTRETENIMIENTO DESDE 2004 </h3>
-                        <p className="about-text">
-                            Australis Casino nació con una visión clara: revolucionar la experiencia de juego online combinando tecnología de vanguardia con la elegancia de los casinos tradicionales.
-                        </p>
-                        <p className="about-text">
-                            Con más de una década de experiencia en la industria, nos hemos consolidado como líderes en el mercado de entretenimiento digital, ofreciendo a nuestros usuarios una plataforma segura, transparente y emocionante.
-                        </p>
-                        <p className="about-text">
-                            Nuestro equipo está formado por expertos en desarrollo de software, seguridad informática y atención al cliente, comprometidos con ofrecer una experiencia de juego excepcional las 24 horas del día.
-                        </p>
-                    </div>
-                    <div className="about-features">
-                        <div className="feature-item">
-                            <div className="feature-icon">🔒</div>
-                            <h4 className="feature-title">Seguridad Garantizada</h4>
-                            <p className="feature-text">Utilizamos tecnología de encriptación avanzada para proteger sus datos y transacciones.</p>
-                        </div>
-                        <div className="feature-item">
-                            <div className="feature-icon">🏆</div>
-                            <h4 className="feature-title">Juego Responsable</h4>
-                            <p className="feature-text">Promovemos prácticas de juego saludables y ofrecemos herramientas de control personal.</p>
-                        </div>
-                        <div className="feature-item">
-                            <div className="feature-icon">💎</div>
-                            <h4 className="feature-title">Innovación Constante</h4>
-                            <p className="feature-text">Actualizamos regularmente nuestra plataforma con los últimos avances tecnológicos.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="faq-section">
-                <h2 className="section-title">PREGUNTAS FRECUENTES</h2>
-                <div className="faq-container">
-                    {faqData.map(faq => (
-                        <FAQItem
-                            key={faq.id}
-                            question={faq.question}
-                            answer={faq.answer}
-                            isOpen={openFAQ === faq.id}
-                            onClick={() => handleFAQToggle(faq.id)}
-                        />
-                    ))}
-                </div>
-            </section>
-
-            <Footer />
+                </section>
+                <Footer />
+            </div>
         </div>
     );
 };
 
-export default HomeDef;
+export default Home;

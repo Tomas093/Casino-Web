@@ -45,6 +45,7 @@ const ProfilePage: React.FC = () => {
     // Actualizar formulario cuando cambian los datos del usuario
     useEffect(() => {
         if (user) {
+            console.log(user);
             setFormData({
                 nombre: user.nombre || '',
                 apellido: user.apellido || '',
