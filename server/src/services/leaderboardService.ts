@@ -223,5 +223,65 @@ export const leaderboardService = {
             console.error('Error in getTopByPercentageGain:', error);
             return [];
         }
+    },
+
+    async getFriendsLeaderboard(
+        userId: number,
+        limit: number = 10,
+        timeframe: Timeframe = 'historical',
+        date?: Date
+    ) {
+        try {
+            const dateFilter = buildDateFilter(timeframe, date);
+
+            const friends = await prisma.amistad.findMany({
+                where: {
+                    OR: [{ usuario1_id: userId }, { usuario2_id: userId }]
+                },
+                include: {
+                    usuario_amistad_usuario1_idTousuario: {
+                        select: { cliente: { include: { jugada: true, usuario: true } } }
+                    },
+                    usuario_amistad_usuario2_idTousuario: {
+                        select: { cliente: { include: { jugada: true, usuario: true } } }
+                    }
+                }
+            });
+
+            const friendClients = friends.flatMap(friend => {
+                const friendClient =
+                    friend.usuario1_id === userId
+                        ? friend.usuario_amistad_usuario2_idTousuario.cliente
+                        : friend.usuario_amistad_usuario1_idTousuario.cliente;
+
+                if (!friendClient) return [];
+
+                const filteredJugadas = dateFilter
+                    ? friendClient.jugada.filter(j => j.fecha && j.fecha >= dateFilter.gte && j.fecha <= dateFilter.lte)
+                    : friendClient.jugada;
+
+                const totalProfit = filteredJugadas.reduce((sum, j) => sum + (j.retorno || 0) - (j.apuesta || 0), 0);
+                const jugadaCount = filteredJugadas.length;
+                const winPercentage =
+                    filteredJugadas.length > 0
+                        ? (filteredJugadas.filter(j => (j.retorno || 0) > (j.apuesta || 0)).length / filteredJugadas.length) * 100
+                        : 0;
+
+                return {
+                    clienteid: friendClient.clienteid,
+                    nombre: friendClient.usuario.nombre,
+                    apellido: friendClient.usuario.apellido,
+                    img: friendClient.usuario.img,
+                    gananciaNeta: totalProfit.toString(),
+                    winPercentage,
+                    jugadaCount
+                };
+            });
+
+            return friendClients.sort((a, b) => parseFloat(b.gananciaNeta) - parseFloat(a.gananciaNeta)).slice(0, limit);
+        } catch (error) {
+            console.error('Error in getFriendsLeaderboard:', error);
+            return [];
+        }
     }
 };

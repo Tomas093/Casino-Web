@@ -37,6 +37,7 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
     const [isAscending, setIsAscending] = useState<boolean>(false);
     const [selectedGame, setSelectedGame] = useState<string | null>(defaultGameFilter || null);
     const [availableGames, setAvailableGames] = useState<string[]>([]);
+    const [showFriendsLeaderboard, setShowFriendsLeaderboard] = useState(false); // Add state for toggling
 
     const {
         isLoading: contextLoading,
@@ -49,12 +50,20 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
         accumulatedWinnings,
         topWinPercentages,
         mostPlayed, // Add mostPlayed from context
-        fetchAllLeaderboards
+        fetchAllLeaderboards,
+        friendsLeaderboard,
+        fetchFriendsLeaderboard, // Ensure this is destructured
     } = useLeaderboard();
 
     useEffect(() => {
         fetchAllLeaderboards();
     }, [timeframe]);
+
+    useEffect(() => {
+        if (client?.clienteid) {
+            fetchFriendsLeaderboard(client.clienteid);
+        }
+    }, [client, timeframe]);
 
     // Updated to safely handle gameWinners
     useEffect(() => {
@@ -259,13 +268,68 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
         }
     };
 
-    if (loading || contextLoading) {
-        return <div className="leaderboard__loading">Cargando clasificaciones...</div>;
-    }
+    const toggleLeaderboard = () => {
+        setShowFriendsLeaderboard(!showFriendsLeaderboard);
+    };
 
-    if (error || contextError) {
-        return <div className="leaderboard__error">{error || contextError}</div>;
-    }
+    const renderLeaderboard = () => {
+        if (showFriendsLeaderboard) {
+            return (
+                <div className="leaderboard__friends">
+                    <h2>Clasificación de Amigos</h2>
+                    {friendsLeaderboard.length > 0 ? (
+                        friendsLeaderboard.map((friend, index) => (
+                            <LeaderboardRow
+                                key={`${friend.clienteid}-${index}`}
+                                ranking={{
+                                    clienteid: friend.clienteid,
+                                    nombre: friend.nombre,
+                                    apellido: friend.apellido,
+                                    img: friend.img,
+                                    gananciaNeta: friend.gananciaNeta,
+                                    winPercentage: friend.winPercentage,
+                                    jugadaCount: friend.jugadaCount,
+                                }}
+                                index={index}
+                            />
+                        ))
+                    ) : (
+                        <div className="leaderboard__empty">No hay datos disponibles para tus amigos.</div>
+                    )}
+                </div>
+            );
+        }
+
+        return (
+            <div className="leaderboard__table">
+                <div className={`leaderboard__table-header ${compact ? 'leaderboard__table-header--compact' : ''}`}>
+                    <div className="leaderboard__rank">Pos.</div>
+                    <div className="leaderboard__user">Jugador</div>
+                    <div className="leaderboard__stat">
+                        {getSortCriteriaLabel(sortCriteria)}
+                        <span className="leaderboard__order-indicator">{isAscending ? ' ↑' : ' ↓'}</span>
+                    </div>
+                    {!compact && sortCriteria !== 'gananciaNeta' && sortCriteria !== 'jugadaCount' && (
+                        <div className="leaderboard__game">Juego</div>
+                    )}
+                </div>
+
+                <div className="leaderboard__table-body">
+                    {rankings.length > 0 ? (
+                        rankings.map((ranking, index) => (
+                            <LeaderboardRow
+                                key={`${ranking.clienteid}-${index}-${sortCriteria}`}
+                                ranking={ranking}
+                                index={index}
+                            />
+                        ))
+                    ) : (
+                        <div className="leaderboard__empty">No hay datos disponibles para mostrar en la clasificación</div>
+                    )}
+                </div>
+            </div>
+        );
+    };
 
     const LeaderboardRow = ({ranking, index}: { ranking: UserRanking, index: number }) => {
         const isCurrentUser = client?.clienteid === ranking.clienteid; // Fixed property name mismatch
@@ -365,22 +429,13 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                         </select>
                     </div>
 
-                    {/* Show game filter dropdown regardless of layout mode */}
-                    {sortCriteria === 'gananciaNeta' && availableGames.length > 0 && (
-                        <div className="leaderboard__game-filter">
-                            <label>Juego:</label>
-                            <select
-                                className="leaderboard__dropdown"
-                                value={selectedGame || "all"}
-                                onChange={handleGameFilterChange}
-                            >
-                                <option value="all">Todos los Juegos</option>
-                                {availableGames.map(game => (
-                                    <option key={game} value={game}>{game}</option>
-                                ))}
-                            </select>
-                        </div>
-                    )}
+                    {/* Toggle button */}
+                    <button
+                        className="leaderboard__toggle-btn"
+                        onClick={toggleLeaderboard}
+                    >
+                        {showFriendsLeaderboard ? 'Ver General' : 'Ver Amigos'}
+                    </button>
                 </div>
 
                 {compact ? (
@@ -440,34 +495,7 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                 )}
             </div>
 
-            <div className="leaderboard__table">
-                <div className={`leaderboard__table-header ${compact ? 'leaderboard__table-header--compact' : ''}`}>
-                    <div className="leaderboard__rank">Pos.</div>
-                    <div className="leaderboard__user">Jugador</div>
-                    <div className="leaderboard__stat">
-                        {getSortCriteriaLabel(sortCriteria)}
-                        <span className="leaderboard__order-indicator">{isAscending ? ' ↑' : ' ↓'}</span>
-                    </div>
-                    {!compact && sortCriteria !== 'gananciaNeta' && sortCriteria !== 'jugadaCount' && (
-                        <div className="leaderboard__game">Juego</div>
-                    )}
-                </div>
-
-                <div className="leaderboard__table-body">
-                    {rankings.length > 0 ? (
-                        rankings.map((ranking, index) => (
-                            <LeaderboardRow
-                                key={`${ranking.clienteid}-${index}-${sortCriteria}`}
-                                ranking={ranking}
-                                index={index}
-                            />
-                        ))
-                    ) : (
-                        <div className="leaderboard__empty">No hay datos disponibles para mostrar en la
-                            clasificación</div>
-                    )}
-                </div>
-            </div>
+            {renderLeaderboard()}
         </div>
     );
 };

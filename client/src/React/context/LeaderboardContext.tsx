@@ -74,6 +74,7 @@ interface LeaderboardContextState {
     accumulatedWinnings: AccumulatedWinning[];
     topWinPercentages: WinPercentage[];
     mostPlayed: MostPlayed[];
+    friendsLeaderboard: any[]; // Add friendsLeaderboard state
     fetchGameWinners: (gameType: string) => Promise<void>;
     fetchHighestBets: () => Promise<void>;
     fetchHighestReturns: () => Promise<void>;
@@ -81,6 +82,7 @@ interface LeaderboardContextState {
     fetchTopWinPercentages: () => Promise<void>;
     fetchMostPlayed: () => Promise<void>;
     fetchAllLeaderboards: () => Promise<void>;
+    fetchFriendsLeaderboard: (userId: number) => Promise<void>; // Add fetchFriendsLeaderboard function
 }
 
 // Create context
@@ -97,6 +99,7 @@ export const LeaderboardProvider = ({children}: { children: ReactNode }) => {
     const [accumulatedWinnings, setAccumulatedWinnings] = useState<AccumulatedWinning[]>([]);
     const [topWinPercentages, setTopWinPercentages] = useState<WinPercentage[]>([]);
     const [mostPlayed, setMostPlayed] = useState<MostPlayed[]>([]);
+    const [friendsLeaderboard, setFriendsLeaderboard] = useState<any[]>([]); // Add state for friends leaderboard
 
     // Fetch winners by game type
     const fetchGameWinners = async (gameType: string) => {
@@ -182,6 +185,20 @@ export const LeaderboardProvider = ({children}: { children: ReactNode }) => {
         }
     };
 
+    // Fetch friends leaderboard
+    const fetchFriendsLeaderboard = async (userId: number) => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            const data = await leaderboardApi.getFriendsLeaderboard(userId, timeframe);
+            setFriendsLeaderboard(data);
+        } catch (err: any) {
+            setError(err.message || 'Error loading friends leaderboard');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     // Fetch all leaderboard data at once
     const fetchAllLeaderboards = async () => {
         setIsLoading(true);
@@ -214,13 +231,15 @@ export const LeaderboardProvider = ({children}: { children: ReactNode }) => {
         accumulatedWinnings,
         topWinPercentages,
         mostPlayed,
+        friendsLeaderboard,
         fetchGameWinners,
         fetchHighestBets,
         fetchHighestReturns,
         fetchAccumulatedWinnings,
         fetchTopWinPercentages,
         fetchMostPlayed,
-        fetchAllLeaderboards
+        fetchAllLeaderboards,
+        fetchFriendsLeaderboard
     };
 
     return (

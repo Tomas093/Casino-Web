@@ -227,6 +227,25 @@ router.get('/most-played', async (req: Request, res: Response) => {
     }
 });
 
+// Get friends leaderboard
+router.get('/friends/:userId', async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.params;
+        const timeframe = getTimeframe(req.query.timeframe as string);
+        const limit = parseInt(req.query.limit as string) || 10;
+
+        const friendsLeaderboard = await leaderboardService.getFriendsLeaderboard(
+            Number(userId),
+            limit,
+            convertTimeframe(timeframe)
+        );
+
+        res.status(200).json(serializeBigInt(friendsLeaderboard));
+    } catch (error) {
+        console.error('Error fetching friends leaderboard:', error);
+        res.status(500).json({ message: 'Error fetching friends leaderboard' });
+    }
+});
 
 // Get all leaderboards
 router.get('/all', async (req: Request, res: Response) => {
@@ -294,3 +313,4 @@ router.get('/all', async (req: Request, res: Response) => {
 });
 
 export default router;
+

@@ -38,6 +38,7 @@ interface BetResult {
     isWin: boolean;
 }
 
+
 // Componente de notificación de resultado
 const ResultNotification = ({ show, winner, winnings, isWin, onClose }) => {
     useEffect(() => {
