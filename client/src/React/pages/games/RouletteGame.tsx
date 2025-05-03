@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {ChipList, RouletteTable, RouletteWheel, useRoulette} from 'react-casino-roulette';
 import 'react-casino-roulette/dist/index.css';
 import '@css/NavBarStyle.css';
 import "@css/NewStyle.css"
-import whiteChip from '@assets/Javo.jpg';
-import blueChip from '@assets/Javo.jpg';
-import blackChip from '@assets/Javo.jpg';
-import cyanChip from '@assets/Javo.jpg';
+import whiteChip from '@assets/ficha11.png';
+import blueChip from '@assets/ficha10.png';
+import blackChip from '@assets/ficha50.png';
+import cyanChip from '@assets/ficha100.png';
 import {useAuth} from "@context/AuthContext.tsx";
 import {usePlay} from '@context/PlayContext.tsx';
 import {useUser} from '@context/UserContext';
@@ -34,18 +34,57 @@ interface BetResult {
     isWin: boolean;
 }
 
+// Componente de notificación de resultado
+const ResultNotification = ({ show, winner, winnings, isWin, onClose }) => {
+    useEffect(() => {
+        if (show) {
+            const timer = setTimeout(() => {
+                onClose();
+            }, 5000); // Cerrar automáticamente después de 5 segundos
+
+            return () => clearTimeout(timer);
+        }
+    }, [show, onClose]);
+
+    if (!show) return null;
+
+    return (
+        <div className="result-notification-backdrop">
+            <div className={`result-notification ${isWin ? 'win' : 'lose'}`}>
+                <div className="notification-icon">
+                    {isWin ? '🏆' : '🎲'}
+                </div>
+                <div className="notification-content">
+                    <h3 className="notification-title">{isWin ? '¡FELICIDADES!' : 'INTENTA DE NUEVO'}</h3>
+                    <p className="notification-message">
+                        La bola cayó en <span className="highlight-number">{winner}</span>
+                    </p>
+                    <p className="notification-result">
+                        {isWin
+                            ? `Has ganado $${winnings}`
+                            : 'No has ganado en esta ronda'}
+                    </p>
+                </div>
+                <button className="notification-close" onClick={onClose}>×</button>
+            </div>
+        </div>
+    );
+};
+
 const RouletteGame: React.FC = () => {
     const [selectedChip, setSelectedChip] = useState('1');
     const [winningBet, setWinningBet] = useState('-1');
     const [wheelStart, setWheelStart] = useState(false);
     const [lastResults, setLastResults] = useState<string[]>([]);
     const [betResults, setBetResults] = useState<BetResult[]>([]);
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationData, setNotificationData] = useState({ winner: '', winnings: 0, isWin: false });
+
     const { user } = useAuth();
     const { createPlay, isLoading } = usePlay();
     const { client, getUserData } = useUser();
 
     const { bets, onBet, clearBets, total: totalBet, hasBets } = useRoulette();
-
 
     // Función para determinar si un número es rojo o negro
     const getNumberColor = (number: string): 'red' | 'black' | 'green' => {
@@ -56,17 +95,20 @@ const RouletteGame: React.FC = () => {
 
     const handleSpin = async () => {
         if (!hasBets) {
-            alert('¡Debes hacer al menos una apuesta para girar!');
+            setNotificationData({ winner: '', winnings: 0, isWin: false });
+            setShowNotification(true);
             return;
         }
 
         if (!client) {
-            alert('No se puede acceder a los datos del cliente');
+            setNotificationData({ winner: '', winnings: 0, isWin: false });
+            setShowNotification(true);
             return;
         }
 
         if (totalBet > client.balance) {
-            alert('No tienes suficiente saldo para realizar estas apuestas');
+            setNotificationData({ winner: '', winnings: 0, isWin: false });
+            setShowNotification(true);
             return;
         }
 
@@ -143,21 +185,33 @@ const RouletteGame: React.FC = () => {
             }
         } catch (error) {
             console.error('Error al registrar la jugada:', error);
-            alert('Hubo un error al registrar tu jugada. La ruleta funcionó correctamente, pero es posible que los datos no se hayan guardado.');
+            setNotificationData({
+                winner: 'Error',
+                winnings: 0,
+                isWin: false
+            });
+            setShowNotification(true);
         }
     };
+
     const handleBet = (betId: string) => {
         const chipValue = Number(selectedChip);
         const currentBetTotal = totalBet;
         const newTotal = currentBetTotal + chipValue;
 
         if (client && newTotal > client.balance) {
-            alert('No tienes suficiente saldo para realizar esta apuesta');
+            setNotificationData({
+                winner: 'Saldo insuficiente',
+                winnings: 0,
+                isWin: false
+            });
+            setShowNotification(true);
             return;
         }
 
         onBet(chipValue, 'add')(betId);
     };
+
     const handleEndSpin = async (winner: string) => {
         // Agregar el resultado al historial
         setLastResults(prev => {
@@ -171,11 +225,13 @@ const RouletteGame: React.FC = () => {
         // Registrar la jugada en el backend
         await registerPlay(totalBet, winnings);
 
-        if (winnings > 0) {
-            alert(`¡La bola cayó en ${winner}! Has ganado ${winnings}!`);
-        } else {
-            alert(`La bola cayó en ${winner}. No has ganado en esta ronda.`);
-        }
+        // Mostrar notificación de resultado
+        setNotificationData({
+            winner: winner,
+            winnings: winnings,
+            isWin: winnings > 0
+        });
+        setShowNotification(true);
 
         setWheelStart(false);
         clearBets();
@@ -209,126 +265,95 @@ const RouletteGame: React.FC = () => {
     // Componente para los botones de apuesta rápida por color
     const QuickColorBets = () => (
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-
-
+            {/* Contenido de QuickColorBets */}
         </div>
     );
+
     const landingNavLinks = [
         {label: "Home", href: "/home", isAnchor: true},
         {label: "Depositar", href: "/Transaccion", isAnchor: true}
     ];
+
     return (
         <>
+            <div className="roulette-background">
+                <NavBar
+                    navLinks={landingNavLinks}
+                    className="landing-navbar"
+                    variant="light"
+                    showBalance={true}
+                    playButtonLabel="Jugar"
+                    loginButtonLabel="Iniciar Sesión"
+                    registerButtonLabel="Registrarse"
+                />
 
-        <NavBar
-            navLinks={landingNavLinks}
-            className="landing-navbar"
-            variant="light"
-            showBalance={true}
-            playButtonLabel="Jugar"
-            loginButtonLabel="Iniciar Sesión"
-            registerButtonLabel="Registrarse"
-        />
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', padding: '20px', marginTop: '80px' }}>
+                {/* Notificación de resultado */}
+                <ResultNotification
+                    show={showNotification}
+                    winner={notificationData.winner}
+                    winnings={notificationData.winnings}
+                    isWin={notificationData.isWin}
+                    onClose={() => setShowNotification(false)}
+                />
 
-                {lastResults.length > 0 && (
-                    <div>
-                        <h3>Últimos resultados</h3>
-                        <ResultHistory />
-                    </div>
-                )}
-
-                <div style={{ marginBottom: '1rem' }}>
-                    <ChipList
-                        chips={chips}
-                        selectedChip={selectedChip}
-                        onChipPressed={setSelectedChip}
-                        budget={client ? client.balance : 0}
-                    />
-                </div>
-
-                <QuickColorBets />
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-                    <RouletteTable
-                        chips={chips}
-                        bets={bets}
-                        onBet={handleBet}
-                        readOnly={wheelStart}
-                    />
-
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', padding: '20px', marginTop: '80px' }}>
+                    {lastResults.length > 0 && (
                         <div>
-                            <RouletteWheel
-                                start={wheelStart}
-                                winningBet={winningBet}
-                                onSpinningEnd={handleEndSpin}
-                            />
+                            <h3>Últimos resultados</h3>
+                            <ResultHistory />
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                            <button
-                                onClick={handleSpin}
-                                disabled={wheelStart || !hasBets || isLoading}
-                                style={{
-                                    padding: '12px 24px',
-                                    backgroundColor: '#4CAF50',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '5px',
-                                    cursor: wheelStart || !hasBets || isLoading ? 'not-allowed' : 'pointer',
-                                    opacity: wheelStart || !hasBets || isLoading ? 0.7 : 1
-                                }}
-                            >
-                                {isLoading ? 'Procesando...' : 'Girar Ruleta'}
-                            </button>
-                            <button
-                                onClick={clearBets}
-                                disabled={wheelStart || !hasBets || isLoading}
-                                style={{
-                                    padding: '12px 24px',
-                                    backgroundColor: '#f44336',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '5px',
-                                    cursor: wheelStart || !hasBets || isLoading ? 'not-allowed' : 'pointer',
-                                    opacity: wheelStart || !hasBets || isLoading ? 0.7 : 1
-                                }}
-                            >
-                                Limpiar Apuestas
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                    )}
 
-                {betResults.length > 0 && (
-                    <div style={{ marginTop: '2rem' }}>
-                        <h3>Resultados de las apuestas</h3>
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '8px',
-                            maxHeight: '200px',
-                            overflowY: 'auto',
-                            padding: '10px',
-                            backgroundColor: '#f9f9f9',
-                            borderRadius: '5px'
-                        }}>
-                            {betResults.map((result, idx) => (
-                                <div key={idx} style={{
-                                    padding: '8px',
-                                    backgroundColor: result.isWin ? '#d4edda' : '#f8d7da',
-                                    borderRadius: '4px',
-                                    display: 'flex',
-                                    justifyContent: 'space-between'
-                                }}>
-                                    <span>Apuesta: {result.betId}</span>
-                                    <span>Monto: ${result.amount}</span>
-                                    <span>{result.isWin ? `Ganancia: $${result.win}` : 'Perdida'}</span>
-                                </div>
-                            ))}
-                        </div>
+                    <QuickColorBets />
+
+                    {/* SECCIÓN 1: RULETA CENTRADA */}
+                    <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '2rem' }}>
+                        <RouletteWheel
+                            start={wheelStart}
+                            winningBet={winningBet}
+                            onSpinningEnd={handleEndSpin}
+                        />
                     </div>
-                )}
+
+                    {/* SECCIÓN 2: BOTONES CENTRADOS */}
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '2rem' }}>
+                        <button
+                            onClick={handleSpin}
+                            disabled={wheelStart || !hasBets || isLoading}
+                            className="roulette-button spin-button"
+                        >
+                            {isLoading ? 'Procesando...' : 'Girar Ruleta'}
+                        </button>
+                        <button
+                            onClick={clearBets}
+                            disabled={wheelStart || !hasBets || isLoading}
+                            className="roulette-button clear-button"
+                        >
+                            Limpiar Apuestas
+                        </button>
+                    </div>
+
+                    {/* SECCIÓN 3: TABLA DE APUESTAS */}
+                    <div style={{ marginBottom: '2rem' }}>
+                        <RouletteTable
+                            chips={chips}
+                            bets={bets}
+                            onBet={handleBet}
+                            readOnly={wheelStart}
+                        />
+                    </div>
+
+                    {/* SECCIÓN 4: LISTA DE FICHAS */}
+                    <div style={{ marginBottom: '2rem' }}>
+                        <ChipList
+                            chips={chips}
+                            selectedChip={selectedChip}
+                            onChipPressed={setSelectedChip}
+                            budget={client ? client.balance : 0}
+                        />
+                    </div>
+
+                </div>
             </div>
         </>
     );
