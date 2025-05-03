@@ -6,8 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Subo Friends Andando">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/FriendStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/FriendStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/FriendsPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/FriendsPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/leaderboardApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/leaderboardApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/LeaderBoard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/LeaderBoard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/LeaderboardContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/LeaderboardContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/RouletteGame.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/RouletteGame.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/leaderboardRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/leaderboardRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/leaderboardService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/leaderboardService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +36,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="Eliseo" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -176,6 +180,7 @@
       <workItem from="1746191501505" duration="10651000" />
       <workItem from="1746203466615" duration="6509000" />
       <workItem from="1746230255668" duration="1896000" />
+      <workItem from="1746296110258" duration="427000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
