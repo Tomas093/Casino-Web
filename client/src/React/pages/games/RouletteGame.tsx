@@ -24,6 +24,7 @@ const chips = {
     '500': cyanChip,
 };
 
+
 // ID del juego de ruleta
 const ROULETTE_GAME_ID = 2;
 
