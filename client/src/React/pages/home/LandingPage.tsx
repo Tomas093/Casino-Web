@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import '@css/LandingPageStyle.css';
 import backgroundVideo from "@assets/backgroundVideo.mp4";
 import {FaChevronDown} from 'react-icons/fa';
@@ -7,7 +7,6 @@ import Footer from "@components/Footer.tsx";
 import NavBar from "@components/NavBar.tsx";
 import {useAuth} from "@context/AuthContext.tsx";
 import {useUser} from "@context/UserContext.tsx";
-import { useNavigate } from 'react-router-dom';
 
 
 const LandingPage: React.FC = () => {

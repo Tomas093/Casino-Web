@@ -1,7 +1,7 @@
 import * as React from "react";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts";
-import { useEffect, useState } from "react";
-import { useTransaction } from "@context/TransactionContext";
+import {useEffect, useState} from "react";
+import {Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip} from "recharts";
+import {useTransaction} from "@context/TransactionContext";
 import '@css/PieChartStyle.css';
 
 interface IngresoStats {

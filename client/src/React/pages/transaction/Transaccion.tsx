@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import '@css/LandingPageStyle.css';
 import '@css/TransaccionStyle.css';
 import Footer from '@components//Footer';
 import NavBar from '@components//NavBar';
-import { useAuth } from '@context/AuthContext';
-import { useUser } from "@context/UserContext.tsx";
-import { useTransaction } from "@context/TransactionContext.tsx";
-import { useLimitContext } from "@context/LimitContext.tsx";
+import {useAuth} from '@context/AuthContext';
+import {useUser} from "@context/UserContext.tsx";
+import {useTransaction} from "@context/TransactionContext.tsx";
+import {useLimitContext} from "@context/LimitContext.tsx";
 
 // Métodos disponibles
 const METODOS_INGRESO = [

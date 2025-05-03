@@ -4,11 +4,10 @@ import {useUser} from "@context/UserContext.tsx";
 import Sidebar from '@components//SideBar.tsx';
 import '@css/ProfileStyle.css';
 import ImageUpload from '@components/ImageUpload';
-import {useEffect, useState} from 'react';
-
+import {useCallback, useEffect, useState} from 'react';
 
 const ProfilePage: React.FC = () => {
-    const {user} = useAuth();
+    const {user, updateUserData} = useAuth(); // Usamos updateUserData en lugar de setUser
     const {client, getUserData, editUser} = useUser();
     const [, setProfileImage] = useState<string | null>(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -23,17 +22,25 @@ const ProfilePage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
 
+    // Función para cargar los datos del usuario
+    const loadUserData = useCallback(async () => {
+        if (user?.usuarioid) {
+            try {
+                await getUserData(user.usuarioid.toString());
+
+                if (user.img) {
+                    setProfileImage(`http://localhost:3001${user.img}`);
+                }
+            } catch (err) {
+                console.error("Error al cargar datos del usuario:", err);
+            }
+        }
+    }, [user?.usuarioid, getUserData]);
+
     // Cargar datos iniciales
     useEffect(() => {
-        if (user?.img) {
-            setProfileImage(`http://localhost:3001${user.img}`);
-        }
-
-        // Recargar datos del usuario
-        if (user?.usuarioid) {
-            getUserData(user.usuarioid.toString());
-        }
-    }, [user?.usuarioid]);
+        loadUserData();
+    }, [loadUserData]);
 
     // Actualizar formulario cuando cambian los datos del usuario
     useEffect(() => {
@@ -42,22 +49,26 @@ const ProfilePage: React.FC = () => {
                 nombre: user.nombre || '',
                 apellido: user.apellido || '',
                 email: user.email || '',
-                edad: parseInt(user.edad) || 0,
+                edad: parseInt(user.edad?.toString() || '0') || 0,
                 dni: user.dni || ''
             });
         }
     }, [user]);
 
-    const onImageUploaded = (imageUrl: string) => {
+    const onImageUploaded = async (imageUrl: string) => {
+        // Actualizamos la imagen en el estado local del componente
         setProfileImage(`http://localhost:3001${imageUrl}`);
-        if (user?.usuarioid) {
-            getUserData(user.usuarioid.toString());
-        }
+
+        // Actualizamos la imagen en el contexto de Auth y en localStorage
+        // Pasamos solo la ruta relativa, tal como viene de la API
+        updateUserData({ img: imageUrl });
+
+        // Ahora ya no necesitamos recargar los datos del usuario porque
+        // ya hemos actualizado todo manualmente
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
-        console.log(`Cambiando ${name} a ${value}`); // Debugging
         setFormData(prev => ({
             ...prev,
             [name]: name === 'edad' ? parseInt(value) || 0 : value
@@ -82,7 +93,7 @@ const ProfilePage: React.FC = () => {
                 nombre: formData.nombre,
                 apellido: formData.apellido,
                 email: formData.email,
-                edad: parseInt(user.edad) || 0,
+                edad: parseInt(user.edad?.toString() || '0') || 0,
                 dni: user.dni,
                 balance: client?.balance || 0,
                 influencer: client?.influencer || false
@@ -90,8 +101,15 @@ const ProfilePage: React.FC = () => {
 
             await editUser(user.usuarioid.toString(), updatedData);
 
-            // Recargar explícitamente los datos del usuario
-            await getUserData(user.usuarioid.toString());
+            // Actualizar el contexto de usuario y localStorage
+            updateUserData({
+                nombre: formData.nombre,
+                apellido: formData.apellido,
+                email: formData.email
+            });
+
+            // Recargar completamente los datos del usuario
+            await loadUserData();
 
             setSuccess('Información actualizada correctamente');
             setIsEditing(false);
@@ -108,7 +126,7 @@ const ProfilePage: React.FC = () => {
                 nombre: user.nombre || '',
                 apellido: user.apellido || '',
                 email: user.email || '',
-                edad: parseInt(user.edad) || 0,
+                edad: parseInt(user.edad?.toString() || '0') || 0,
                 dni: user.dni || ''
             });
         }

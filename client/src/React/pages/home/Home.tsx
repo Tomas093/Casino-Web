@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import '@css/HomeStyle.css';
 import slotImg from '@assets/slots.jpg';
 import ruletaImg from '@assets/ruleta.jpg';
@@ -7,8 +7,8 @@ import dadosImg from '@assets/dados.jpg';
 import AnimatedCounter from "../../animations/AnimatedCounter";
 import Footer from '@components/Footer';
 import NavBar from "@components/NavBar.tsx";
-import { useUser } from "@context/UserContext.tsx";
-import { useAuth } from "@context/AuthContext.tsx";
+import {useUser} from "@context/UserContext.tsx";
+import {useAuth} from "@context/AuthContext.tsx";
 import LeaderBoard from "@components/LeaderBoard";
 
 interface GameCardProps {

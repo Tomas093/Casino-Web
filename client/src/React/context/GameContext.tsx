@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import gameApi, { GameData } from '../api/gameApi';
+import React, {createContext, ReactNode, useContext, useEffect, useState} from 'react';
+import gameApi, {GameData} from '../api/gameApi';
 
 // Definir la interfaz del contexto
 interface GameContextType {

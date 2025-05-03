@@ -1,8 +1,8 @@
 // AdminRoutes.tsx
-import { useEffect, useState } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '@context/AuthContext';
-import { useAdmin } from  '@context/AdminContext.tsx'
+import {useEffect, useState} from 'react';
+import {Navigate, Outlet} from 'react-router-dom';
+import {useAuth} from '@context/AuthContext';
+import {useAdmin} from '@context/AdminContext.tsx'
 
 const AdminOnlyRoutes = () => {
     const { isLoading } = useAuth();

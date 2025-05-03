@@ -1,129 +1,227 @@
 import {PrismaClient} from '@prisma/client';
 
+type Timeframe = 'day' | 'month' | 'year' | 'historical' | 'all';
+type OrderByField = 'retorno' | 'apuesta';
+
 const prisma = new PrismaClient();
 
+function buildDateFilter(timeframe: Timeframe, refDate: Date = new Date()) {
+    if (timeframe === 'historical' || timeframe === 'all') return undefined;
+
+    const start = new Date(refDate);
+    const end = new Date(refDate);
+
+    switch (timeframe) {
+        case 'day':
+            start.setHours(0, 0, 0, 0);
+            end.setHours(23, 59, 59, 999);
+            break;
+        case 'month':
+            start.setDate(1);
+            start.setHours(0, 0, 0, 0);
+            end.setMonth(start.getMonth() + 1, 0);
+            end.setHours(23, 59, 59, 999);
+            break;
+        case 'year':
+            start.setMonth(0, 1);
+            start.setHours(0, 0, 0, 0);
+            end.setFullYear(start.getFullYear() + 1, 0, 0);
+            end.setHours(23, 59, 59, 999);
+            break;
+    }
+
+    return {gte: start, lte: end};
+}
+
+async function getTopPlays(
+    limit: number,
+    timeframe: Timeframe,
+    orderByField: OrderByField,
+    date?: Date
+) {
+    try {
+        const df = buildDateFilter(timeframe, date);
+
+        return prisma.jugada.findMany({
+            where: df ? {fecha: df} : {},
+            include: {
+                cliente: {
+                    include: {
+                        usuario: {
+                            select: {
+                                usuarioid: true,
+                                nombre: true,
+                                apellido: true,
+                                img: true
+                            }
+                        }
+                    }
+                },
+                juego: {
+                    select: {
+                        nombre: true
+                    }
+                }
+            },
+            orderBy: {
+                [orderByField]: 'desc'
+            },
+            take: limit
+        }).then(plays => {
+            return plays.map(play => ({
+                ...play,
+                juegoNombre: play.juego?.nombre || 'Unknown'
+            }));
+        });
+    } catch (error) {
+        console.error(`Error in getTopPlays (${orderByField}):`, error);
+        return [];
+    }
+}
+
+async function getClientAggregations(
+    limit: number,
+    timeframe: Timeframe,
+    date?: Date
+) {
+    try {
+        const df = buildDateFilter(timeframe, date);
+
+        return prisma.cliente.findMany({
+            select: {
+                clienteid: true,
+                balance: true,
+                usuario: {
+                    select: {
+                        nombre: true,
+                        apellido: true,
+                        img: true
+                    }
+                },
+                jugada: df ? {
+                    where: {fecha: df},
+                    select: {
+                        retorno: true,
+                        apuesta: true
+                    }
+                } : {
+                    select: {
+                        retorno: true,
+                        apuesta: true
+                    }
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Error in getClientAggregations:', error);
+        return [];
+    }
+}
+
 export const leaderboardService = {
-
-    // get Top 10 players with the highest balance
-    async getTop10PlayersBalance() {
+    async getTopPlayersByPlays(
+        limit: number = 10,
+        timeframe: Timeframe = 'historical',
+        date?: Date
+    ) {
         try {
-            return await prisma.cliente.findMany({
+            const dateFilter = buildDateFilter(timeframe, date);
+            const players = await prisma.cliente.findMany({
                 include: {
-                    usuario: {
-                        select: {
-                            usuarioid: true,
-                            nombre: true,
-                            apellido: true,
-                            img: true // Añadido el campo img
-                        }
-                    }
+                    usuario: {select: {usuarioid: true, nombre: true, apellido: true, img: true}},
+                    jugada: true
                 },
-                orderBy: {
-                    balance: 'desc'
-                },
-                take: 10
+                where: dateFilter ? {jugada: {some: {fecha: dateFilter}}} : {}
             });
+            return players
+                .map(player => ({
+                    clienteid: player.clienteid,
+                    nombre: player.usuario.nombre,
+                    apellido: player.usuario.apellido,
+                    img: player.usuario.img,
+                    jugadaCount: player.jugada.length
+                }))
+                .sort((a, b) => b.jugadaCount - a.jugadaCount)
+                .slice(0, limit);
         } catch (error) {
-            throw new Error('Error al obtener los mejores jugadores');
+            console.error('Error in getTopPlayersByPlays:', error);
+            return [];
         }
     },
 
-    // get Top 10 players with the highest number of plays
-    async getTop10PlayersPlays() {
+    async getTopPlaysByReturn(
+        limit: number = 10,
+        timeframe: Timeframe = 'historical',
+        date?: Date
+    ) {
+        return getTopPlays(limit, timeframe, 'retorno', date);
+    },
+
+    async getTopPlaysByBet(
+        limit: number = 10,
+        timeframe: Timeframe = 'historical',
+        date?: Date
+    ) {
+        return getTopPlays(limit, timeframe, 'apuesta', date);
+    },
+
+    async getCumulativeEarnings(
+        limit: number = 10,
+        timeframe: Timeframe = 'historical',
+        date?: Date
+    ) {
         try {
-            return await prisma.cliente.findMany({
-                include: {
-                    usuario: {
-                        select: {
-                            usuarioid: true,
-                            nombre: true,
-                            apellido: true,
-                            img: true
-                        }
-                    },
-                    jugada: true // Corrected property name
-                },
-                orderBy: {
-                    jugada: {
-                        _count: 'desc' // Corrected property name
-                    }
-                },
-                take: 10
-            });
+            const results = await getClientAggregations(limit, timeframe, date);
+
+            return results.map(client => {
+                const totalRetorno = client.jugada.reduce((sum, j) => sum + Number(j.retorno), 0);
+                const totalApuesta = client.jugada.reduce((sum, j) => sum + Number(j.apuesta), 0);
+                const totalReturn = totalRetorno - totalApuesta;
+
+                return {
+                    clienteid: client.clienteid,
+                    nombre: client.usuario.nombre,
+                    apellido: client.usuario.apellido,
+                    img: client.usuario.img,
+                    totalReturn
+                };
+            })
+                .sort((a, b) => b.totalReturn - a.totalReturn)
+                .slice(0, limit);
         } catch (error) {
-            throw new Error('Error al obtener los mejores jugadores');
+            console.error('Error in getCumulativeEarnings:', error);
+            return [];
         }
     },
 
-    // get Top 10 players with the highest average return
-    async getTop10PlayersAverageReturn() {
+    async getTopByPercentageGain(
+        limit: number = 10,
+        timeframe: Timeframe = 'historical',
+        date?: Date
+    ) {
         try {
-            const players = await prisma.jugada.groupBy({
-                by: ['clienteid'],
-                _avg: {
-                    retorno: true
-                },
-                orderBy: {
-                    _avg: {
-                        retorno: 'desc'
-                    }
-                },
-                take: 10
-            });
+            const results = await getClientAggregations(limit, timeframe, date);
 
-            return await Promise.all(
-                players.map(async (player) => {
-                    // Verificamos si clienteid es null
-                    if (player.clienteid === null) {
-                        return { averageReturn: player._avg.retorno ?? 0 };
-                    }
+            return results.map(client => {
+                const totalRetorno = client.jugada.reduce((sum, j) => sum + Number(j.retorno), 0);
+                const totalApuesta = client.jugada.reduce((sum, j) => sum + Number(j.apuesta), 0);
+                const percentGain = totalApuesta > 0 ? totalRetorno / totalApuesta : 0;
 
-                    const cliente = await prisma.cliente.findUnique({
-                        where: { clienteid: player.clienteid },
-                        include: {
-                            usuario: {
-                                select: {
-                                    usuarioid: true,
-                                    nombre: true,
-                                    apellido: true,
-                                    img: true // Añadido el campo img
-                                }
-                            }
-                        }
-                    });
-                    return { ...cliente, averageReturn: player._avg.retorno ?? 0 };
-                })
-            );
+                return {
+                    clienteid: client.clienteid,
+                    nombre: client.usuario.nombre,
+                    apellido: client.usuario.apellido,
+                    img: client.usuario.img,
+                    percentGain,
+                    saldo: client.balance
+                };
+            })
+                .filter(client => client.percentGain > 0)
+                .sort((a, b) => b.percentGain - a.percentGain)
+                .slice(0, limit);
         } catch (error) {
-            throw new Error('Error al obtener los mejores jugadores');
-        }
-    },
-
-    // get Top 10 players with the highest returns
-    async getTop10PlayersReturns() {
-        try {
-            return await prisma.jugada.findMany({
-                include: {
-                    cliente: {
-                        include: {
-                            usuario: {
-                                select: {
-                                    usuarioid: true,
-                                    nombre: true,
-                                    apellido: true,
-                                    img: true // Añadido el campo img
-                                }
-                            }
-                        }
-                    }
-                },
-                orderBy: {
-                    retorno: 'desc'
-                },
-                take: 10
-            });
-        } catch (error) {
-            throw new Error('Error al obtener los mejores jugadores');
+            console.error('Error in getTopByPercentageGain:', error);
+            return [];
         }
     }
 };

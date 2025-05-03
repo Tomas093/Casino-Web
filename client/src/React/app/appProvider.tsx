@@ -8,6 +8,7 @@ import {HistoryProvider} from '@context/HistoryContext.tsx'
 import {GameProvider} from '@context/GameContext'
 import {LeaderboardProvider} from '@context/LeaderboardContext.tsx'
 import {LimitProvider} from '@context/LimitContext.tsx'
+import {FriendRequestProvider} from '@context/FriendRequestContext.tsx';
 
 interface AppProviderProps {
     children: ReactNode;
@@ -24,7 +25,9 @@ export const AppProvider = ({children}: AppProviderProps) => {
                                 <GameProvider>
                                     <LeaderboardProvider>
                                         <LimitProvider>
-                                            {children}
+                                            <FriendRequestProvider>
+                                                {children}
+                                            </FriendRequestProvider>
                                         </LimitProvider>
                                     </LeaderboardProvider>
                                 </GameProvider>

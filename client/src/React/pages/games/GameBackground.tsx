@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import '@css/GameBackgroundStyle.css';
 
 interface GameBackgroundProps {

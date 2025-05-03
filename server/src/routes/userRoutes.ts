@@ -1,7 +1,8 @@
-import { Router, Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-import { isAuthenticated, isAdmin } from '../middlewares/authMiddleware';
-import { userService } from '../services/userService';
+import {Request, Response, Router} from 'express';
+import {PrismaClient} from '@prisma/client';
+import {isAuthenticated} from '../middlewares/authMiddleware';
+import {userService} from '../services/userService';
+
 const router = Router();
 const prisma = new PrismaClient();
 

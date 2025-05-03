@@ -19,12 +19,12 @@ model administrador {
 }
 
 model amistad {
-  amistadid                           Int      @id @default(autoincrement())
-  clienteid                           Int?
-  cliente2id                          Int?
-  aceptada                            Boolean?
-  cliente_amistad_cliente2idTocliente cliente? @relation("amistad_cliente2idTocliente", fields: [cliente2id], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
-  cliente_amistad_clienteidTocliente  cliente? @relation("amistad_clienteidTocliente", fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
+  id_amistad                           Int       @id @default(autoincrement())
+  usuario1_id                          Int
+  usuario2_id                          Int
+  fecha_creacion                       DateTime? @default(now()) @db.Timestamp(6)
+  usuario_amistad_usuario1_idTousuario usuario   @relation("amistad_usuario1_idTousuario", fields: [usuario1_id], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
+  usuario_amistad_usuario2_idTousuario usuario   @relation("amistad_usuario2_idTousuario", fields: [usuario2_id], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model aumentolimitehorario {
@@ -50,27 +50,25 @@ model aumentolimitesmonetario {
 }
 
 model cliente {
-  clienteid                           Int                          @id @default(autoincrement())
-  balance                             BigInt?
-  influencer                          Boolean?
-  usuarioid                           Int                          @unique
-  amistad_amistad_cliente2idTocliente amistad[]                    @relation("amistad_cliente2idTocliente")
-  amistad_amistad_clienteidTocliente  amistad[]                    @relation("amistad_clienteidTocliente")
-  aumentolimitehorario                aumentolimitehorario[]
-  aumentolimitesmonetario             aumentolimitesmonetario[]
-  usuario                             usuario                      @relation(fields: [usuarioid], references: [usuarioid], onDelete: Cascade)
-  disminucionlimitehorario            disminucionlimitehorario[]
-  disminucionlimitemonetario          disminucionlimitemonetario[]
-  egreso                              egreso[]
-  ingreso                             ingreso[]
-  jugada                              jugada[]
-  limitehorario                       limitehorario?
-  limitemonetario                     limitemonetario?
-  partida                             partida[]
-  pausa                               pausa?
-  suspendidos                         suspendidos[]
-  tickets                             tickets[]
-  tiempodejuego                       tiempodejuego[]
+  clienteid                  Int                          @id @default(autoincrement())
+  balance                    BigInt?
+  influencer                 Boolean?
+  usuarioid                  Int                          @unique
+  aumentolimitehorario       aumentolimitehorario[]
+  aumentolimitesmonetario    aumentolimitesmonetario[]
+  usuario                    usuario                      @relation(fields: [usuarioid], references: [usuarioid], onDelete: Cascade)
+  disminucionlimitehorario   disminucionlimitehorario[]
+  disminucionlimitemonetario disminucionlimitemonetario[]
+  egreso                     egreso[]
+  ingreso                    ingreso[]
+  jugada                     jugada[]
+  limitehorario              limitehorario?
+  limitemonetario            limitemonetario?
+  partida                    partida[]
+  pausa                      pausa?
+  suspendidos                suspendidos[]
+  tickets                    tickets[]
+  tiempodejuego              tiempodejuego[]
 }
 
 model disminucionlimitehorario {
@@ -209,14 +207,28 @@ model tiempodejuego {
 }
 
 model usuario {
-  usuarioid     Int            @id @default(autoincrement())
-  nombre        String?        @db.VarChar(255)
-  apellido      String?        @db.VarChar(255)
-  email         String?        @unique @db.VarChar(255)
-  password      String?        @db.VarChar(255)
-  dni           String?
-  edad          String?
-  img           String?
-  administrador administrador?
-  cliente       cliente?
+  usuarioid                                                   Int                  @id @default(autoincrement())
+  nombre                                                      String?              @db.VarChar(255)
+  apellido                                                    String?              @db.VarChar(255)
+  email                                                       String?              @unique @db.VarChar(255)
+  password                                                    String?              @db.VarChar(255)
+  dni                                                         String?
+  img                                                         String?
+  edad                                                        String?
+  administrador                                               administrador?
+  amistad_amistad_usuario1_idTousuario                        amistad[]            @relation("amistad_usuario1_idTousuario")
+  amistad_amistad_usuario2_idTousuario                        amistad[]            @relation("amistad_usuario2_idTousuario")
+  cliente                                                     cliente?
+  solicitudesamistad_solicitudesamistad_id_receptorTousuario  solicitudesamistad[] @relation("solicitudesamistad_id_receptorTousuario")
+  solicitudesamistad_solicitudesamistad_id_remitenteTousuario solicitudesamistad[] @relation("solicitudesamistad_id_remitenteTousuario")
+}
+
+model solicitudesamistad {
+  id_solicitud                                     Int       @id @default(autoincrement())
+  id_remitente                                     Int
+  id_receptor                                      Int
+  estado                                           String    @db.VarChar(20)
+  fecha_creacion                                   DateTime? @default(now()) @db.Timestamp(6)
+  usuario_solicitudesamistad_id_receptorTousuario  usuario   @relation("solicitudesamistad_id_receptorTousuario", fields: [id_receptor], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
+  usuario_solicitudesamistad_id_remitenteTousuario usuario   @relation("solicitudesamistad_id_remitenteTousuario", fields: [id_remitente], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
 }
