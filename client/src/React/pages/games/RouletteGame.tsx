@@ -3,10 +3,12 @@ import {ChipList, RouletteTable, RouletteWheel, useRoulette} from 'react-casino-
 import 'react-casino-roulette/dist/index.css';
 import '@css/NavBarStyle.css';
 import "@css/NewStyle.css"
-import whiteChip from '@assets/ficha11.png';
-import blueChip from '@assets/ficha10.png';
-import blackChip from '@assets/ficha50.png';
-import cyanChip from '@assets/ficha100.png';
+import oneChip from '@assets/ficha1.png';
+import tenChip from '@assets/ficha10.png';
+import fiftyChip from '@assets/ficha50.png';
+import oneHundredChip from '@assets/ficha100.png';
+import fiveHundredChip from '@assets/ficha500.png';
+import oneThousandChip from '@assets/ficha1000.png';
 import {useAuth} from "@context/AuthContext.tsx";
 import {usePlay} from '@context/PlayContext.tsx';
 import {useUser} from '@context/UserContext';
@@ -18,12 +20,13 @@ const BLACK_NUMBERS = ['2', '4', '6', '8', '10', '11', '13', '15', '17', '20', '
 
 // Definición de los chips
 const chips = {
-    '1': whiteChip,
-    '10': blueChip,
-    '100': blackChip,
-    '500': cyanChip,
+    '1': oneChip,
+    '10': tenChip,
+    '50': fiftyChip,
+    '100': oneHundredChip,
+    '500': fiveHundredChip,
+    '1000': oneThousandChip,
 };
-
 
 // ID del juego de ruleta
 const ROULETTE_GAME_ID = 2;
@@ -73,6 +76,41 @@ const ResultNotification = ({ show, winner, winnings, isWin, onClose }) => {
     );
 };
 
+// Nueva notificación específica para saldo insuficiente
+const InsufficientBalanceNotification = ({ show, onClose }) => {
+    useEffect(() => {
+        if (show) {
+            const timer = setTimeout(() => {
+                onClose();
+            }, 5000); // Cerrar automáticamente después de 5 segundos
+
+            return () => clearTimeout(timer);
+        }
+    }, [show, onClose]);
+
+    if (!show) return null;
+
+    return (
+        <div className="result-notification-backdrop">
+            <div className="result-notification insufficient-balance">
+                <div className="notification-icon">
+                    💰
+                </div>
+                <div className="notification-content">
+                    <h3 className="notification-title">SALDO INSUFICIENTE</h3>
+                    <p className="notification-message">
+                        No tienes suficiente saldo para realizar esta apuesta.
+                    </p>
+                    <p className="notification-result">
+                        Por favor, realiza un depósito para continuar jugando.
+                    </p>
+                </div>
+                <button className="notification-close" onClick={onClose}>×</button>
+            </div>
+        </div>
+    );
+};
+
 const RouletteGame: React.FC = () => {
     const [selectedChip, setSelectedChip] = useState('1');
     const [winningBet, setWinningBet] = useState('-1');
@@ -80,13 +118,15 @@ const RouletteGame: React.FC = () => {
     const [lastResults, setLastResults] = useState<string[]>([]);
     const [betResults, setBetResults] = useState<BetResult[]>([]);
     const [showNotification, setShowNotification] = useState(false);
+    const [showInsufficientBalance, setShowInsufficientBalance] = useState(false);
     const [notificationData, setNotificationData] = useState({ winner: '', winnings: 0, isWin: false });
-
     const { user } = useAuth();
     const { createPlay, isLoading } = usePlay();
     const { client, getUserData } = useUser();
-
     const { bets, onBet, clearBets, total: totalBet, hasBets } = useRoulette();
+    const [betHistory, setBetHistory] = useState<{ betId: string; amount: number }[]>([]);
+
+
 
     // Función para determinar si un número es rojo o negro
     const getNumberColor = (number: string): 'red' | 'black' | 'green' => {
@@ -103,14 +143,12 @@ const RouletteGame: React.FC = () => {
         }
 
         if (!client) {
-            setNotificationData({ winner: '', winnings: 0, isWin: false });
-            setShowNotification(true);
+            setShowInsufficientBalance(true);
             return;
         }
 
         if (totalBet > client.balance) {
-            setNotificationData({ winner: '', winnings: 0, isWin: false });
-            setShowNotification(true);
+            setShowInsufficientBalance(true);
             return;
         }
 
@@ -118,6 +156,11 @@ const RouletteGame: React.FC = () => {
         const randomNumber = String(Math.floor(Math.random() * 37));
         setWinningBet(randomNumber);
         setWheelStart(true);
+        //
+        //
+        // CAPAZ ESTO ESTA MAL
+        clearBets();
+        setBetHistory([]);
     };
 
     const calculateWinnings = (winner: string) => {
@@ -201,17 +244,22 @@ const RouletteGame: React.FC = () => {
         const currentBetTotal = totalBet;
         const newTotal = currentBetTotal + chipValue;
 
+        // Verificar si el cliente tiene saldo suficiente
         if (client && newTotal > client.balance) {
-            setNotificationData({
-                winner: 'Saldo insuficiente',
-                winnings: 0,
-                isWin: false
-            });
-            setShowNotification(true);
+            setShowInsufficientBalance(true);
             return;
         }
 
         onBet(chipValue, 'add')(betId);
+        setBetHistory((prev) => [...prev, { betId, amount: chipValue }]);
+    };
+
+    const handleUndoLastBet = () => {
+        if (betHistory.length === 0) return;
+
+        const lastBet = betHistory[betHistory.length - 1];
+        onBet(lastBet.amount, 'remove')(lastBet.betId); // Quitar la última ficha
+        setBetHistory((prev) => prev.slice(0, -1));     // Actualizar historial
     };
 
     const handleEndSpin = async (winner: string) => {
@@ -271,6 +319,8 @@ const RouletteGame: React.FC = () => {
         </div>
     );
 
+
+
     const landingNavLinks = [
         {label: "Home", href: "/home", isAnchor: true},
         {label: "Depositar", href: "/Transaccion", isAnchor: true}
@@ -298,7 +348,15 @@ const RouletteGame: React.FC = () => {
                     onClose={() => setShowNotification(false)}
                 />
 
+                {/* Notificación de saldo insuficiente */}
+                <InsufficientBalanceNotification
+                    show={showInsufficientBalance}
+                    onClose={() => setShowInsufficientBalance(false)}
+                />
+
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', padding: '20px', marginTop: '80px' }}>
+                    {/* Mostrar el balance actual */}
+
                     {lastResults.length > 0 && (
                         <div>
                             <h3>Últimos resultados</h3>
@@ -333,6 +391,13 @@ const RouletteGame: React.FC = () => {
                         >
                             Limpiar Apuestas
                         </button>
+                        <button
+                            onClick={handleUndoLastBet}
+                            disabled={wheelStart || betHistory.length === 0 || isLoading}
+                            className="roulette-button undo-button"
+                        >
+                            Deshacer Última
+                        </button>
                     </div>
 
                     {/* SECCIÓN 3: TABLA DE APUESTAS */}
@@ -351,7 +416,6 @@ const RouletteGame: React.FC = () => {
                             chips={chips}
                             selectedChip={selectedChip}
                             onChipPressed={setSelectedChip}
-                            budget={client ? client.balance : 0}
                         />
                     </div>
 
