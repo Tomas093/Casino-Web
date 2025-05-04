@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {ChevronRight, AlertCircle, SortAsc, SortDesc, Filter} from 'lucide-react';
+import {ChevronRight, SortAsc, SortDesc, Filter} from 'lucide-react';
 import {useAdmin} from '@context/AdminContext.tsx';
 import {useTicket} from '@context/TicketContext.tsx';
 import '@css/TicketViewStyle.css';
@@ -17,6 +17,7 @@ const styles = {
     idCell: 'id-cell',
     idIcon: 'id-icon',
     idText: 'id-text',
+    idBadge: 'id-badge',
     avatarContainer: 'avatar-container',
     avatarText: 'avatar-text',
     subjectText: 'subject-text',
@@ -382,40 +383,49 @@ const TicketsView = () => {
                     {formattedTickets.length > 0 ? (
                         <div className="overflow-x-auto rounded-lg border border-green-900 bg-black">
                             <div className="flex justify-between items-center mb-4">
-                                <h1 className="header">Tickets Recientes</h1>
+                                <h1 className="tickets-header">Tickets Recientes</h1>
                                 <div className="flex items-center">
                                     <div className="relative mr-4">
                                         <button
-                                            className={`filter-button ${priorityFilter ? 'active-filter' : ''}`}
+                                            className={`priority-filter-button ${priorityFilter ? 'active-priority-filter' : ''}`}
                                             onClick={() => setShowFilterDropdown(!showFilterDropdown)}
                                         >
                                             <Filter size={18}/>
                                             <span className="ml-2">Filtrar</span>
-                                            {priorityFilter && <span className="filter-badge">{priorityFilter}</span>}
+                                            {priorityFilter && (
+                                                <span
+                                                    className={`priority-filter-badge ${
+                                                        priorityFilter === 'High' ? 'priority-high-badge' :
+                                                            priorityFilter === 'Low' ? 'priority-low-badge' : ''
+                                                    }`}
+                                                >
+                                                    {priorityFilter}
+                                                </span>
+                                            )}
                                         </button>
 
                                         {showFilterDropdown && (
-                                            <div className="filter-dropdown">
+                                            <div className="priority-filter-dropdown">
                                                 <div
-                                                    className="filter-item"
+                                                    className="priority-filter-item"
                                                     onClick={() => filterByPriority(null)}
                                                 >
                                                     Todas
                                                 </div>
                                                 <div
-                                                    className="filter-item"
+                                                    className="priority-filter-item"
                                                     onClick={() => filterByPriority('High')}
                                                 >
                                                     Alta
                                                 </div>
                                                 <div
-                                                    className="filter-item"
+                                                    className="priority-filter-item"
                                                     onClick={() => filterByPriority('Medium')}
                                                 >
                                                     Media
                                                 </div>
                                                 <div
-                                                    className="filter-item"
+                                                    className="priority-filter-item"
                                                     onClick={() => filterByPriority('Low')}
                                                 >
                                                     Baja
@@ -455,9 +465,8 @@ const TicketsView = () => {
                                 <tbody>
                                 {filteredTickets.map((ticket) => (
                                     <tr key={ticket.id} className={styles.tableRow}>
-                                        <td className={styles.idCell}>
-                                            <AlertCircle size={16} className={styles.idIcon}/>
-                                            <span className={styles.idText}>{ticket.id.substring(0, 8)}...</span>
+                                        <td className={styles.idCell} title={`ID completo: ${ticket.id}`}>
+                                            <span className={styles.idBadge}>{ticket.id.substring(0, 6)}</span>
                                         </td>
                                         <td className={styles.tableCell}>
                                             <div className={styles.avatarContainer}>

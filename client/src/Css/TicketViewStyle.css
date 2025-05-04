@@ -220,8 +220,7 @@ body {
 }
 
 /* New styles for filtering and sorting */
-.filter-button,
-.sort-button {
+.priority-filter-button {
     display: flex;
     align-items: center;
     padding: 8px 12px;
@@ -233,50 +232,122 @@ body {
     transition: all 0.2s ease;
 }
 
-.filter-button:hover,
-.sort-button:hover {
+.priority-filter-button:hover {
     border-color: var(--gold);
     color: var(--gold-light);
 }
 
-.active-filter {
+.active-priority-filter {
     background-color: rgba(212, 175, 55, 0.1);
     border-color: var(--gold);
     color: var(--gold-light);
 }
 
-.filter-dropdown {
+.priority-filter-dropdown {
     position: absolute;
     top: 100%;
     left: 0;
-    right: 0;
+    right: auto;
     z-index: 10;
     background-color: var(--dark-gray);
     border: 1px solid var(--light-gray);
-    border-radius: 4px;
+    border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    margin-top: 4px;
+    margin-top: 8px;
+    padding: 8px 0;
+    min-width: 160px;
     overflow: hidden;
 }
 
-.filter-item {
-    padding: 8px 12px;
+.priority-filter-item {
+    padding: 10px 16px;
+    font-size: 14px;
+    color: var(--text-light);
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    text-align: left;
 }
 
-.filter-item:hover {
-    background-color: var(--light-gray);
-    color: var(--gold-light);
+.priority-filter-item:hover {
+    background-color: var(--gold-dark);
+    color: var(--black);
 }
 
-.filter-badge {
+.priority-filter-item:first-child {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.priority-filter-item:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.priority-filter-badge {
     background-color: var(--gold-dark);
     color: var(--black);
     border-radius: 9999px;
     padding: 2px 8px;
     font-size: 10px;
     margin-left: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.priority-high-badge {
+    background-color: var(--red);
+    color: var(--white);
+}
+
+.priority-low-badge {
+    background-color: var(--green);
+    color: var(--black);
+}
+
+/* Tooltip and ID text styles */
+.id-cell {
+    position: relative;
+    text-align: center;
+}
+
+.id-badge {
+    display: inline-block;
+    background-color: var(--gold-dark);
+    color: var(--black);
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.id-badge:hover {
+    background-color: var(--gold-light);
+    transform: scale(1.1);
+}
+
+.id-cell[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--dark-gray);
+    color: var(--text-light);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.id-cell[title]:not(:hover)::after {
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* Flex utilities */
@@ -315,3 +386,4 @@ body {
 .text-right {
     text-align: right;
 }
+
