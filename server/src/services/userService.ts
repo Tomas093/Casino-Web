@@ -29,7 +29,7 @@ export const userService = {
 
     // Obtener todos los usuarios (no administradores)
     getAllUsers: async () => {
-        const usuarios = await prisma.usuario.findMany({
+        return prisma.usuario.findMany({
             where: {
                 administrador: null
             },
@@ -39,6 +39,8 @@ export const userService = {
                 apellido: true,
                 email: true,
                 edad: true,
+                dni: true,
+                img: true,
                 cliente: {
                     select: {
                         clienteid: true,
@@ -48,8 +50,6 @@ export const userService = {
                 }
             }
         });
-
-        return usuarios;
     },
 
     // En server/src/services/userService.ts
@@ -145,5 +145,7 @@ export const userService = {
 
         return true;
     },
+
+
     
 };

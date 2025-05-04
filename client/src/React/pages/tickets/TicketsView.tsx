@@ -1,30 +1,39 @@
 import {useState, useEffect} from 'react';
-import {ChevronRight, AlertCircle} from 'lucide-react';
+import {ChevronRight, AlertCircle, SortAsc, SortDesc, Filter} from 'lucide-react';
 import {useAdmin} from '@context/AdminContext.tsx';
 import {useTicket} from '@context/TicketContext.tsx';
+import '@css/TicketViewStyle.css';
+import NavBar from '@components/NavBar';
 
-// Modern styling with gold, black and green palette
+// Modern styling with gold, black and green palette - Updated for dark background
 const styles = {
-    container: 'bg-dark-gray rounded-lg shadow-lg p-6 max-w-6xl mx-auto mt-8 text-white border border-gold-dark',
-    header: 'text-2xl font-bold mb-6 text-gold-light',
-    table: 'min-w-full',
-    tableHeader: 'text-left text-text-light border-b border-gold-dark',
-    tableHeaderCell: 'pb-3 font-medium',
-    tableRow: 'border-b border-light-gray hover:bg-light-gray transition-colors',
-    tableCell: 'py-4',
-    idCell: 'py-4 flex items-center text-text-light',
-    idIcon: 'mr-2 text-gold',
-    idText: 'text-sm',
-    avatarContainer: 'flex items-center',
-    avatarText: 'ml-2 text-gold-light',
-    subjectText: 'text-sm text-text-muted',
-    dateText: 'text-sm text-green-light',
-    actionButton: 'text-gold hover:text-gold-light transition-colors',
-    loadingContainer: 'flex justify-center items-center my-12',
-    loadingText: 'text-gold text-lg',
-    errorContainer: 'bg-red-dark/30 border border-red rounded-lg p-4 my-8 text-center',
-    errorText: 'text-red',
-    emptyContainer: 'text-center py-12 text-text-muted border border-light-gray rounded-lg mt-4',
+    container: 'container',
+    header: 'header',
+    table: 'table',
+    tableHeader: 'table-header',
+    tableHeaderCell: 'table-header-cell',
+    tableRow: 'table-row',
+    tableCell: 'table-cell',
+    idCell: 'id-cell',
+    idIcon: 'id-icon',
+    idText: 'id-text',
+    avatarContainer: 'avatar-container',
+    avatarText: 'avatar-text',
+    subjectText: 'subject-text',
+    dateText: 'date-text',
+    actionButton: 'action-button',
+    loadingContainer: 'loading-container',
+    loadingText: 'loading-text',
+    errorContainer: 'error-container',
+    errorText: 'error-text',
+    emptyContainer: 'empty-container',
+    pageWrapper: 'page-wrapper',
+    filterContainer: 'filter-container',
+    filterButton: 'filter-button',
+    filterDropdown: 'filter-dropdown',
+    filterItem: 'filter-item',
+    sortButton: 'sort-button',
+    activeFilter: 'active-filter'
 };
 
 // Ticket interface for the component
@@ -44,18 +53,18 @@ const StatusBadge = ({status}: { status: string }) => {
     const getStatusClass = () => {
         switch (status) {
             case 'Open':
-                return 'bg-green-900 text-green-300 border-green-600';
+                return 'status-open';
             case 'Pending':
-                return 'bg-amber-900 text-amber-300 border-amber-600';
+                return 'status-pending';
             case 'Closed':
-                return 'bg-gray-800 text-gray-400 border-gray-600';
+                return 'status-closed';
             default:
-                return 'bg-gray-800 text-gray-400 border-gray-600';
+                return 'status-closed';
         }
     };
 
     return (
-        <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusClass()}`}>
+        <span className={`status-badge ${getStatusClass()}`}>
           {status}
         </span>
     );
@@ -66,20 +75,20 @@ const PriorityIndicator = ({priority}: { priority: string }) => {
     const getColorClass = () => {
         switch (priority) {
             case 'High':
-                return 'text-green-400 bg-green-900';
+                return 'priority-high';
             case 'Medium':
-                return 'text-amber-400 bg-amber-900';
+                return 'priority-medium';
             case 'Low':
-                return 'text-amber-300 bg-amber-900/50';
+                return 'priority-low';
             default:
-                return 'text-gray-400 bg-gray-800';
+                return 'priority-medium';
         }
     };
 
     return (
-        <div className="flex items-center">
-            <div className={`w-2 h-2 rounded-full mr-2 ${getColorClass()}`}></div>
-            <span className={getColorClass().split(' ')[0]}>{priority}</span>
+        <div className="priority-indicator">
+            <div className={`priority-dot ${getColorClass()}`}></div>
+            <span>{priority}</span>
         </div>
     );
 };
@@ -92,36 +101,35 @@ const Avatar = ({name, color, img}: { name: string; color: string; img?: string 
         .join('')
         .substring(0, 2);
 
-    // Map old colors to new gold-black-green palette
     const getAvatarColor = () => {
         switch (color) {
             case 'bg-purple-500':
             case 'bg-yellow-500':
-                return 'bg-amber-600 text-black';
+                return 'avatar bg-amber-600';
             case 'bg-red-500':
-                return 'bg-green-700 text-black';
+                return 'avatar bg-green-700';
             case 'bg-blue-500':
-                return 'bg-amber-400 text-black';
+                return 'avatar bg-amber-400';
             case 'bg-gray-500':
             default:
-                return 'bg-green-500 text-black';
+                return 'avatar bg-green-500';
         }
     };
 
     if (img) {
         return (
-            <div className="w-8 h-8 rounded-full overflow-hidden border border-green-400">
+            <div className="avatar">
                 <img
                     src={`http://localhost:3001${img}`}
                     alt={`${name}`}
-                    className="w-full h-full object-cover"
+                    className="avatar"
                     onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.style.display = 'none';
                         const parent = target.parentElement;
                         if (parent) {
                             const div = document.createElement('div');
-                            div.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium border border-green-400 ${getAvatarColor()}`;
+                            div.className = getAvatarColor();
                             div.textContent = initials;
                             parent.appendChild(div);
                         }
@@ -132,9 +140,7 @@ const Avatar = ({name, color, img}: { name: string; color: string; img?: string 
     }
 
     return (
-        <div
-            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium border border-green-400 ${getAvatarColor()}`}
-        >
+        <div className={getAvatarColor()}>
             {initials}
         </div>
     );
@@ -144,9 +150,12 @@ const TicketsView = () => {
     const {isAdmin, isLoading: adminLoading, getAdminByUserId} = useAdmin();
     const {tickets, loading: ticketLoading, error, getTicketsByAdminId} = useTicket();
 
-    // Removed unused state variable to fix TS6133 warning
     const [formattedTickets, setFormattedTickets] = useState<Ticket[]>([]);
+    const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [priorityFilter, setPriorityFilter] = useState<string | null>(null);
+    const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+    const [sortDirection, setSortDirection] = useState<'asc' | 'desc' | null>(null);
 
     // Function to get current user ID from localStorage
     const getCurrentUserId = () => {
@@ -180,16 +189,28 @@ const TicketsView = () => {
 
     // Convert API tickets to the format needed for display
     const mapApiTicketsToViewFormat = (apiTickets: any[]): Ticket[] => {
-        return apiTickets.map(ticket => ({
-            id: ticket.ticketid?.toString() || ticket.id?.toString() || '0',
-            name: ticket.clienteNombre || `Cliente #${ticket.clienteid || ''}`,
-            subject: ticket.asunto || ticket.problema || 'Sin asunto',
-            status: mapStatus(ticket.resuelto !== undefined ? (ticket.resuelto ? 'cerrado' : 'abierto') : ticket.estado),
-            priority: mapPriority(ticket.prioridad),
-            created: new Date(ticket.fechacreacion || ticket.fecha_creacion).toLocaleDateString() || '',
-            avatar: getAvatarColor(ticket.clienteNombre || `Cliente #${ticket.clienteid || ''}`),
-            img: ticket.clienteImg || null
-        }));
+        return apiTickets.map(ticket => {
+            // Format full name from cliente.usuario if available
+            const clientName = ticket.cliente && ticket.cliente.usuario
+                ? `${ticket.cliente.usuario.nombre || ''} ${ticket.cliente.usuario.apellido || ''}`.trim()
+                : `Cliente #${ticket.clienteid || ''}`;
+
+            // Get client image if available
+            const clientImg = ticket.cliente && ticket.cliente.usuario && ticket.cliente.usuario.img
+                ? ticket.cliente.usuario.img
+                : null;
+
+            return {
+                id: ticket.ticketid?.toString() || ticket.id?.toString() || '0',
+                name: clientName,
+                subject: ticket.asunto || ticket.problema || 'Sin asunto',
+                status: mapStatus(ticket.resuelto !== undefined ? (ticket.resuelto ? 'cerrado' : 'abierto') : ticket.estado),
+                priority: mapPriority(ticket.prioridad),
+                created: new Date(ticket.fechacreacion || ticket.fecha_creacion).toLocaleDateString() || '',
+                avatar: getAvatarColor(clientName),
+                img: clientImg
+            };
+        });
     };
 
     // Map status values from API to component format
@@ -227,6 +248,49 @@ const TicketsView = () => {
                 return 'Medium';
         }
     };
+
+    // Toggle sort direction
+    const toggleSort = () => {
+        if (sortDirection === null) {
+            setSortDirection('asc');
+        } else if (sortDirection === 'asc') {
+            setSortDirection('desc');
+        } else {
+            setSortDirection(null);
+        }
+    };
+
+    // Filter tickets by priority
+    const filterByPriority = (priority: string | null) => {
+        setPriorityFilter(priority);
+        setShowFilterDropdown(false);
+    };
+
+    // Apply filters and sorting
+    useEffect(() => {
+        let result = [...formattedTickets];
+
+        // Apply priority filter if selected
+        if (priorityFilter) {
+            result = result.filter(ticket => ticket.priority === priorityFilter);
+        }
+
+        // Apply sorting if selected
+        if (sortDirection) {
+            const priorityOrder = {'High': 3, 'Medium': 2, 'Low': 1};
+
+            result.sort((a, b) => {
+                const valueA = priorityOrder[a.priority as keyof typeof priorityOrder];
+                const valueB = priorityOrder[b.priority as keyof typeof priorityOrder];
+
+                return sortDirection === 'asc'
+                    ? valueA - valueB
+                    : valueB - valueA;
+            });
+        }
+
+        setFilteredTickets(result);
+    }, [formattedTickets, priorityFilter, sortDirection]);
 
     useEffect(() => {
         const loadAdminTickets = async () => {
@@ -273,87 +337,163 @@ const TicketsView = () => {
     useEffect(() => {
         if (tickets && tickets.length > 0) {
             console.log("Received tickets:", tickets);
-            setFormattedTickets(mapApiTicketsToViewFormat(tickets));
+            const formatted = mapApiTicketsToViewFormat(tickets);
+            setFormattedTickets(formatted);
+            setFilteredTickets(formatted);
         } else {
             setFormattedTickets([]);
+            setFilteredTickets([]);
         }
     }, [tickets]);
 
     if (isLoading || adminLoading || ticketLoading) {
         return (
-            <div className={styles.loadingContainer}>
-                <div className={styles.loadingText}>Cargando tickets...</div>
+            <div className={styles.pageWrapper}>
+                <div className={styles.loadingContainer}>
+                    <div className={styles.loadingText}>Cargando tickets...</div>
+                </div>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className={styles.errorContainer}>
-                <div className={styles.errorText}>{error}</div>
+            <div className={styles.pageWrapper}>
+                <div className={styles.errorContainer}>
+                    <div className={styles.errorText}>{error}</div>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className={styles.container}>
-            <h1 className={styles.header}>Tickets Recientes</h1>
+        <>
+            <NavBar
+                navLinks={[
+                    {label: "Inicio", href: "/home"},
+                    {label: "Tickets", href: "/tickets"},
+                    {label: "Perfil", href: "/profile"}
+                ]}
+                logoText="Australis Casino"
+                variant="dark"
+            />
+            <div className={`${styles.pageWrapper} page-content`}>
+                <div className={styles.container}>
+                    {formattedTickets.length > 0 ? (
+                        <div className="overflow-x-auto rounded-lg border border-green-900 bg-black">
+                            <div className="flex justify-between items-center mb-4">
+                                <h1 className="header">Tickets Recientes</h1>
+                                <div className="flex items-center">
+                                    <div className="relative mr-4">
+                                        <button
+                                            className={`filter-button ${priorityFilter ? 'active-filter' : ''}`}
+                                            onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+                                        >
+                                            <Filter size={18}/>
+                                            <span className="ml-2">Filtrar</span>
+                                            {priorityFilter && <span className="filter-badge">{priorityFilter}</span>}
+                                        </button>
 
-            {formattedTickets.length > 0 ? (
-                <div className="overflow-x-auto rounded-lg border border-green-900">
-                    <table className={styles.table}>
-                        <thead>
-                        <tr className={styles.tableHeader}>
-                            <th className={styles.tableHeaderCell}>Id</th>
-                            <th className={styles.tableHeaderCell}>Cliente</th>
-                            <th className={styles.tableHeaderCell}>Asunto</th>
-                            <th className={styles.tableHeaderCell}>Estado</th>
-                            <th className={styles.tableHeaderCell}>Prioridad</th>
-                            <th className={styles.tableHeaderCell}>Creado</th>
-                            <th className={styles.tableHeaderCell}></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {formattedTickets.map((ticket) => (
-                            <tr key={ticket.id} className={styles.tableRow}>
-                                <td className={styles.idCell}>
-                                    <AlertCircle size={16} className={styles.idIcon}/>
-                                    <span className={styles.idText}>{ticket.id.substring(0, 8)}...</span>
-                                </td>
-                                <td className={styles.tableCell}>
-                                    <div className={styles.avatarContainer}>
-                                        <Avatar name={ticket.name} color={ticket.avatar} img={ticket.img}/>
-                                        <span className={styles.avatarText}>{ticket.name}</span>
+                                        {showFilterDropdown && (
+                                            <div className="filter-dropdown">
+                                                <div
+                                                    className="filter-item"
+                                                    onClick={() => filterByPriority(null)}
+                                                >
+                                                    Todas
+                                                </div>
+                                                <div
+                                                    className="filter-item"
+                                                    onClick={() => filterByPriority('High')}
+                                                >
+                                                    Alta
+                                                </div>
+                                                <div
+                                                    className="filter-item"
+                                                    onClick={() => filterByPriority('Medium')}
+                                                >
+                                                    Media
+                                                </div>
+                                                <div
+                                                    className="filter-item"
+                                                    onClick={() => filterByPriority('Low')}
+                                                >
+                                                    Baja
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
-                                </td>
-                                <td className={styles.tableCell}>
-                                    <span className={styles.subjectText}>{ticket.subject}</span>
-                                </td>
-                                <td className={styles.tableCell}>
-                                    <StatusBadge status={ticket.status}/>
-                                </td>
-                                <td className={styles.tableCell}>
-                                    <PriorityIndicator priority={ticket.priority}/>
-                                </td>
-                                <td className={styles.tableCell}>
-                                    <span className={styles.dateText}>{ticket.created}</span>
-                                </td>
-                                <td className={`${styles.tableCell} text-right`}>
-                                    <button className={styles.actionButton}>
-                                        <ChevronRight size={20}/>
+
+                                    <button
+                                        className={`sort-button ${sortDirection ? 'active-filter' : ''}`}
+                                        onClick={toggleSort}
+                                    >
+                                        {sortDirection === 'asc' ? (
+                                            <SortAsc size={18}/>
+                                        ) : sortDirection === 'desc' ? (
+                                            <SortDesc size={18}/>
+                                        ) : (
+                                            <SortAsc size={18} className="opacity-70"/>
+                                        )}
+                                        <span className="ml-2">Ordenar</span>
                                     </button>
-                                </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                                </div>
+                            </div>
+
+                            <table className={styles.table}>
+                                <thead>
+                                <tr className={styles.tableHeader}>
+                                    <th className={styles.tableHeaderCell}>Id</th>
+                                    <th className={styles.tableHeaderCell}>Cliente</th>
+                                    <th className={styles.tableHeaderCell}>Asunto</th>
+                                    <th className={styles.tableHeaderCell}>Estado</th>
+                                    <th className={styles.tableHeaderCell}>Prioridad</th>
+                                    <th className={styles.tableHeaderCell}>Creado</th>
+                                    <th className={styles.tableHeaderCell}></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {filteredTickets.map((ticket) => (
+                                    <tr key={ticket.id} className={styles.tableRow}>
+                                        <td className={styles.idCell}>
+                                            <AlertCircle size={16} className={styles.idIcon}/>
+                                            <span className={styles.idText}>{ticket.id.substring(0, 8)}...</span>
+                                        </td>
+                                        <td className={styles.tableCell}>
+                                            <div className={styles.avatarContainer}>
+                                                <Avatar name={ticket.name} color={ticket.avatar} img={ticket.img}/>
+                                                <span className={styles.avatarText}>{ticket.name}</span>
+                                            </div>
+                                        </td>
+                                        <td className={styles.tableCell}>
+                                            <span className={styles.subjectText}>{ticket.subject}</span>
+                                        </td>
+                                        <td className={styles.tableCell}>
+                                            <StatusBadge status={ticket.status}/>
+                                        </td>
+                                        <td className={styles.tableCell}>
+                                            <PriorityIndicator priority={ticket.priority}/>
+                                        </td>
+                                        <td className={styles.tableCell}>
+                                            <span className={styles.dateText}>{ticket.created}</span>
+                                        </td>
+                                        <td className={`${styles.tableCell} text-right`}>
+                                            <button className={styles.actionButton}>
+                                                <ChevronRight size={20}/>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (
+                        <div className={styles.emptyContainer}>No hay tickets asignados.</div>
+                    )}
                 </div>
-            ) : (
-                <div className={styles.emptyContainer}>No hay tickets asignados.</div>
-            )}
-        </div>
+            </div>
+        </>
     );
 };
 
 export default TicketsView;
-
