@@ -4,13 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add friends leaderboard feature; implement API, context, and UI for displaying friends' rankings">
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/tickets/AdminTickets.tsx" afterDir="false" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add friends leaderboard feature; update UI components and refactor Home page">
+      <change afterPath="$PROJECT_DIR$/client/src/Css/TicketViewStyle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/api/ticketApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/context/TicketContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/tickets/TicketsView.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/routes/ticketRoutes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/services/ticketService.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/HomeStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/HomeStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/adminApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/adminApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/appProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/appProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/AdminContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/AdminContext.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/middleware/authMiddleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/middleware/authMiddleware.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/adminRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/adminRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/historyRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/historyRoutes.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,9 +40,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
         <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -183,7 +197,10 @@
       <workItem from="1746297658828" duration="1071000" />
       <workItem from="1746305146088" duration="928000" />
       <workItem from="1746306824085" duration="851000" />
-      <workItem from="1746307751202" duration="629000" />
+      <workItem from="1746307751202" duration="2039000" />
+      <workItem from="1746311924875" duration="240000" />
+      <workItem from="1746312185935" duration="226000" />
+      <workItem from="1746312547293" duration="5628000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -497,7 +514,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746296652739</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Add friends leaderboard feature; update UI components and refactor Home page">
+      <option name="closed" value="true" />
+      <created>1746308558615</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1746308558615</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -530,7 +555,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Implement image upload functionality; add ImageUpload component and update ProfilePage and Sidebar components" />
     <MESSAGE value="Refactor AuthContext to improve user and client data handling; update Login and Sidebar components" />
     <MESSAGE value="Add delete specific account feature and fetch admins functionality" />
     <MESSAGE value="agrego columna emial a manager" />
@@ -555,6 +579,7 @@
     <MESSAGE value="Add friend management features; implement APIs for getting friends, searching users, and deleting friends" />
     <MESSAGE value="Subo Friends Andando" />
     <MESSAGE value="Add friends leaderboard feature; implement API, context, and UI for displaying friends' rankings" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add friends leaderboard feature; implement API, context, and UI for displaying friends' rankings" />
+    <MESSAGE value="Add friends leaderboard feature; update UI components and refactor Home page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add friends leaderboard feature; update UI components and refactor Home page" />
   </component>
 </project>

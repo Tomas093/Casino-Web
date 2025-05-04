@@ -228,4 +228,44 @@ router.put('/edit/:id', async (req: Request, res: Response): Promise<void> => {
     }
 });
 
+router.get('/getAdminByUserId/:id', async (req: Request, res: Response): Promise<void> => {
+    const {id} = req.params;
+
+    try {
+        const admin = await prisma.administrador.findUnique({
+            where: {usuarioid: Number(id)},
+            include: {
+                usuario: {
+                    include: {
+                        cliente: true
+                    }
+                }
+            }
+        });
+
+        if (!admin) {
+            res.status(404).json({message: 'Administrador no encontrado'});
+            return;
+        }
+
+        const dataConverted = {
+            ...admin,
+            usuario: {
+                ...admin.usuario,
+                cliente: admin.usuario.cliente
+                    ? {
+                        ...admin.usuario.cliente,
+                        balance: Number(admin.usuario.cliente.balance),
+                    }
+                    : null,
+            },
+        };
+
+        res.status(200).json(dataConverted);
+    } catch (error) {
+        console.error("Error al obtener administrador:", error);
+        res.status(500).json({message: 'Error del servidor'});
+    }
+});
+
 export default router;

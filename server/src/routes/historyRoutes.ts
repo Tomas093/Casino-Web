@@ -1,7 +1,3 @@
-// 4. Importante: Reordenar las rutas para evitar conflictos
-// En Express, las rutas se evalúan en orden, así que debemos colocar primero
-// la ruta más específica para evitar que '/:userid' capture '/allHistory/:userid'
-
 import {Request, Response, Router} from 'express';
 import {isAuthenticated} from '../middlewares/authMiddleware';
 import {historyService} from '../services/historyService';

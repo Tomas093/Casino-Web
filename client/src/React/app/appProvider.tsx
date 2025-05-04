@@ -9,6 +9,7 @@ import {GameProvider} from '@context/GameContext'
 import {LeaderboardProvider} from '@context/LeaderboardContext.tsx'
 import {LimitProvider} from '@context/LimitContext.tsx'
 import {FriendRequestProvider} from '@context/FriendRequestContext.tsx';
+import {TicketProvider} from '@context/TicketContext.tsx'
 
 interface AppProviderProps {
     children: ReactNode;
@@ -26,7 +27,9 @@ export const AppProvider = ({children}: AppProviderProps) => {
                                     <LeaderboardProvider>
                                         <LimitProvider>
                                             <FriendRequestProvider>
-                                                {children}
+                                                <TicketProvider>
+                                                    {children}
+                                                </TicketProvider>
                                             </FriendRequestProvider>
                                         </LimitProvider>
                                     </LeaderboardProvider>

@@ -1,0 +1,81 @@
+
+:root {
+    --black: #121212;
+    --dark-gray: #1e1e1e;
+    --light-gray: #2a2a2a;
+    --green: #1a9e5c;
+    --green-dark: #0e7a45;
+    --green-light: #27c376;
+    --gold: #d4af37;
+    --gold-light: #f9dc5c;
+    --gold-dark: #b08d24;
+    --red: #e53935;
+    --red-dark: #c62828;
+    --white: #f5f5f5;
+    --text-light: #e0e0e0;
+    --text-muted: #a0a0a0;
+}
+
+/* Table styles */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: 12px;
+    text-align: left;
+}
+
+.table th {
+    background-color: var(--dark-gray);
+    color: var(--gold-light);
+    border-bottom: 2px solid var(--gold-dark);
+}
+
+.table tr:hover {
+    background-color: var(--light-gray);
+}
+
+.table td {
+    color: var(--text-light);
+    border-bottom: 1px solid var(--light-gray);
+}
+
+/* Buttons */
+.action-button {
+    color: var(--gold);
+    transition: color 0.3s ease;
+}
+
+.action-button:hover {
+    color: var(--gold-light);
+}
+
+/* Loading and error states */
+.loading-container,
+.error-container {
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.loading-container {
+    color: var(--gold);
+}
+
+.error-container {
+    background-color: rgba(229, 57, 53, 0.1);
+    border: 1px solid var(--red);
+    color: var(--red);
+}
+
+/* Empty state */
+.empty-container {
+    text-align: center;
+    color: var(--text-muted);
+    border: 1px solid var(--light-gray);
+    padding: 20px;
+    border-radius: 8px;
+}

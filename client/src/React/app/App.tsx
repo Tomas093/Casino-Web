@@ -21,6 +21,7 @@ import Limit from "../pages/profile/LimitPage.tsx";
 import MonLimitTicketPage from "../pages/tickets/MonLimitTicketPage.tsx";
 import NotFound from "@components/Error/Error404.tsx";
 import FriendsPage from "../pages/profile/FriendsPage.tsx";
+import TicketsView from "../pages/tickets/TicketsView.tsx";
 
 
 function App() {
@@ -53,7 +54,7 @@ function App() {
 
                     {/* rutas Solo para admins */}
                     <Route element={<AdminRoutes/>}>
-                        <Route path="/HIHIHIHIHI" element={<div>NO IMPLEMENTADO NADA</div>}/>
+                        <Route path="/tickets" element={<TicketsView/>}/>
                     </Route>
 
                     {/* Rutas protegidas Solo (Superadmin) */}
