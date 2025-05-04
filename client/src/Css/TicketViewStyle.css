@@ -159,6 +159,31 @@ body {
     background-color: var(--green);
 }
 
+.priority-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.priority-all {
+    background-color: var(--text-muted);
+}
+
+.priority-high {
+    background-color: var(--red);
+}
+
+.priority-medium {
+    background-color: var(--gold);
+}
+
+.priority-low {
+    background-color: var(--green);
+}
+
 /* Avatar styles */
 .avatar {
     display: flex;
@@ -386,4 +411,3 @@ body {
 .text-right {
     text-align: right;
 }
-

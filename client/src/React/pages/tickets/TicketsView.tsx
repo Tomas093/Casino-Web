@@ -410,24 +410,28 @@ const TicketsView = () => {
                                                     className="priority-filter-item"
                                                     onClick={() => filterByPriority(null)}
                                                 >
+                                                    <span className="priority-dot priority-all"></span>
                                                     Todas
                                                 </div>
                                                 <div
                                                     className="priority-filter-item"
                                                     onClick={() => filterByPriority('High')}
                                                 >
+                                                    <span className="priority-dot priority-high"></span>
                                                     Alta
                                                 </div>
                                                 <div
                                                     className="priority-filter-item"
                                                     onClick={() => filterByPriority('Medium')}
                                                 >
+                                                    <span className="priority-dot priority-medium"></span>
                                                     Media
                                                 </div>
                                                 <div
                                                     className="priority-filter-item"
                                                     onClick={() => filterByPriority('Low')}
                                                 >
+                                                    <span className="priority-dot priority-low"></span>
                                                     Baja
                                                 </div>
                                             </div>
@@ -506,3 +510,4 @@ const TicketsView = () => {
 };
 
 export default TicketsView;
+
