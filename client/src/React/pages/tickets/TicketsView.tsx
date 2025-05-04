@@ -7,7 +7,7 @@ import NavBar from '@components/NavBar';
 
 // Modern styling with gold, black and green palette - Updated for dark background
 const styles = {
-    container: 'container',
+    container: 'ticket-view-container',
     header: 'header',
     table: 'table',
     tableHeader: 'table-header',

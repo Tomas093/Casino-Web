@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add ticket management feature; implement API, context, and UI for ticket handling">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add priority indicators to ticket view; enhance filtering UI with visual cues for priority levels">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/Css/TicketViewStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/TicketViewStyle.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/pages/tickets/TicketsView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/tickets/TicketsView.tsx" afterDir="false" />
@@ -184,7 +184,7 @@
       <workItem from="1746311924875" duration="240000" />
       <workItem from="1746312185935" duration="226000" />
       <workItem from="1746312547293" duration="9185000" />
-      <workItem from="1746358771618" duration="2896000" />
+      <workItem from="1746358771618" duration="3957000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -522,7 +522,23 @@
       <option name="project" value="LOCAL" />
       <updated>1746360817569</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Refactor ticket view styles and update filtering functionality; enhance UI components for better usability">
+      <option name="closed" value="true" />
+      <created>1746361975915</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1746361975915</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Add priority indicators to ticket view; enhance filtering UI with visual cues for priority levels">
+      <option name="closed" value="true" />
+      <created>1746362059726</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1746362059726</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -555,8 +571,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Add delete specific account feature and fetch admins functionality" />
-    <MESSAGE value="agrego columna emial a manager" />
     <MESSAGE value="agrego columna email a manager" />
     <MESSAGE value="Add edit functionality for admins; update AuthContext and routes" />
     <MESSAGE value="Refactor user profile management; add edit functionality and improve navbar accessibility" />
@@ -580,6 +594,8 @@
     <MESSAGE value="Add friends leaderboard feature; implement API, context, and UI for displaying friends' rankings" />
     <MESSAGE value="Add friends leaderboard feature; update UI components and refactor Home page" />
     <MESSAGE value="Add ticket management feature; implement API, context, and UI for ticket handling" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add ticket management feature; implement API, context, and UI for ticket handling" />
+    <MESSAGE value="Refactor ticket view styles and update filtering functionality; enhance UI components for better usability" />
+    <MESSAGE value="Add priority indicators to ticket view; enhance filtering UI with visual cues for priority levels" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add priority indicators to ticket view; enhance filtering UI with visual cues for priority levels" />
   </component>
 </project>
