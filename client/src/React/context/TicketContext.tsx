@@ -1,5 +1,5 @@
-import React, {createContext, useContext, useState, ReactNode} from 'react';
-import {ticketApi, Ticket, CreateTicketData} from '../api/ticketApi';
+import React, {createContext, ReactNode, useContext, useState} from 'react';
+import {CreateTicketData, Ticket, ticketApi} from '../api/ticketApi';
 
 // Define the context shape
 interface TicketContextType {
@@ -11,6 +11,8 @@ interface TicketContextType {
     getTicketsByAdminId: (adminId: number) => Promise<void>;
     clearTickets: () => void;
     clearError: () => void;
+    getTicketById: (ticketId: number) => Promise<Ticket>;
+    editTicket: (ticketId: number, ticketData: Partial<Ticket>) => Promise<void>;
 }
 
 // Create the context with a default value
@@ -69,6 +71,37 @@ export const TicketProvider: React.FC<TicketProviderProps> = ({children}) => {
         }
     };
 
+    const getTicketById = async (ticketId: number) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const ticket = await ticketApi.getTicketById(ticketId);
+            return ticket; // Return the fetched ticket
+        } catch (err) {
+            setError('Error al obtener el ticket');
+            console.error(err);
+            throw err; // Throw error to handle it in the component
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const editTicket = async (ticketId: number, ticketData: Partial<Ticket>) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const updatedTicket = await ticketApi.editTicket(ticketId, ticketData);
+            setTickets(prevTickets =>
+                prevTickets.map(ticket => (ticket.ticketid === ticketId ? updatedTicket : ticket))
+            );
+        } catch (err) {
+            setError('Error al editar el ticket');
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const clearTickets = () => setTickets([]);
 
     const clearError = () => setError(null);
@@ -81,7 +114,9 @@ export const TicketProvider: React.FC<TicketProviderProps> = ({children}) => {
         getTicketsByClientId,
         getTicketsByAdminId,
         clearTickets,
-        clearError
+        clearError,
+        getTicketById,
+        editTicket
     };
 
     return (

@@ -62,5 +62,33 @@ export const ticketApi = {
             console.error('Error fetching admin tickets:', error);
             throw error;
         }
+    },
+
+    // Edit a ticket
+    async editTicket(ticketId: number, ticketData: Partial<Ticket>): Promise<Ticket> {
+        try {
+            const response = await axios.put(`${API_URL}/edit/${ticketId}`, ticketData, {
+                withCredentials: true
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error editing ticket:', error);
+            throw error;
+        }
+    },
+
+    // Get a ticket by ID
+    async getTicketById(ticketId: number): Promise<Ticket> {
+        try {
+            const response = await axios.get(`${API_URL}/${ticketId}`, {
+                withCredentials: true
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching ticket:', error);
+            throw error;
+        }
     }
+
+
 };

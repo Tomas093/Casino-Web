@@ -31,12 +31,12 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
     const {} = useAuth();
     const {client} = useUser();
     const [rankings, setRankings] = useState<UserRanking[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const [, setLoading] = useState<boolean>(true);
+    const [, setError] = useState<string | null>(null);
     const [sortCriteria, setSortCriteria] = useState<'gananciaNeta' | 'mayorRetorno' | 'mayorApuesta' | 'winPercentage' | 'jugadaCount'>('gananciaNeta');
     const [isAscending, setIsAscending] = useState<boolean>(false);
     const [selectedGame, setSelectedGame] = useState<string | null>(defaultGameFilter || null);
-    const [availableGames, setAvailableGames] = useState<string[]>([]);
+    const [, setAvailableGames] = useState<string[]>([]);
     const [showFriendsLeaderboard, setShowFriendsLeaderboard] = useState(false); // Add state for toggling
 
     const {
@@ -221,8 +221,8 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                 valueA = a.jugadaCount || 0;
                 valueB = b.jugadaCount || 0;
             } else {
-                valueA = parseFloat(a[criteria as keyof UserRanking] as string) || 0;
-                valueB = parseFloat(b[criteria as keyof UserRanking] as string) || 0;
+                valueA = parseFloat(String(a[criteria as keyof UserRanking])) || 0;
+                valueB = parseFloat(String(b[criteria as keyof UserRanking])) || 0;
             }
 
             return ascending ? valueA - valueB : valueB - valueA;
@@ -241,12 +241,6 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
             }
         }
     };
-
-    const handleGameFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const value = event.target.value;
-        setSelectedGame(value === "all" ? null : value);
-    };
-
     const handleTimeframeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setTimeframe(event.target.value as TimeFrame);
     };

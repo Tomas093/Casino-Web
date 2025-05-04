@@ -4,24 +4,6 @@ import {ticketService} from '../services/ticketService';
 
 const router = Router();
 
-
-router.post('/create', isAuthenticated, async (req: Request, res: Response) => {
-    const {clienteid, problema, prioridad, categoria} = req.body;
-
-    try {
-        const newTicket = await ticketService.createTicket({
-            clienteid,
-            problema,
-            prioridad,
-            categoria
-        });
-        res.status(201).json(newTicket);
-    } catch (error) {
-        console.error('Error creating ticket:', error);
-        res.status(500).json({message: 'Error creating ticket'});
-    }
-})
-
 router.get('/client/:id', isAuthenticated, async (req: Request, res: Response) => {
     const clientId = parseInt(req.params.id);
 
@@ -45,6 +27,49 @@ router.get('/admin/:id', isAuthenticated, async (req: Request, res: Response) =>
         res.status(500).json({message: 'Error fetching tickets'});
     }
 });
+
+router.put('/edit/:id', isAuthenticated, async (req: Request, res: Response) => {
+    const ticketId = parseInt(req.params.id);
+    const {resuelto,fechacierre} = req.body;
+
+    try {
+        const updatedTicket = await ticketService.editTicket(ticketId, {resuelto,fechacierre}); // Update 'resuelto'
+        res.status(200).json(updatedTicket);
+    } catch (error) {
+        console.error('Error updating ticket:', error);
+        res.status(500).json({message: 'Error updating ticket'});
+    }
+});
+
+router.get('/:id', isAuthenticated, async (req: Request, res: Response) => {
+    const ticketId = parseInt(req.params.id);
+
+    try {
+        const ticket = await ticketService.getTicketById(ticketId);
+        res.status(200).json(ticket);
+    } catch (error) {
+        console.error('Error fetching ticket:', error);
+        res.status(500).json({message: 'Error fetching ticket'});
+    }
+});
+
+
+router.post('/create', isAuthenticated, async (req: Request, res: Response) => {
+    const {clienteid, problema, prioridad, categoria} = req.body;
+
+    try {
+        const newTicket = await ticketService.createTicket({
+            clienteid,
+            problema,
+            prioridad,
+            categoria
+        });
+        res.status(201).json(newTicket);
+    } catch (error) {
+        console.error('Error creating ticket:', error);
+        res.status(500).json({message: 'Error creating ticket'});
+    }
+})
 
 export default router;
 

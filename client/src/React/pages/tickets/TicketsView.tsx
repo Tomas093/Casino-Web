@@ -4,8 +4,9 @@ import {useAdmin} from '@context/AdminContext.tsx';
 import {useTicket} from '@context/TicketContext.tsx';
 import '@css/TicketViewStyle.css';
 import NavBar from '@components/NavBar';
+import {useNavigate} from "react-router-dom";
 
-// Modern styling with gold, black and green palette - Updated for dark background
+// Modern styling with gold, black and green palette - Updated for a dark background
 const styles = {
     container: 'ticket-view-container',
     header: 'header',
@@ -150,7 +151,7 @@ const Avatar = ({name, color, img}: { name: string; color: string; img?: string 
 const TicketsView = () => {
     const {isAdmin, isLoading: adminLoading, getAdminByUserId} = useAdmin();
     const {tickets, loading: ticketLoading, error, getTicketsByAdminId} = useTicket();
-
+    const navigate = useNavigate();
     const [formattedTickets, setFormattedTickets] = useState<Ticket[]>([]);
     const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -381,7 +382,7 @@ const TicketsView = () => {
             <div className={`${styles.pageWrapper} page-content`}>
                 <div className={styles.container}>
                     {formattedTickets.length > 0 ? (
-                        <div className="overflow-x-auto rounded-lg border border-green-900 bg-black">
+                        <div className="overflow-x-auto rounded-lg border bg-black">
                             <div className="flex justify-between items-center mb-4">
                                 <h1 className="tickets-header">Tickets Recientes</h1>
                                 <div className="flex items-center">
@@ -491,7 +492,10 @@ const TicketsView = () => {
                                             <span className={styles.dateText}>{ticket.created}</span>
                                         </td>
                                         <td className={`${styles.tableCell} text-right`}>
-                                            <button className={styles.actionButton}>
+                                            <button
+                                                className={styles.actionButton}
+                                                onClick={() => navigate(`/ticket/${ticket.id}`)}
+                                            >
                                                 <ChevronRight size={20}/>
                                             </button>
                                         </td>

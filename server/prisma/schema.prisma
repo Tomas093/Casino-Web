@@ -221,9 +221,8 @@ model mensaje {
   ticketid   Int
   contenido  String
   fechaenvio DateTime? @default(now()) @db.Timestamp(6)
+  usuarioid  Int
   tickets    ticket    @relation(fields: [ticketid], references: [ticketid], onDelete: Cascade, onUpdate: NoAction, map: "fk_ticket")
-
-  @@index([ticketid], map: "idx_mensaje_ticketid")
 }
 
 model ticket {

@@ -181,7 +181,7 @@ body {
 }
 
 .priority-low {
-    background-color: var(--green);
+    background-color: var(--color-blue);
 }
 
 /* Avatar styles */
