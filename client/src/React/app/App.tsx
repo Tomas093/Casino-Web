@@ -22,6 +22,7 @@ import NotFound from "@components/Error/Error404.tsx";
 import FriendsPage from "../pages/profile/FriendsPage.tsx";
 import TicketsView from "../pages/tickets/TicketsView.tsx";
 import Ticket from '../pages/tickets/Ticket.tsx';
+import SupportPage from "../pages/support/SupportPage.tsx";
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
                         <Route path="/friends" element={<FriendsPage/>}/>
                         <Route path="/pausa" element={<div>NO IMPLEMENTADO NADA</div>}/>
                         <Route path="/ticket/:ticketId" element={<Ticket/>}/>
+                        <Route path="/support" element={<SupportPage/>}/>
                     </Route>
 
                     {/* rutas Solo para admins */}

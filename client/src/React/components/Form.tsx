@@ -1,7 +1,7 @@
-import React, {FormEvent, useState} from 'react';
+import React, { FormEvent, useState } from 'react';
 
 // Tipos de campos soportados
-type FieldType = 'text' | 'email' | 'password' | 'number';
+type FieldType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select';
 
 // Configuración de cada campo
 interface FieldConfig {
@@ -13,6 +13,7 @@ interface FieldConfig {
     maxLength?: number;
     min?: number;
     max?: number;
+    options?: string[]; // Opciones para campos tipo select
 }
 
 // Props del componente
@@ -27,13 +28,13 @@ interface FormProps {
 }
 
 const Form: React.FC<FormProps> = ({
-                                       title = "Australis",
-                                       subtitle = "Crea tu cuenta",
-                                       fields,
-                                       submitButtonText = "Crear Cuenta",
-                                       termsText,
-                                       onSubmit
-                                   }) => {
+    title = "Australis",
+    subtitle = "Crea tu cuenta",
+    fields,
+    submitButtonText = "Crear Cuenta",
+    termsText,
+    onSubmit
+}) => {
     // Estado del formulario dinámico
     const [formData, setFormData] = useState<Record<string, string>>(() => {
         const initialState: Record<string, string> = {};
@@ -43,8 +44,8 @@ const Form: React.FC<FormProps> = ({
         return initialState;
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = e.target;
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
         setFormData(prevState => ({
             ...prevState,
             [name]: value
@@ -63,22 +64,48 @@ const Form: React.FC<FormProps> = ({
             <form id="register-form" onSubmit={handleSubmit}>
                 {fields.map((field, index) => (
                     <label key={index}>
-                        <input
-                            type={field.type}
-                            name={field.name}
-                            className="input-field"
-                            placeholder={field.placeholder}
-                            required={field.required}
-                            minLength={field.minLength}
-                            maxLength={field.maxLength}
-                            min={field.min}
-                            max={field.max}
-                            value={formData[field.name]}
-                            onChange={handleChange}
-                        />
+                        {field.type === 'textarea' ? (
+                            <textarea
+                                name={field.name}
+                                className="input-field"
+                                placeholder={field.placeholder}
+                                required={field.required}
+                                minLength={field.minLength}
+                                maxLength={field.maxLength}
+                                value={formData[field.name]}
+                                onChange={handleChange}
+                            />
+                        ) : field.type === 'select' ? (
+                            <select
+                                name={field.name}
+                                className="input-field"
+                                required={field.required}
+                                value={formData[field.name]}
+                                onChange={handleChange}
+                            >
+                                <option value="" disabled>{field.placeholder}</option>
+                                {field.options?.map((option, idx) => (
+                                    <option key={idx} value={option}>{option}</option>
+                                ))}
+                            </select>
+                        ) : (
+                            <input
+                                type={field.type}
+                                name={field.name}
+                                className="input-field"
+                                placeholder={field.placeholder}
+                                required={field.required}
+                                minLength={field.minLength}
+                                maxLength={field.maxLength}
+                                min={field.min}
+                                max={field.max}
+                                value={formData[field.name]}
+                                onChange={handleChange}
+                            />
+                        )}
                     </label>
                 ))}
-                <button type="submit" className="btn">{submitButtonText}</button>
+                <button type="submit" className="form-button">{submitButtonText}</button>
             </form>
             {termsText && <p className="terms">{termsText}</p>}
         </div>
@@ -86,3 +113,4 @@ const Form: React.FC<FormProps> = ({
 };
 
 export default Form;
+

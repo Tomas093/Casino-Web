@@ -5,25 +5,23 @@ const prisma = new PrismaClient();
 interface gameData {
     juegoid: number;
     nombre: string;
-    estado: boolean | null | undefined;
+    funcionando: boolean;
 }
 
 export const gameService = {
-    createGame: async (data: gameData) => {
-        const {juegoid, nombre, estado} = data;
 
-        // Crear el juego
+    createGame: async (data: gameData) => {
+        const {juegoid, nombre, funcionando} = data;
         return prisma.juego.create({
             data: {
                 juegoid,
                 nombre,
-                estado,
+                funcionando,
             },
         });
     },
 
     getGames: async () => {
-        // Obtener todos los juegos
         return prisma.juego.findMany();
     },
 
