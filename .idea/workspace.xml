@@ -5,17 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Implement chat feature; add message API, context, and UI for ticket messaging">
-      <change afterPath="$PROJECT_DIR$/client/src/Css/SupportStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/components/support/ContactCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/components/support/FAQAccordion.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/components/support/StatusIndicator.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/support/SupportPage.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/gameRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/gameRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/services/gameService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/gameService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/support/SupportPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/support/SupportPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/ticketRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/ticketRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/ticketService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/ticketService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/userService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/userService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,7 +189,7 @@
       <workItem from="1746358771618" duration="9421000" />
       <workItem from="1746370805257" duration="131000" />
       <workItem from="1746370984725" duration="11058000" />
-      <workItem from="1746403364212" duration="3136000" />
+      <workItem from="1746403364212" duration="7323000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -565,7 +559,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746392497852</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Implement chat feature; add message API, context, and UI for ticket messaging">
+      <option name="closed" value="true" />
+      <created>1746406833992</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1746406833992</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

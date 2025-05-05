@@ -1,23 +1,72 @@
-import React, { useState } from "react";
-import { Phone, Mail, MessageCircle, Clock, Search, HelpCircle, Send } from "lucide-react";
+import React, {useState, useEffect} from "react";
+import {Phone, Mail, MessageCircle, Clock, HelpCircle, Send} from "lucide-react";
 import Form from "@components/Form";
 import FAQAccordion from "@components/support/FAQAccordion.tsx";
 import ContactCard from "@components/support/ContactCard";
 import StatusIndicator from "@components/support/StatusIndicator";
 import "@css/SupportStyle.css";
 import Footer from "@components/Footer.tsx";
+import {useTicket} from "@context/TicketContext.tsx";
+import {useUser} from "@context/UserContext.tsx";
 
 const SupportPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<string>("contact");
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [showThankYou, setShowThankYou] = useState<boolean>(false);
+    const [, setSubmissionError] = useState<string | null>(null);
+    const {getUserData, client} = useUser();
 
-    const handleSubmit = (formData: Record<string, string>) => {
-        console.log("Support form submitted:", formData);
-        setShowThankYou(true);
-        setTimeout(() => {
-            setShowThankYou(false);
-        }, 5000);
+    const {createTicket, loading} = useTicket();
+
+    // Initialize user data from localStorage
+    useEffect(() => {
+        const userId = localStorage.getItem("usuarioid");
+        if (userId) {
+            getUserData(userId);
+        }
+    }, [getUserData]);
+
+    // Función para determinar el nivel de prioridad automáticamente según el tipo de problema
+    const getPriorityByProblem = (problemType: string): string => {
+        switch (problemType) {
+            case "Problema Técnico":
+                return "Alta";
+            case "Problema Con la Cuenta":
+            case "Problema Algun Juego":
+                return "Media";
+            case "Consulta General":
+            default:
+                return "Baja";
+        }
+    };
+
+    const handleSubmit = async (formData: Record<string, string>) => {
+        try {
+            // Determinar automáticamente la prioridad según el tipo de problema
+            const priority = getPriorityByProblem(formData.problem);
+
+            const ticketData = {
+                clienteid: client?.clienteid || 0,
+                problema: formData.message,
+                categoria: formData.problem,
+                prioridad: priority,
+            };
+
+            // Crear el ticket usando el contexto
+            await createTicket(ticketData);
+
+            // Mostrar mensaje de agradecimiento
+            setShowThankYou(true);
+            setSubmissionError(null);
+
+            setTimeout(() => {
+                setShowThankYou(false);
+            }, 5000);
+
+        } catch (err) {
+            setSubmissionError("No se pudo enviar tu solicitud. Por favor, inténtalo de nuevo.");
+            console.error("Error submitting support request:", err);
+        }
     };
 
     const faqItems = [
@@ -46,21 +95,21 @@ const SupportPage: React.FC = () => {
     const contactInfo = [
         {
             title: "Soporte Telefónico",
-            icon: <Phone size={24} />,
+            icon: <Phone size={24}/>,
             content: "+1 (800) 123-4567",
             description: "Disponible 24/7",
             action: "Llamar ahora"
         },
         {
             title: "Correo Electrónico",
-            icon: <Mail size={24} />,
+            icon: <Mail size={24}/>,
             content: "soporte@empresa.com",
             description: "Respuesta en 24 horas",
             action: "Enviar email"
         },
         {
             title: "Chat en Vivo",
-            icon: <MessageCircle size={24} />,
+            icon: <MessageCircle size={24}/>,
             content: "Soporte instantáneo",
             description: "Tiempo de espera: ~2 min",
             action: "Iniciar chat"
@@ -97,12 +146,12 @@ const SupportPage: React.FC = () => {
                 </div>
 
                 <div className="support-status-bar">
-                    <StatusIndicator status="online" label="BlackJack" />
-                    <StatusIndicator status="online" label="Dados" />
-                    <StatusIndicator status="maintenance" label="Mines" />
-                    <StatusIndicator status="online" label="Slots" />
+                    <StatusIndicator status="online" label="BlackJack"/>
+                    <StatusIndicator status="online" label="Dados"/>
+                    <StatusIndicator status="maintenance" label="Mines"/>
+                    <StatusIndicator status="online" label="Slots"/>
                     <div className="support-hours">
-                        <Clock size={16} />
+                        <Clock size={16}/>
                         <span>Soporte disponible 24/7</span>
                     </div>
                 </div>
@@ -142,7 +191,7 @@ const SupportPage: React.FC = () => {
                                 {showThankYou ? (
                                     <div className="thank-you-message">
                                         <div className="thank-you-icon">
-                                            <Send size={40} />
+                                            <Send size={40}/>
                                         </div>
                                         <h3>¡Gracias por contactarnos!</h3>
                                         <p>Hemos recibido tu mensaje y te responderemos lo antes posible.</p>
@@ -152,13 +201,23 @@ const SupportPage: React.FC = () => {
                                         title="Envíanos un Mensaje"
                                         subtitle="Nuestro equipo te responderá en menos de 24 horas"
                                         fields={[
-                                            { name: "name", placeholder: "Nombre", type: "text", required: true },
-                                            { name: "email", placeholder: "Correo Electrónico", type: "email", required: true },
-                                            { name: "problem", placeholder: "Tipo de Problema", type: "select", options: ["Problema Técnico", "Consulta General", "Reembolso"], required: true },
-                                            { name: "subject", placeholder: "Asunto", type: "text", required: true },
-                                            { name: "message", placeholder: "Mensaje", type: "text", required: true }
+                                            {name: "name", placeholder: "Nombre", type: "text", required: true},
+                                            {
+                                                name: "email",
+                                                placeholder: "Correo Electrónico",
+                                                type: "email",
+                                                required: true
+                                            },
+                                            {
+                                                name: "problem",
+                                                placeholder: "Tipo de Problema",
+                                                type: "select",
+                                                options: ["Problema Técnico", "Consulta General", "Problema Con la Cuenta", "Problema Algun Juego"],
+                                                required: true
+                                            },
+                                            {name: "message", placeholder: "Problema", type: "textarea", required: true}
                                         ]}
-                                        submitButtonText="Enviar Mensaje"
+                                        submitButtonText={loading ? "Enviando..." : "Enviar Mensaje"}
                                         onSubmit={handleSubmit}
                                     />
                                 )}
@@ -180,11 +239,11 @@ const SupportPage: React.FC = () => {
                             </div>
 
                             <div className="faq-items">
-                                <FAQAccordion items={faqItems} />
+                                <FAQAccordion items={faqItems}/>
                             </div>
 
                             <div className="faq-more-help">
-                                <HelpCircle size={32} />
+                                <HelpCircle size={32}/>
                                 <h3>¿No encuentras lo que buscas?</h3>
                                 <p>Nuestro equipo está listo para ayudarte con preguntas más específicas.</p>
                                 <button className="btn btn-secondary" onClick={() => setActiveTab("contact")}>

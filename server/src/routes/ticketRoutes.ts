@@ -30,10 +30,10 @@ router.get('/admin/:id', isAuthenticated, async (req: Request, res: Response) =>
 
 router.put('/edit/:id', isAuthenticated, async (req: Request, res: Response) => {
     const ticketId = parseInt(req.params.id);
-    const {resuelto,fechacierre} = req.body;
+    const {resuelto, fechacierre} = req.body;
 
     try {
-        const updatedTicket = await ticketService.editTicket(ticketId, {resuelto,fechacierre}); // Update 'resuelto'
+        const updatedTicket = await ticketService.editTicket(ticketId, {resuelto, fechacierre}); // Update 'resuelto'
         res.status(200).json(updatedTicket);
     } catch (error) {
         console.error('Error updating ticket:', error);

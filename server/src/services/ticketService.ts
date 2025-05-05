@@ -6,12 +6,67 @@ export const serializeData = (data: any) => {
     ));
 };
 
+const getUserByEmail = async (email: string) => {
+    const prisma = new PrismaClient();
+    try {
+        return await prisma.usuario.findUnique({
+            where: {email}
+        });
+    } catch (error) {
+        console.error('Error fetching user by email:', error);
+        throw new Error('Error fetching user by email');
+    } finally {
+        await prisma.$disconnect();
+    }
+}
+
 export const ticketService = {
-    async createTicket(ticketData: any) {
+    async createTicket(ticketData: {
+        clienteid: number,
+        problema: string,
+        categoria: string,
+        prioridad: string
+    }) {
         const prisma = new PrismaClient();
         try {
+            // Find admin with fewest open tickets
+            const admins = await prisma.administrador.findMany();
+
+            if (!admins || admins.length === 0) {
+                throw new Error('No administrators found in the system');
+            }
+
+            // Get ticket count for each admin
+            const adminStats = await Promise.all(
+                admins.map(async (admin) => {
+                    const ticketCount = await prisma.ticket.count({
+                        where: {
+                            adminid: admin.adminid,
+                            resuelto: false
+                        }
+                    });
+                    return {
+                        adminid: admin.adminid,
+                        ticketCount
+                    };
+                })
+            );
+
+            // Find admin with fewest tickets
+            const selectedAdmin = adminStats.reduce((prev, current) =>
+                prev.ticketCount <= current.ticketCount ? prev : current
+            );
+
+            // Create ticket with assigned admin
             return await prisma.ticket.create({
-                data: ticketData
+                data: {
+                    clienteid: ticketData.clienteid,
+                    problema: ticketData.problema,
+                    categoria: ticketData.categoria,
+                    prioridad: ticketData.prioridad,
+                    resuelto: false,
+                    adminid: selectedAdmin.adminid
+                }
             });
         } catch (error) {
             console.error('Error creating ticket:', error);
@@ -21,11 +76,13 @@ export const ticketService = {
         }
     },
 
-    async getTicketsByClientId(clientId: number) {
+    async getTicketsByClientId(clienteid: number) {
         const prisma = new PrismaClient();
         try {
             return await prisma.ticket.findMany({
-                where: {clienteid: clientId}
+                where: {
+                    clienteid: clienteid
+                }
             });
         } catch (error) {
             console.error('Error fetching tickets:', error);
