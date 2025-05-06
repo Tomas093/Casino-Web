@@ -5,18 +5,18 @@ const prisma = new PrismaClient();
 interface gameData {
     juegoid: number;
     nombre: string;
-    funcionando: boolean;
+    estado: boolean;
 }
 
 export const gameService = {
 
     createGame: async (data: gameData) => {
-        const {juegoid, nombre, funcionando} = data;
+        const {juegoid, nombre, estado} = data;
         return prisma.juego.create({
             data: {
                 juegoid,
                 nombre,
-                funcionando,
+                estado,
             },
         });
     },
