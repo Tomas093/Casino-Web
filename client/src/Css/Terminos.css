@@ -1,0 +1,202 @@
+/* Importación de fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+/* Variables de colores */
+:root {
+    --color-black: #0a0a0a;
+    --color-dark-gray: #1a1a1a;
+    --color-gray: #2a2a2a;
+    --color-light-gray: #3a3a3a;
+    --color-green: #0E5E3B;
+    --color-light-green: #12724A;
+    --color-gold: #D4AF37;
+    --color-light-gold: #F4CE6A;
+    --color-off-white: #F5F5F5;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-black);
+    font-family: 'Montserrat', sans-serif;
+    color: var(--color-off-white);
+}
+
+/* Contenedor principal */
+.terms-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: var(--color-dark-gray);
+    border: 1px solid var(--color-light-gray);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    position: relative;
+}
+
+/* Encabezado principal */
+.terms-header-main {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.terms-header-main h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--color-gold);
+    margin: 20px 0;
+    letter-spacing: 1px;
+}
+
+.gold-accent {
+    width: 200px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+    margin: 10px 0;
+}
+
+/* Introducción */
+.terms-intro {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    text-align: center;
+    color: var(--color-off-white);
+    font-weight: 300;
+    padding: 0 20px;
+    border-left: 2px solid var(--color-green);
+    border-right: 2px solid var(--color-green);
+}
+
+/* Secciones de términos acordeón */
+.terms-section {
+    margin-bottom: 15px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--color-light-gray);
+    transition: all 0.3s ease;
+}
+
+.terms-section:hover {
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.1);
+}
+
+.terms-header {
+    background-color: var(--color-gray);
+    padding: 15px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    border-left: 4px solid var(--color-green);
+}
+
+.terms-header:hover {
+    background-color: var(--color-light-gray);
+}
+
+.terms-header.expanded {
+    background-color: var(--color-light-gray);
+    border-left: 4px solid var(--color-gold);
+}
+
+.terms-header h3 {
+    font-family: 'Playfair Display', serif;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-light-gold);
+}
+
+.icon-container {
+    color: var(--color-gold);
+    display: flex;
+    align-items: center;
+}
+
+/* Contenido dentro del acordeón */
+.terms-content {
+    padding: 20px;
+    background-color: var(--color-dark-gray);
+    line-height: 1.6;
+    border-top: 1px solid var(--color-light-gray);
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.terms-content p {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+/* Pie de página */
+.terms-footer {
+    margin-top: 40px;
+    text-align: center;
+    padding-top: 20px;
+    font-size: 12px;
+    color: var(--color-light-gold);
+}
+
+.gold-accent-footer {
+    width: 100px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+    margin: 15px auto;
+}
+
+/* Efectos de hover y focus */
+.terms-header:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-gold);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .terms-container {
+        padding: 20px;
+        margin: 20px;
+    }
+
+    .terms-header-main h1 {
+        font-size: 28px;
+    }
+
+    .terms-header h3 {
+        font-size: 16px;
+    }
+
+    .gold-accent {
+        width: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .terms-container {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .terms-header-main h1 {
+        font-size: 24px;
+    }
+
+    .terms-header h3 {
+        font-size: 14px;
+    }
+
+    .gold-accent {
+        width: 100px;
+    }
+}
