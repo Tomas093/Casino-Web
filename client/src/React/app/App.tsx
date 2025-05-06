@@ -21,6 +21,7 @@ import Limit from "../pages/profile/LimitPage.tsx";
 import MonLimitTicketPage from "../pages/tickets/MonLimitTicketPage.tsx";
 import NotFound from "@components/Error/Error404.tsx";
 import FriendsPage from "../pages/profile/FriendsPage.tsx";
+import Terminos from "../pages/footer/Terminos.tsx";
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
                     <Route path="/register" element={<Register/>}/>
                     <Route path={"/leaderboard"} element={<LeaderBoard/>}/>
                     <Route path="/notfound" element={<NotFound/>}/>
+                    <Route path="/terminos" element={<Terminos/>}/>
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
                     <Route element={<ProtectedRoute/>}>
