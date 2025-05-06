@@ -2,6 +2,8 @@ import {useState, useEffect} from 'react';
 import {ChevronRight, SortAsc, SortDesc, Filter} from 'lucide-react';
 import {useAdmin} from '@context/AdminContext.tsx';
 import {useTicket} from '@context/TicketContext.tsx';
+import {useUser} from '@context/UserContext.tsx';
+import {useAuth} from '@context/AuthContext.tsx';
 import '@css/TicketViewStyle.css';
 import NavBar from '@components/NavBar';
 import {useNavigate} from "react-router-dom";
@@ -67,8 +69,8 @@ const StatusBadge = ({status}: { status: string }) => {
 
     return (
         <span className={`status-badge ${getStatusClass()}`}>
-          {status}
-        </span>
+                        {status}
+                    </span>
     );
 };
 
@@ -149,8 +151,10 @@ const Avatar = ({name, color, img}: { name: string; color: string; img?: string 
 };
 
 const TicketsView = () => {
-    const {isAdmin, isLoading: adminLoading, getAdminByUserId} = useAdmin();
-    const {tickets, loading: ticketLoading, error, getTicketsByAdminId} = useTicket();
+    const {isAdmin, isSuperAdmin, isLoading: adminLoading, getAdminByUserId} = useAdmin();
+    const {tickets, loading: ticketLoading, error, getTicketsByAdminId, getTicketsByClientId} = useTicket();
+    const {client, isLoading: userLoading} = useUser();
+    const {user} = useAuth(); // Add AuthContext to get current user info
     const navigate = useNavigate();
     const [formattedTickets, setFormattedTickets] = useState<Ticket[]>([]);
     const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([]);
@@ -158,29 +162,26 @@ const TicketsView = () => {
     const [priorityFilter, setPriorityFilter] = useState<string | null>(null);
     const [showFilterDropdown, setShowFilterDropdown] = useState(false);
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc' | null>(null);
+    const [isUserAdmin, setIsUserAdmin] = useState(false);
+    const [, setIsSuperUser] = useState(false);
 
-    // Function to get current user ID from localStorage
-    const getCurrentUserId = () => {
-        // Try to get userId directly
-        const directUserId = localStorage.getItem('userId');
-        if (directUserId) return directUserId;
-
-        // Try to parse user object if it exists
-        const userStr = localStorage.getItem('user');
-        if (userStr) {
+    // Check admin permissions
+    useEffect(() => {
+        const checkAdminPermissions = async () => {
             try {
-                const userData = JSON.parse(userStr);
-                return userData.usuarioid?.toString() || userData.userId?.toString() || userData.id?.toString();
-            } catch (e) {
-                console.error("Error parsing user data from localStorage:", e);
+                const adminStatus = await isAdmin();
+                const superAdminStatus = await isSuperAdmin();
+                setIsUserAdmin(adminStatus);
+                setIsSuperUser(superAdminStatus);
+            } catch (error) {
+                console.error("Error checking admin permissions:", error);
+                setIsUserAdmin(false);
+                setIsSuperUser(false);
             }
-        }
+        };
 
-        // Check other possible keys
-        return localStorage.getItem('usuarioid') ||
-            localStorage.getItem('user_id') ||
-            null;
-    };
+        checkAdminPermissions();
+    }, [isAdmin, isSuperAdmin]);
 
     // Function to determine avatar color based on name
     const getAvatarColor = (name: string): string => {
@@ -192,15 +193,23 @@ const TicketsView = () => {
     // Convert API tickets to the format needed for display
     const mapApiTicketsToViewFormat = (apiTickets: any[]): Ticket[] => {
         return apiTickets.map(ticket => {
-            // Format full name from cliente.usuario if available
-            const clientName = ticket.cliente && ticket.cliente.usuario
-                ? `${ticket.cliente.usuario.nombre || ''} ${ticket.cliente.usuario.apellido || ''}`.trim()
-                : `Cliente #${ticket.clienteid || ''}`;
+            let clientName;
+            let clientImg = null;
 
-            // Get client image if available
-            const clientImg = ticket.cliente && ticket.cliente.usuario && ticket.cliente.usuario.img
-                ? ticket.cliente.usuario.img
-                : null;
+            if (!isUserAdmin && user) {
+                // For client view - use the logged-in user's info
+                clientName = `${user.nombre || ''} ${user.apellido || ''}`.trim();
+                clientImg = user.img || null;
+            } else {
+                // For admin view - use the client info from the ticket
+                clientName = ticket.cliente && ticket.cliente.usuario
+                    ? `${ticket.cliente.usuario.nombre || ''} ${ticket.cliente.usuario.apellido || ''}`.trim()
+                    : `Cliente #${ticket.clienteid || ''}`;
+
+                clientImg = ticket.cliente && ticket.cliente.usuario && ticket.cliente.usuario.img
+                    ? ticket.cliente.usuario.img
+                    : null;
+            }
 
             return {
                 id: ticket.ticketid?.toString() || ticket.id?.toString() || '0',
@@ -294,51 +303,76 @@ const TicketsView = () => {
         setFilteredTickets(result);
     }, [formattedTickets, priorityFilter, sortDirection]);
 
+    // Load tickets for the user based on their role
     useEffect(() => {
-        const loadAdminTickets = async () => {
+        const loadTickets = async () => {
             setIsLoading(true);
             try {
-                const isUserAdmin = await isAdmin();
-                console.log("Is user admin:", isUserAdmin);
+                // Check if user is admin
+                const adminStatus = await isAdmin();
+                setIsUserAdmin(adminStatus);
+                const superAdminStatus = await isSuperAdmin();
+                setIsSuperUser(superAdminStatus);
 
-                if (isUserAdmin) {
+                if (adminStatus) {
+                    // Admin flow - Get admin ID and load tickets
                     const userId = getCurrentUserId();
-                    console.log("Current user ID:", userId);
-
                     if (userId) {
                         try {
                             const admin = await getAdminByUserId(userId);
-                            console.log("Admin data received:", admin);
-
                             if (admin && admin.adminid) {
-                                console.log("Fetching tickets for admin ID:", admin.adminid);
                                 await getTicketsByAdminId(Number(admin.adminid));
-                            } else {
-                                console.error("No admin data or admin ID returned");
                             }
                         } catch (err) {
-                            console.error("Error fetching admin data:", err);
+                            console.error("Error fetching admin tickets:", err);
                         }
-                    } else {
-                        console.error("No user ID found in localStorage");
                     }
                 } else {
-                    console.log("User is not an admin");
+                    // Regular user flow - Get client ID and load tickets using context
+                    if (client && client.clienteid) {
+                        await getTicketsByClientId(client.clienteid);
+                    } else {
+                        console.error("No client ID found in user context");
+                    }
                 }
             } catch (error) {
-                console.error("Error loading admin tickets:", error);
+                console.error("Error loading tickets:", error);
             } finally {
                 setIsLoading(false);
             }
         };
 
-        loadAdminTickets();
-    }, []);
+        if (!userLoading) {
+            loadTickets();
+        }
+    }, [client, userLoading]);
+
+    // Function to get current user ID from localStorage - still needed for admin flow
+    const getCurrentUserId = () => {
+        // Try to get userId directly
+        const directUserId = localStorage.getItem('userId');
+        if (directUserId) return directUserId;
+
+        // Try to parse user object if it exists
+        const userStr = localStorage.getItem('user');
+        if (userStr) {
+            try {
+                const userData = JSON.parse(userStr);
+                return userData.usuarioid?.toString() || userData.userId?.toString() || userData.id?.toString();
+            } catch (e) {
+                console.error("Error parsing user data from localStorage:", e);
+            }
+        }
+
+        // Check other possible keys
+        return localStorage.getItem('usuarioid') ||
+            localStorage.getItem('user_id') ||
+            null;
+    };
 
     // Update formatted tickets when API tickets change
     useEffect(() => {
         if (tickets && tickets.length > 0) {
-            console.log("Received tickets:", tickets);
             const formatted = mapApiTicketsToViewFormat(tickets);
             setFormattedTickets(formatted);
             setFilteredTickets(formatted);
@@ -348,7 +382,7 @@ const TicketsView = () => {
         }
     }, [tickets]);
 
-    if (isLoading || adminLoading || ticketLoading) {
+    if (isLoading || adminLoading || ticketLoading || userLoading) {
         return (
             <div className={styles.pageWrapper}>
                 <div className={styles.loadingContainer}>
@@ -373,139 +407,114 @@ const TicketsView = () => {
             <NavBar
                 navLinks={[
                     {label: "Inicio", href: "/home"},
-                    {label: "Tickets", href: "/tickets"},
-                    {label: "Perfil", href: "/profile"}
+                    {label: "Soporte", href: "/support"}
                 ]}
                 logoText="Australis Casino"
                 variant="dark"
             />
             <div className={`${styles.pageWrapper} page-content`}>
                 <div className={styles.container}>
-                    {formattedTickets.length > 0 ? (
-                        <div className="overflow-x-auto rounded-lg border bg-black">
+                    {filteredTickets.length > 0 ? (
+                        <>
                             <div className="flex justify-between items-center mb-4">
-                                <h1 className="tickets-header">Tickets Recientes</h1>
-                                <div className="flex items-center">
-                                    <div className="relative mr-4">
-                                        <button
-                                            className={`priority-filter-button ${priorityFilter ? 'active-priority-filter' : ''}`}
-                                            onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-                                        >
-                                            <Filter size={18}/>
-                                            <span className="ml-2">Filtrar</span>
-                                            {priorityFilter && (
-                                                <span
-                                                    className={`priority-filter-badge ${
-                                                        priorityFilter === 'High' ? 'priority-high-badge' :
-                                                            priorityFilter === 'Low' ? 'priority-low-badge' : ''
-                                                    }`}
-                                                >
-                                                    {priorityFilter}
-                                                </span>
+                                <h2 className="text-2xl font-bold text-amber-500">Tickets</h2>
+
+                                {/* Show filter and sort controls only for admins */}
+                                {isUserAdmin && (
+                                    <div className={styles.filterContainer}>
+                                        <div className="relative">
+                                            <button
+                                                className={`${styles.filterButton} ${priorityFilter ? styles.activeFilter : ''}`}
+                                                onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+                                            >
+                                                <Filter size={16}/>
+                                                <span>{priorityFilter || 'Filter'}</span>
+                                            </button>
+                                            {showFilterDropdown && (
+                                                <div className={styles.filterDropdown}>
+                                                    <div className={styles.filterItem}
+                                                         onClick={() => filterByPriority(null)}>
+                                                        All
+                                                    </div>
+                                                    <div className={styles.filterItem}
+                                                         onClick={() => filterByPriority('High')}>
+                                                        High
+                                                    </div>
+                                                    <div className={styles.filterItem}
+                                                         onClick={() => filterByPriority('Medium')}>
+                                                        Medium
+                                                    </div>
+                                                    <div className={styles.filterItem}
+                                                         onClick={() => filterByPriority('Low')}>
+                                                        Low
+                                                    </div>
+                                                </div>
                                             )}
+                                        </div>
+
+                                        <button className={styles.sortButton} onClick={toggleSort}>
+                                            {sortDirection === 'asc' ? <SortAsc size={16}/> :
+                                                sortDirection === 'desc' ? <SortDesc size={16}/> : <SortAsc size={16}/>}
                                         </button>
-
-                                        {showFilterDropdown && (
-                                            <div className="priority-filter-dropdown">
-                                                <div
-                                                    className="priority-filter-item"
-                                                    onClick={() => filterByPriority(null)}
-                                                >
-                                                    <span className="priority-dot priority-all"></span>
-                                                    Todas
-                                                </div>
-                                                <div
-                                                    className="priority-filter-item"
-                                                    onClick={() => filterByPriority('High')}
-                                                >
-                                                    <span className="priority-dot priority-high"></span>
-                                                    Alta
-                                                </div>
-                                                <div
-                                                    className="priority-filter-item"
-                                                    onClick={() => filterByPriority('Medium')}
-                                                >
-                                                    <span className="priority-dot priority-medium"></span>
-                                                    Media
-                                                </div>
-                                                <div
-                                                    className="priority-filter-item"
-                                                    onClick={() => filterByPriority('Low')}
-                                                >
-                                                    <span className="priority-dot priority-low"></span>
-                                                    Baja
-                                                </div>
-                                            </div>
-                                        )}
                                     </div>
-
-                                    <button
-                                        className={`sort-button ${sortDirection ? 'active-filter' : ''}`}
-                                        onClick={toggleSort}
-                                    >
-                                        {sortDirection === 'asc' ? (
-                                            <SortAsc size={18}/>
-                                        ) : sortDirection === 'desc' ? (
-                                            <SortDesc size={18}/>
-                                        ) : (
-                                            <SortAsc size={18} className="opacity-70"/>
-                                        )}
-                                        <span className="ml-2">Ordenar</span>
-                                    </button>
-                                </div>
+                                )}
                             </div>
 
                             <table className={styles.table}>
-                                <thead>
-                                <tr className={styles.tableHeader}>
-                                    <th className={styles.tableHeaderCell}>Id</th>
+                                <thead className={styles.tableHeader}>
+                                <tr>
+                                    <th className={styles.tableHeaderCell}>ID</th>
                                     <th className={styles.tableHeaderCell}>Cliente</th>
                                     <th className={styles.tableHeaderCell}>Asunto</th>
                                     <th className={styles.tableHeaderCell}>Estado</th>
-                                    <th className={styles.tableHeaderCell}>Prioridad</th>
-                                    <th className={styles.tableHeaderCell}>Creado</th>
-                                    <th className={styles.tableHeaderCell}></th>
+                                    {isUserAdmin && <th className={styles.tableHeaderCell}>Prioridad</th>}
+                                    <th className={styles.tableHeaderCell}>Fecha</th>
+                                    <th className={styles.tableHeaderCell}>Acción</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {filteredTickets.map((ticket) => (
                                     <tr key={ticket.id} className={styles.tableRow}>
-                                        <td className={styles.idCell} title={`ID completo: ${ticket.id}`}>
-                                            <span className={styles.idBadge}>{ticket.id.substring(0, 6)}</span>
+                                        <td className={styles.idCell}>
+                                            <div className={styles.idText}>#{ticket.id}</div>
                                         </td>
                                         <td className={styles.tableCell}>
-                                            <div className={styles.avatarContainer}>
+                                            <div className="flex items-center">
                                                 <Avatar name={ticket.name} color={ticket.avatar} img={ticket.img}/>
-                                                <span className={styles.avatarText}>{ticket.name}</span>
+                                                <span className="ml-2 font-medium">{ticket.name}</span>
                                             </div>
                                         </td>
                                         <td className={styles.tableCell}>
-                                            <span className={styles.subjectText}>{ticket.subject}</span>
+                                            <div className={styles.subjectText}>{ticket.subject}</div>
                                         </td>
                                         <td className={styles.tableCell}>
                                             <StatusBadge status={ticket.status}/>
                                         </td>
+                                        {isUserAdmin && (
+                                            <td className={styles.tableCell}>
+                                                <PriorityIndicator priority={ticket.priority}/>
+                                            </td>
+                                        )}
                                         <td className={styles.tableCell}>
-                                            <PriorityIndicator priority={ticket.priority}/>
+                                            <div className={styles.dateText}>{ticket.created}</div>
                                         </td>
                                         <td className={styles.tableCell}>
-                                            <span className={styles.dateText}>{ticket.created}</span>
-                                        </td>
-                                        <td className={`${styles.tableCell} text-right`}>
                                             <button
                                                 className={styles.actionButton}
                                                 onClick={() => navigate(`/ticket/${ticket.id}`)}
                                             >
-                                                <ChevronRight size={20}/>
+                                                <ChevronRight size={18}/>
                                             </button>
                                         </td>
                                     </tr>
                                 ))}
                                 </tbody>
                             </table>
-                        </div>
+                        </>
                     ) : (
-                        <div className={styles.emptyContainer}>No hay tickets asignados.</div>
+                        <div className={styles.emptyContainer}>
+                            <p>No hay tickets disponibles</p>
+                        </div>
                     )}
                 </div>
             </div>
@@ -514,4 +523,3 @@ const TicketsView = () => {
 };
 
 export default TicketsView;
-

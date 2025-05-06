@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Implement FAQ functionality; add API, context, and UI for managing FAQs">
-      <change beforePath="$PROJECT_DIR$/server/src/routes/gameRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/gameRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/services/gameService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/gameService.ts" afterDir="false" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor game functionality; rename 'funcionando' to 'estado' in game routes and service">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/ticketApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/ticketApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/footer/Terminos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/footer/Terminos.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/tickets/Ticket.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/tickets/Ticket.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/tickets/TicketsView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/tickets/TicketsView.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,18 +35,31 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Tomas" />
+        <entry key="$PROJECT_DIR$" value="Eliseo" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Tomas093&quot;
-  }
-}</component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "history": [
+    {
+      "state": "OPEN"
+    }
+  ],
+  "lastFilter": {}
+}]]></component>
+  <component name="GitHubPullRequestState"><![CDATA[{
+  "prStates": [
+    {
+      "id": {
+        "id": "PR_kwDOOGzOas6VJaX7",
+        "number": 35
+      },
+      "lastSeen": 1746553555926
+    }
+  ]
+}]]></component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Tomas093/Casino-Web.git&quot;,
@@ -73,25 +90,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Eliseo",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/Casino-Web",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editing.templates",
-    "ts.external.directory.path": "C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Tomas&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/Casino-Web&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server" />
@@ -192,14 +209,7 @@
       <workItem from="1746534468794" duration="2079000" />
       <workItem from="1746536608681" duration="89000" />
       <workItem from="1746536716663" duration="4794000" />
-    </task>
-    <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
-      <option name="closed" value="true" />
-      <created>1743777662865</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1743777662865</updated>
+      <workItem from="1746553436297" duration="383000" />
     </task>
     <task id="LOCAL-00002" summary="Update workspace.xml to reflect changes in file paths and project structure">
       <option name="closed" value="true" />
@@ -585,7 +595,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746541184478</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Refactor game functionality; rename 'funcionando' to 'estado' in game routes and service">
+      <option name="closed" value="true" />
+      <created>1746544262762</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1746544262762</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -618,7 +636,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Refactor transaction components; improve structure and update styles for better readability" />
     <MESSAGE value="Termino Transacciones AMB" />
     <MESSAGE value="Refactor project structure; rename files and update import paths for improved organization" />
     <MESSAGE value="A" />
@@ -643,6 +660,7 @@
     <MESSAGE value="Implement chat feature; add message API, context, and UI for ticket messaging" />
     <MESSAGE value="Enhance support ticket functionality; implement automatic priority assignment and user data initialization" />
     <MESSAGE value="Implement FAQ functionality; add API, context, and UI for managing FAQs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement FAQ functionality; add API, context, and UI for managing FAQs" />
+    <MESSAGE value="Refactor game functionality; rename 'funcionando' to 'estado' in game routes and service" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor game functionality; rename 'funcionando' to 'estado' in game routes and service" />
   </component>
 </project>

@@ -40,7 +40,7 @@ interface BetResult {
 
 
 // Componente de notificación de resultado
-const ResultNotification = ({ show, winner, winnings, isWin, onClose }) => {
+const ResultNotification = ({show, winner, winnings, isWin, onClose}) => {
     useEffect(() => {
         if (show) {
             const timer = setTimeout(() => {
@@ -77,7 +77,7 @@ const ResultNotification = ({ show, winner, winnings, isWin, onClose }) => {
 };
 
 // Nueva notificación específica para saldo insuficiente
-const InsufficientBalanceNotification = ({ show, onClose }) => {
+const InsufficientBalanceNotification = ({show, onClose}) => {
     useEffect(() => {
         if (show) {
             const timer = setTimeout(() => {
@@ -119,14 +119,18 @@ const RouletteGame: React.FC = () => {
     const [betResults, setBetResults] = useState<BetResult[]>([]);
     const [showNotification, setShowNotification] = useState(false);
     const [showInsufficientBalance, setShowInsufficientBalance] = useState(false);
-    const [notificationData, setNotificationData] = useState({ winner: '', winnings: 0, isWin: false });
-    const { user } = useAuth();
-    const { createPlay, isLoading } = usePlay();
-    const { client, getUserData } = useUser();
-    const { bets, onBet, clearBets, total: totalBet, hasBets } = useRoulette();
+    const [notificationData, setNotificationData] = useState({winner: '', winnings: 0, isWin: false});
+    const {user} = useAuth();
+    const {createPlay, isLoading} = usePlay();
+    const {client, getUserData} = useUser();
+    const {bets, onBet, clearBets, total: totalBet, hasBets} = useRoulette();
     const [betHistory, setBetHistory] = useState<{ betId: string; amount: number }[]>([]);
+    const [currentBetAmount, setCurrentBetAmount] = useState(0);
 
-
+    useEffect(() => {
+        // Actualizar el monto total apostado para usarlo en el registro de la jugada
+        setCurrentBetAmount(totalBet);
+    }, [totalBet]);
 
     // Función para determinar si un número es rojo o negro
     const getNumberColor = (number: string): 'red' | 'black' | 'green' => {
@@ -137,7 +141,7 @@ const RouletteGame: React.FC = () => {
 
     const handleSpin = async () => {
         if (!hasBets) {
-            setNotificationData({ winner: '', winnings: 0, isWin: false });
+            setNotificationData({winner: 'No hay apuestas', winnings: 0, isWin: false});
             setShowNotification(true);
             return;
         }
@@ -152,15 +156,16 @@ const RouletteGame: React.FC = () => {
             return;
         }
 
+        // Guardar el monto actual de la apuesta antes de limpiar
+        const currentBet = totalBet;
+
         // Generar número aleatorio entre 0 y 36
         const randomNumber = String(Math.floor(Math.random() * 37));
         setWinningBet(randomNumber);
         setWheelStart(true);
-        //
-        //
-        // CAPAZ ESTO ESTA MAL
-        clearBets();
-        setBetHistory([]);
+
+        // No limpiar las apuestas aquí, esperar hasta que termine la animación
+        // Esto es crucial para que calculateWinnings tenga acceso a las apuestas
     };
 
     const calculateWinnings = (winner: string) => {
@@ -180,7 +185,7 @@ const RouletteGame: React.FC = () => {
             } else if (betId === winner) {
                 // Apuesta directa a un número
                 isWin = true;
-            } else if (bet.payload.includes(winner)) {
+            } else if (bet.payload && bet.payload.includes(winner)) {
                 // Otras apuestas que incluyen el número ganador
                 isWin = true;
             }
@@ -251,7 +256,7 @@ const RouletteGame: React.FC = () => {
         }
 
         onBet(chipValue, 'add')(betId);
-        setBetHistory((prev) => [...prev, { betId, amount: chipValue }]);
+        setBetHistory((prev) => [...prev, {betId, amount: chipValue}]);
     };
 
     const handleUndoLastBet = () => {
@@ -271,26 +276,29 @@ const RouletteGame: React.FC = () => {
 
         // Calcular ganancias
         const winnings = calculateWinnings(winner);
+        const isWin = winnings > 0;
 
-        // Registrar la jugada en el backend
-        await registerPlay(totalBet, winnings);
+        // Registrar la jugada en el backend con el monto de apuesta guardado
+        await registerPlay(currentBetAmount, winnings);
 
         // Mostrar notificación de resultado
         setNotificationData({
             winner: winner,
             winnings: winnings,
-            isWin: winnings > 0
+            isWin: isWin
         });
         setShowNotification(true);
 
+        // Ahora sí limpiar las apuestas después de calcular las ganancias
         setWheelStart(false);
         clearBets();
+        setBetHistory([]); // Limpiar también el historial de apuestas
         setBetResults([]);
     };
 
     // Componente para mostrar el historial de resultados con colores
     const ResultHistory = () => (
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '1rem' }}>
+        <div style={{display: 'flex', gap: '8px', marginBottom: '1rem'}}>
             {lastResults.map((num, idx) => {
                 const color = getNumberColor(num);
                 return (
@@ -314,12 +322,10 @@ const RouletteGame: React.FC = () => {
 
     // Componente para los botones de apuesta rápida por color
     const QuickColorBets = () => (
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+        <div style={{display: 'flex', gap: '1rem', marginBottom: '1rem'}}>
             {/* Contenido de QuickColorBets */}
         </div>
     );
-
-
 
     const landingNavLinks = [
         {label: "Home", href: "/home", isAnchor: true},
@@ -354,20 +360,32 @@ const RouletteGame: React.FC = () => {
                     onClose={() => setShowInsufficientBalance(false)}
                 />
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', padding: '20px', marginTop: '80px' }}>
-                    {/* Mostrar el balance actual */}
+                <div
+                    style={{display: 'flex', flexDirection: 'column', gap: '2rem', padding: '20px', marginTop: '80px'}}>
+                    {/* Mostrar detalles de apuesta */}
+                    <div style={{display: 'flex', justifyContent: 'center', width: '100%'}}>
+                        <div style={{
+                            background: 'rgba(0,0,0,0.7)',
+                            padding: '10px 20px',
+                            borderRadius: '5px',
+                            color: 'white',
+                            fontWeight: 'bold'
+                        }}>
+                            Apuesta total: ${totalBet}
+                        </div>
+                    </div>
 
                     {lastResults.length > 0 && (
                         <div>
                             <h3>Últimos resultados</h3>
-                            <ResultHistory />
+                            <ResultHistory/>
                         </div>
                     )}
 
-                    <QuickColorBets />
+                    <QuickColorBets/>
 
                     {/* SECCIÓN 1: RULETA CENTRADA */}
-                    <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '2rem' }}>
+                    <div style={{display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '2rem'}}>
                         <RouletteWheel
                             start={wheelStart}
                             winningBet={winningBet}
@@ -376,7 +394,7 @@ const RouletteGame: React.FC = () => {
                     </div>
 
                     {/* SECCIÓN 2: BOTONES CENTRADOS */}
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '2rem' }}>
+                    <div style={{display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '2rem'}}>
                         <button
                             onClick={handleSpin}
                             disabled={wheelStart || !hasBets || isLoading}
@@ -401,7 +419,7 @@ const RouletteGame: React.FC = () => {
                     </div>
 
                     {/* SECCIÓN 3: TABLA DE APUESTAS */}
-                    <div style={{ marginBottom: '2rem' }}>
+                    <div style={{marginBottom: '2rem'}}>
                         <RouletteTable
                             chips={chips}
                             bets={bets}
@@ -411,7 +429,7 @@ const RouletteGame: React.FC = () => {
                     </div>
 
                     {/* SECCIÓN 4: LISTA DE FICHAS */}
-                    <div style={{ marginBottom: '2rem' }}>
+                    <div style={{marginBottom: '2rem'}}>
                         <ChipList
                             chips={chips}
                             selectedChip={selectedChip}
