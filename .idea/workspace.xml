@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add friends leaderboard feature; implement API, context, and UI for displaying friends' rankings">
-      <change afterPath="$PROJECT_DIR$/client/src/Css/Terminos.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/footer/Terminos.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
-    </list>
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add friends leaderboard feature; implement API, context, and UI for displaying friends' rankings" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -182,7 +177,7 @@
       <workItem from="1746305146088" duration="928000" />
       <workItem from="1746306824085" duration="851000" />
       <workItem from="1746307751202" duration="629000" />
-      <workItem from="1746541788001" duration="1035000" />
+      <workItem from="1746541788001" duration="1359000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
