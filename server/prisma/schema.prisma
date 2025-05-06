@@ -243,3 +243,11 @@ model ticket {
   @@index([adminid], map: "idx_tickets_idadmin")
   @@index([resuelto], map: "idx_tickets_resuelto")
 }
+
+model faq {
+  preguntaid   Int     @id @default(autoincrement())
+  pregunta     String
+  respuesta    String
+  categoria    String  @db.VarChar(255)
+  palabraclave String?
+}

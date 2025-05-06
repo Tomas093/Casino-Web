@@ -1,20 +1,31 @@
 import React, {useState, useEffect} from "react";
 import {Phone, Mail, MessageCircle, Clock, HelpCircle, Send} from "lucide-react";
 import Form from "@components/Form";
-import FAQAccordion from "@components/support/FAQAccordion.tsx";
+import FAQAccordion from "@components/support/FAQAccordion";
 import ContactCard from "@components/support/ContactCard";
 import StatusIndicator from "@components/support/StatusIndicator";
 import "@css/SupportStyle.css";
-import Footer from "@components/Footer.tsx";
-import {useTicket} from "@context/TicketContext.tsx";
-import {useUser} from "@context/UserContext.tsx";
+import Footer from "@components/Footer";
+import {useTicket} from "@context/TicketContext";
+import {useUser} from "@context/UserContext";
+import {useFaq} from "@context/FAQContext";
 
 const SupportPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<string>("contact");
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [showThankYou, setShowThankYou] = useState<boolean>(false);
-    const [, setSubmissionError] = useState<string | null>(null);
+    const [submissionError, setSubmissionError] = useState<string | null>(null);
     const {getUserData, client} = useUser();
+
+    const {getAllFAQs, getFAQByQuestion, getFAQsByCategory, isLoading} = useFaq();
+
+    const [faqItems, setFaqItems] = useState<Array<{ question: string; answer: string; type?: string }>>([]);
+    const [activeCategory, setActiveCategory] = useState<string>("Todas");
+    const [originalFaqItems, setOriginalFaqItems] = useState<Array<{
+        question: string;
+        answer: string;
+        type?: string
+    }>>([]);
 
     const {createTicket, loading} = useTicket();
 
@@ -26,7 +37,31 @@ const SupportPage: React.FC = () => {
         }
     }, [getUserData]);
 
-    // Función para determinar el nivel de prioridad automáticamente según el tipo de problema
+    // Load FAQs when component mounts with data transformation
+    useEffect(() => {
+        const loadFAQs = async () => {
+            try {
+                const allFaqs = await getAllFAQs();
+                // Transform data to match FAQAccordion's expected format
+                const transformedFaqs = allFaqs.map((faq: {
+                    pregunta: string;
+                    respuesta: string;
+                    categoria: string
+                }) => ({
+                    question: faq.pregunta,
+                    answer: faq.respuesta,
+                    type: faq.categoria
+                }));
+                setFaqItems(transformedFaqs);
+                setOriginalFaqItems(transformedFaqs);
+            } catch (error) {
+                console.error("Error loading FAQs:", error);
+            }
+        };
+
+        loadFAQs();
+    }, [getAllFAQs]);
+
     const getPriorityByProblem = (problemType: string): string => {
         switch (problemType) {
             case "Problema Técnico":
@@ -42,7 +77,6 @@ const SupportPage: React.FC = () => {
 
     const handleSubmit = async (formData: Record<string, string>) => {
         try {
-            // Determinar automáticamente la prioridad según el tipo de problema
             const priority = getPriorityByProblem(formData.problem);
 
             const ticketData = {
@@ -52,10 +86,7 @@ const SupportPage: React.FC = () => {
                 prioridad: priority,
             };
 
-            // Crear el ticket usando el contexto
             await createTicket(ticketData);
-
-            // Mostrar mensaje de agradecimiento
             setShowThankYou(true);
             setSubmissionError(null);
 
@@ -69,28 +100,58 @@ const SupportPage: React.FC = () => {
         }
     };
 
-    const faqItems = [
-        {
-            question: "¿Cómo puedo restablecer mi contraseña?",
-            answer: "Para restablecer tu contraseña, haz clic en 'Olvidé mi contraseña' en la página de inicio de sesión. Recibirás un correo electrónico con instrucciones para crear una nueva contraseña."
-        },
-        {
-            question: "¿Cuánto tiempo tarda en procesarse un reembolso?",
-            answer: "Los reembolsos generalmente se procesan dentro de 3-5 días hábiles, pero pueden tardar hasta 10 días en aparecer en tu cuenta bancaria dependiendo de tu entidad financiera."
-        },
-        {
-            question: "¿Cómo puedo actualizar mi información de facturación?",
-            answer: "Puedes actualizar tu información de facturación en la sección 'Mi cuenta' > 'Facturación'. Allí podrás editar tus métodos de pago y dirección de facturación."
-        },
-        {
-            question: "¿Ofrecen soporte técnico 24/7?",
-            answer: "Sí, nuestro equipo de soporte técnico está disponible las 24 horas del día, los 7 días de la semana. Puedes contactarnos por chat en vivo, correo electrónico o teléfono en cualquier momento."
-        },
-        {
-            question: "¿Cómo puedo cancelar mi suscripción?",
-            answer: "Para cancelar tu suscripción, ve a 'Mi cuenta' > 'Suscripciones' y haz clic en 'Cancelar suscripción'. Seguirás teniendo acceso hasta el final del período de facturación actual."
+    // Filter FAQs by category with data transformation
+    const handleCategoryClick = async (category: string) => {
+        setActiveCategory(category);
+
+        try {
+            if (category === "Todas") {
+                setFaqItems(originalFaqItems);
+            } else {
+                const categoryFaqs = await getFAQsByCategory(category);
+                const transformedFaqs = categoryFaqs.map((faq: {
+                    pregunta: string;
+                    respuesta: string;
+                    categoria: string
+                }) => ({
+                    question: faq.pregunta,
+                    answer: faq.respuesta,
+                    type: faq.categoria
+                }));
+                setFaqItems(transformedFaqs);
+            }
+        } catch (error) {
+            console.error(`Error loading FAQs for category ${category}:`, error);
         }
-    ];
+    };
+
+    // Search functionality with data transformation
+    const handleSearch = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (!searchQuery.trim()) {
+            setFaqItems(originalFaqItems);
+            return;
+        }
+
+        try {
+            const searchResults = await getFAQByQuestion(searchQuery);
+            const resultsArray = Array.isArray(searchResults) ? searchResults : [searchResults];
+            const transformedResults = resultsArray.map((faq: {
+                pregunta: string;
+                respuesta: string;
+                categoria: string
+            }) => ({
+                question: faq.pregunta,
+                answer: faq.respuesta,
+                type: faq.categoria
+            }));
+            setFaqItems(transformedResults);
+        } catch (error) {
+            console.error("Error searching FAQs:", error);
+            setFaqItems([]);
+        }
+    };
 
     const contactInfo = [
         {
@@ -115,12 +176,6 @@ const SupportPage: React.FC = () => {
             action: "Iniciar chat"
         }
     ];
-
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log("Searching for:", searchQuery);
-        // Implement search functionality here
-    };
 
     return (
         <div className="support-page">
@@ -201,12 +256,12 @@ const SupportPage: React.FC = () => {
                                         title="Envíanos un Mensaje"
                                         subtitle="Nuestro equipo te responderá en menos de 24 horas"
                                         fields={[
-                                            {name: "name", placeholder: "Nombre", type: "text", required: true},
+                                            {name: "name", placeholder: "Nombre", type: "text", required: false},
                                             {
                                                 name: "email",
                                                 placeholder: "Correo Electrónico",
                                                 type: "email",
-                                                required: true
+                                                required: false
                                             },
                                             {
                                                 name: "problem",
@@ -215,12 +270,13 @@ const SupportPage: React.FC = () => {
                                                 options: ["Problema Técnico", "Consulta General", "Problema Con la Cuenta", "Problema Algun Juego"],
                                                 required: true
                                             },
-                                            {name: "message", placeholder: "Problema", type: "textarea", required: true}
+                                            {name: "message", placeholder: "Problema", type: "text", required: true}
                                         ]}
                                         submitButtonText={loading ? "Enviando..." : "Enviar Mensaje"}
                                         onSubmit={handleSubmit}
                                     />
                                 )}
+                                {submissionError && <div className="error-message">{submissionError}</div>}
                             </div>
                         </div>
                     )}
@@ -231,15 +287,47 @@ const SupportPage: React.FC = () => {
                             <p className="faq-description">Encuentra respuestas rápidas a las preguntas más comunes.</p>
 
                             <div className="faq-categories">
-                                <button className="faq-category active">Todas</button>
-                                <button className="faq-category">Cuenta</button>
-                                <button className="faq-category">Pagos</button>
-                                <button className="faq-category">Productos</button>
-                                <button className="faq-category">Técnico</button>
+                                <button
+                                    className={`faq-category ${activeCategory === "Todas" ? "active" : ""}`}
+                                    onClick={() => handleCategoryClick("Todas")}
+                                >
+                                    Todas
+                                </button>
+                                <button
+                                    className={`faq-category ${activeCategory === "Cuenta" ? "active" : ""}`}
+                                    onClick={() => handleCategoryClick("cuenta")}
+                                >
+                                    Cuenta
+                                </button>
+                                <button
+                                    className={`faq-category ${activeCategory === "Pagos" ? "active" : ""}`}
+                                    onClick={() => handleCategoryClick("pagos")}
+                                >
+                                    Pagos
+                                </button>
+                                <button
+                                    className={`faq-category ${activeCategory === "Juegos" ? "active" : ""}`}
+                                    onClick={() => handleCategoryClick("juego")}
+                                >
+                                    Juegos
+                                </button>
+                                <button
+                                    className={`faq-category ${activeCategory === "Tecnicos" ? "active" : ""}`}
+                                    onClick={() => handleCategoryClick("tecnico")}
+                                >
+                                    Técnicos
+                                </button>
                             </div>
 
                             <div className="faq-items">
-                                <FAQAccordion items={faqItems}/>
+                                {isLoading ? (
+                                    <div className="loading-state">Cargando preguntas frecuentes...</div>
+                                ) : faqItems.length > 0 ? (
+                                    <FAQAccordion items={faqItems}/>
+                                ) : (
+                                    <div className="no-results">No se encontraron preguntas que coincidan con tu
+                                        búsqueda.</div>
+                                )}
                             </div>
 
                             <div className="faq-more-help">
@@ -254,7 +342,9 @@ const SupportPage: React.FC = () => {
                     )}
                 </div>
             </div>
-            <Footer></Footer>
+            <div className="support-footer">
+                <Footer></Footer>
+            </div>
         </div>
     );
 };

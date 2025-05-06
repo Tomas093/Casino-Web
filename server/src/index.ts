@@ -16,6 +16,7 @@ import limitRoutes from "./routes/limitRoutes";
 import friendRequestRoutes from "./routes/friendRequestRoutes";
 import ticketRoutes from "./routes/ticketRoutes";
 import messageRoutes from "./routes/messageRoutes";
+import faqRoutes from "./routes/faqRoutes";
 
 const app = express();
 
@@ -73,6 +74,7 @@ app.use('/play', playRoutes);
 app.use('/friendRequest', friendRequestRoutes);
 app.use('/ticket', ticketRoutes)
 app.use('/message', messageRoutes);
+app.use('/faq', faqRoutes);
 
 
 const PORT = process.env.PORT || 3001;

@@ -4,12 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Implement chat feature; add message API, context, and UI for ticket messaging">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Enhance support ticket functionality; implement automatic priority assignment and user data initialization">
+      <change afterPath="$PROJECT_DIR$/client/src/React/api/faqApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/context/FAQContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/routes/faqRoutes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/services/faqService.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/NewStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/NewStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/SupportStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/SupportStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/appProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/appProvider.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/pages/support/SupportPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/support/SupportPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/ticketRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/ticketRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/services/ticketService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/ticketService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/services/userService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/userService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,9 +31,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="CSS File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -189,7 +195,12 @@
       <workItem from="1746358771618" duration="9421000" />
       <workItem from="1746370805257" duration="131000" />
       <workItem from="1746370984725" duration="11058000" />
-      <workItem from="1746403364212" duration="7323000" />
+      <workItem from="1746403364212" duration="7908000" />
+      <workItem from="1746465993328" duration="1117000" />
+      <workItem from="1746469031181" duration="2000" />
+      <workItem from="1746534468794" duration="2079000" />
+      <workItem from="1746536608681" duration="89000" />
+      <workItem from="1746536716663" duration="4311000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -567,7 +578,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746406833992</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Enhance support ticket functionality; implement automatic priority assignment and user data initialization">
+      <option name="closed" value="true" />
+      <created>1746411008533</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1746411008533</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -600,7 +619,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="pruebo gh pages" />
     <MESSAGE value="Enhance footer layout and content; update styles for improved responsiveness" />
     <MESSAGE value="Refactor transaction components; improve structure and update styles for better readability" />
     <MESSAGE value="Termino Transacciones AMB" />
@@ -625,6 +643,7 @@
     <MESSAGE value="Refactor ticket view styles; update class names for improved clarity and consistency" />
     <MESSAGE value="Chat Implementado aflta css descipcion y que se pueda editar" />
     <MESSAGE value="Implement chat feature; add message API, context, and UI for ticket messaging" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement chat feature; add message API, context, and UI for ticket messaging" />
+    <MESSAGE value="Enhance support ticket functionality; implement automatic priority assignment and user data initialization" />
+    <option name="LAST_COMMIT_MESSAGE" value="Enhance support ticket functionality; implement automatic priority assignment and user data initialization" />
   </component>
 </project>
