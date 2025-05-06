@@ -23,8 +23,10 @@ import FriendsPage from "../pages/profile/FriendsPage.tsx";
 import TicketsView from "../pages/tickets/TicketsView.tsx";
 import Ticket from '../pages/tickets/Ticket.tsx';
 import SupportPage from "../pages/support/SupportPage.tsx";
-
-
+import PrivacyPolicy from "../pages/footer/PrivacyPolicy.tsx"
+import Terminos from "../pages/footer/Terminos.tsx"
+import AboutUs from "../pages/footer/AboutUs.tsx"
+import Legal from "../pages/footer/Legal.tsx"
 function App() {
     return (
         <BrowserRouter>
@@ -34,6 +36,13 @@ function App() {
                     <Route path="/" element={<LandingPage/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Register/>}/>
+                    <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
+                    <Route path="/terms" element={<Terminos/>}/>
+                    <Route path="/aboutUs" element={<AboutUs/>}/>
+                    <Route path="/legal" element={<Legal/>}/>
+
+
+
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
                     <Route element={<ProtectedRoute/>}>
