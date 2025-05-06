@@ -15,7 +15,7 @@ model administrador {
   aumentolimitehorario    aumentolimitehorario[]
   aumentolimitesmonetario aumentolimitesmonetario[]
   suspendidos             suspendidos[]
-  tickets                 tickets[]
+  ticket                  ticket[]
 }
 
 model amistad {
@@ -67,7 +67,7 @@ model cliente {
   partida                    partida[]
   pausa                      pausa?
   suspendidos                suspendidos[]
-  tickets                    tickets[]
+  ticket                     ticket[]
   tiempodejuego              tiempodejuego[]
 }
 
@@ -107,10 +107,10 @@ model ingreso {
 }
 
 model juego {
-  juegoid Int      @id @default(autoincrement())
-  nombre  String?  @db.VarChar(255)
-  estado  Boolean?
-  jugada  jugada[]
+  juegoid     Int      @id @default(autoincrement())
+  nombre      String?  @db.VarChar(255)
+  funcionando Boolean?
+  jugada      jugada[]
 }
 
 model jugada {
@@ -180,25 +180,6 @@ model suspendidos {
   cliente       cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
-model tickets {
-  ticketid      Int            @id @default(autoincrement())
-  clienteid     Int?
-  problema      String?
-  resuelto      Boolean?       @default(false)
-  idadmin       Int?
-  fechacreacion DateTime?      @default(now()) @db.Timestamp(6)
-  fechacierre   DateTime?      @db.Timestamp(6)
-  prioridad     String?
-  categoria     String?
-  mensaje       mensaje[]
-  administrador administrador? @relation(fields: [idadmin], references: [adminid], onDelete: Cascade, onUpdate: NoAction, map: "fk_admin")
-  cliente       cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction, map: "fk_cliente")
-
-  @@index([clienteid], map: "idx_tickets_clienteid")
-  @@index([idadmin], map: "idx_tickets_idadmin")
-  @@index([resuelto], map: "idx_tickets_resuelto")
-}
-
 model tiempodejuego {
   clienteid Int
   fecha     DateTime @db.Timestamp(6)
@@ -240,7 +221,33 @@ model mensaje {
   ticketid   Int
   contenido  String
   fechaenvio DateTime? @default(now()) @db.Timestamp(6)
-  tickets    tickets   @relation(fields: [ticketid], references: [ticketid], onDelete: Cascade, onUpdate: NoAction, map: "fk_ticket")
+  usuarioid  Int
+  tickets    ticket    @relation(fields: [ticketid], references: [ticketid], onDelete: Cascade, onUpdate: NoAction, map: "fk_ticket")
+}
 
-  @@index([ticketid], map: "idx_mensaje_ticketid")
+model ticket {
+  ticketid      Int            @id(map: "tickets_pkey") @default(autoincrement())
+  clienteid     Int?
+  problema      String?
+  resuelto      Boolean?       @default(false)
+  adminid       Int?
+  fechacreacion DateTime?      @default(now()) @db.Timestamp(6)
+  fechacierre   DateTime?      @db.Timestamp(6)
+  prioridad     String?
+  categoria     String?
+  mensaje       mensaje[]
+  administrador administrador? @relation(fields: [adminid], references: [adminid], onDelete: Cascade, onUpdate: NoAction, map: "fk_admin")
+  cliente       cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction, map: "fk_cliente")
+
+  @@index([clienteid], map: "idx_tickets_clienteid")
+  @@index([adminid], map: "idx_tickets_idadmin")
+  @@index([resuelto], map: "idx_tickets_resuelto")
+}
+
+model faq {
+  preguntaid   Int     @id @default(autoincrement())
+  pregunta     String
+  respuesta    String
+  categoria    String  @db.VarChar(255)
+  palabraclave String?
 }

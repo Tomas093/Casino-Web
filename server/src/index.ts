@@ -14,6 +14,9 @@ import playRoutes from "./routes/playRoutes"
 import leaderboardRoutes from "./routes/leaderboardRoutes";
 import limitRoutes from "./routes/limitRoutes";
 import friendRequestRoutes from "./routes/friendRequestRoutes";
+import ticketRoutes from "./routes/ticketRoutes";
+import messageRoutes from "./routes/messageRoutes";
+import faqRoutes from "./routes/faqRoutes";
 
 const app = express();
 
@@ -21,7 +24,7 @@ const app = express();
 const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
 
 app.use(cors({
-    origin: function(origin, callback) {
+    origin: function (origin, callback) {
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
@@ -40,9 +43,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Rutas de subida y archivos estáticos
-app.use('/upload', uploadRoutes);
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Configuración de sesiones
 app.use(session({
@@ -58,6 +58,9 @@ app.use(session({
 }));
 
 // Usar las rutas refactorizadas
+// Rutas de subida y archivos estáticos
+app.use('/upload', uploadRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);
@@ -65,10 +68,14 @@ app.use('/transaction', transactionRoutes);
 app.use('/game', gameRoutes);
 app.use('/history', historyRoutes)
 app.use('/play', playRoutes);
-app.use('/leaderboard',leaderboardRoutes)
+app.use('/leaderboard', leaderboardRoutes)
 app.use('/limit', limitRoutes)
 app.use('/play', playRoutes);
 app.use('/friendRequest', friendRequestRoutes);
+app.use('/ticket', ticketRoutes)
+app.use('/message', messageRoutes);
+app.use('/faq', faqRoutes);
+
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

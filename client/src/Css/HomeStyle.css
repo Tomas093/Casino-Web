@@ -278,8 +278,12 @@ body {
 }
 
 @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
 }
 
 .cta-container {
@@ -450,12 +454,14 @@ body {
     transform: translateY(70%);
     transition: var(--transition-default);
 }
-.filter-dropdown{
+
+.filter-dropdown {
     justify-content: center;
     align-items: center;
     opacity: 0;
     transition: var(--transition-default);
 }
+
 .game-card-title {
     color: var(--color-gold);
     font-size: 1.5rem;
@@ -593,9 +599,15 @@ body {
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .stat-value {
@@ -998,8 +1010,12 @@ body {
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 /* Responsive Styles */
@@ -1109,7 +1125,7 @@ body {
     .auth-buttons {
         display: none;
     }
-
+h
     .hero-section {
         height: 80vh;
     }

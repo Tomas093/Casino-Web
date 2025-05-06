@@ -8,6 +8,7 @@ interface AdminContextType {
     getAdmins: () => Promise<any>;
     createAdmin: (adminData: AdminCreateData) => Promise<any>;
     editAdmin: (userId: string, userData: EditAdminData) => Promise<any>;
+    getAdminByUserId: (userId: string) => Promise<any>;
 }
 
 interface AdminCreateData {
@@ -32,7 +33,7 @@ interface AdminProviderProps {
 
 const AdminContext = createContext<AdminContextType | null>(null);
 
-export const AdminProvider = ({ children }: AdminProviderProps) => {
+export const AdminProvider = ({children}: AdminProviderProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const checkIsAdmin = async () => {
@@ -79,13 +80,26 @@ export const AdminProvider = ({ children }: AdminProviderProps) => {
         }
     };
 
+    const getAdminByUserId = async (userId: string) => {
+        setIsLoading(true);
+        try {
+            return await adminApi.getAdminByUserId(userId);
+        } catch (error) {
+            console.error('Error al obtener administradores por ID de usuario:', error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     const contextValue: AdminContextType = {
         isLoading,
         isAdmin: checkIsAdmin,
         isSuperAdmin: checkIsSuperAdmin,
         getAdmins: fetchAdmins,
         createAdmin: createNewAdmin,
-        editAdmin: updateAdmin
+        editAdmin: updateAdmin,
+        getAdminByUserId: getAdminByUserId
     };
 
     return (

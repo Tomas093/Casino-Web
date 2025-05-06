@@ -73,5 +73,22 @@ export const adminApi = {
             }
             throw error;
         }
+    },
+
+    async getAdminByUserId(userId: string) {
+        try {
+            const token = localStorage.getItem('token');
+
+            const response = await axios.get(`${API_URL}/admin/getAdminByUserId/${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching admin by user ID:', error);
+            throw error;
+        }
     }
 };

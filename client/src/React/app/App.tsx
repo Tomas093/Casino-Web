@@ -16,12 +16,13 @@ import MineSweeper from "../pages/games/MineSweeperEnchanced.tsx";
 import {AppProvider} from './appProvider';
 import RouletteGame from "../pages/games/RouletteGame.tsx";
 import StatisticsPage from "../pages/profile/StatisticsPage.tsx"
-import LeaderBoard from "@components/LeaderBoard.tsx";
 import Limit from "../pages/profile/LimitPage.tsx";
 import MonLimitTicketPage from "../pages/tickets/MonLimitTicketPage.tsx";
 import NotFound from "@components/Error/Error404.tsx";
 import FriendsPage from "../pages/profile/FriendsPage.tsx";
-import Terminos from "../pages/footer/Terminos.tsx";
+import TicketsView from "../pages/tickets/TicketsView.tsx";
+import Ticket from '../pages/tickets/Ticket.tsx';
+import SupportPage from "../pages/support/SupportPage.tsx";
 
 
 function App() {
@@ -29,13 +30,10 @@ function App() {
         <BrowserRouter>
             <AppProvider>
                 <Routes>
-                    {/* Rutas publicas */}
+                    {/* Rutas públicas */}
                     <Route path="/" element={<LandingPage/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Register/>}/>
-                    <Route path={"/leaderboard"} element={<LeaderBoard/>}/>
-                    <Route path="/notfound" element={<NotFound/>}/>
-                    <Route path="/terminos" element={<Terminos/>}/>
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
                     <Route element={<ProtectedRoute/>}>
@@ -51,11 +49,13 @@ function App() {
                         <Route path="/monLimitTicket" element={<MonLimitTicketPage/>}/>
                         <Route path="/friends" element={<FriendsPage/>}/>
                         <Route path="/pausa" element={<div>NO IMPLEMENTADO NADA</div>}/>
+                        <Route path="/ticket/:ticketId" element={<Ticket/>}/>
+                        <Route path="/support" element={<SupportPage/>}/>
                     </Route>
 
                     {/* rutas Solo para admins */}
                     <Route element={<AdminRoutes/>}>
-                        <Route path="/HIHIHIHIHI" element={<div>NO IMPLEMENTADO NADA</div>}/>
+                        <Route path="/tickets" element={<TicketsView/>}/>
                     </Route>
 
                     {/* Rutas protegidas Solo (Superadmin) */}

@@ -69,7 +69,7 @@ router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
 
 // Crear un nuevo juego (solo administradores)
 router.post('/', isAuthenticated, isAdmin, async (req: Request, res: Response, next: NextFunction) => {
-    const {juegoid, nombre, estado} = req.body;
+    const {juegoid, nombre, funcionando} = req.body;
 
     if (!nombre) {
         res.status(400).json({message: 'El nombre del juego es requerido'});
@@ -77,7 +77,7 @@ router.post('/', isAuthenticated, isAdmin, async (req: Request, res: Response, n
     }
 
     try {
-        const newGame = await gameService.createGame({juegoid, nombre, estado});
+        const newGame = await gameService.createGame({juegoid, nombre, funcionando});
         res.status(201).json(newGame);
     } catch (error) {
         console.error('Error al crear el juego:', error);
@@ -89,7 +89,7 @@ router.post('/', isAuthenticated, isAdmin, async (req: Request, res: Response, n
 router.put('/:id', isAuthenticated, isAdmin, async (req: Request, res: Response, next: NextFunction) => {
     const {id} = req.params;
     const gameId = parseInt(id, 10);
-    const {nombre, estado} = req.body;
+    const {nombre, funcionando} = req.body;
 
     if (isNaN(gameId)) {
         res.status(400).json({message: 'ID de juego inválido'});
@@ -104,7 +104,7 @@ router.put('/:id', isAuthenticated, isAdmin, async (req: Request, res: Response,
             return;
         }
 
-        const updatedGame = await gameService.updateGame(gameId, {nombre, estado});
+        const updatedGame = await gameService.updateGame(gameId, {nombre, funcionando});
         res.status(200).json(updatedGame);
     } catch (error) {
         console.error('Error al actualizar el juego:', error);

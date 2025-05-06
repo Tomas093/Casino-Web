@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add friends leaderboard feature; implement API, context, and UI for displaying friends' rankings" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Implement FAQ functionality; add API, context, and UI for managing FAQs">
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/support/SupportPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/support/SupportPage.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,9 +21,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
-        <option value="TypeScript JSX File" />
         <option value="CSS File" />
+        <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -40,22 +42,22 @@
     &quot;assignee&quot;: &quot;Tomas093&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Tomas093/Casino-Web.git",
-    "accountId": "96b38a8a-c17f-4a0e-9f99-e5bdad680b60"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Tomas093/Casino-Web.git&quot;,
+    &quot;accountId&quot;: &quot;aeb8d57a-9bda-4d87-a562-02ae3e64d914&quot;
   },
-  "recentNewPullRequestHead": {
-    "server": {
-      "useHttp": false,
-      "host": "github.com",
-      "port": null,
-      "suffix": null
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
     },
-    "owner": "Tomas093",
-    "repository": "Casino-Web"
+    &quot;owner&quot;: &quot;Tomas093&quot;,
+    &quot;repository&quot;: &quot;Casino-Web&quot;
   }
-}]]></component>
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -63,7 +65,7 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2vGcaxnqELLcxdc86qh2iWUSxuW" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -75,7 +77,7 @@
     &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Eliseo&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Tomas&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/Casino-Web&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
@@ -84,8 +86,8 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Eliseos\\Faculty\\Tercer Año\\LaboratorioDefV5\\node_modules\\typescript\\lib&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -111,7 +113,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-WS-243.26053.12" />
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-WS-251.23774.424" />
       </set>
     </attachedChunks>
   </component>
@@ -176,8 +178,19 @@
       <workItem from="1746297658828" duration="1071000" />
       <workItem from="1746305146088" duration="928000" />
       <workItem from="1746306824085" duration="851000" />
-      <workItem from="1746307751202" duration="629000" />
-      <workItem from="1746541788001" duration="1359000" />
+      <workItem from="1746307751202" duration="2039000" />
+      <workItem from="1746311924875" duration="240000" />
+      <workItem from="1746312185935" duration="226000" />
+      <workItem from="1746312547293" duration="9185000" />
+      <workItem from="1746358771618" duration="9421000" />
+      <workItem from="1746370805257" duration="131000" />
+      <workItem from="1746370984725" duration="11058000" />
+      <workItem from="1746403364212" duration="7908000" />
+      <workItem from="1746465993328" duration="1117000" />
+      <workItem from="1746469031181" duration="2000" />
+      <workItem from="1746534468794" duration="2079000" />
+      <workItem from="1746536608681" duration="89000" />
+      <workItem from="1746536716663" duration="4794000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
       <option name="closed" value="true" />
@@ -491,7 +504,87 @@
       <option name="project" value="LOCAL" />
       <updated>1746296652739</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Add friends leaderboard feature; update UI components and refactor Home page">
+      <option name="closed" value="true" />
+      <created>1746308558615</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1746308558615</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Add ticket management feature; implement API, context, and UI for ticket handling">
+      <option name="closed" value="true" />
+      <created>1746318419889</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1746318419889</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Add ticket management feature; implement API, context, and UI for ticket handling">
+      <option name="closed" value="true" />
+      <created>1746360817569</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1746360817569</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Refactor ticket view styles and update filtering functionality; enhance UI components for better usability">
+      <option name="closed" value="true" />
+      <created>1746361975915</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1746361975915</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Add priority indicators to ticket view; enhance filtering UI with visual cues for priority levels">
+      <option name="closed" value="true" />
+      <created>1746362059726</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1746362059726</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Refactor ticket view styles; update class names for improved clarity and consistency">
+      <option name="closed" value="true" />
+      <created>1746362888913</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1746362888913</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Implement chat feature; add message API, context, and UI for ticket messaging">
+      <option name="closed" value="true" />
+      <created>1746392497852</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1746392497852</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Implement chat feature; add message API, context, and UI for ticket messaging">
+      <option name="closed" value="true" />
+      <created>1746406833992</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1746406833992</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Enhance support ticket functionality; implement automatic priority assignment and user data initialization">
+      <option name="closed" value="true" />
+      <created>1746411008533</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1746411008533</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Implement FAQ functionality; add API, context, and UI for managing FAQs">
+      <option name="closed" value="true" />
+      <created>1746541184478</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1746541184478</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -524,15 +617,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Implement image upload functionality; add ImageUpload component and update ProfilePage and Sidebar components" />
-    <MESSAGE value="Refactor AuthContext to improve user and client data handling; update Login and Sidebar components" />
-    <MESSAGE value="Add delete specific account feature and fetch admins functionality" />
-    <MESSAGE value="agrego columna emial a manager" />
-    <MESSAGE value="agrego columna email a manager" />
-    <MESSAGE value="Add edit functionality for admins; update AuthContext and routes" />
-    <MESSAGE value="Refactor user profile management; add edit functionality and improve navbar accessibility" />
-    <MESSAGE value="pruebo gh pages" />
-    <MESSAGE value="Enhance footer layout and content; update styles for improved responsiveness" />
     <MESSAGE value="Refactor transaction components; improve structure and update styles for better readability" />
     <MESSAGE value="Termino Transacciones AMB" />
     <MESSAGE value="Refactor project structure; rename files and update import paths for improved organization" />
@@ -549,6 +633,15 @@
     <MESSAGE value="Add friend management features; implement APIs for getting friends, searching users, and deleting friends" />
     <MESSAGE value="Subo Friends Andando" />
     <MESSAGE value="Add friends leaderboard feature; implement API, context, and UI for displaying friends' rankings" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add friends leaderboard feature; implement API, context, and UI for displaying friends' rankings" />
+    <MESSAGE value="Add friends leaderboard feature; update UI components and refactor Home page" />
+    <MESSAGE value="Add ticket management feature; implement API, context, and UI for ticket handling" />
+    <MESSAGE value="Refactor ticket view styles and update filtering functionality; enhance UI components for better usability" />
+    <MESSAGE value="Add priority indicators to ticket view; enhance filtering UI with visual cues for priority levels" />
+    <MESSAGE value="Refactor ticket view styles; update class names for improved clarity and consistency" />
+    <MESSAGE value="Chat Implementado aflta css descipcion y que se pueda editar" />
+    <MESSAGE value="Implement chat feature; add message API, context, and UI for ticket messaging" />
+    <MESSAGE value="Enhance support ticket functionality; implement automatic priority assignment and user data initialization" />
+    <MESSAGE value="Implement FAQ functionality; add API, context, and UI for managing FAQs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement FAQ functionality; add API, context, and UI for managing FAQs" />
   </component>
 </project>
