@@ -129,6 +129,9 @@ const SupportPage: React.FC = () => {
     const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        // Automatically switch to the FAQ tab when searching
+        setActiveTab("faq");
+
         if (!searchQuery.trim()) {
             setFaqItems(originalFaqItems);
             return;
