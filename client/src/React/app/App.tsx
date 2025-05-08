@@ -13,7 +13,7 @@ import DeleteSpecificAccount from "../pages/deletes/DeleteSpecificAccount.tsx";
 import Transaccion from "../pages/transaction/Transaccion.tsx";
 import Home from "../pages/home/Home.tsx";
 import MineSweeper from "../pages/games/MineSweeperEnchanced.tsx";
-import {AppProvider} from './appProvider';
+import {AppProvider} from './AppProvider.tsx';
 import RouletteGame from "../pages/games/RouletteGame.tsx";
 import StatisticsPage from "../pages/profile/StatisticsPage.tsx"
 import Limit from "../pages/profile/LimitPage.tsx";

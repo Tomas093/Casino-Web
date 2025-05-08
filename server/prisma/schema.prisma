@@ -107,10 +107,10 @@ model ingreso {
 }
 
 model juego {
-  juegoid     Int      @id @default(autoincrement())
-  nombre      String?  @db.VarChar(255)
-  funcionando Boolean?
-  jugada      jugada[]
+  juegoid Int      @id @default(autoincrement())
+  nombre  String?  @db.VarChar(255)
+  estado  Boolean?
+  jugada  jugada[]
 }
 
 model jugada {
@@ -155,17 +155,6 @@ model pausa {
   fechafin    DateTime? @db.Timestamp(6)
   duracion    Int?
   cliente     cliente   @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
-}
-
-model promocion {
-  promocionid  Int       @id @default(autoincrement())
-  tipo         String?   @db.VarChar(255)
-  descripcion  String?
-  fechainicio  DateTime? @db.Timestamp(6)
-  fechafin     DateTime? @db.Timestamp(6)
-  cantidadusos Int?
-  mincarga     Decimal?  @db.Decimal(10, 2)
-  maxcarga     Decimal?  @db.Decimal(10, 2)
 }
 
 model suspendidos {
@@ -250,4 +239,15 @@ model faq {
   respuesta    String
   categoria    String  @db.VarChar(255)
   palabraclave String?
+}
+
+model cupon {
+  cuponid      Int       @id(map: "promocion_pkey") @default(autoincrement())
+  tipo         String?   @db.VarChar(255)
+  descripcion  String?
+  fechainicio  DateTime? @db.Timestamp(6)
+  fechafin     DateTime? @db.Timestamp(6)
+  cantidadusos Int?
+  mincarga     Decimal?  @db.Decimal(10, 2)
+  maxcarga     Decimal?  @db.Decimal(10, 2)
 }

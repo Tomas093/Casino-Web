@@ -4,13 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor game functionality; rename 'funcionando' to 'estado' in game routes and service">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Subo con merge completo Creo">
+      <change afterPath="$PROJECT_DIR$/client/src/React/api/adminStaticsApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/context/AdminStaticsContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/routes/adminStaticsRoutes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/services/adminstaticsService.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/ticketApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/ticketApi.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/footer/Terminos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/footer/Terminos.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/tickets/Ticket.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/tickets/Ticket.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/tickets/TicketsView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/tickets/TicketsView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/appProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,8 +30,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -41,25 +44,25 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "history": [
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
     {
-      "state": "OPEN"
+      &quot;state&quot;: &quot;OPEN&quot;
     }
   ],
-  "lastFilter": {}
-}]]></component>
-  <component name="GitHubPullRequestState"><![CDATA[{
-  "prStates": [
+  &quot;lastFilter&quot;: {}
+}</component>
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
     {
-      "id": {
-        "id": "PR_kwDOOGzOas6VJaX7",
-        "number": 35
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOOGzOas6VJaX7&quot;,
+        &quot;number&quot;: 35
       },
-      "lastSeen": 1746553555926
+      &quot;lastSeen&quot;: 1746553555926
     }
   ]
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Tomas093/Casino-Web.git&quot;,
@@ -209,15 +212,15 @@
       <workItem from="1746534468794" duration="2079000" />
       <workItem from="1746536608681" duration="89000" />
       <workItem from="1746536716663" duration="4794000" />
-      <workItem from="1746553436297" duration="383000" />
-    </task>
-    <task id="LOCAL-00002" summary="Update workspace.xml to reflect changes in file paths and project structure">
-      <option name="closed" value="true" />
-      <created>1743779184285</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1743779184285</updated>
+      <workItem from="1746553436297" duration="598000" />
+      <workItem from="1746562669682" duration="26000" />
+      <workItem from="1746708983847" duration="120000" />
+      <workItem from="1746709181688" duration="104000" />
+      <workItem from="1746718072122" duration="45000" />
+      <workItem from="1746718394236" duration="22000" />
+      <workItem from="1746718680664" duration="3000" />
+      <workItem from="1746727834670" duration="1845000" />
+      <workItem from="1746731835292" duration="845000" />
     </task>
     <task id="LOCAL-00003" summary="Implement landing page, navigation bar, and footer components; update package dependencies">
       <option name="closed" value="true" />
@@ -603,7 +606,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746544262762</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Subo con merge completo Creo">
+      <option name="closed" value="true" />
+      <created>1746554032444</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1746554032445</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -636,7 +647,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Termino Transacciones AMB" />
     <MESSAGE value="Refactor project structure; rename files and update import paths for improved organization" />
     <MESSAGE value="A" />
     <MESSAGE value="Refactor project structure; rename files and update import paths for improved organization and clarity" />
@@ -661,6 +671,7 @@
     <MESSAGE value="Enhance support ticket functionality; implement automatic priority assignment and user data initialization" />
     <MESSAGE value="Implement FAQ functionality; add API, context, and UI for managing FAQs" />
     <MESSAGE value="Refactor game functionality; rename 'funcionando' to 'estado' in game routes and service" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor game functionality; rename 'funcionando' to 'estado' in game routes and service" />
+    <MESSAGE value="Subo con merge completo Creo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Subo con merge completo Creo" />
   </component>
 </project>

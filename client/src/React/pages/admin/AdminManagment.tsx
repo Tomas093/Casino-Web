@@ -456,9 +456,9 @@ const AdminManager: React.FC = () => {
                                 <div className="stat-card">
                                     <div className="stat-card-content">
                                         <div className="stat-info">
-                                            <h3>Total Users</h3>
+                                            <h3>Usuarios</h3>
                                             <p className="stat-value">{realUsersCount}</p>
-                                            <p className="stat-detail"> Total users </p>
+                                            <p className="stat-detail">Total de Usuarios </p>
                                         </div>
                                     </div>
                                 </div>
@@ -466,9 +466,9 @@ const AdminManager: React.FC = () => {
                                 <div className="stat-card">
                                     <div className="stat-card-content">
                                         <div className="stat-info">
-                                            <h3>Revenue</h3>
+                                            <h3>Ganancia</h3>
                                             <p className="stat-value">{totalGanancia}</p>
-                                            <p className="stat-detail">Today's profit</p>
+                                            <p className="stat-detail">Total Ganancia</p>
                                         </div>
                                     </div>
                                 </div>
@@ -476,9 +476,9 @@ const AdminManager: React.FC = () => {
                                 <div className="stat-card">
                                     <div className="stat-card-content">
                                         <div className="stat-info">
-                                            <h3>Support</h3>
+                                            <h3>Soporte</h3>
                                             <p className="stat-value">{metrics.openTickets}</p>
-                                            <p className="stat-detail">Open tickets</p>
+                                            <p className="stat-detail">Tickets Abiertos</p>
                                         </div>
                                     </div>
                                 </div>
