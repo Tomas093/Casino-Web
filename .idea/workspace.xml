@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor NavBar component; add admin status check and improve code formatting" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor NavBar component; add admin status check and improve code formatting">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/TicketViewStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/TicketViewStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/tickets/TicketsView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/tickets/TicketsView.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -212,15 +216,8 @@
       <workItem from="1746727834670" duration="1845000" />
       <workItem from="1746731835292" duration="845000" />
       <workItem from="1746737976369" duration="320000" />
-      <workItem from="1746807277205" duration="4907000" />
-    </task>
-    <task id="LOCAL-00005" summary="Refactor authentication context and add user data fetching; update styles for login and register pages">
-      <option name="closed" value="true" />
-      <created>1743858596379</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1743858596379</updated>
+      <workItem from="1746807277205" duration="5030000" />
+      <workItem from="1746812446332" duration="2139000" />
     </task>
     <task id="LOCAL-00006" summary="Refactor authentication context to include client data fetching; update Sidebar and HistoryPage components">
       <option name="closed" value="true" />
@@ -606,7 +603,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746812295177</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Refactor NavBar component; add admin status check and improve code formatting">
+      <option name="closed" value="true" />
+      <created>1746812374223</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1746812374223</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
