@@ -18,12 +18,13 @@ router.get('/category/:category', async (req: Request, res: Response) => {
 
 router.put('/edit/:id', async (req: Request, res: Response) => {
     const {id} = req.params;
-    const {pregunta, respuesta} = req.body;
+    const {pregunta, respuesta,categoria} = req.body;
 
     try {
         const updatedFAQ = await faqService.updateFAQ(Number(id), {
-            question: pregunta,
-            answer: respuesta,
+            pregunta: pregunta,
+            respuesta: respuesta,
+            categoria: categoria
         });
         res.status(200).json(updatedFAQ);
     } catch (error: any) {
@@ -45,10 +46,10 @@ router.delete('/delete/:id', async (req: Request, res: Response) => {
 });
 
 router.get('/question/:question', async (req: Request, res: Response) => {
-    const {question} = req.params;
+    const {pregunta} = req.params;
 
     try {
-        const faq = await faqService.getFAQByQuestion(question);
+        const faq = await faqService.getFAQByQuestion(pregunta);
         res.status(200).json(faq);
     } catch (error: any) {
         console.error("Error al obtener FAQ por pregunta:", error);
@@ -72,9 +73,9 @@ router.post('/create', async (req: Request, res: Response) => {
 
     try {
         const faq = await faqService.createFAQ({
-            question: pregunta,
-            answer: respuesta,
-            category: categoria,
+            pregunta: pregunta,
+            respuesta: respuesta,
+            categoria: categoria,
         });
         res.status(201).json(faq);
     } catch (error: any) {

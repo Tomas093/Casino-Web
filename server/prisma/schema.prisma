@@ -234,17 +234,15 @@ model ticket {
 }
 
 model faq {
-  preguntaid   Int     @id @default(autoincrement())
-  pregunta     String
-  respuesta    String
-  categoria    String  @db.VarChar(255)
-  palabraclave String?
+  preguntaid Int    @id @default(autoincrement())
+  pregunta   String
+  respuesta  String
+  categoria  String @db.VarChar(255)
 }
 
 model cupon {
   cuponid      Int       @id(map: "promocion_pkey") @default(autoincrement())
-  tipo         String?   @db.VarChar(255)
-  descripcion  String?
+  beneficio    Decimal?  @db.Decimal
   fechainicio  DateTime? @db.Timestamp(6)
   fechafin     DateTime? @db.Timestamp(6)
   cantidadusos Int?

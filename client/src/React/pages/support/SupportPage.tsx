@@ -320,6 +320,12 @@ const SupportPage: React.FC = () => {
                                 >
                                     Técnicos
                                 </button>
+                                <button
+                                    className={`faq-category ${activeCategory === "Otros" ? "active" : ""}`}
+                                    onClick={() => handleCategoryClick("otros")}
+                                >
+                                    Otros
+                                </button>
                             </div>
 
                             <div className="faq-items">

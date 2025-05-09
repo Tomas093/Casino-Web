@@ -12,6 +12,9 @@ import {useNavigate} from "react-router-dom";
 import {useTransaction} from "@context/TransactionContext.tsx";
 import PaymentMethodsChart from "@components/PieChart.tsx"
 import RecentActivities from "@components/admin/RecentActivities.tsx";
+import CuponsManager from "@components/admin/CuponsManager.tsx";
+import FAQManager from '@/React/components/admin/FAQManager';
+import GameManager from "@components/admin/GameManager.tsx";
 
 
 interface Admin {
@@ -399,14 +402,15 @@ const AdminManager: React.FC = () => {
 
                     <div className="sidebar-section">
                         <h2 className="sidebar-section-title">Casino</h2>
-                        <button className="sidebar-nav-item">
+                        <button className="sidebar-nav-item" onClick={() => setActiveTab('game')}>
                             <span className="sidebar-nav-icon">casino</span> Games
                         </button>
-                        <button className="sidebar-nav-item">
-                            <span className="sidebar-nav-icon">paid</span> Transactions
+                        <button className="sidebar-nav-item" onClick={() => setActiveTab('faq')}>
+                            <span className="sidebar-nav-icon">help_outline</span>FAQ
                         </button>
-                        <button className="sidebar-nav-item">
-                            <span className="sidebar-nav-icon">campaign</span> Promotions
+                        <button onClick={() => setActiveTab('Creador')} className={`sidebar-nav-item ${activeTab === 'Creador' ? 'active' : ''}`}
+                        >
+                            <span className="sidebar-nav-icon">local_offer</span> Cupones
                         </button>
                     </div>
 
@@ -851,6 +855,30 @@ const AdminManager: React.FC = () => {
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                    )}
+
+                    {/* Cupones View */}
+                    {activeTab === 'Creador' && (
+                        <div className="cupones-section">
+                            <h2 className="section-title">Gestión de Cupones</h2>
+                            <CuponsManager/>
+                        </div>
+                    )}
+
+                    {/* FAQ Management View */}
+                    {activeTab === 'faq' && (
+                        <div className="faq-section">
+                            <h2 className="section-title">Gestión de FAQs</h2>
+                            <FAQManager/>
+                        </div>
+                    )}
+
+                    {/* Game Management View */}
+                    {activeTab === 'game' && (
+                        <div className="game-section">
+                            <h2 className="section-title">Gestión de Juegos</h2>
+                            <GameManager/>
                         </div>
                     )}
                 </main>

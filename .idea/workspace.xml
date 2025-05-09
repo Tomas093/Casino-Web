@@ -4,10 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor NavBar component; add admin status check and improve code formatting">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor ticket management components; update status and priority handling, add filters for user roles">
+      <change afterPath="$PROJECT_DIR$/client/src/Css/CuponsManager.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/api/cuponApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/components/admin/CuponsManager.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/components/admin/FAQManager.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/components/admin/GameManager.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/components/admin/GenericABM.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/context/CuponContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/routes/cuponRoutes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/services/cuponService.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/TicketViewStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/TicketViewStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/tickets/TicketsView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/tickets/TicketsView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/faqApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/faqApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/gameApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/gameApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/FAQContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/FAQContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/support/SupportPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/support/SupportPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/faqRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/faqRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/gameRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/gameRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/faqService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/faqService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/gameService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/gameService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,9 +42,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
-        <option value="TypeScript JSX File" />
         <option value="CSS File" />
+        <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -217,15 +236,8 @@
       <workItem from="1746731835292" duration="845000" />
       <workItem from="1746737976369" duration="320000" />
       <workItem from="1746807277205" duration="5030000" />
-      <workItem from="1746812446332" duration="2139000" />
-    </task>
-    <task id="LOCAL-00006" summary="Refactor authentication context to include client data fetching; update Sidebar and HistoryPage components">
-      <option name="closed" value="true" />
-      <created>1743880079634</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1743880079634</updated>
+      <workItem from="1746812446332" duration="2635000" />
+      <workItem from="1746815474151" duration="12933000" />
     </task>
     <task id="LOCAL-00007" summary="Implement ProtectedRoute component for route protection; update AuthContext and Login handling">
       <option name="closed" value="true" />
@@ -611,7 +623,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746812374223</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Refactor ticket management components; update status and priority handling, add filters for user roles">
+      <option name="closed" value="true" />
+      <created>1746814668634</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1746814668635</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -644,7 +664,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Refactor project structure; rename files and update import paths for improved organization and clarity" />
     <MESSAGE value="Add user count and transaction statistics endpoints; integrate payment methods chart in admin dashboard" />
     <MESSAGE value="Add game and history APIs; implement context providers for game and history management" />
     <MESSAGE value="Merge pull request #30 from Tomas093/main&#10;&#10;Yo" />
@@ -669,6 +688,7 @@
     <MESSAGE value="Subo con merge completo Creo" />
     <MESSAGE value="Add Recent Activities component; integrate with admin management and style updates" />
     <MESSAGE value="Refactor NavBar component; add admin status check and improve code formatting" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor NavBar component; add admin status check and improve code formatting" />
+    <MESSAGE value="Refactor ticket management components; update status and priority handling, add filters for user roles" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor ticket management components; update status and priority handling, add filters for user roles" />
   </component>
 </project>

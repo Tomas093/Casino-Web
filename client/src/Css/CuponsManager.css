@@ -1,0 +1,552 @@
+/* CuponsManager.css - Enhanced styling while maintaining color palette */
+
+/* Root variables (assumed from the original) */
+:root {
+    --gold: #DFB05A;
+    --gold-dark: #C99C3F;
+    --black: #121212;
+    --dark-gray: #1E1E1E;
+    --light-gray: #2A2A2A;
+    --green: #2e7d32;
+    --red: #e53935;
+    --text-light: #F5F5F5;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --transition: all 0.3s ease;
+}
+
+/* Container for the entire cupons manager */
+.cupones-container {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 24px;
+}
+
+/* Page header */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gold);
+    margin: 0;
+    position: relative;
+}
+
+.page-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background-color: var(--gold);
+    border-radius: 2px;
+}
+
+/* Section titles */
+.section-subtitle {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 20px;
+    position: relative;
+    padding-left: 16px;
+    display: inline-block;
+}
+
+.section-subtitle::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background-color: var(--gold);
+    border-radius: 2px;
+}
+
+/* Cupones list section */
+.cupones-list {
+    width: 100%;
+}
+
+/* Table container styles */
+.cupones-table-container {
+    background-color: var(--light-gray);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 24px;
+    position: relative;
+}
+
+/* Loading state */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    width: 100%;
+}
+
+.loading-spinner {
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    border-top: 4px solid var(--gold);
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Table styles */
+.cupones-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.cupones-table th {
+    background-color: var(--black);
+    padding: 16px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--gold);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.cupones-table th:first-child {
+    border-top-left-radius: 8px;
+}
+
+.cupones-table th:last-child {
+    border-top-right-radius: 8px;
+}
+
+.cupones-table td {
+    padding: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: var(--transition);
+}
+
+.cupon-row {
+    transition: var(--transition);
+}
+
+.cupon-row:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.cupon-row:last-child td {
+    border-bottom: none;
+}
+
+/* ID column */
+td:first-child {
+    font-family: monospace;
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Benefit column */
+td:nth-child(2) {
+    font-weight: 600;
+    color: var(--gold);
+}
+
+/* Form container for creating new cupones */
+.create-cupon-form {
+    background-color: var(--light-gray);
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.create-cupon-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+}
+
+.form-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-title::before {
+    content: '+';
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    background-color: var(--gold);
+    color: var(--black);
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Action buttons */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+/* Edit button */
+.edit-button-admin {
+    background-color: #2196f3 !important;
+    color: white !important;
+    font-weight: 400 !important;
+    text-transform: none !important;
+    padding: 6px 16px !important;
+    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3) !important;
+    transition: all 0.2s ease !important;
+}
+
+.edit-button-admin:hover {
+    background-color: #1976d2 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4) !important;
+}
+
+/* Delete button */
+.delete-button-admin {
+    background-color: rgba(229, 57, 53, 0.1) !important;
+    color: var(--red) !important;
+    border-radius: 50% !important;
+    transition: all 0.2s ease !important;
+}
+
+.delete-button-admin:hover {
+    background-color: rgba(229, 57, 53, 0.2) !important;
+    transform: translateY(-2px);
+}
+
+.icon-large {
+    font-size: 20px !important;
+}
+
+/* Input fields for editing */
+.edit-input {
+    width: 100%;
+    padding: 8px 12px;
+    background-color: var(--dark-gray);
+    border: 1px solid var(--green);
+    color: var(--text-light);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.edit-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(223, 176, 90, 0.2);
+    outline: none;
+}
+
+/* Button styles */
+.save-button-admin {
+    background-color: #2e7d32 !important;
+    color: white !important;
+    font-weight: 400 !important;
+    text-transform: none !important;
+    box-shadow: 0 2px 8px rgba(46, 125, 50, 0.3) !important;
+    transition: all 0.2s ease !important;
+}
+
+.save-button-admin:hover {
+    background-color: #1b5e20 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.4) !important;
+}
+
+.cancel-button-admin {
+    background-color: #757575 !important;
+    color: white !important;
+    font-weight: 400 !important;
+    text-transform: none !important;
+    box-shadow: 0 2px 8px rgba(117, 117, 117, 0.3) !important;
+    transition: all 0.2s ease !important;
+}
+
+.cancel-button-admin:hover {
+    background-color: #616161 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(117, 117, 117, 0.4) !important;
+}
+
+/* Delete confirmation */
+.delete-confirm {
+    background-color: var(--red);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-left: 8px;
+    animation: pulse-red 1.5s infinite;
+    display: inline-flex;
+    align-items: center;
+}
+
+.delete-confirm::before {
+    content: '⚠️';
+    margin-right: 4px;
+    font-size: 14px;
+}
+
+@keyframes pulse-red {
+    0% {
+        box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 5px rgba(229, 57, 53, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(229, 57, 53, 0);
+    }
+}
+
+/* Generic form styles */
+.generic-form-container {
+    width: 100%;
+}
+
+.form-grid-2-columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-light);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.form-group label::after {
+    content: '*';
+    color: var(--red);
+    margin-left: 4px;
+    font-size: 16px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 12px;
+    background-color: var(--dark-gray);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--text-light);
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(223, 176, 90, 0.2);
+    outline: none;
+}
+
+.form-group input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.8);
+}
+
+/* Submit button for form */
+.submit-button {
+    padding: 14px 28px;
+    background: linear-gradient(45deg, var(--gold), var(--gold-dark));
+    color: var(--black);
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px rgba(223, 176, 90, 0.3);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+}
+
+.submit-button:hover {
+    background: linear-gradient(45deg, var(--gold-dark), var(--gold));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(223, 176, 90, 0.4);
+}
+
+.submit-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(223, 176, 90, 0.3);
+}
+
+/* Message component */
+.message-container {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.message-success {
+    background-color: rgba(46, 125, 50, 0.2);
+    border-left: 4px solid #2e7d32;
+}
+
+.message-error {
+    background-color: rgba(229, 57, 53, 0.2);
+    border-left: 4px solid #e53935;
+}
+
+.message-info {
+    background-color: rgba(33, 150, 243, 0.2);
+    border-left: 4px solid #2196f3;
+}
+
+.message-warning {
+    background-color: rgba(255, 152, 0, 0.2);
+    border-left: 4px solid #ff9800;
+}
+
+.message-content {
+    flex: 1;
+    font-size: 14px;
+}
+
+.message-close {
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.message-close:hover {
+    opacity: 1;
+}
+
+/* Empty state */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.empty-state-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.6;
+}
+
+.empty-state-text {
+    font-size: 16px;
+    margin-bottom: 24px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 980px) {
+    .form-grid-2-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .cupones-container {
+        padding: 24px 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .cupones-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .action-buttons {
+        flex-wrap: wrap;
+    }
+
+    .section-subtitle {
+        font-size: 20px;
+    }
+
+    .page-title {
+        font-size: 24px;
+    }
+
+    .edit-button-admin {
+        padding: 4px 12px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .cupones-container {
+        padding: 16px 12px;
+        gap: 24px;
+    }
+
+    .create-cupon-form {
+        padding: 20px 16px;
+    }
+
+    .form-title {
+        font-size: 18px;
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 12px;
+    }
+}

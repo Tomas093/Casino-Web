@@ -13,9 +13,9 @@ const faqApi = {
         }
     },
 
-    createFAQ: async (faqData: { pregunta: string; respuesta: string }) => {
+    createFAQ: async (faqData: { pregunta: string; respuesta: string,categoria: string }) => {
         try {
-            const response = await axios.post(`${API_URL}/`, faqData);
+            const response = await axios.post(`${API_URL}/create`, faqData);
             return response.data;
         } catch (error) {
             console.error('Error al crear la pregunta frecuente:', error);
@@ -23,9 +23,9 @@ const faqApi = {
         }
     },
 
-    updateFAQ: async (faqId: string, faqData: { pregunta: string; respuesta: string }) => {
+    updateFAQ: async (faqId: string, faqData: { pregunta: string; respuesta: string,categoria: string }) => {
         try {
-            const response = await axios.put(`${API_URL}/${faqId}`, faqData);
+            const response = await axios.put(`${API_URL}/edit/${faqId}`, faqData);
             return response.data;
         } catch (error) {
             console.error('Error al actualizar la pregunta frecuente:', error);
@@ -35,7 +35,7 @@ const faqApi = {
 
     deleteFAQ: async (faqId: string) => {
         try {
-            const response = await axios.delete(`${API_URL}/${faqId}`);
+            const response = await axios.delete(`${API_URL}/delete/${faqId}`);
             return response.data;
         } catch (error) {
             console.error('Error al eliminar la pregunta frecuente:', error);
