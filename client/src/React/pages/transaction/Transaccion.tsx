@@ -10,16 +10,16 @@ import {useLimitContext} from "@context/LimitContext.tsx";
 
 // Métodos disponibles
 const METODOS_INGRESO = [
-    { value: 'Tarjeta', label: 'Tarjeta de crédito/débito', via: 'Ingreso' },
-    { value: 'Transferencia', label: 'Transferencia bancaria', via: 'Ingreso' },
-    { value: 'Wallet', label: 'Billetera Virtual', via: 'Ingreso' },
-    { value: 'Cripto', label: 'Criptomonedas', via: 'Ingreso' }
+    {value: 'Tarjeta', label: 'Tarjeta de crédito/débito', via: 'Ingreso'},
+    {value: 'Transferencia', label: 'Transferencia bancaria', via: 'Ingreso'},
+    {value: 'Wallet', label: 'Billetera Virtual', via: 'Ingreso'},
+    {value: 'Cripto', label: 'Criptomonedas', via: 'Ingreso'}
 ];
 
 const METODOS_RETIRO = [
-    { value: 'Transferencia', label: 'Transferencia bancaria', via: 'Retiro' },
-    { value: 'Wallet', label: 'Billetera Virtual', via: 'Retiro' },
-    { value: 'Cripto', label: 'Criptomonedas', via: 'Retiro' }
+    {value: 'Transferencia', label: 'Transferencia bancaria', via: 'Retiro'},
+    {value: 'Wallet', label: 'Billetera Virtual', via: 'Retiro'},
+    {value: 'Cripto', label: 'Criptomonedas', via: 'Retiro'}
 ];
 
 // Interfaces
@@ -38,7 +38,7 @@ interface MetodoProps {
 }
 
 // Componente de transacción individual
-const TransaccionItem: React.FC<{ transaccion: TransaccionUI }> = ({ transaccion }) => {
+const TransaccionItem: React.FC<{ transaccion: TransaccionUI }> = ({transaccion}) => {
     const formatFecha = (fecha: Date): string => {
         return fecha.toLocaleDateString('es-ES', {
             day: '2-digit',
@@ -226,25 +226,25 @@ const MetodoCriptoRetiro: React.FC = () => (
 );
 
 // Componente para renderizar el método de pago seleccionado
-const DetalleMetodo: React.FC<MetodoProps> = ({ metodo, via }) => {
+const DetalleMetodo: React.FC<MetodoProps> = ({metodo, via}) => {
     switch (metodo) {
         case 'Tarjeta':
-            return <MetodoTarjeta />;
+            return <MetodoTarjeta/>;
         case 'Transferencia':
             if (via === 'Ingreso') {
-                return <MetodoTransferenciaIngreso />;
+                return <MetodoTransferenciaIngreso/>;
             }
-            return <MetodoTransferenciaRetiro />;
+            return <MetodoTransferenciaRetiro/>;
         case 'Wallet':
             if (via === 'Ingreso') {
-                return <MetodoWalletIngreso />;
+                return <MetodoWalletIngreso/>;
             }
-            return <MetodoWalletRetiro />;
+            return <MetodoWalletRetiro/>;
         case 'Cripto':
             if (via === 'Ingreso') {
-                return <MetodoCriptoIngreso />;
+                return <MetodoCriptoIngreso/>;
             }
-            return <MetodoCriptoRetiro />;
+            return <MetodoCriptoRetiro/>;
         default:
             return null;
     }
@@ -252,10 +252,10 @@ const DetalleMetodo: React.FC<MetodoProps> = ({ metodo, via }) => {
 
 // Componente principal
 const Transaccion: React.FC = () => {
-    const { user } = useAuth();
-    const { client, getUserData } = useUser();
-    const { getTransactions, createIngreso, createEgreso } = useTransaction();
-    const { getLimitMonetario } = useLimitContext();
+    const {user} = useAuth();
+    const {client, getUserData} = useUser();
+    const {getTransactions, createIngreso, createEgreso} = useTransaction();
+    const {getLimitMonetario} = useLimitContext();
     const [activeTab, setActiveTab] = useState<'ingreso' | 'retiro'>('ingreso');
     const [monto, setMonto] = useState<string>('');
     const [metodo, setMetodo] = useState<string>('Tarjeta');
@@ -309,7 +309,7 @@ const Transaccion: React.FC = () => {
 
     // Calculate current usage for limits
     const calculateCurrentUsage = () => {
-        if (!historial.length) return { daily: 0, weekly: 0, monthly: 0 };
+        if (!historial.length) return {daily: 0, weekly: 0, monthly: 0};
 
         const now = new Date();
         const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -332,7 +332,7 @@ const Transaccion: React.FC = () => {
             .filter(t => t.fecha >= monthStart)
             .reduce((sum, t) => sum + t.monto, 0);
 
-        return { daily: dailyTotal, weekly: weeklyTotal, monthly: monthlyTotal };
+        return {daily: dailyTotal, weekly: weeklyTotal, monthly: monthlyTotal};
     };
 
     const getMetodosDisponibles = () => {
@@ -352,7 +352,7 @@ const Transaccion: React.FC = () => {
             return;
         }
 
-        const montoNum = parseFloat(monto);
+        const montoNum = parseInt(monto, 10);
 
         // Check monetary limits for deposits
         if (activeTab === 'ingreso' && monetaryLimits) {
@@ -431,7 +431,7 @@ const Transaccion: React.FC = () => {
 
     return (
         <>
-            <NavBar />
+            <NavBar/>
             <div className="transaccion-page">
                 <div className="australis-container">
                     <h1 className="transaccion-title">Transacciones</h1>
@@ -458,17 +458,31 @@ const Transaccion: React.FC = () => {
                             <h2>{activeTab === 'ingreso' ? 'Realizar un depósito' : 'Solicitar un retiro'}</h2>
 
                             <div className="form-group">
-                                <label htmlFor="monto">Monto ({activeTab === 'ingreso' ? 'a depositar' : 'a retirar'})</label>
+                                <label htmlFor="monto">Monto
+                                    ({activeTab === 'ingreso' ? 'a depositar' : 'a retirar'})</label>
                                 <div className="monto-input">
                                     <span className="currency-symbol">$</span>
                                     <input
                                         type="number"
                                         id="monto"
                                         value={monto}
-                                        onChange={(e) => setMonto(e.target.value)}
-                                        placeholder="0.00"
+                                        onChange={(e) => {
+                                            // Remove any decimal part if entered
+                                            const value = e.target.value;
+                                            const intValue = value.includes('.') ?
+                                                value.substring(0, value.indexOf('.')) :
+                                                value;
+                                            setMonto(intValue);
+                                        }}
+                                        placeholder="0"
                                         min="10"
-                                        step="0.01"
+                                        step="1"
+                                        onKeyDown={(e) => {
+                                            // Prevent entering decimal point
+                                            if (e.key === '.') {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                         required
                                     />
                                 </div>
@@ -491,7 +505,7 @@ const Transaccion: React.FC = () => {
                             </div>
 
                             {/* Detalle según método. Se pasa la propiedad "via" según el activeTab */}
-                            <DetalleMetodo metodo={metodo} via={activeTab === 'ingreso' ? 'Ingreso' : 'Retiro'} />
+                            <DetalleMetodo metodo={metodo} via={activeTab === 'ingreso' ? 'Ingreso' : 'Retiro'}/>
 
                             <button type="submit" className="cta-btn transaccion-btn" disabled={loading}>
                                 {loading ? 'Procesando...' : activeTab === 'ingreso' ? 'Depositar' : 'Retirar'}
@@ -518,7 +532,7 @@ const Transaccion: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
+            <Footer/>
         </>
     );
 };

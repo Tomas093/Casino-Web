@@ -17,6 +17,7 @@ import friendRequestRoutes from "./routes/friendRequestRoutes";
 import ticketRoutes from "./routes/ticketRoutes";
 import messageRoutes from "./routes/messageRoutes";
 import faqRoutes from "./routes/faqRoutes";
+import adminStaticsRoutes from "./routes/adminStaticsRoutes";
 
 const app = express();
 
@@ -75,6 +76,7 @@ app.use('/friendRequest', friendRequestRoutes);
 app.use('/ticket', ticketRoutes)
 app.use('/message', messageRoutes);
 app.use('/faq', faqRoutes);
+app.use('/admin-statics', adminStaticsRoutes);
 
 
 const PORT = process.env.PORT || 3001;

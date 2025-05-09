@@ -11,6 +11,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import {useNavigate} from "react-router-dom";
 import {useTransaction} from "@context/TransactionContext.tsx";
 import PaymentMethodsChart from "@components/PieChart.tsx"
+import RecentActivities from "@components/admin/RecentActivities.tsx";
 
 
 interface Admin {
@@ -487,52 +488,7 @@ const AdminManager: React.FC = () => {
                             <div className="dashboard-widgets" id={"main"}>
                                 <div className="dashboard-widget" id={"Recent Activity"}>
                                     <h3 className="widget-title">Recent Activities</h3>
-                                    <div className="activities-list">
-                                        <div className="activity-item">
-                                            <div className="activity-icon login">
-                                                <span>login</span>
-                                            </div>
-                                            <div className="activity-content">
-                                                <p className="activity-title">User Login</p>
-                                                <p className="activity-detail">high_roller logged in from Chile</p>
-                                            </div>
-                                            <span className="activity-time">5 min ago</span>
-                                        </div>
-
-                                        <div className="activity-item">
-                                            <div className="activity-icon deposit">
-                                                <span>paid</span>
-                                            </div>
-                                            <div className="activity-content">
-                                                <p className="activity-title">Deposit</p>
-                                                <p className="activity-detail">lucky_player deposited $500</p>
-                                            </div>
-                                            <span className="activity-time">12 min ago</span>
-                                        </div>
-
-                                        <div className="activity-item">
-                                            <div className="activity-icon withdrawal">
-                                                <span>trending_down</span>
-                                            </div>
-                                            <div className="activity-content">
-                                                <p className="activity-title">Withdrawal</p>
-                                                <p className="activity-detail">poker_ace requested withdrawal of
-                                                    $1,200</p>
-                                            </div>
-                                            <span className="activity-time">35 min ago</span>
-                                        </div>
-
-                                        <div className="activity-item">
-                                            <div className="activity-icon win">
-                                                <span>casino</span>
-                                            </div>
-                                            <div className="activity-content">
-                                                <p className="activity-title">Big Win</p>
-                                                <p className="activity-detail">slot_master won $3,450 on Gold Rush</p>
-                                            </div>
-                                            <span className="activity-time">1 hour ago</span>
-                                        </div>
-                                    </div>
+                                    <RecentActivities/>
                                 </div>
 
                                 <div className="dashboard-widget">
