@@ -191,8 +191,10 @@ export const LeaderboardProvider = ({children}: { children: ReactNode }) => {
         setError(null);
         try {
             const data = await leaderboardApi.getFriendsLeaderboard(userId, timeframe);
+            console.log("Friends leaderboard data received:", data);
             setFriendsLeaderboard(data);
         } catch (err: any) {
+            console.error('Error loading friends leaderboard:', err);
             setError(err.message || 'Error loading friends leaderboard');
         } finally {
             setIsLoading(false);
