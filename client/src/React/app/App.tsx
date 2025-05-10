@@ -23,6 +23,7 @@ import FriendsPage from "../pages/profile/FriendsPage.tsx";
 import TicketsView from "../pages/tickets/TicketsView.tsx";
 import Ticket from '../pages/tickets/Ticket.tsx';
 import SupportPage from "../pages/support/SupportPage.tsx";
+import Slots from "../pages/games/slots/Slots.tsx";
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
                     <Route path="/" element={<LandingPage/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Register/>}/>
+                    <Route path="/slots" element={<Slots/>}/>
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
                     <Route element={<ProtectedRoute/>}>

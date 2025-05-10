@@ -1,0 +1,30 @@
+import { PaylineType } from '../types';
+
+// 25 líneas de pago predefinidas
+export const PAYLINES: PaylineType[] = [
+    { id: 1, positions: [0, 0, 0, 0, 0], name: "Horizontal superior" },
+    { id: 2, positions: [1, 1, 1, 1, 1], name: "Horizontal central" },
+    { id: 3, positions: [2, 2, 2, 2, 2], name: "Horizontal inferior" },
+    { id: 4, positions: [0, 1, 2, 1, 0], name: "Zigzag hacia abajo (flecha)" },
+    { id: 5, positions: [2, 1, 0, 1, 2], name: "Zigzag hacia arriba (flecha invertida)" },
+    { id: 6, positions: [0, 0, 1, 0, 0], name: "Pico central desde arriba" },
+    { id: 7, positions: [2, 2, 1, 2, 2], name: "Pico central desde abajo" },
+    { id: 8, positions: [1, 0, 0, 0, 1], name: "Bordes arriba, centro abajo" },
+    { id: 9, positions: [1, 2, 2, 2, 1], name: "Bordes abajo, centro arriba" },
+    { id: 10, positions: [0, 1, 1, 1, 0], name: "Diagonal suave ascendente" },
+    { id: 11, positions: [2, 1, 1, 1, 2], name: "Diagonal suave descendente" },
+    { id: 12, positions: [0, 1, 0, 1, 0], name: "Letra M" },
+    { id: 13, positions: [2, 1, 2, 1, 2], name: "Letra W" },
+    { id: 14, positions: [1, 0, 1, 2, 1], name: "V central" },
+    { id: 15, positions: [1, 2, 1, 0, 1], name: "V invertida" },
+    { id: 16, positions: [0, 1, 2, 2, 2], name: "Ascendente izquierda" },
+    { id: 17, positions: [2, 1, 0, 0, 0], name: "Descendente izquierda" },
+    { id: 18, positions: [2, 1, 0, 1, 2], name: "Montaña (colina)" },
+    { id: 19, positions: [0, 1, 2, 1, 0], name: "Valle (v)" },
+    { id: 20, positions: [1, 0, 0, 1, 2], name: "S izquierda" },
+    { id: 21, positions: [1, 2, 2, 1, 0], name: "S derecha" },
+    { id: 22, positions: [0, 0, 2, 0, 0], name: "T invertida" },
+    { id: 23, positions: [2, 2, 0, 2, 2], name: "T" },
+    { id: 24, positions: [0, 2, 0, 2, 0], name: "Cruz superior" },
+    { id: 25, positions: [2, 0, 2, 0, 2], name: "Cruz inferior" },
+];

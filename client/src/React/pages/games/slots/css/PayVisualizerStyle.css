@@ -1,0 +1,119 @@
+.payline-visualizer {
+    background-color: #1a2b45;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+    color: #fff;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.visualizer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.visualizer-header h2 {
+    color: #ffd700;
+    margin: 0;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.close-button:hover {
+    color: #f8d7da;
+}
+
+.payline-selector {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.payline-selector label {
+    margin-right: 10px;
+}
+
+.payline-selector select {
+    flex-grow: 1;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #6b5900;
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+.payline-grid {
+    display: flex;
+    flex-direction: column;
+    background-color: #0c1526;
+    border: 3px solid #8b7300;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.vis-row {
+    display: flex;
+    height: 60px;
+}
+
+.vis-cell {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #1e2f4d;
+    background-color: #1e2f4d;
+    transition: all 0.3s;
+}
+
+.vis-cell.highlighted {
+    background-color: #ffd700;
+    box-shadow: inset 0 0 10px #b39700;
+    position: relative;
+}
+
+.path-marker {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #e63946;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.payline-info {
+    background-color: #0c1526;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.info-item {
+    margin-bottom: 8px;
+    display: flex;
+}
+
+.info-label {
+    font-weight: bold;
+    width: 100px;
+    color: #ffd700;
+}
+
+.info-value {
+    flex-grow: 1;
+}
