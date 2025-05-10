@@ -23,9 +23,10 @@ import FriendsPage from "../pages/profile/FriendsPage.tsx";
 import TicketsView from "../pages/tickets/TicketsView.tsx";
 import Ticket from '../pages/tickets/Ticket.tsx';
 import SupportPage from "../pages/support/SupportPage.tsx";
-import Slots from "../pages/games/slots/Slots.tsx";
-
-
+import PrivacyPolicy from "../pages/footer/PrivacyPolicy.tsx"
+import Terminos from "../pages/footer/Terminos.tsx"
+import AboutUs from "../pages/footer/AboutUs.tsx"
+import Legal from "../pages/footer/Legal.tsx"
 function App() {
     return (
         <BrowserRouter>
@@ -35,7 +36,6 @@ function App() {
                     <Route path="/" element={<LandingPage/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Register/>}/>
-                    <Route path="/slots" element={<Slots/>}/>
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
                     <Route element={<ProtectedRoute/>}>
@@ -53,11 +53,11 @@ function App() {
                         <Route path="/pausa" element={<div>NO IMPLEMENTADO NADA</div>}/>
                         <Route path="/ticket/:ticketId" element={<Ticket/>}/>
                         <Route path="/support" element={<SupportPage/>}/>
-                        <Route path="/tickets" element={<TicketsView/>}/>
                     </Route>
 
                     {/* rutas Solo para admins */}
                     <Route element={<AdminRoutes/>}>
+                        <Route path="/tickets" element={<TicketsView/>}/>
                     </Route>
 
                     {/* Rutas protegidas Solo (Superadmin) */}

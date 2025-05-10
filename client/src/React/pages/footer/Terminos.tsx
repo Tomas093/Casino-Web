@@ -107,7 +107,7 @@ const TermsAndConditions: React.FC = () => {
             {renderAccordionSection('7. Propiedad Intelectual', 'intellectual', (
                 <>
                     <p>7.1 Todo el contenido disponible en Australis Casino, incluyendo pero no limitado a logotipos, marcas comerciales, software, juegos, gráficos y texto, está protegido por derechos de propiedad intelectual.</p>
-                    <p>7.2 El Usuario no puede copiar, modificar, distribuir o reproducir ningún contenido del sitio sin el permiso expreso de Australis Casino o del propietario correspondiente.</p>
+                    {/*<p>7.2 El Usuario no puede copiar, modificar, distribuir o reproducir ningún contenido del sitio sin el permiso expreso de Australis Casino o del propietario correspondiente.</p>*/}
                 </>
             ))}
 

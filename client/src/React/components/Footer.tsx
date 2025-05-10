@@ -9,9 +9,9 @@ const Footer: React.FC = () => {
                 <div className="footer-section footer-aboutUs">
                     <h3>Sobre Nosotros</h3>
                     <ul>
-                        <li><a href="/terminos">Términos y Condiciones</a></li>
-                        <li><a href="/privacidad">Política de Privacidad</a></li>
-                        <li><a href="/nosotros">Quiénes Somos</a></li>
+                        <li><a href="/terms">Términos y Condiciones</a></li>
+                        <li><a href="/privacy-policy">Política de Privacidad</a></li>
+                        <li><a href="/aboutUs">Quiénes Somos</a></li>
                     </ul>
                 </div>
 
@@ -37,9 +37,9 @@ const Footer: React.FC = () => {
                 <div className="footer-section footer-legal">
                     <h3>Legal</h3>
                     <ul>
-                        <li><a href="/licencia">Licencia</a></li>
-                        <li><a href="/juego-responsable">Juego Responsable</a></li>
-                        <li><a href="/seguridad">Seguridad y Garantías</a></li>
+                        <li><a href="/legal">Licencia</a></li>
+                        <li><a href="/legal">Juego Responsable</a></li>
+                        <li><a href="/legal">Seguridad y Garantías</a></li>
                     </ul>
                 </div>
 
@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
                     <h3>Redes Sociales</h3>
                     <div className="social-icons">
                         <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><FaFacebookF /></a>
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
+                        <a href="https://www.instagram.com/tomasmonteiro._/" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
                         <a href="https://github.com/Tomas093/Casino-Web" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
                         <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer"><FaYoutube /></a>
                     </div>
