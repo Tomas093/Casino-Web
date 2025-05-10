@@ -2,11 +2,12 @@ import {useState, useEffect} from 'react';
 import {ChevronRight, SortAsc, SortDesc, Filter} from 'lucide-react';
 import {useAdmin} from '@context/AdminContext.tsx';
 import {useTicket} from '@context/TicketContext.tsx';
+import {useUser} from '@context/UserContext.tsx';
+import {useAuth} from '@context/AuthContext.tsx';
 import '@css/TicketViewStyle.css';
 import NavBar from '@components/NavBar';
 import {useNavigate} from "react-router-dom";
 
-// Modern styling with gold, black and green palette - Updated for a dark background
 const styles = {
     container: 'ticket-view-container',
     header: 'header',
@@ -30,35 +31,31 @@ const styles = {
     errorText: 'error-text',
     emptyContainer: 'empty-container',
     pageWrapper: 'page-wrapper',
-    filterContainer: 'filter-container',
-    filterButton: 'filter-button',
-    filterDropdown: 'filter-dropdown',
-    filterItem: 'filter-item',
-    sortButton: 'sort-button',
-    activeFilter: 'active-filter'
+    filterContainer: 'flex items-center',
+    filterButton: 'priority-filter-button',
+    filterDropdown: 'priority-filter-dropdown',
+    filterItem: 'priority-filter-item',
+    sortButton: 'priority-filter-button mr-4',
+    activeFilter: 'active-priority-filter'
 };
 
-// Ticket interface for the component
 interface Ticket {
     id: string;
     name: string;
     subject: string;
-    status: 'Open' | 'Pending' | 'Closed';
-    priority: 'Low' | 'Medium' | 'High';
+    status: 'Abierto' | 'Cerrado';
+    priority: 'Baja' | 'Media' | 'Alta';
     created: string;
     avatar: string;
     img?: string | null;
 }
 
-// StatusBadge component with updated styling
 const StatusBadge = ({status}: { status: string }) => {
     const getStatusClass = () => {
         switch (status) {
-            case 'Open':
-                return 'status-open';
-            case 'Pending':
-                return 'status-pending';
-            case 'Closed':
+            case 'Abierto':
+                return 'status-Abierto';
+            case 'Cerrado':
                 return 'status-closed';
             default:
                 return 'status-closed';
@@ -67,23 +64,22 @@ const StatusBadge = ({status}: { status: string }) => {
 
     return (
         <span className={`status-badge ${getStatusClass()}`}>
-          {status}
-        </span>
+                                                                    {status}
+                                                                </span>
     );
 };
 
-// PriorityIndicator component with updated styling
 const PriorityIndicator = ({priority}: { priority: string }) => {
     const getColorClass = () => {
         switch (priority) {
-            case 'High':
-                return 'priority-high';
-            case 'Medium':
-                return 'priority-medium';
-            case 'Low':
-                return 'priority-low';
+            case 'Alta':
+                return 'priority-Alta';
+            case 'Media':
+                return 'priority-Media';
+            case 'Baja':
+                return 'priority-Baja';
             default:
-                return 'priority-medium';
+                return 'priority-Media';
         }
     };
 
@@ -95,7 +91,6 @@ const PriorityIndicator = ({priority}: { priority: string }) => {
     );
 };
 
-// Updated Avatar component with image handling
 const Avatar = ({name, color, img}: { name: string; color: string; img?: string | null }) => {
     const initials = name
         .split(' ')
@@ -106,7 +101,7 @@ const Avatar = ({name, color, img}: { name: string; color: string; img?: string 
     const getAvatarColor = () => {
         switch (color) {
             case 'bg-purple-500':
-            case 'bg-yellow-500':
+            case 'bg-yelBaja-500':
                 return 'avatar bg-amber-600';
             case 'bg-red-500':
                 return 'avatar bg-green-700';
@@ -149,58 +144,62 @@ const Avatar = ({name, color, img}: { name: string; color: string; img?: string 
 };
 
 const TicketsView = () => {
-    const {isAdmin, isLoading: adminLoading, getAdminByUserId} = useAdmin();
-    const {tickets, loading: ticketLoading, error, getTicketsByAdminId} = useTicket();
+    const {isAdmin, isSuperAdmin, isLoading: adminLoading, getAdminByUserId} = useAdmin();
+    const {tickets, loading: ticketLoading, error, getTicketsByAdminId, getTicketsByClientId} = useTicket();
+    const {client, isLoading: userLoading} = useUser();
+    const {user} = useAuth();
     const navigate = useNavigate();
     const [formattedTickets, setFormattedTickets] = useState<Ticket[]>([]);
     const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [priorityFilter, setPriorityFilter] = useState<string | null>(null);
+    const [statusFilter, setStatusFilter] = useState<string | null>(null);
     const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+    const [showStatusFilterDropdown, setShowStatusFilterDropdown] = useState(false);
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc' | null>(null);
+    const [isUserAdmin, setIsUserAdmin] = useState(false);
+    const [, setIsSuperUser] = useState(false);
 
-    // Function to get current user ID from localStorage
-    const getCurrentUserId = () => {
-        // Try to get userId directly
-        const directUserId = localStorage.getItem('userId');
-        if (directUserId) return directUserId;
-
-        // Try to parse user object if it exists
-        const userStr = localStorage.getItem('user');
-        if (userStr) {
+    useEffect(() => {
+        const checkAdminPermissions = async () => {
             try {
-                const userData = JSON.parse(userStr);
-                return userData.usuarioid?.toString() || userData.userId?.toString() || userData.id?.toString();
-            } catch (e) {
-                console.error("Error parsing user data from localStorage:", e);
+                const adminStatus = await isAdmin();
+                const superAdminStatus = await isSuperAdmin();
+                setIsUserAdmin(adminStatus);
+                setIsSuperUser(superAdminStatus);
+            } catch (error) {
+                console.error("Error checking admin permissions:", error);
+                setIsUserAdmin(false);
+                setIsSuperUser(false);
             }
-        }
+        };
 
-        // Check other possible keys
-        return localStorage.getItem('usuarioid') ||
-            localStorage.getItem('user_id') ||
-            null;
-    };
+        checkAdminPermissions();
+    }, [isAdmin, isSuperAdmin]);
 
-    // Function to determine avatar color based on name
     const getAvatarColor = (name: string): string => {
         const sumChars = name.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
-        const colors = ['bg-purple-500', 'bg-yellow-500', 'bg-red-500', 'bg-blue-500', 'bg-gray-500'];
+        const colors = ['bg-purple-500', 'bg-yelBaja-500', 'bg-red-500', 'bg-blue-500', 'bg-gray-500'];
         return colors[sumChars % colors.length];
     };
 
-    // Convert API tickets to the format needed for display
     const mapApiTicketsToViewFormat = (apiTickets: any[]): Ticket[] => {
         return apiTickets.map(ticket => {
-            // Format full name from cliente.usuario if available
-            const clientName = ticket.cliente && ticket.cliente.usuario
-                ? `${ticket.cliente.usuario.nombre || ''} ${ticket.cliente.usuario.apellido || ''}`.trim()
-                : `Cliente #${ticket.clienteid || ''}`;
+            let clientName;
+            let clientImg = null;
 
-            // Get client image if available
-            const clientImg = ticket.cliente && ticket.cliente.usuario && ticket.cliente.usuario.img
-                ? ticket.cliente.usuario.img
-                : null;
+            if (!isUserAdmin && user) {
+                clientName = `${user.nombre || ''} ${user.apellido || ''}`.trim();
+                clientImg = user.img || null;
+            } else {
+                clientName = ticket.cliente && ticket.cliente.usuario
+                    ? `${ticket.cliente.usuario.nombre || ''} ${ticket.cliente.usuario.apellido || ''}`.trim()
+                    : `Cliente #${ticket.clienteid || ''}`;
+
+                clientImg = ticket.cliente && ticket.cliente.usuario && ticket.cliente.usuario.img
+                    ? ticket.cliente.usuario.img
+                    : null;
+            }
 
             return {
                 id: ticket.ticketid?.toString() || ticket.id?.toString() || '0',
@@ -215,43 +214,38 @@ const TicketsView = () => {
         });
     };
 
-    // Map status values from API to component format
-    const mapStatus = (status: string | boolean): 'Open' | 'Pending' | 'Closed' => {
-        if (status === undefined || status === null) return 'Open';
+    const mapStatus = (status: string | boolean): 'Abierto' | 'Cerrado' => {
+        if (status === undefined || status === null) return 'Abierto';
 
         if (typeof status === 'boolean') {
-            return status ? 'Closed' : 'Open';
+            return status ? 'Cerrado' : 'Abierto';
         }
 
         switch (status.toString().toLowerCase()) {
             case 'abierto':
             case 'false':
-                return 'Open';
-            case 'pendiente':
-                return 'Pending';
+                return 'Abierto';
             case 'cerrado':
             case 'true':
-                return 'Closed';
+                return 'Cerrado';
             default:
-                return 'Open';
+                return 'Abierto';
         }
     };
 
-    // Map priority values from API to component format
-    const mapPriority = (priority: string): 'Low' | 'Medium' | 'High' => {
+    const mapPriority = (priority: string): 'Baja' | 'Media' | 'Alta' => {
         switch (priority?.toLowerCase()) {
             case 'baja':
-                return 'Low';
+                return 'Baja';
             case 'media':
-                return 'Medium';
+                return 'Media';
             case 'alta':
-                return 'High';
+                return 'Alta';
             default:
-                return 'Medium';
+                return 'Media';
         }
     };
 
-    // Toggle sort direction
     const toggleSort = () => {
         if (sortDirection === null) {
             setSortDirection('asc');
@@ -262,24 +256,29 @@ const TicketsView = () => {
         }
     };
 
-    // Filter tickets by priority
     const filterByPriority = (priority: string | null) => {
         setPriorityFilter(priority);
         setShowFilterDropdown(false);
     };
 
-    // Apply filters and sorting
+    const filterByStatus = (status: string | null) => {
+        setStatusFilter(status);
+        setShowStatusFilterDropdown(false);
+    };
+
     useEffect(() => {
         let result = [...formattedTickets];
 
-        // Apply priority filter if selected
         if (priorityFilter) {
             result = result.filter(ticket => ticket.priority === priorityFilter);
         }
 
-        // Apply sorting if selected
+        if (statusFilter) {
+            result = result.filter(ticket => ticket.status === statusFilter);
+        }
+
         if (sortDirection) {
-            const priorityOrder = {'High': 3, 'Medium': 2, 'Low': 1};
+            const priorityOrder = {'Alta': 3, 'Media': 2, 'Baja': 1};
 
             result.sort((a, b) => {
                 const valueA = priorityOrder[a.priority as keyof typeof priorityOrder];
@@ -292,53 +291,69 @@ const TicketsView = () => {
         }
 
         setFilteredTickets(result);
-    }, [formattedTickets, priorityFilter, sortDirection]);
+    }, [formattedTickets, priorityFilter, statusFilter, sortDirection]);
 
     useEffect(() => {
-        const loadAdminTickets = async () => {
+        const loadTickets = async () => {
             setIsLoading(true);
             try {
-                const isUserAdmin = await isAdmin();
-                console.log("Is user admin:", isUserAdmin);
+                const adminStatus = await isAdmin();
+                setIsUserAdmin(adminStatus);
+                const superAdminStatus = await isSuperAdmin();
+                setIsSuperUser(superAdminStatus);
 
-                if (isUserAdmin) {
+                if (adminStatus) {
                     const userId = getCurrentUserId();
-                    console.log("Current user ID:", userId);
-
                     if (userId) {
                         try {
                             const admin = await getAdminByUserId(userId);
-                            console.log("Admin data received:", admin);
-
                             if (admin && admin.adminid) {
-                                console.log("Fetching tickets for admin ID:", admin.adminid);
                                 await getTicketsByAdminId(Number(admin.adminid));
-                            } else {
-                                console.error("No admin data or admin ID returned");
                             }
                         } catch (err) {
-                            console.error("Error fetching admin data:", err);
+                            console.error("Error fetching admin tickets:", err);
                         }
-                    } else {
-                        console.error("No user ID found in localStorage");
                     }
                 } else {
-                    console.log("User is not an admin");
+                    if (client && client.clienteid) {
+                        await getTicketsByClientId(client.clienteid);
+                    } else {
+                        console.error("No client ID found in user context");
+                    }
                 }
             } catch (error) {
-                console.error("Error loading admin tickets:", error);
+                console.error("Error loading tickets:", error);
             } finally {
                 setIsLoading(false);
             }
         };
 
-        loadAdminTickets();
-    }, []);
+        if (!userLoading) {
+            loadTickets();
+        }
+    }, [client, userLoading]);
 
-    // Update formatted tickets when API tickets change
+    const getCurrentUserId = () => {
+        const directUserId = localStorage.getItem('userId');
+        if (directUserId) return directUserId;
+
+        const userStr = localStorage.getItem('user');
+        if (userStr) {
+            try {
+                const userData = JSON.parse(userStr);
+                return userData.usuarioid?.toString() || userData.userId?.toString() || userData.id?.toString();
+            } catch (e) {
+                console.error("Error parsing user data from localStorage:", e);
+            }
+        }
+
+        return localStorage.getItem('usuarioid') ||
+            localStorage.getItem('user_id') ||
+            null;
+    };
+
     useEffect(() => {
         if (tickets && tickets.length > 0) {
-            console.log("Received tickets:", tickets);
             const formatted = mapApiTicketsToViewFormat(tickets);
             setFormattedTickets(formatted);
             setFilteredTickets(formatted);
@@ -348,7 +363,81 @@ const TicketsView = () => {
         }
     }, [tickets]);
 
-    if (isLoading || adminLoading || ticketLoading) {
+    // Componente para filtros de estado que sea reutilizable
+    const StatusFilter = () => (
+        <div className="relative ml-2">
+            <button
+                className={`${styles.filterButton} ${statusFilter ? styles.activeFilter : ''}`}
+                onClick={() => setShowStatusFilterDropdown(!showStatusFilterDropdown)}
+            >
+                <Filter size={16}/>
+                <span>{statusFilter || 'Estado'}</span>
+            </button>
+            {showStatusFilterDropdown && (
+                <div className={styles.filterDropdown}>
+                    <div className={styles.filterItem}
+                         onClick={() => filterByStatus(null)}>
+                        <span>Todos</span>
+                    </div>
+                    <div className={styles.filterItem}
+                         onClick={() => filterByStatus('Abierto')}>
+                        <span>Abierto</span>
+                    </div>
+                    <div className={styles.filterItem}
+                         onClick={() => filterByStatus('Cerrado')}>
+                        <span>Cerrado</span>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+
+    // Componente para filtros de prioridad solo para admin
+    const PriorityFilter = () => (
+        <div className="relative">
+            <button
+                className={`${styles.filterButton} ${priorityFilter ? styles.activeFilter : ''}`}
+                onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+            >
+                <Filter size={16}/>
+                <span>{priorityFilter || 'Prioridad'}</span>
+            </button>
+            {showFilterDropdown && (
+                <div className={styles.filterDropdown}>
+                    <div className={styles.filterItem}
+                         onClick={() => filterByPriority(null)}>
+                        <div className="priority-indicator">
+                            <div className="priority-dot priority-all"></div>
+                            <span>All</span>
+                        </div>
+                    </div>
+                    <div className={styles.filterItem}
+                         onClick={() => filterByPriority('Alta')}>
+                        <div className="priority-indicator">
+                            <div className="priority-dot priority-Alta"></div>
+                            <span>Alta</span>
+                        </div>
+                    </div>
+                    <div className={styles.filterItem}
+                         onClick={() => filterByPriority('Media')}>
+                        <div className="priority-indicator">
+                            <div className="priority-dot priority-Media"></div>
+                            <span>Media</span>
+                        </div>
+                    </div>
+                    <div className={styles.filterItem}
+                         onClick={() => filterByPriority('Baja')}>
+                        <div className="priority-indicator">
+                            <div className="priority-dot priority-Baja"></div>
+                            <span>Baja</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+
+    if (isLoading || adminLoading || ticketLoading || userLoading) {
         return (
             <div className={styles.pageWrapper}>
                 <div className={styles.loadingContainer}>
@@ -373,139 +462,85 @@ const TicketsView = () => {
             <NavBar
                 navLinks={[
                     {label: "Inicio", href: "/home"},
-                    {label: "Tickets", href: "/tickets"},
-                    {label: "Perfil", href: "/profile"}
+                    {label: "Soporte", href: "/support"}
                 ]}
                 logoText="Australis Casino"
                 variant="dark"
             />
             <div className={`${styles.pageWrapper} page-content`}>
                 <div className={styles.container}>
-                    {formattedTickets.length > 0 ? (
-                        <div className="overflow-x-auto rounded-lg border bg-black">
-                            <div className="flex justify-between items-center mb-4">
-                                <h1 className="tickets-header">Tickets Recientes</h1>
-                                <div className="flex items-center">
-                                    <div className="relative mr-4">
-                                        <button
-                                            className={`priority-filter-button ${priorityFilter ? 'active-priority-filter' : ''}`}
-                                            onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-                                        >
-                                            <Filter size={18}/>
-                                            <span className="ml-2">Filtrar</span>
-                                            {priorityFilter && (
-                                                <span
-                                                    className={`priority-filter-badge ${
-                                                        priorityFilter === 'High' ? 'priority-high-badge' :
-                                                            priorityFilter === 'Low' ? 'priority-low-badge' : ''
-                                                    }`}
-                                                >
-                                                    {priorityFilter}
-                                                </span>
-                                            )}
-                                        </button>
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-2xl font-bold text-amber-500">Tickets</h2>
 
-                                        {showFilterDropdown && (
-                                            <div className="priority-filter-dropdown">
-                                                <div
-                                                    className="priority-filter-item"
-                                                    onClick={() => filterByPriority(null)}
-                                                >
-                                                    <span className="priority-dot priority-all"></span>
-                                                    Todas
-                                                </div>
-                                                <div
-                                                    className="priority-filter-item"
-                                                    onClick={() => filterByPriority('High')}
-                                                >
-                                                    <span className="priority-dot priority-high"></span>
-                                                    Alta
-                                                </div>
-                                                <div
-                                                    className="priority-filter-item"
-                                                    onClick={() => filterByPriority('Medium')}
-                                                >
-                                                    <span className="priority-dot priority-medium"></span>
-                                                    Media
-                                                </div>
-                                                <div
-                                                    className="priority-filter-item"
-                                                    onClick={() => filterByPriority('Low')}
-                                                >
-                                                    <span className="priority-dot priority-low"></span>
-                                                    Baja
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
+                        {/* Filtros disponibles para todos los usuarios */}
+                        <div className={styles.filterContainer}>
+                            {isUserAdmin && <PriorityFilter/>}
+                            <StatusFilter/>
 
-                                    <button
-                                        className={`sort-button ${sortDirection ? 'active-filter' : ''}`}
-                                        onClick={toggleSort}
-                                    >
-                                        {sortDirection === 'asc' ? (
-                                            <SortAsc size={18}/>
-                                        ) : sortDirection === 'desc' ? (
-                                            <SortDesc size={18}/>
-                                        ) : (
-                                            <SortAsc size={18} className="opacity-70"/>
-                                        )}
-                                        <span className="ml-2">Ordenar</span>
-                                    </button>
-                                </div>
-                            </div>
+                            {isUserAdmin && (
+                                <button className={styles.sortButton} onClick={toggleSort}>
+                                    {sortDirection === 'asc' ? <SortAsc size={16}/> :
+                                        sortDirection === 'desc' ? <SortDesc size={16}/> : <SortAsc size={16}/>}
+                                </button>
+                            )}
+                        </div>
+                    </div>
 
-                            <table className={styles.table}>
-                                <thead>
-                                <tr className={styles.tableHeader}>
-                                    <th className={styles.tableHeaderCell}>Id</th>
-                                    <th className={styles.tableHeaderCell}>Cliente</th>
-                                    <th className={styles.tableHeaderCell}>Asunto</th>
-                                    <th className={styles.tableHeaderCell}>Estado</th>
-                                    <th className={styles.tableHeaderCell}>Prioridad</th>
-                                    <th className={styles.tableHeaderCell}>Creado</th>
-                                    <th className={styles.tableHeaderCell}></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {filteredTickets.map((ticket) => (
-                                    <tr key={ticket.id} className={styles.tableRow}>
-                                        <td className={styles.idCell} title={`ID completo: ${ticket.id}`}>
-                                            <span className={styles.idBadge}>{ticket.id.substring(0, 6)}</span>
-                                        </td>
-                                        <td className={styles.tableCell}>
-                                            <div className={styles.avatarContainer}>
-                                                <Avatar name={ticket.name} color={ticket.avatar} img={ticket.img}/>
-                                                <span className={styles.avatarText}>{ticket.name}</span>
-                                            </div>
-                                        </td>
-                                        <td className={styles.tableCell}>
-                                            <span className={styles.subjectText}>{ticket.subject}</span>
-                                        </td>
-                                        <td className={styles.tableCell}>
-                                            <StatusBadge status={ticket.status}/>
-                                        </td>
+                    {filteredTickets.length > 0 ? (
+                        <table className={styles.table}>
+                            <thead className={styles.tableHeader}>
+                            <tr>
+                                <th className={styles.tableHeaderCell}>ID</th>
+                                <th className={styles.tableHeaderCell}>Cliente</th>
+                                <th className={styles.tableHeaderCell}>Asunto</th>
+                                <th className={styles.tableHeaderCell}>Estado</th>
+                                {isUserAdmin && <th className={styles.tableHeaderCell}>Prioridad</th>}
+                                <th className={styles.tableHeaderCell}>Fecha</th>
+                                <th className={styles.tableHeaderCell}>Acción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {filteredTickets.map((ticket) => (
+                                <tr key={ticket.id} className={styles.tableRow}>
+                                    <td className={styles.idCell}>
+                                        <div className={styles.idText}>#{ticket.id}</div>
+                                    </td>
+                                    <td className={styles.tableCell}>
+                                        <div className="flex items-center">
+                                            <Avatar name={ticket.name} color={ticket.avatar} img={ticket.img}/>
+                                            <span className="ml-2 font-Media">{ticket.name}</span>
+                                        </div>
+                                    </td>
+                                    <td className={styles.tableCell}>
+                                        <div className={styles.subjectText}>{ticket.subject}</div>
+                                    </td>
+                                    <td className={styles.tableCell}>
+                                        <StatusBadge status={ticket.status}/>
+                                    </td>
+                                    {isUserAdmin && (
                                         <td className={styles.tableCell}>
                                             <PriorityIndicator priority={ticket.priority}/>
                                         </td>
-                                        <td className={styles.tableCell}>
-                                            <span className={styles.dateText}>{ticket.created}</span>
-                                        </td>
-                                        <td className={`${styles.tableCell} text-right`}>
-                                            <button
-                                                className={styles.actionButton}
-                                                onClick={() => navigate(`/ticket/${ticket.id}`)}
-                                            >
-                                                <ChevronRight size={20}/>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
-                        </div>
+                                    )}
+                                    <td className={styles.tableCell}>
+                                        <div className={styles.dateText}>{ticket.created}</div>
+                                    </td>
+                                    <td className={styles.tableCell}>
+                                        <button
+                                            className={styles.actionButton}
+                                            onClick={() => navigate(`/ticket/${ticket.id}`)}
+                                        >
+                                            <ChevronRight size={18}/>
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
                     ) : (
-                        <div className={styles.emptyContainer}>No hay tickets asignados.</div>
+                        <div className={styles.emptyContainer}>
+                            <p>No hay tickets disponibles</p>
+                        </div>
                     )}
                 </div>
             </div>
@@ -514,4 +549,3 @@ const TicketsView = () => {
 };
 
 export default TicketsView;
-

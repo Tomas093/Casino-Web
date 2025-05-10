@@ -1,0 +1,155 @@
+/* Recent Activities Component Styles */
+/* Using 'ra-' prefix to avoid CSS conflicts with other components */
+
+.ra-container {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    padding: 20px;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ra-widget-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #f0f0f0;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+
+.ra-activities-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ra-activity-item {
+    display: flex;
+    align-items: center;
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    padding: 12px;
+    transition: all 0.2s ease;
+}
+
+.ra-activity-item:hover {
+    background-color: #333333;
+    transform: translateY(-2px);
+}
+
+.ra-activity-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+}
+
+/* Icons using pseudo-elements for better display */
+.ra-activity-icon::before {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Login icon - Key */
+.ra-icon-login {
+    background-color: #2e7d32;
+}
+
+.ra-icon-login::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z'/%3E%3C/svg%3E");
+}
+
+/* Deposit icon - Money */
+.ra-icon-deposit {
+    background-color: #f9a825;
+}
+
+.ra-icon-deposit::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z'/%3E%3C/svg%3E");
+}
+
+/* Withdrawal icon - Arrow Down */
+.ra-icon-withdrawal {
+    background-color: #d32f2f;
+}
+
+.ra-icon-withdrawal::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z'/%3E%3C/svg%3E");
+}
+
+/* Win icon - Trophy */
+.ra-icon-win {
+    background-color: #7b1fa2;
+}
+
+.ra-icon-win::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm7 6c-1.65 0-3-1.35-3-3V5h6v6c0 1.65-1.35 3-3 3zm7-6c0 1.3-.84 2.4-2 2.82V7h2v1z'/%3E%3C/svg%3E");
+}
+
+/* Loss icon - Trending Down */
+.ra-icon-loss {
+    background-color: #e64a19;
+}
+
+.ra-icon-loss::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6h-6z'/%3E%3C/svg%3E");
+}
+
+/* Registration icon - Person Add */
+.ra-icon-registration {
+    background-color: #1976d2;
+}
+
+.ra-icon-registration::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E");
+}
+
+/* Default icon - Info */
+.ra-icon-default {
+    background-color: #607d8b;
+}
+
+.ra-icon-default::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3C/svg%3E");
+}
+
+.ra-activity-content {
+    flex-grow: 1;
+}
+
+.ra-activity-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin: 0 0 4px 0;
+    color: #f0f0f0;
+}
+
+.ra-activity-detail {
+    font-size: 13px;
+    margin: 0;
+    color: #b0b0b0;
+}
+
+.ra-activity-time {
+    font-size: 12px;
+    color: #808080;
+    white-space: nowrap;
+    margin-left: 12px;
+}
+
+.ra-loading {
+    text-align: center;
+    padding: 20px;
+    color: #b0b0b0;
+}

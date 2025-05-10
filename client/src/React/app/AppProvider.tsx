@@ -12,6 +12,8 @@ import {FriendRequestProvider} from '@context/FriendRequestContext.tsx';
 import {TicketProvider} from '@context/TicketContext.tsx'
 import {MessageProvider} from '@context/MessageContext.tsx';
 import {FAQProvider} from "@context/FAQContext.tsx";
+import {AdminStaticsProvider} from "@context/AdminStaticsContext.tsx";
+import {CuponProvider} from '@context/CuponContext';
 
 interface AppProviderProps {
     children: ReactNode;
@@ -32,7 +34,11 @@ export const AppProvider = ({children}: AppProviderProps) => {
                                                 <TicketProvider>
                                                     <MessageProvider>
                                                         <FAQProvider>
-                                                            {children}
+                                                            <AdminStaticsProvider>
+                                                                <CuponProvider>
+                                                                    {children}
+                                                                </CuponProvider>
+                                                            </AdminStaticsProvider>
                                                         </FAQProvider>
                                                     </MessageProvider>
                                                 </TicketProvider>

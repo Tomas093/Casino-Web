@@ -267,12 +267,23 @@ export const leaderboardService = {
                         ? (filteredJugadas.filter(j => (j.retorno || 0) > (j.apuesta || 0)).length / filteredJugadas.length) * 100
                         : 0;
 
+                // Calculate mayorRetorno and mayorApuesta
+                const mayorRetorno = filteredJugadas.length > 0
+                    ? Math.max(...filteredJugadas.map(j => Number(j.retorno || 0))).toString()
+                    : '0';
+
+                const mayorApuesta = filteredJugadas.length > 0
+                    ? Math.max(...filteredJugadas.map(j => Number(j.apuesta || 0))).toString()
+                    : '0';
+
                 return {
                     clienteid: friendClient.clienteid,
                     nombre: friendClient.usuario.nombre,
                     apellido: friendClient.usuario.apellido,
                     img: friendClient.usuario.img,
                     gananciaNeta: totalProfit.toString(),
+                    mayorRetorno,
+                    mayorApuesta,
                     winPercentage,
                     jugadaCount
                 };

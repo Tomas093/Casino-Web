@@ -4,8 +4,8 @@ import faqApi from '@api/faqApi.ts';
 interface FaqContextType {
     isLoading: boolean;
     getAllFAQs: () => Promise<any>;
-    createFAQ: (faqData: { pregunta: string; respuesta: string }) => Promise<any>;
-    updateFAQ: (faqId: string, faqData: { pregunta: string; respuesta: string }) => Promise<any>;
+    createFAQ: (faqData: { pregunta: string; respuesta: string,categoria:string}) => Promise<any>;
+    updateFAQ: (faqId: string, faqData: { pregunta: string; respuesta: string, categoria: string }) => Promise<any>;
     deleteFAQ: (faqId: string) => Promise<any>;
     getFAQsByCategory: (category: string) => Promise<any>;
     getFAQByQuestion: (question: string) => Promise<any>;
@@ -33,7 +33,7 @@ export const FAQProvider = ({children}: FaqProviderProps) => {
         }
     }, []);
 
-    const addFAQ = useCallback(async (faqData: { pregunta: string; respuesta: string }) => {
+    const addFAQ = useCallback(async (faqData: { pregunta: string; respuesta: string, categoria: string }) => {
         setIsLoading(true);
         try {
             return await faqApi.createFAQ(faqData);
@@ -45,7 +45,7 @@ export const FAQProvider = ({children}: FaqProviderProps) => {
         }
     }, []);
 
-    const modifyFAQ = useCallback(async (faqId: string, faqData: { pregunta: string; respuesta: string }) => {
+    const modifyFAQ = useCallback(async (faqId: string, faqData: { pregunta: string; respuesta: string, categoria: string }) => {
         setIsLoading(true);
         try {
             return await faqApi.updateFAQ(faqId, faqData);

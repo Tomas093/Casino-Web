@@ -130,7 +130,7 @@ const TermsAndConditions: React.FC = () => {
             {renderAccordionSection('10. Ley Aplicable', 'law', (
                 <>
                     <p>10.1 Estos Términos y Condiciones se rigen por las leyes de [Jurisdicción].</p>
-                    <p>10.2 Cualquier disputa derivada de estos Términos y Condiciones será sometida a la jurisdicción exclusiva de los tribunales de [Jurisdicción].</p>
+                    <p>10.2 Cualquier disputa derivada de estos Términos y Condiciones será sometida a la jurisdicción exclusiva de los tribunales de San Marino.</p>
                 </>
             ))}
 

@@ -13,7 +13,7 @@ interface UserRanking {
     mayorRetorno: string;
     mayorApuesta: string;
     winPercentage: number;
-    jugadaCount?: number; // Added jugadaCount
+    jugadaCount?: number;
     juegoNombre?: string;
 }
 
@@ -37,7 +37,7 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
     const [isAscending, setIsAscending] = useState<boolean>(false);
     const [selectedGame, setSelectedGame] = useState<string | null>(defaultGameFilter || null);
     const [, setAvailableGames] = useState<string[]>([]);
-    const [showFriendsLeaderboard, setShowFriendsLeaderboard] = useState(false); // Add state for toggling
+    const [showFriendsLeaderboard, setShowFriendsLeaderboard] = useState(false);
 
     const {
         isLoading: contextLoading,
@@ -49,10 +49,10 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
         highestReturns,
         accumulatedWinnings,
         topWinPercentages,
-        mostPlayed, // Add mostPlayed from context
+        mostPlayed,
         fetchAllLeaderboards,
         friendsLeaderboard,
-        fetchFriendsLeaderboard, // Ensure this is destructured
+        fetchFriendsLeaderboard,
     } = useLeaderboard();
 
     useEffect(() => {
@@ -60,19 +60,20 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
     }, [timeframe]);
 
     useEffect(() => {
-        if (client?.clienteid) {
-            fetchFriendsLeaderboard(client.clienteid);
+        const user = localStorage.getItem("user");
+        if (user) {
+            const parsedUser = JSON.parse(user);
+            fetchFriendsLeaderboard(parsedUser.usuarioid);
         }
-    }, [client, timeframe]);
 
-    // Updated to safely handle gameWinners
+    }, [timeframe]);
+
     useEffect(() => {
         if (gameWinners && Object.keys(gameWinners).length > 0) {
             setAvailableGames(Object.keys(gameWinners));
         }
     }, [gameWinners]);
 
-    // Generate rankings based on current criteria and filters
     useEffect(() => {
         const generateRankingsData = () => {
             try {
@@ -182,7 +183,6 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                         break;
                 }
 
-                // Sort the data according to criteria and direction
                 const sortedRankings = sortRankings(leaderboardData, sortCriteria, isAscending);
                 setRankings(sortedRankings.slice(0, limit));
                 setLoading(false);
@@ -202,14 +202,13 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
         highestReturns,
         accumulatedWinnings,
         topWinPercentages,
-        mostPlayed, // Add mostPlayed dependency
+        mostPlayed,
         sortCriteria,
         isAscending,
         selectedGame,
         limit
     ]);
 
-    // Sort rankings based on the selected criteria
     const sortRankings = (data: UserRanking[], criteria: string, ascending: boolean): UserRanking[] => {
         return [...data].sort((a, b) => {
             let valueA, valueB;
@@ -241,6 +240,7 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
             }
         }
     };
+
     const handleTimeframeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setTimeframe(event.target.value as TimeFrame);
     };
@@ -267,11 +267,13 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
     };
 
     const renderLeaderboard = () => {
+        // Add debug logging
         if (showFriendsLeaderboard) {
             return (
                 <div className="leaderboard__friends">
                     <h2>Clasificación de Amigos</h2>
-                    {friendsLeaderboard.length > 0 ? (
+
+                    {Array.isArray(friendsLeaderboard) && friendsLeaderboard.length > 0 ? (
                         friendsLeaderboard.map((friend, index) => (
                             <LeaderboardRow
                                 key={`${friend.clienteid}-${index}`}
@@ -281,14 +283,19 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                                     apellido: friend.apellido,
                                     img: friend.img,
                                     gananciaNeta: friend.gananciaNeta,
+                                    mayorRetorno: friend.mayorRetorno || '0',
+                                    mayorApuesta: friend.mayorApuesta || '0',
                                     winPercentage: friend.winPercentage,
-                                    jugadaCount: friend.jugadaCount,
+                                    jugadaCount: friend.jugadaCount
                                 }}
                                 index={index}
                             />
                         ))
                     ) : (
-                        <div className="leaderboard__empty">No hay datos disponibles para tus amigos.</div>
+                        <div className="leaderboard__empty">
+                            No hay datos disponibles para tus amigos.
+                            {contextLoading && <span> Cargando datos...</span>}
+                        </div>
                     )}
                 </div>
             );
@@ -296,37 +303,20 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
 
         return (
             <div className="leaderboard__table">
-                <div className={`leaderboard__table-header ${compact ? 'leaderboard__table-header--compact' : ''}`}>
-                    <div className="leaderboard__rank">Pos.</div>
-                    <div className="leaderboard__user">Jugador</div>
-                    <div className="leaderboard__stat">
-                        {getSortCriteriaLabel(sortCriteria)}
-                        <span className="leaderboard__order-indicator">{isAscending ? ' ↑' : ' ↓'}</span>
-                    </div>
-                    {!compact && sortCriteria !== 'gananciaNeta' && sortCriteria !== 'jugadaCount' && (
-                        <div className="leaderboard__game">Juego</div>
-                    )}
-                </div>
-
-                <div className="leaderboard__table-body">
-                    {rankings.length > 0 ? (
-                        rankings.map((ranking, index) => (
-                            <LeaderboardRow
-                                key={`${ranking.clienteid}-${index}-${sortCriteria}`}
-                                ranking={ranking}
-                                index={index}
-                            />
-                        ))
-                    ) : (
-                        <div className="leaderboard__empty">No hay datos disponibles para mostrar en la clasificación</div>
-                    )}
-                </div>
+                <h2>{getSortCriteriaLabel(sortCriteria)}</h2>
+                {rankings.length > 0 ? (
+                    rankings.map((ranking, index) => (
+                        <LeaderboardRow key={`${ranking.clienteid}-${index}`} ranking={ranking} index={index}/>
+                    ))
+                ) : (
+                    <div className="leaderboard__empty">No hay datos disponibles para esta clasificación.</div>
+                )}
             </div>
         );
     };
 
     const LeaderboardRow = ({ranking, index}: { ranking: UserRanking, index: number }) => {
-        const isCurrentUser = client?.clienteid === ranking.clienteid; // Fixed property name mismatch
+        const isCurrentUser = client?.clienteid === ranking.clienteid;
 
         const rankClassName =
             index === 0 ? 'leaderboard__rank leaderboard__rank--top1' :
@@ -334,7 +324,6 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                     index === 2 ? 'leaderboard__rank leaderboard__rank--top3' :
                         'leaderboard__rank';
 
-        // Handle null/undefined values
         const winPercentage = ranking.winPercentage;
         const gananciaNeta = ranking.gananciaNeta || '0';
         const mayorRetorno = ranking.mayorRetorno || '0';
@@ -356,10 +345,10 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                                     target.style.display = 'none';
                                     const parent = target.parentElement;
                                     if (parent) {
-                                        const div = document.createElement('div');
-                                        div.className = 'leaderboard__default-avatar';
-                                        div.textContent = `${ranking.nombre.charAt(0)}${ranking.apellido.charAt(0)}`;
-                                        parent.appendChild(div);
+                                        const defaultAvatar = document.createElement('div');
+                                        defaultAvatar.className = 'leaderboard__default-avatar';
+                                        defaultAvatar.textContent = `${ranking.nombre.charAt(0)}${ranking.apellido.charAt(0)}`;
+                                        parent.appendChild(defaultAvatar);
                                     }
                                 }}
                             />
@@ -375,22 +364,22 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                 <div className="leaderboard__stat">
                     {sortCriteria === 'gananciaNeta' && (
                         <span className={parseFloat(gananciaNeta) >= 0 ? 'positive' : 'negative'}>
-                            {parseFloat(gananciaNeta) >= 0 ? '+' : ''}
+                                                                                 {parseFloat(gananciaNeta) >= 0 ? '+' : ''}
                             {parseFloat(gananciaNeta).toLocaleString()} AC
-                        </span>
+                                                                             </span>
                     )}
                     {sortCriteria === 'mayorRetorno' && (
                         <span className="positive">
-                            +{parseFloat(mayorRetorno).toLocaleString()} AC
-                        </span>
+                                                                                 +{parseFloat(mayorRetorno).toLocaleString()} AC
+                                                                             </span>
                     )}
                     {sortCriteria === 'mayorApuesta' && (
                         <span>{parseFloat(mayorApuesta).toLocaleString()} AC</span>
                     )}
                     {sortCriteria === 'winPercentage' && (
                         <span className={winPercentage >= 50 ? 'positive' : ''}>
-                            {winPercentage.toFixed(1)}%
-                        </span>
+                                                                                 {winPercentage.toFixed(1)}%
+                                                                             </span>
                     )}
                     {sortCriteria === 'jugadaCount' && (
                         <span>{jugadaCount.toLocaleString()} jugadas</span>
@@ -412,9 +401,9 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                     <div className="leaderboard__timeframe-filter">
                         <label>Periodo:</label>
                         <select
-                            className="leaderboard__dropdown"
                             value={timeframe}
                             onChange={handleTimeframeChange}
+                            className="leaderboard__select"
                         >
                             <option value="day">Hoy</option>
                             <option value="month">Este Mes</option>
@@ -423,7 +412,6 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                         </select>
                     </div>
 
-                    {/* Toggle button */}
                     <button
                         className="leaderboard__toggle-btn"
                         onClick={toggleLeaderboard}
@@ -435,55 +423,55 @@ const LeaderBoard: React.FC<LeaderboardProps> = ({
                 {compact ? (
                     <div className="leaderboard__filters-compact">
                         <select
-                            className="leaderboard__dropdown"
+                            className="leaderboard__select"
                             value={sortCriteria}
                             onChange={(e) => handleSortChange(e.target.value as any)}
                         >
-                            <option value="gananciaNeta">Ganancias Acumuladas</option>
+                            <option value="gananciaNeta">Ganancias</option>
                             <option value="mayorRetorno">Mayor Retorno</option>
                             <option value="mayorApuesta">Mayor Apuesta</option>
-                            <option value="winPercentage">% de Ganancia</option>
-                            <option value="jugadaCount">Cantidad de Jugadas</option>
+                            <option value="winPercentage">% Ganancia</option>
+                            <option value="jugadaCount">Jugadas</option>
                         </select>
 
                         <button
-                            className="leaderboard__order-btn"
+                            className="leaderboard__sort-direction"
                             onClick={() => setIsAscending(!isAscending)}
                         >
-                            {isAscending ? '↑' : '↓'}
+                            {isAscending ? '▲' : '▼'}
                         </button>
                     </div>
                 ) : (
                     <div className="leaderboard__filters">
                         <button
-                            className={`leaderboard__filter-btn ${sortCriteria === 'gananciaNeta' ? 'active' : ''}`}
+                            className={`leaderboard__filter ${sortCriteria === 'gananciaNeta' ? 'active' : ''}`}
                             onClick={() => handleSortChange('gananciaNeta')}
                         >
-                            Ganancias {sortCriteria === 'gananciaNeta' && (isAscending ? '↑' : '↓')}
+                            Ganancias {sortCriteria === 'gananciaNeta' && (isAscending ? '▲' : '▼')}
                         </button>
                         <button
-                            className={`leaderboard__filter-btn ${sortCriteria === 'mayorRetorno' ? 'active' : ''}`}
+                            className={`leaderboard__filter ${sortCriteria === 'mayorRetorno' ? 'active' : ''}`}
                             onClick={() => handleSortChange('mayorRetorno')}
                         >
-                            Mayor Retorno {sortCriteria === 'mayorRetorno' && (isAscending ? '↑' : '↓')}
+                            Mayor Retorno {sortCriteria === 'mayorRetorno' && (isAscending ? '▲' : '▼')}
                         </button>
                         <button
-                            className={`leaderboard__filter-btn ${sortCriteria === 'mayorApuesta' ? 'active' : ''}`}
+                            className={`leaderboard__filter ${sortCriteria === 'mayorApuesta' ? 'active' : ''}`}
                             onClick={() => handleSortChange('mayorApuesta')}
                         >
-                            Mayor Apuesta {sortCriteria === 'mayorApuesta' && (isAscending ? '↑' : '↓')}
+                            Mayor Apuesta {sortCriteria === 'mayorApuesta' && (isAscending ? '▲' : '▼')}
                         </button>
                         <button
-                            className={`leaderboard__filter-btn ${sortCriteria === 'winPercentage' ? 'active' : ''}`}
+                            className={`leaderboard__filter ${sortCriteria === 'winPercentage' ? 'active' : ''}`}
                             onClick={() => handleSortChange('winPercentage')}
                         >
-                            % Ganancia {sortCriteria === 'winPercentage' && (isAscending ? '↑' : '↓')}
+                            % Ganancia {sortCriteria === 'winPercentage' && (isAscending ? '▲' : '▼')}
                         </button>
                         <button
-                            className={`leaderboard__filter-btn ${sortCriteria === 'jugadaCount' ? 'active' : ''}`}
+                            className={`leaderboard__filter ${sortCriteria === 'jugadaCount' ? 'active' : ''}`}
                             onClick={() => handleSortChange('jugadaCount')}
                         >
-                            Jugadas {sortCriteria === 'jugadaCount' && (isAscending ? '↑' : '↓')}
+                            Jugadas {sortCriteria === 'jugadaCount' && (isAscending ? '▲' : '▼')}
                         </button>
                     </div>
                 )}

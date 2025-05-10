@@ -3,7 +3,7 @@ import {useParams} from 'react-router-dom';
 import {AlertCircle, CheckCircle, ChevronDown, ChevronUp, Circle} from 'lucide-react';
 import {useAuth} from '@context/AuthContext';
 import {useMessageContext} from '@context/MessageContext';
-import {useAdmin} from '@context/AdminContext'; // Import AdminContext
+import {useAdmin} from '@context/AdminContext';
 import NavBar from '@components/NavBar';
 import '@css/TicketStyle.css';
 import {useTicket} from "@context/TicketContext.tsx";
@@ -36,12 +36,12 @@ const Ticket = () => {
     const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
     const [priorityDropdownOpen, setPriorityDropdownOpen] = useState(false);
     const [newMessage, setNewMessage] = useState('');
-    const [ticket, setTicket] = useState<any>(null); // Local state for ticket data
+    const [ticket, setTicket] = useState<any>(null);
     const [isAdminUser, setIsAdminUser] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const {user} = useAuth();
-    const {isAdmin} = useAdmin(); // Use isAdmin to check admin privileges
+    const {isAdmin} = useAdmin();
     const {messages, getMessagesByTicketId, createMessage} = useMessageContext();
     const {getTicketById, editTicket} = useTicket();
 
@@ -50,7 +50,13 @@ const Ticket = () => {
         const fetchTicket = async () => {
             if (ticketId) {
                 const fetchedTicket = await getTicketById(Number(ticketId));
-                setTicket(fetchedTicket); // Store ticket data in local state
+                setTicket(fetchedTicket);
+
+                // Initialize local state based on fetched ticket data
+                if (fetchedTicket) {
+                    setStatus(fetchedTicket.resuelto ? 'closed' : 'open');
+                    setPriority(fetchedTicket.prioridad as TicketPriority);
+                }
             }
         };
         fetchTicket();
@@ -108,6 +114,22 @@ const Ticket = () => {
         });
     };
 
+    const handlePriorityChange = async (newPriority: TicketPriority) => {
+        if (!ticket || !ticketId) return;
+
+        const ticketData = {
+            prioridad: newPriority
+        };
+
+        await editTicket(Number(ticketId), ticketData);
+        setPriority(newPriority);
+
+        setTicket({
+            ...ticket,
+            prioridad: newPriority
+        });
+    };
+
     const getStatusIcon = (statusType: TicketStatus) => {
         switch (statusType) {
             case 'open':
@@ -134,7 +156,6 @@ const Ticket = () => {
 
     return (
         <>
-            {/* Add NavBar at the top of the component */}
             <NavBar
                 navLinks={[
                     {label: "Tickets", href: "/tickets"},
@@ -212,7 +233,7 @@ const Ticket = () => {
                                         <div
                                             className="dropdown-item"
                                             onClick={() => {
-                                                setPriority('baja');
+                                                handlePriorityChange('baja');
                                                 setPriorityDropdownOpen(false);
                                             }}
                                         >
@@ -222,7 +243,7 @@ const Ticket = () => {
                                         <div
                                             className="dropdown-item"
                                             onClick={() => {
-                                                setPriority('media');
+                                                handlePriorityChange('media');
                                                 setPriorityDropdownOpen(false);
                                             }}
                                         >
@@ -232,7 +253,7 @@ const Ticket = () => {
                                         <div
                                             className="dropdown-item"
                                             onClick={() => {
-                                                setPriority('alta');
+                                                handlePriorityChange('alta');
                                                 setPriorityDropdownOpen(false);
                                             }}
                                         >

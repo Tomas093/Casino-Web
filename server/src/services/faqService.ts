@@ -4,60 +4,55 @@ const prisma = new PrismaClient();
 
 export const faqService = {
     getAllFAQs: async () => {
-        const faqs = await prisma.faq.findMany();
-        return faqs;
+        return prisma.faq.findMany();
     },
 
-    createFAQ: async (data: { question: string; answer: string; category: string }) => {
-        const faq = await prisma.faq.create({
+    createFAQ: async (data: { pregunta: string; respuesta: string, categoria: string }) => {
+        return prisma.faq.create({
             data: {
-                pregunta: data.question,
-                respuesta: data.answer,
-                categoria: data.category,
+                pregunta: data.pregunta,
+                respuesta: data.respuesta,
+                categoria: data.categoria,
             }
         });
-        return faq;
     },
 
-    updateFAQ: async (preguntaid: number, data: { question?: string; answer?: string }) => {
-        const faq = await prisma.faq.update({
+    updateFAQ: async (preguntaid: number, data: { pregunta?: string; respuesta?: string, categoria?: string }) => {
+        return prisma.faq.update({
             where: {preguntaid},
             data: {
-                pregunta: data.question,
-                respuesta: data.answer,
+                pregunta: data.pregunta,
+                respuesta: data.respuesta,
+                categoria: data.categoria,
             }
         });
-        return faq;
     },
 
     deleteFAQ: async (preguntaid: number) => {
-        const faq = await prisma.faq.delete({
+        return prisma.faq.delete({
             where: {preguntaid}
         });
-        return faq;
     },
 
-    getFaqsBy: async (category: string) => {
-        const faqs = await prisma.faq.findMany({
+    getFaqsBy: async (categoria: string) => {
+        return prisma.faq.findMany({
             where: {
                 categoria: {
-                    equals: category,
+                    equals: categoria,
                 }
             }
         });
-        return faqs;
     },
 
-    getFAQByQuestion: async (question: string) => {
-        const faq = await prisma.faq.findFirst({
+    getFAQByQuestion: async (pregunta: string) => {
+        return prisma.faq.findFirst({
             where: {
                 pregunta: {
-                    contains: question,
+                    contains: pregunta,
                     mode: 'insensitive',
                 }
             }
         });
-        return faq;
     },
 
 };

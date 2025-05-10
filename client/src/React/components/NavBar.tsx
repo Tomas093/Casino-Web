@@ -48,12 +48,13 @@ const NavBar: React.FC<NavBarProps> = ({
                                        }) => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const { user, logout } = useAuth();
-    const { client } = useUser();
-    const { isSuperAdmin } = useAdmin();
+    const {user, logout} = useAuth();
+    const {client} = useUser();
+    const {isSuperAdmin, isAdmin} = useAdmin();
     const location = useLocation();
     const navigate = useNavigate();
     const [superAdminStatus, setSuperAdminStatus] = useState(false);
+    const [adminStatus, setAdminStatus] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     // Force component to re-render when client changes
@@ -81,23 +82,26 @@ const NavBar: React.FC<NavBarProps> = ({
             if (element) {
                 // Dar un pequeño tiempo para que la página se renderice completamente
                 setTimeout(() => {
-                    element.scrollIntoView({ behavior: 'smooth' });
+                    element.scrollIntoView({behavior: 'smooth'});
                 }, 100);
             }
         }
     }, [location.pathname, location.hash]);
 
     useEffect(() => {
-        const checkSuperAdmin = async () => {
+        const checkAdminStatus = async () => {
             if (user) {
                 const superadminStatus = await isSuperAdmin();
+                const adminStatus = await isAdmin();
                 setSuperAdminStatus(superadminStatus);
+                setAdminStatus(adminStatus);
             } else {
                 setSuperAdminStatus(false);
+                setAdminStatus(false);
             }
         };
-        checkSuperAdmin();
-    }, [user, isSuperAdmin]);
+        checkAdminStatus();
+    }, [user, isSuperAdmin, isAdmin]);
 
     useEffect(() => {
         // Cerrar dropdown al hacer clic fuera de él
@@ -147,13 +151,13 @@ const NavBar: React.FC<NavBarProps> = ({
             if (targetSection) {
                 const element = document.getElementById(targetSection);
                 if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
+                    element.scrollIntoView({behavior: 'smooth'});
                 }
             } else if (homeSectionId) {
                 // Usar la sección predeterminada
                 const element = document.getElementById(homeSectionId);
                 if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
+                    element.scrollIntoView({behavior: 'smooth'});
                 }
             }
         } else {
@@ -170,7 +174,7 @@ const NavBar: React.FC<NavBarProps> = ({
         <nav className={navbarClass} role="navigation" aria-label="Menú principal">
             <div className="navbar-container">
                 <Link to="/" className="navbar-logo">
-                    {logo && <img src={logo} alt="Logo" className="navbar-logo-image" />}
+                    {logo && <img src={logo} alt="Logo" className="navbar-logo-image"/>}
                     <span role="img" aria-label="casino icon" className="navbar-logo-icon"></span>
                     {logoText}
                 </Link>
@@ -234,11 +238,19 @@ const NavBar: React.FC<NavBarProps> = ({
                                 </div>
                                 {dropdownOpen && (
                                     <div className="navbar-dropdown-content">
-                                        <Link to="/profile" className="navbar-dropdown-link" onClick={() => setMobileMenuOpen(false)}>
+                                        <Link to="/profile" className="navbar-dropdown-link"
+                                              onClick={() => setMobileMenuOpen(false)}>
                                             Mi Perfil
                                         </Link>
+                                        {(adminStatus || superAdminStatus) && (
+                                            <Link to="/tickets" className="navbar-dropdown-link"
+                                                  onClick={() => setMobileMenuOpen(false)}>
+                                                Tickets
+                                            </Link>
+                                        )}
                                         {superAdminStatus && (
-                                            <Link to="/admin" className="navbar-dropdown-link" onClick={() => setMobileMenuOpen(false)}>
+                                            <Link to="/admin" className="navbar-dropdown-link"
+                                                  onClick={() => setMobileMenuOpen(false)}>
                                                 Panel Admin
                                             </Link>
                                         )}
@@ -251,10 +263,12 @@ const NavBar: React.FC<NavBarProps> = ({
                         </>
                     ) : (
                         <>
-                            <Link to="/login" className="navbar-btn navbar-login-btn" onClick={() => setMobileMenuOpen(false)}>
+                            <Link to="/login" className="navbar-btn navbar-login-btn"
+                                  onClick={() => setMobileMenuOpen(false)}>
                                 {loginButtonLabel}
                             </Link>
-                            <Link to="/register" className="navbar-btn navbar-register-btn" onClick={() => setMobileMenuOpen(false)}>
+                            <Link to="/register" className="navbar-btn navbar-register-btn"
+                                  onClick={() => setMobileMenuOpen(false)}>
                                 {registerButtonLabel}
                             </Link>
                         </>
