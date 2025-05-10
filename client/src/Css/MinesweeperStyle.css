@@ -1,161 +1,318 @@
-.minesweeper-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: 'Arial', sans-serif;
-    color: #fff;
+/* Minesweeper Luxurious Style - Black, Green, Gold Theme */
+
+:root {
+    --black-primary: #0c0c0c;
+    --black-secondary: #1e1e1e;
+    --black-tertiary: #2a2a2a;
+
+    --green-primary: #00552e;
+    --green-secondary: #007a3d;
+    --green-highlight: #00a854;
+
+    --gold-primary: #d4af37;
+    --gold-secondary: #f5cc59;
+    --gold-highlight: #ffdf78;
+
+    --text-light: #f0f0f0;
+    --text-dark: #0c0c0c;
+    --danger: #cc0000;
+
+    --border-radius: 6px;
+    --button-radius: 4px;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
+/* Main container */
+.minesweeper-container {
+    background-color: var(--black-primary);
+    color: var(--text-light);
+    font-family: 'Montserrat', 'Arial', sans-serif;
+    min-height: 600px;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--gold-primary);
+}
+
+/* Game layout */
 .game-layout {
     display: flex;
-    background-color: #151b2d;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    gap: 20px;
+    height: 100%;
 }
 
-/* Settings Panel */
+/* Settings panel */
 .settings-panel {
     width: 300px;
+    background-color: var(--black-secondary);
     padding: 20px;
-    background-color: #1e2642;
-    border-right: 1px solid #2a3352;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-left: 2px solid var(--gold-primary);
+    border-right: 2px solid var(--gold-primary);
 }
 
 .setting-group {
-    margin-bottom: 24px;
+    border-bottom: 1px solid var(--gold-primary);
+    padding-bottom: 15px;
 }
 
 .setting-group h3 {
-    font-size: 16px;
-    margin-bottom: 12px;
-    color: #fff;
-    font-weight: normal;
+    color: var(--gold-primary);
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
+/* Bet input */
 .bet-input {
     position: relative;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
+    background: linear-gradient(145deg, var(--black-secondary), var(--black-tertiary));
+    border-radius: var(--button-radius);
+    border: 1px solid var(--gold-primary);
+    overflow: hidden;
+    display: flex;
+    box-shadow: var(--shadow-sm);
 }
 
 .currency-symbol {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18px;
-    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    background-color: var(--gold-primary);
+    color: var(--text-dark);
+    font-weight: bold;
 }
 
 .bet-input input {
     width: 100%;
-    padding: 12px 12px 12px 30px;
-    font-size: 18px;
-    background-color: #232c4b;
-    border: none;
-    border-radius: 6px;
-    color: #fff;
-}
-
-.bet-buttons, .option-buttons {
-    display: flex;
-    gap: 8px;
-}
-
-.bet-btn, .option-btn {
-    flex: 1;
     padding: 10px;
-    background-color: #2a3352;
-    border: 1px solid #3a446e;
-    border-radius: 6px;
-    color: #fff;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
+    border: none;
+    background-color: var(--black-tertiary);
+    color: var(--gold-secondary);
+    font-size: 1rem;
+    text-align: right;
+    font-weight: bold;
 }
 
-.bet-btn:hover, .option-btn:hover {
-    background-color: #3a446e;
+.bet-input input:focus {
+    outline: none;
+    background-color: var(--black-tertiary);
+}
+
+/* Bet buttons */
+.bet-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.bet-btn {
+    flex: 1;
+    padding: 8px 0;
+    background: linear-gradient(to bottom, var(--green-primary), var(--green-secondary));
+    color: var(--text-light);
+    border: none;
+    border-radius: var(--button-radius);
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+    border: 1px solid var(--gold-primary);
+}
+
+.bet-btn:hover {
+    background: linear-gradient(to bottom, var(--green-secondary), var(--green-highlight));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.bet-btn:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Option buttons */
+.option-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.option-btn {
+    padding: 8px 0;
+    background-color: var(--black-tertiary);
+    color: var(--text-light);
+    border: 1px solid var(--gold-primary);
+    border-radius: var(--button-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.option-btn:hover {
+    background-color: var(--green-primary);
+    border-color: var(--gold-secondary);
 }
 
 .option-btn.selected {
-    background-color: #7049eb;
-    border-color: #8560ff;
+    background-color: var(--green-secondary);
+    border-color: var(--gold-highlight);
+    color: var(--gold-highlight);
+    font-weight: bold;
+    box-shadow: 0 0 8px rgba(215, 175, 55, 0.5);
 }
 
+/* Start game and cashout buttons */
 .start-game-btn, .cashout-btn {
-    width: 100%;
-    padding: 14px;
-    font-size: 16px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
+    padding: 12px 20px;
+    font-size: 1.1rem;
     font-weight: bold;
-    transition: all 0.2s;
-    margin-bottom: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: var(--button-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
 }
 
 .start-game-btn {
-    background: linear-gradient(to right, #ffc107, #ff9800);
-    color: #000;
+    background: linear-gradient(145deg, var(--green-primary), var(--green-secondary));
+    color: var(--gold-primary);
+    border: 1px solid var(--gold-primary);
+    margin-bottom: 10px;
 }
 
-.start-game-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+.start-game-btn:hover {
+    background: linear-gradient(145deg, var(--green-secondary), var(--green-highlight));
+    box-shadow: 0 0 12px rgba(0, 168, 84, 0.4);
+    transform: translateY(-2px);
 }
 
 .cashout-btn {
-    background: linear-gradient(to right, #00c853, #4caf50);
-    color: #fff;
+    background: linear-gradient(145deg, var(--gold-primary), var(--gold-secondary));
+    color: var(--black-primary);
+    border: 1px solid var(--green-primary);
 }
 
-.cashout-btn:disabled {
-    opacity: 0.5;
+.cashout-btn:hover {
+    background: linear-gradient(145deg, var(--gold-secondary), var(--gold-highlight));
+    box-shadow: 0 0 12px rgba(215, 175, 55, 0.6);
+    transform: translateY(-2px);
+}
+
+.start-game-btn:disabled, .cashout-btn:disabled {
+    background: var(--black-tertiary);
+    color: #666;
+    border-color: #444;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
+/* Credits display */
 .credits-display {
-    margin-top: 20px;
-    font-size: 18px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 12px;
+    background: linear-gradient(145deg, var(--black-tertiary), var(--black-secondary));
+    border-radius: var(--border-radius);
     text-align: center;
+    margin-top: auto;
+    color: var(--gold-primary);
+    border: 1px solid var(--gold-primary);
+    box-shadow: var(--shadow-sm);
 }
 
-/* Game Panel */
+/* Game panel */
 .game-panel {
     flex: 1;
-    padding: 20px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    background-color: var(--black-secondary);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    padding: 20px;
+    border: 2px solid var(--gold-primary);
 }
 
+/* Mine grid */
 .mine-grid {
     display: grid;
-    gap: 6px;
+    gap: 5px;
     width: 100%;
+    height: 100%;
     max-width: 600px;
-    aspect-ratio: 1/1;
+    max-height: 600px;
+    margin: auto;
 }
 
+/* Mine cells */
 .mine-cell {
-    background-color: #232c4b;
-    border-radius: 4px;
-    cursor: pointer;
+    background: linear-gradient(145deg, var(--black-tertiary), var(--black-secondary));
+    border-radius: var(--button-radius);
+    border: 1px solid var(--green-primary);
     display: flex;
-    justify-content: center;
     align-items: center;
-    transition: all 0.2s;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    aspect-ratio: 1;
+    box-shadow: var(--shadow-sm);
 }
 
 .mine-cell:hover {
-    background-color: #2a3352;
+    background: var(--green-primary);
+    border-color: var(--gold-primary);
+    box-shadow: 0 0 8px rgba(0, 168, 84, 0.3);
 }
 
 .mine-cell.revealed {
-    background-color: #3a446e;
+    background: linear-gradient(145deg, var(--green-secondary), var(--green-primary));
+    border-color: var(--gold-secondary);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .mine-cell.bomb {
-    background-color: #ff4757;
+    background: linear-gradient(145deg, var(--danger), #8a0000);
+    border-color: var(--gold-secondary);
+    color: var(--text-light);
+    font-size: 1.2em;
+    box-shadow: 0 0 10px rgba(204, 0, 0, 0.5);
+}
+
+/* Media queries */
+@media (max-width: 900px) {
+    .game-layout {
+        flex-direction: column;
+    }
+
+    .settings-panel {
+        width: 100%;
+        order: 2;
+    }
+
+    .game-panel {
+        order: 1;
+        height: 400px;
+    }
+
+    .option-buttons {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .option-buttons {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }

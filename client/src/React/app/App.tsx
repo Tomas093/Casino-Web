@@ -27,6 +27,7 @@ import PrivacyPolicy from "../pages/footer/PrivacyPolicy.tsx"
 import Terminos from "../pages/footer/Terminos.tsx"
 import AboutUs from "../pages/footer/AboutUs.tsx"
 import Legal from "../pages/footer/Legal.tsx"
+import MinesSweeprEnchanced from "../pages/games/MineSweeperEnchanced.tsx"
 function App() {
     return (
         <BrowserRouter>
@@ -53,6 +54,7 @@ function App() {
                         <Route path="/Transaccion" element={<Transaccion/>}/>
                         <Route path="/home" element={<Home/>}/>
                         <Route path="/roulette" element={<RouletteGame/>}/>
+                        <Route path="/mines" element={<MinesSweeprEnchanced/>}/>
                         <Route path="/mines" element={<MineSweeper/>}/>
                         <Route path="/limit" element={<Limit/>}/>
                         <Route path="/monLimitTicket" element={<MonLimitTicketPage/>}/>
