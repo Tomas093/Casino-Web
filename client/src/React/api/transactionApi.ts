@@ -7,6 +7,7 @@ export interface TransactionData {
     fecha: string;
     metodo: string;
     monto: number;
+    cuponid?: number;
 }
 
 const transactionApi = {
@@ -38,7 +39,7 @@ const transactionApi = {
 
     getUserTransactions: async (userId: string) => {
         try {
-            const response = await axios.get(`${API_URL}/${userId}`);
+            const response = await axios.get(`${API_URL}/user/${userId}`);
             return response.data;
         } catch (error) {
             console.error('Error al obtener transacciones:', error);

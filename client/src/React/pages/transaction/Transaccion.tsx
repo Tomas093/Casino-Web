@@ -7,6 +7,8 @@ import {useAuth} from '@context/AuthContext';
 import {useUser} from "@context/UserContext.tsx";
 import {useTransaction} from "@context/TransactionContext.tsx";
 import {useLimitContext} from "@context/LimitContext.tsx";
+import {useCupon} from "@context/CuponContext.tsx";
+import Message from "@components/Error/Message";
 
 // Métodos disponibles
 const METODOS_INGRESO = [
@@ -60,7 +62,7 @@ const TransaccionItem: React.FC<{ transaccion: TransaccionUI }> = ({transaccion}
                 <p className="transaccion-metodo">Método: {transaccion.metodo}</p>
             </div>
             <div className="transaccion-monto">
-                <span>${transaccion.monto.toFixed(2)}</span>
+                <span>${Math.round(transaccion.monto)}</span>
             </div>
         </div>
     );
@@ -111,35 +113,42 @@ const MetodoTarjeta: React.FC = () => (
     </div>
 );
 
-const MetodoTransferenciaIngreso: React.FC = () => (
-    <div className="metodo-detalle">
-        <div className="form-group">
-            <label>CBU para transferencia</label>
-            <div className="cbu-display">
-                <span className="cbu-number">3141 5926 5358 9793 2384 626</span>
-                <button
-                    type="button"
-                    className="copy-btn"
-                    onClick={() => {
-                        navigator.clipboard.writeText('31415926535897932384626');
-                        alert('CBU copiado al portapapeles');
-                    }}
-                >
-                    Copiar
-                </button>
+const MetodoTransferenciaIngreso: React.FC = () => {
+    const [copiado, setCopiado] = useState<boolean>(false);
+
+    const copiarCBU = () => {
+        navigator.clipboard.writeText('31415926535897932384626');
+        setCopiado(true);
+        setTimeout(() => setCopiado(false), 2000);
+    };
+
+    return (
+        <div className="metodo-detalle">
+            <div className="form-group">
+                <label>CBU para transferencia</label>
+                <div className="cbu-display">
+                    <span className="cbu-number">3141 5926 5358 9793 2384 626</span>
+                    <button
+                        type="button"
+                        className="copy-btn"
+                        onClick={copiarCBU}
+                    >
+                        {copiado ? 'Copiado' : 'Copiar'}
+                    </button>
+                </div>
+                <p className="cbu-instruccion">Realice la transferencia a este CBU y luego complete el formulario</p>
             </div>
-            <p className="cbu-instruccion">Realice la transferencia a este CBU y luego complete el formulario</p>
+            <div className="form-group">
+                <label htmlFor="comprobante">Número de comprobante (opcional)</label>
+                <input
+                    type="text"
+                    id="comprobante"
+                    placeholder="Ingrese el número de comprobante"
+                />
+            </div>
         </div>
-        <div className="form-group">
-            <label htmlFor="comprobante">Número de comprobante (opcional)</label>
-            <input
-                type="text"
-                id="comprobante"
-                placeholder="Ingrese el número de comprobante"
-            />
-        </div>
-    </div>
-);
+    );
+};
 
 const MetodoTransferenciaRetiro: React.FC = () => (
     <div className="metodo-detalle">
@@ -169,47 +178,61 @@ const MetodoWalletRetiro: React.FC = () => (
     </div>
 );
 
-const MetodoWalletIngreso: React.FC = () => (
-    <div className="metodo-detalle">
-        <div className="form-group">
-            <label htmlFor="wallet">CVU</label>
-            <div className="cbu-display">
-                <span className="cbu-number">0000003100054851694701</span>
-                <button
-                    type="button"
-                    className="copy-btn"
-                    onClick={() => {
-                        navigator.clipboard.writeText('0000003100054851694701');
-                        alert('CVU copiado al portapapeles');
-                    }}
-                >
-                    Copiar
-                </button>
-            </div>
-        </div>
-    </div>
-);
+const MetodoWalletIngreso: React.FC = () => {
+    const [copiado, setCopiado] = useState<boolean>(false);
 
-const MetodoCriptoIngreso: React.FC = () => (
-    <div className="metodo-detalle">
-        <div className="form-group">
-            <label htmlFor="wallet">Wallet</label>
-            <div className="cbu-display">
-                <span className="cbu-number">0xA1b2C3d4E5F609032005G6</span>
-                <button
-                    type="button"
-                    className="copy-btn"
-                    onClick={() => {
-                        navigator.clipboard.writeText('0xA1b2C3d4E5F609032005G6H7I8J9K0L1M2N3O4P5Q');
-                        alert('Dirección de billetera copiada al portapapeles');
-                    }}
-                >
-                    Copiar
-                </button>
+    const copiarCVU = () => {
+        navigator.clipboard.writeText('0000003100054851694701');
+        setCopiado(true);
+        setTimeout(() => setCopiado(false), 2000);
+    };
+
+    return (
+        <div className="metodo-detalle">
+            <div className="form-group">
+                <label htmlFor="wallet">CVU</label>
+                <div className="cbu-display">
+                    <span className="cbu-number">0000003100054851694701</span>
+                    <button
+                        type="button"
+                        className="copy-btn"
+                        onClick={copiarCVU}
+                    >
+                        {copiado ? 'Copiado' : 'Copiar'}
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-);
+    );
+};
+
+const MetodoCriptoIngreso: React.FC = () => {
+    const [copiado, setCopiado] = useState<boolean>(false);
+
+    const copiarWallet = () => {
+        navigator.clipboard.writeText('0xA1b2C3d4E5F609032005G6');
+        setCopiado(true);
+        setTimeout(() => setCopiado(false), 2000);
+    };
+
+    return (
+        <div className="metodo-detalle">
+            <div className="form-group">
+                <label htmlFor="wallet">Wallet</label>
+                <div className="cbu-display">
+                    <span className="cbu-number">0xA1b2C3d4E5F609032005G6</span>
+                    <button
+                        type="button"
+                        className="copy-btn"
+                        onClick={copiarWallet}
+                    >
+                        {copiado ? 'Copiado' : 'Copiar'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 const MetodoCriptoRetiro: React.FC = () => (
     <div className="metodo-detalle">
@@ -225,7 +248,6 @@ const MetodoCriptoRetiro: React.FC = () => (
     </div>
 );
 
-// Componente para renderizar el método de pago seleccionado
 const DetalleMetodo: React.FC<MetodoProps> = ({metodo, via}) => {
     switch (metodo) {
         case 'Tarjeta':
@@ -256,12 +278,114 @@ const Transaccion: React.FC = () => {
     const {client, getUserData} = useUser();
     const {getTransactions, createIngreso, createEgreso} = useTransaction();
     const {getLimitMonetario} = useLimitContext();
+    const {getCuponsById} = useCupon();
+
     const [activeTab, setActiveTab] = useState<'ingreso' | 'retiro'>('ingreso');
     const [monto, setMonto] = useState<string>('');
     const [metodo, setMetodo] = useState<string>('Tarjeta');
     const [historial, setHistorial] = useState<TransaccionUI[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [monetaryLimits, setMonetaryLimits] = useState<any>(null);
+
+    // Estados para cupones
+    const [couponId, setCouponId] = useState<string>('');
+    const [coupon, setCoupon] = useState<any>(null);
+    const [validatingCoupon, setValidatingCoupon] = useState<boolean>(false);
+    const [couponError, setCouponError] = useState<string>('');
+    const [benefitAmount, setBenefitAmount] = useState<number>(0);
+
+    // Estado para mensajes
+    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [successMessage, setSuccessMessage] = useState<string>('');
+    const [messageType, setMessageType] = useState<'error' | 'success' | 'info' | 'warning'>('error');
+
+    // Validar cupón
+    const validateCoupon = async () => {
+        if (!couponId.trim()) {
+            setCouponError('Ingrese un ID de cupón');
+            setCoupon(null);
+            setBenefitAmount(0);
+            return;
+        }
+
+        setValidatingCoupon(true);
+        setCouponError('');
+
+        try {
+            const couponData = await getCuponsById(couponId);
+
+            // Validar fechas y usos del cupón
+            const now = new Date();
+            const startDate = new Date(couponData.fechainicio);
+            const endDate = new Date(couponData.fechafin);
+
+            if (now < startDate || now > endDate) {
+                setCouponError('Este cupón no está vigente');
+                setCoupon(null);
+                setBenefitAmount(0);
+                return;
+            }
+
+            if (couponData.cantidadusos <= 0) {
+                setCouponError('Este cupón ya no tiene usos disponibles');
+                setCoupon(null);
+                setBenefitAmount(0);
+                return;
+            }
+
+            const montoNum = parseInt(monto) || 0;
+
+            // Verificar montos mínimos/máximos
+            if (montoNum < couponData.mincarga) {
+                setCouponError(`El monto mínimo para este cupón es $${couponData.mincarga}`);
+                setCoupon(null);
+                setBenefitAmount(0);
+                return;
+            }
+
+            if (couponData.maxcarga && montoNum > couponData.maxcarga) {
+                setCouponError(`El monto máximo para este cupón es $${couponData.maxcarga}`);
+                setCoupon(null);
+                setBenefitAmount(0);
+                return;
+            }
+
+            // Calcular beneficio como entero
+            const benefit = Math.round((montoNum * couponData.beneficio) / 100);
+            setBenefitAmount(benefit);
+            setCoupon(couponData);
+            setCouponError('');
+
+            // Mostrar mensaje de éxito
+            setSuccessMessage(`¡Cupón aplicado! Beneficio: ${couponData.beneficio}%`);
+            setMessageType('success');
+
+            // Auto-clear success message after 3 seconds
+            setTimeout(() => {
+                setSuccessMessage('');
+            }, 3000);
+        } catch (error) {
+            console.error("Error al validar cupón:", error);
+            setCouponError('Cupón no válido o no encontrado');
+            setCoupon(null);
+            setBenefitAmount(0);
+            setErrorMessage('Cupón no válido o no encontrado');
+            setMessageType('error');
+        } finally {
+            setValidatingCoupon(false);
+        }
+    };
+
+    // Actualizar monto de beneficio cuando cambia el monto o hay cupón válido
+    useEffect(() => {
+        if (coupon && monto) {
+            const montoNum = parseInt(monto) || 0;
+            const benefit = Math.round((montoNum * coupon.beneficio) / 100);
+            setBenefitAmount(benefit);
+        } else {
+            setBenefitAmount(0);
+        }
+    }, [monto, coupon]);
 
     // Fetch monetary limits on component mount
     useEffect(() => {
@@ -274,6 +398,8 @@ const Transaccion: React.FC = () => {
                 }
             } catch (error) {
                 console.error("Error al cargar límites monetarios:", error);
+                setErrorMessage('Error al cargar límites monetarios');
+                setMessageType('error');
             }
         };
 
@@ -283,6 +409,14 @@ const Transaccion: React.FC = () => {
     // Cambiar automáticamente el método según la pestaña
     useEffect(() => {
         setMetodo(activeTab === 'ingreso' ? METODOS_INGRESO[0].value : METODOS_RETIRO[0].value);
+
+        // Reset coupon data when switching tabs
+        if (activeTab === 'retiro') {
+            setCouponId('');
+            setCoupon(null);
+            setCouponError('');
+            setBenefitAmount(0);
+        }
     }, [activeTab]);
 
     // Cargar historial desde el backend
@@ -301,6 +435,8 @@ const Transaccion: React.FC = () => {
                 setHistorial(parsed);
             } catch (error) {
                 console.error("Error al cargar historial:", error);
+                setErrorMessage('Error al cargar historial de transacciones');
+                setMessageType('error');
             }
         };
 
@@ -322,15 +458,15 @@ const Transaccion: React.FC = () => {
 
         const dailyTotal = ingresos
             .filter(t => t.fecha >= today)
-            .reduce((sum, t) => sum + t.monto, 0);
+            .reduce((sum, t) => sum + Math.round(t.monto), 0);
 
         const weeklyTotal = ingresos
             .filter(t => t.fecha >= weekStart)
-            .reduce((sum, t) => sum + t.monto, 0);
+            .reduce((sum, t) => sum + Math.round(t.monto), 0);
 
         const monthlyTotal = ingresos
             .filter(t => t.fecha >= monthStart)
-            .reduce((sum, t) => sum + t.monto, 0);
+            .reduce((sum, t) => sum + Math.round(t.monto), 0);
 
         return {daily: dailyTotal, weekly: weeklyTotal, monthly: monthlyTotal};
     };
@@ -343,12 +479,14 @@ const Transaccion: React.FC = () => {
         e.preventDefault();
 
         if (!user) {
-            alert('Debe iniciar sesión para realizar transacciones');
+            setErrorMessage('Debe iniciar sesión para realizar transacciones');
+            setMessageType('error');
             return;
         }
 
-        if (!monto || parseFloat(monto) <= 0) {
-            alert('Por favor ingrese un monto válido');
+        if (!monto || parseInt(monto) <= 0) {
+            setErrorMessage('Por favor ingrese un monto válido');
+            setMessageType('error');
             return;
         }
 
@@ -360,24 +498,29 @@ const Transaccion: React.FC = () => {
 
             // Check if deposit would exceed any limit
             if (usage.daily + montoNum > monetaryLimits.limitediario) {
-                alert(`Este depósito excedería su límite diario de $${monetaryLimits.limitediario}`);
+                setErrorMessage(`Este depósito excedería su límite diario de $${monetaryLimits.limitediario}`);
+                setMessageType('warning');
                 return;
             }
 
             if (usage.weekly + montoNum > monetaryLimits.limitesemanal) {
-                alert(`Este depósito excedería su límite semanal de $${monetaryLimits.limitesemanal}`);
+                setErrorMessage(`Este depósito excedería su límite semanal de $${monetaryLimits.limitesemanal}`);
+                setMessageType('warning');
                 return;
             }
 
             if (usage.monthly + montoNum > monetaryLimits.limitemensual) {
-                alert(`Este depósito excedería su límite mensual de $${monetaryLimits.limitemensual}`);
+                setErrorMessage(`Este depósito excedería su límite mensual de $${monetaryLimits.limitemensual}`);
+                setMessageType('warning');
                 return;
             }
         }
 
-        // Para retiros, verificar si hay suficiente balance
-        if (activeTab === 'retiro' && client && montoNum > client.balance) {
-            alert('No tiene suficiente saldo para realizar este retiro');
+        // Para retiros, verificar si hay suficiente balance (como entero)
+        const clientBalance = client ? Math.round(client.balance) : 0;
+        if (activeTab === 'retiro' && client && montoNum > clientBalance) {
+            setErrorMessage('No tiene suficiente saldo para realizar este retiro');
+            setMessageType('error');
             return;
         }
 
@@ -386,20 +529,40 @@ const Transaccion: React.FC = () => {
         try {
             const fecha = new Date().toISOString();
 
-            // Datos para la transacción
-            const transaccionData = {
-                usuarioid: user.usuarioid,
-                fecha: fecha,
-                metodo: metodo,
-                monto: montoNum
-            };
-
             if (activeTab === 'ingreso') {
+                // Calcular el monto total con el beneficio del cupón como entero
+                const totalAmount = coupon ? montoNum + benefitAmount : montoNum;
+
+                // Datos para la transacción con posible cupón
+                const transaccionData = {
+                    usuarioid: user.usuarioid,
+                    fecha: fecha,
+                    metodo: metodo,
+                    monto: totalAmount, // Usar el monto total (original + beneficio)
+                    cuponid: coupon ? parseInt(couponId) : undefined // Asegurar que se envíe el ID del cupón
+                };
+
                 await createIngreso(transaccionData);
-                alert('Depósito registrado exitosamente');
+
+                // Mensaje de éxito con información del beneficio
+                if (coupon) {
+                    setSuccessMessage(`Depósito exitoso: $${montoNum} + $${benefitAmount} (beneficio) = $${totalAmount}`);
+                } else {
+                    setSuccessMessage('Depósito registrado exitosamente');
+                }
+                setMessageType('success');
             } else {
+                // Datos para retiro (sin cambios)
+                const transaccionData = {
+                    usuarioid: user.usuarioid,
+                    fecha: fecha,
+                    metodo: metodo,
+                    monto: montoNum
+                };
+
                 await createEgreso(transaccionData);
-                alert('Retiro solicitado exitosamente');
+                setSuccessMessage('Retiro solicitado exitosamente');
+                setMessageType('success');
             }
 
             // Actualizar los datos del usuario para reflejar el nuevo balance
@@ -417,13 +580,17 @@ const Transaccion: React.FC = () => {
 
             // Limpiar el formulario
             setMonto('');
+            setCouponId('');
+            setCoupon(null);
+            setBenefitAmount(0);
         } catch (error: any) {
             console.error("Error al procesar la transacción:", error);
             if (error.message) {
-                alert(`Error: ${error.message}`);
+                setErrorMessage(`Error: ${error.message}`);
             } else {
-                alert('Error al procesar la transacción');
+                setErrorMessage('Error al procesar la transacción');
             }
+            setMessageType('error');
         } finally {
             setLoading(false);
         }
@@ -435,6 +602,22 @@ const Transaccion: React.FC = () => {
             <div className="transaccion-page">
                 <div className="australis-container">
                     <h1 className="transaccion-title">Transacciones</h1>
+
+                    {/* Mensajes de error/éxito */}
+                    {errorMessage && (
+                        <Message
+                            message={errorMessage}
+                            type={messageType}
+                            onClose={() => setErrorMessage('')}
+                        />
+                    )}
+                    {successMessage && (
+                        <Message
+                            message={successMessage}
+                            type="success"
+                            onClose={() => setSuccessMessage('')}
+                        />
+                    )}
 
                     {/* Tabs de ingreso / retiro */}
                     <div className="transaccion-tabs">
@@ -466,14 +649,7 @@ const Transaccion: React.FC = () => {
                                         type="number"
                                         id="monto"
                                         value={monto}
-                                        onChange={(e) => {
-                                            // Remove any decimal part if entered
-                                            const value = e.target.value;
-                                            const intValue = value.includes('.') ?
-                                                value.substring(0, value.indexOf('.')) :
-                                                value;
-                                            setMonto(intValue);
-                                        }}
+                                        onChange={(e) => setMonto(e.target.value)}
                                         placeholder="0"
                                         min="10"
                                         step="1"
@@ -504,8 +680,45 @@ const Transaccion: React.FC = () => {
                                 </select>
                             </div>
 
-                            {/* Detalle según método. Se pasa la propiedad "via" según el activeTab */}
                             <DetalleMetodo metodo={metodo} via={activeTab === 'ingreso' ? 'Ingreso' : 'Retiro'}/>
+
+                            {/* Añadir campo de cupón solo para ingresos (como penúltimo campo) */}
+                            {activeTab === 'ingreso' && (
+                                <div className="form-group">
+                                    <label htmlFor="coupon">Código de Cupón (opcional)</label>
+                                    <div className="coupon-input-container">
+                                        <input
+                                            type="text"
+                                            id="coupon"
+                                            value={couponId}
+                                            onChange={(e) => setCouponId(e.target.value)}
+                                            placeholder="Ingrese ID del cupón"
+                                        />
+                                        <button
+                                            type="button"
+                                            className="validate-coupon-btn"
+                                            onClick={validateCoupon}
+                                            disabled={validatingCoupon || !couponId.trim()}
+                                        >
+                                            {validatingCoupon ? 'Validando...' : 'Validar'}
+                                        </button>
+                                    </div>
+                                    {couponError && <p className="coupon-error">{couponError}</p>}
+
+                                    {coupon && (
+                                        <div className="coupon-details">
+                                            <p className="coupon-valid">¡Cupón válido!
+                                                Beneficio: {coupon.beneficio}%</p>
+                                            <p className="coupon-benefit">
+                                                Beneficio: ${benefitAmount}
+                                            </p>
+                                            <p className="total-deposit">
+                                                Depósito total: ${parseInt(monto) + benefitAmount}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
 
                             <button type="submit" className="cta-btn transaccion-btn" disabled={loading}>
                                 {loading ? 'Procesando...' : activeTab === 'ingreso' ? 'Depositar' : 'Retirar'}

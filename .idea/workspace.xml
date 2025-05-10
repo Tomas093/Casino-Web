@@ -4,29 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor ticket management components; update status and priority handling, add filters for user roles">
-      <change afterPath="$PROJECT_DIR$/client/src/Css/CuponsManager.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/api/cuponApi.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/components/admin/CuponsManager.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/components/admin/FAQManager.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/components/admin/GameManager.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/components/admin/GenericABM.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/context/CuponContext.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/routes/cuponRoutes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/services/cuponService.ts" afterDir="false" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Subo UN MONTON DE ABMS">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/faqApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/faqApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/gameApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/gameApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/FAQContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/FAQContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/support/SupportPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/support/SupportPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/faqRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/faqRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/gameRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/gameRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/services/faqService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/faqService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/services/gameService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/gameService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/TransaccionStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/TransaccionStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/transactionApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/transactionApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/transaction/Transaccion.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/transaction/Transaccion.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/transactionRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/transactionRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/transactionService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/transactionService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,15 +221,7 @@
       <workItem from="1746737976369" duration="320000" />
       <workItem from="1746807277205" duration="5030000" />
       <workItem from="1746812446332" duration="2635000" />
-      <workItem from="1746815474151" duration="12933000" />
-    </task>
-    <task id="LOCAL-00007" summary="Implement ProtectedRoute component for route protection; update AuthContext and Login handling">
-      <option name="closed" value="true" />
-      <created>1743884787149</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1743884787149</updated>
+      <workItem from="1746815474151" duration="17129000" />
     </task>
     <task id="LOCAL-00008" summary="Implement image upload functionality; add ImageUpload component and update ProfilePage and Sidebar components">
       <option name="closed" value="true" />
@@ -631,7 +607,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746814668635</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="Subo UN MONTON DE ABMS">
+      <option name="closed" value="true" />
+      <created>1746828963411</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1746828963412</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -664,7 +648,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Add user count and transaction statistics endpoints; integrate payment methods chart in admin dashboard" />
     <MESSAGE value="Add game and history APIs; implement context providers for game and history management" />
     <MESSAGE value="Merge pull request #30 from Tomas093/main&#10;&#10;Yo" />
     <MESSAGE value="Refactor LandingPage and styles; update game card components and footer links" />
@@ -689,6 +672,7 @@
     <MESSAGE value="Add Recent Activities component; integrate with admin management and style updates" />
     <MESSAGE value="Refactor NavBar component; add admin status check and improve code formatting" />
     <MESSAGE value="Refactor ticket management components; update status and priority handling, add filters for user roles" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor ticket management components; update status and priority handling, add filters for user roles" />
+    <MESSAGE value="Subo UN MONTON DE ABMS" />
+    <option name="LAST_COMMIT_MESSAGE" value="Subo UN MONTON DE ABMS" />
   </component>
 </project>
