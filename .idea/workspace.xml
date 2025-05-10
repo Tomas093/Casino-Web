@@ -5,19 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Remove debug logging from friends leaderboard data fetching; streamline error handling">
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/CustomThemeCreator.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/GameControls.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/PaylineVisualizer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/SlotMachine.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/WinDisplay.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/constants/paylines.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/css/PayVisualizerStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/themes/deafultThemes.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/types.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/utils/gamelogic.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/css/GameControlsStyle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/css/SlotsStyle.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/SlotsGame.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/Slots.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/Slots.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/Slots.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/GameControls.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/GameControls.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/PaylineVisualizer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/PaylineVisualizer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/SlotMachine.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/SlotMachine.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/css/PayVisualizerStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/css/PayVisualizerStyle.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

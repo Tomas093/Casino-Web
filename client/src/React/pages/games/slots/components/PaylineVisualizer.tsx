@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {PaylineType} from '../types';
-import '../css/PaylineVisualizerStyle.css';
+import '../css/PayVisualizerStyle.css';
 
 type PaylineVisualizerProps = {
     paylines: PaylineType[];
@@ -8,15 +8,19 @@ type PaylineVisualizerProps = {
 };
 
 const PaylineVisualizer: React.FC<PaylineVisualizerProps> = ({paylines, onClose}) => {
-    const [selectedPaylineId, setSelectedPaylineId] = useState<number>(1);
+    const [selectedPaylineId, setSelectedPaylineId] = useState<number>(
+        paylines.length > 0 ? paylines[0].id : 1
+    );
+    const gridRef = useRef<HTMLDivElement>(null);
+    const [linePath, setLinePath] = useState<string>('');
 
-    // Obtener la línea de pago seleccionada
+    // Get the selected payline
     const selectedPayline = paylines.find(line => line.id === selectedPaylineId) || paylines[0];
 
-    // Crear una matriz vacía para visualización
+    // Create an empty grid for visualization
     const emptyGrid = Array(3).fill(null).map(() => Array(5).fill(false));
 
-    // Marcar las posiciones de la línea de pago en la matriz
+    // Mark payline positions in the grid
     const getHighlightedGrid = (payline: PaylineType) => {
         const grid = [...emptyGrid.map(row => [...row])];
 
@@ -29,10 +33,44 @@ const PaylineVisualizer: React.FC<PaylineVisualizerProps> = ({paylines, onClose}
 
     const highlightedGrid = getHighlightedGrid(selectedPayline);
 
+    // Calculate the path for the connecting line
+    useEffect(() => {
+        if (gridRef.current && selectedPayline) {
+            // Wait for the DOM to be ready
+            setTimeout(() => {
+                const grid = gridRef.current;
+                if (!grid) return;
+
+                // Get cell dimensions
+                const cells = grid.querySelectorAll('.vis-cell.highlighted');
+                if (cells.length === 0) return;
+
+                // Calculate centers of highlighted cells
+                const cellCenters: [number, number][] = [];
+                cells.forEach(cell => {
+                    const rect = cell.getBoundingClientRect();
+                    const gridRect = grid.getBoundingClientRect();
+                    cellCenters.push([
+                        rect.left - gridRect.left + rect.width / 2,
+                        rect.top - gridRect.top + rect.height / 2
+                    ]);
+                });
+
+                // Create path data
+                let pathData = `M ${cellCenters[0][0]} ${cellCenters[0][1]}`;
+                for (let i = 1; i < cellCenters.length; i++) {
+                    pathData += ` L ${cellCenters[i][0]} ${cellCenters[i][1]}`;
+                }
+
+                setLinePath(pathData);
+            }, 100);
+        }
+    }, [selectedPaylineId, selectedPayline]);
+
     return (
         <div className="payline-visualizer">
             <div className="visualizer-header">
-                <h2>Visualizador de Líneas de Pago</h2>
+                <h2>Líneas Ganadoras</h2>
                 <button className="close-button" onClick={onClose}>×</button>
             </div>
 
@@ -51,7 +89,7 @@ const PaylineVisualizer: React.FC<PaylineVisualizerProps> = ({paylines, onClose}
                 </select>
             </div>
 
-            <div className="payline-grid">
+            <div className="payline-grid" ref={gridRef}>
                 {highlightedGrid.map((row, rowIndex) => (
                     <div key={`vis-row-${rowIndex}`} className="vis-row">
                         {row.map((isHighlighted, colIndex) => (
@@ -64,6 +102,10 @@ const PaylineVisualizer: React.FC<PaylineVisualizerProps> = ({paylines, onClose}
                         ))}
                     </div>
                 ))}
+
+                <svg className="payline-svg-overlay">
+                    <path d={linePath} className="payline-path"/>
+                </svg>
             </div>
 
             <div className="payline-info">
@@ -74,10 +116,6 @@ const PaylineVisualizer: React.FC<PaylineVisualizerProps> = ({paylines, onClose}
                 <div className="info-item">
                     <span className="info-label">Nombre:</span>
                     <span className="info-value">{selectedPayline.name}</span>
-                </div>
-                <div className="info-item">
-                    <span className="info-label">Posiciones:</span>
-                    <span className="info-value">[{selectedPayline.positions.join(', ')}]</span>
                 </div>
             </div>
         </div>

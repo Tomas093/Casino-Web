@@ -1,23 +1,27 @@
-import { SymbolsThemeType } from '../types';
-import { defaultTheme, fruitTheme, cardsTheme } from '../themes/deafultThemes.tsx';
+import {SymbolsThemeType} from '../types';
+import {defaultTheme, fruitTheme, cardsTheme} from '../themes/deafultThemes.tsx';
+import '../css/GameControlsStyle.css';
 
 
 type GameControlsProps = {
-    onSpin: () => void;
-    onBetChange: (bet: number) => void;
+    onSpin: () => void; onBetChange: (bet: number) => void;
     onThemeChange: (theme: SymbolsThemeType) => void;
+    onAutoSpinToggle: () => void; // Nuevo prop
     credits: number;
     bet: number;
     isSpinning: boolean;
+    isAutoSpinActive: boolean; // Nuevo prop
 };
 
 const GameControls = ({
                           onSpin,
                           onBetChange,
                           onThemeChange,
+                          onAutoSpinToggle,
                           credits,
                           bet,
-                          isSpinning
+                          isSpinning,
+                          isAutoSpinActive
                       }: GameControlsProps) => {
     // Lista de temas disponibles
     const availableThemes = [defaultTheme, fruitTheme, cardsTheme];
@@ -37,7 +41,7 @@ const GameControls = ({
                     id="bet-select"
                     value={bet}
                     onChange={(e) => onBetChange(Number(e.target.value))}
-                    disabled={isSpinning}
+                    disabled={isSpinning || isAutoSpinActive}
                 >
                     {betOptions.map(option => (
                         <option key={option} value={option}>
@@ -55,7 +59,7 @@ const GameControls = ({
                         const selectedTheme = availableThemes.find(theme => theme.name === e.target.value);
                         if (selectedTheme) onThemeChange(selectedTheme);
                     }}
-                    disabled={isSpinning}
+                    disabled={isSpinning || isAutoSpinActive}
                 >
                     {availableThemes.map(theme => (
                         <option key={theme.name} value={theme.name}>
@@ -65,13 +69,23 @@ const GameControls = ({
                 </select>
             </div>
 
-            <button
-                className="spin-button"
-                onClick={onSpin}
-                disabled={isSpinning || credits < bet}
-            >
-                {isSpinning ? 'Girando...' : 'GIRAR'}
-            </button>
+            <div className="spin-controls">
+                <button
+                    className="spin-button"
+                    onClick={onSpin}
+                    disabled={isSpinning || credits < bet || isAutoSpinActive}
+                >
+                    {isSpinning ? 'Girando...' : 'GIRAR'}
+                </button>
+
+                <button
+                    className={`auto-spin-button ${isAutoSpinActive ? 'active' : ''}`}
+                    onClick={onAutoSpinToggle}
+                    disabled={isSpinning || credits < bet}
+                >
+                    {isAutoSpinActive ? 'DETENER AUTO' : 'AUTO SPIN'}
+                </button>
+            </div>
         </div>
     );
 };

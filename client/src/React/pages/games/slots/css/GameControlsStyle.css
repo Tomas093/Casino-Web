@@ -1,0 +1,50 @@
+/* Controles de giro */
+.spin-controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Estilo para el botón Auto Spin */
+.auto-spin-button {
+    padding: 12px 20px;
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.auto-spin-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.auto-spin-button:disabled {
+    background: #888;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Estilo cuando Auto Spin está activo */
+.auto-spin-button.active {
+    background: linear-gradient(45deg, #e74c3c, #c0392b);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+    }
+}

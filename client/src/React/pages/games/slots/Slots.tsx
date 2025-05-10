@@ -1,27 +1,51 @@
-import { useState,  } from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import SlotMachine from './components/SlotMachine';
 import GameControls from './components/GameControls';
 import WinDisplay from './components/WinDisplay';
-import { generateRandomBoard, checkWinningLines } from './utils/gamelogic.ts';
-import { defaultTheme } from './themes/deafultThemes.tsx';
-import { PAYLINES } from './constants/paylines';
-import { SymbolsThemeType, GameStateType } from './types';
+import {generateRandomBoard, checkWinningLines} from './utils/gamelogic.ts';
+import {defaultTheme} from './themes/deafultThemes.tsx';
+import {PAYLINES} from './constants/paylines';
+import {GameStateType} from './types';
+import './css/SlotsStyle.css';
 
 function Slots() {
     // Estado del juego
     const [gameState, setGameState] = useState<GameStateType>({
         board: generateRandomBoard(),
         isSpinning: false,
-        credits: 1000,
-        bet: 25, // Apuesta predeterminada: 1 crédito por línea
+        credits: 1000000,
+        bet: 25,
         winAmount: 0,
         winningLines: [],
         theme: defaultTheme,
     });
 
-    // Manejar el giro
-    const handleSpin = () => {
-        if (gameState.isSpinning || gameState.credits < gameState.bet) return;
+    // Estado para Auto Spin
+    const [isAutoSpinActive, setIsAutoSpinActive] = useState(false);
+
+    const handleBetChange = (newBet: number) => {
+        setGameState(prev => ({
+            ...prev,
+            bet: newBet,
+        }));
+    };
+
+    const handleThemeChange = (newTheme: typeof defaultTheme) => {
+        setGameState(prev => ({
+            ...prev,
+            theme: newTheme,
+        }));
+    };
+
+    // Manejar el giro - usando useCallback para asegurar referencia estable
+    const handleSpin = useCallback(() => {
+        if (gameState.isSpinning || gameState.credits < gameState.bet) {
+            // Si no hay suficientes créditos para seguir con auto-spin, desactivarlo
+            if (isAutoSpinActive && gameState.credits < gameState.bet) {
+                setIsAutoSpinActive(false);
+            }
+            return;
+        }
 
         // Deducir apuesta
         setGameState(prev => ({
@@ -32,7 +56,6 @@ function Slots() {
             winningLines: [],
         }));
 
-        // Simular el tiempo de giro
         setTimeout(() => {
             const newBoard = generateRandomBoard();
             const results = checkWinningLines(newBoard, PAYLINES, gameState.bet);
@@ -46,20 +69,38 @@ function Slots() {
                 winningLines: results.winningLines,
             }));
         }, 1500);
-    };
+    }, [gameState.bet, gameState.credits, gameState.isSpinning, isAutoSpinActive]);
 
-    // Cambiar la apuesta
-    const handleBetChange = (newBet: number) => {
-        if (!gameState.isSpinning) {
-            setGameState(prev => ({ ...prev, bet: newBet }));
-        }
-    };
+    // Modify the auto-spin effect in Slots.tsx
+    useEffect(() => {
+        let timeout: number | null = null;
 
-    // Cambiar tema (personalización de símbolos)
-    const handleThemeChange = (newTheme: SymbolsThemeType) => {
-        if (!gameState.isSpinning) {
-            setGameState(prev => ({ ...prev, theme: newTheme }));
+        if (!gameState.isSpinning && isAutoSpinActive && gameState.credits >= gameState.bet) {
+            // Dynamic timeout based on win status
+            const delayTime = gameState.winAmount > 0 ? 5000 : 500;
+
+            timeout = window.setTimeout(() => {
+                handleSpin();
+            }, delayTime);
         }
+
+        return () => {
+            if (timeout !== null) {
+                clearTimeout(timeout);
+            }
+        };
+    }, [gameState.isSpinning, isAutoSpinActive, gameState.credits, gameState.bet, handleSpin, gameState.winAmount]);
+
+    // Función para activar/desactivar Auto Spin
+    const handleAutoSpinToggle = () => {
+        setIsAutoSpinActive(prev => {
+            const newState = !prev;
+            // Si estamos activando auto-spin y no estamos girando, iniciamos inmediatamente
+            if (newState && !gameState.isSpinning && gameState.credits >= gameState.bet) {
+                handleSpin();
+            }
+            return newState;
+        });
     };
 
     return (
@@ -72,6 +113,7 @@ function Slots() {
                 winningLines={gameState.winningLines}
                 paylines={PAYLINES}
                 theme={gameState.theme}
+                showConnectedLines={true}
             />
 
             <WinDisplay
@@ -82,10 +124,12 @@ function Slots() {
             <GameControls
                 onSpin={handleSpin}
                 onBetChange={handleBetChange}
+                onThemeChange={handleThemeChange}
+                onAutoSpinToggle={handleAutoSpinToggle}
                 credits={gameState.credits}
                 bet={gameState.bet}
                 isSpinning={gameState.isSpinning}
-                onThemeChange={handleThemeChange}
+                isAutoSpinActive={isAutoSpinActive}
             />
         </div>
     );
