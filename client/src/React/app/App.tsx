@@ -27,7 +27,7 @@ import PrivacyPolicy from "../pages/footer/PrivacyPolicy.tsx"
 import Terminos from "../pages/footer/Terminos.tsx"
 import AboutUs from "../pages/footer/AboutUs.tsx"
 import Legal from "../pages/footer/Legal.tsx"
-import MinesSweeprEnchanced from "../pages/games/MineSweeperEnchanced.tsx"
+import MinesSweeprEnchanced from "../pages/games/minesweeper/MineSweeperEnchanced.tsx"
 function App() {
     return (
         <BrowserRouter>
