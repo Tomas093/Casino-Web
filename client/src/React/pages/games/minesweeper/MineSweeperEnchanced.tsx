@@ -1,6 +1,6 @@
 import React, {useState,} from 'react';
 import '@css/MinesweeperStyle.css';
-import GameBackground from '../../pages/games/GameBackground.tsx';
+import GameBackground from '../background/GameBackground.tsx';
 
 
 interface MineProps {

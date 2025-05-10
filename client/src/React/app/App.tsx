@@ -12,9 +12,9 @@ import DeleteUser from "../pages/deletes/DeleteUser.tsx";
 import DeleteSpecificAccount from "../pages/deletes/DeleteSpecificAccount.tsx";
 import Transaccion from "../pages/transaction/Transaccion.tsx";
 import Home from "../pages/home/Home.tsx";
-import MineSweeper from "../pages/games/MineSweeperEnchanced.tsx";
+import MineSweeper from "../pages/games/minesweeper/MineSweeperEnchanced.tsx";
 import {AppProvider} from './AppProvider.tsx';
-import RouletteGame from "../pages/games/RouletteGame.tsx";
+import RouletteGame from "../pages/games/roulette/RouletteGame.tsx";
 import StatisticsPage from "../pages/profile/StatisticsPage.tsx"
 import Limit from "../pages/profile/LimitPage.tsx";
 import MonLimitTicketPage from "../pages/tickets/MonLimitTicketPage.tsx";
