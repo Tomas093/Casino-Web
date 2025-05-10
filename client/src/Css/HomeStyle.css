@@ -595,7 +595,6 @@ body {
 .stat-icon {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    animation: pulse 2s infinite;
 }
 
 @keyframes pulse {

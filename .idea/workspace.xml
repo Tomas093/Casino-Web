@@ -6,7 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add auto spin functionality and enhance game controls; improve visual feedback for winning lines">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/HomeStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/HomeStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/footer/AboutUs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/AboutUs.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/footer/Legal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/Legal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/footer/PrivacyPolicy.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/PrivacyPolicy.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/footer/Terminos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/Terminos.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/Slots.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/Slots.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/WinDisplay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/WinDisplay.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -649,7 +657,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Add authentication middleware; implement user and admin verification with JWT" />
     <MESSAGE value="Refactor leaderboard API and service; update endpoints for game winners, highest bets, returns, and accumulated winnings" />
     <MESSAGE value="Add friend request feature; implement API, context, and UI for managing friend requests" />
     <MESSAGE value="Add friend management features; implement APIs for getting friends, searching users, and deleting friends" />
@@ -674,6 +681,7 @@
     <MESSAGE value="Refactor leaderboard components; improve data handling and add debug logging" />
     <MESSAGE value="Remove debug logging from friends leaderboard data fetching; streamline error handling" />
     <MESSAGE value="Add auto spin functionality and enhance game controls; improve visual feedback for winning lines" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add auto spin functionality and enhance game controls; improve visual feedback for winning lines" />
+    <MESSAGE value="Implement infinite carousel for game selection; enhance navigation and visual elements" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement infinite carousel for game selection; enhance navigation and visual elements" />
   </component>
 </project>

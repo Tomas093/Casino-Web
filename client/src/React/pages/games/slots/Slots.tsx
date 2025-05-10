@@ -72,12 +72,15 @@ function Slots() {
     }, [gameState.bet, gameState.credits, gameState.isSpinning, isAutoSpinActive]);
 
     // Modify the auto-spin effect in Slots.tsx
+    // Modify the auto-spin effect
     useEffect(() => {
         let timeout: number | null = null;
 
         if (!gameState.isSpinning && isAutoSpinActive && gameState.credits >= gameState.bet) {
-            // Dynamic timeout based on win status
-            const delayTime = gameState.winAmount > 0 ? 5000 : 700;
+            const baseDelay = 700;
+            const additionalDelayPerLine = 2000;
+            const winningLinesCount = gameState.winningLines.length;
+            const delayTime = baseDelay + (winningLinesCount * additionalDelayPerLine);
 
             timeout = window.setTimeout(() => {
                 handleSpin();
@@ -89,7 +92,7 @@ function Slots() {
                 clearTimeout(timeout);
             }
         };
-    }, [gameState.isSpinning, isAutoSpinActive, gameState.credits, gameState.bet, handleSpin, gameState.winAmount]);
+    }, [gameState.isSpinning, isAutoSpinActive, gameState.credits, gameState.bet, handleSpin, gameState.winningLines]);
 
     // Función para activar/desactivar Auto Spin
     const handleAutoSpinToggle = () => {

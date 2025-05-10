@@ -14,14 +14,6 @@
     --color-off-white: #F5F5F5;
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--color-black);
-    font-family: 'Montserrat', sans-serif;
-    color: var(--color-off-white);
-}
-
 /* Contenedor principal */
 .privacy-container {
     max-width: 900px;
@@ -143,18 +135,7 @@ body {
     flex-grow: 1;
 }
 
-.header-icon {
-    display: flex;
-    align-items: center;
-    margin-right: 15px;
-    color: var(--color-gold);
-}
 
-.icon-container {
-    color: var(--color-gold);
-    display: flex;
-    align-items: center;
-}
 
 /* Contenido dentro del acordeón */
 .privacy-content {

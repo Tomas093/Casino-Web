@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
-import { WinningLineType } from '../types';
-
+import {useEffect, useState} from 'react';
+import {WinningLineType} from '../types';
 
 type WinDisplayProps = {
     winAmount: number;
     winningLines: WinningLineType[];
 };
 
-const WinDisplay = ({ winAmount, winningLines }: WinDisplayProps) => {
+const WinDisplay = ({winAmount, winningLines}: WinDisplayProps) => {
     const [isAnimating, setIsAnimating] = useState(false);
 
     // Animar cuando hay una ganancia
@@ -22,19 +21,18 @@ const WinDisplay = ({ winAmount, winningLines }: WinDisplayProps) => {
         }
     }, [winAmount]);
 
+    // If there's no win, don't render anything
+    if (winAmount <= 0) {
+        return null;
+    }
+
     return (
         <div className={`win-display ${isAnimating ? 'win-animation' : ''}`}>
-            {winAmount > 0 ? (
-                <>
-                    <div className="win-title">¡GANASTE!</div>
-                    <div className="win-amount">{winAmount.toFixed(2)}</div>
-                    <div className="win-lines-count">
-                        {winningLines.length} {winningLines.length === 1 ? 'línea' : 'líneas'}
-                    </div>
-                </>
-            ) : (
-                <div className="no-win">Gira para jugar</div>
-            )}
+            <div className="win-title">¡GANASTE!</div>
+            <div className="win-amount">{winAmount.toFixed(2)}</div>
+            <div className="win-lines-count">
+                {winningLines.length} {winningLines.length === 1 ? 'línea' : 'líneas'}
+            </div>
         </div>
     );
 };
