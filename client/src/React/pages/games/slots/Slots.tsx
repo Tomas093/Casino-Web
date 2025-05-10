@@ -77,7 +77,7 @@ function Slots() {
 
         if (!gameState.isSpinning && isAutoSpinActive && gameState.credits >= gameState.bet) {
             // Dynamic timeout based on win status
-            const delayTime = gameState.winAmount > 0 ? 5000 : 500;
+            const delayTime = gameState.winAmount > 0 ? 5000 : 700;
 
             timeout = window.setTimeout(() => {
                 handleSpin();
