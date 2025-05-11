@@ -2,7 +2,7 @@ import {PrismaClient} from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-interface TiempoDeJuegoData {
+interface tiempodesesionData {
     usuarioid: number;
     final?: Date | null;
 }
@@ -54,14 +54,14 @@ const calculateTotalDurationMinutes = (
 };
 
 
-const getTiempoDeJuegoInRange = async (
+const gettiempodesesionInRange = async (
     usuarioid: number,
     startDate: Date,
     endDate: Date
 ) => {
     await verifyUserExists(usuarioid);
 
-    const records = await prisma.tiempodejuego.findMany({
+    const records = await prisma.tiempodesesion.findMany({
         where: {
             user_id: usuarioid,
             fin: {
@@ -83,65 +83,77 @@ const getTiempoDeJuegoInRange = async (
     return {totalDurationMinutes};
 };
 
-export const tiempodejuegoService = {
-    createTiempoDeJuego: async (data: TiempoDeJuegoData) => {
+export const tiempodesesionService = {
+    createtiempodesesion: async (data: tiempodesesionData) => {
         const {usuarioid, final} = data;
         await verifyUserExists(usuarioid);
 
-        return prisma.tiempodejuego.create({
+        return prisma.tiempodesesion.create({
             data: {
                 user_id: usuarioid,
-                inicio: new Date(), // Set inicio to current time when created
-                fin: final,         // This will be updated later when session ends
+                inicio: new Date(new Date().getTime() - 3 * 60 * 60 * 1000),
+                fin: final,
             }
         });
     },
 
-    updateTiempoDeJuego: async (tiempodejuegoid: number, data: TiempoDeJuegoData) => {
-        const {final} = data;
-
-        const tiempoDeJuego = await prisma.tiempodejuego.findUnique({
-            where: {tiempodejuegoid}
+    getTiempodeSesionById: async (tiempodesesionid: number) => {
+        const tiempodesesion = await prisma.tiempodesesion.findUnique({
+            where: {tiempodesesionid}
         });
 
-        if (!tiempoDeJuego) {
+        if (!tiempodesesion) {
             throw new Error('Tiempo de juego no encontrado');
         }
 
-        return prisma.tiempodejuego.update({
-            where: {tiempodejuegoid},
+        return tiempodesesion;
+    },
+
+    updatetiempodesesion: async (tiempodesesionid: number, data: tiempodesesionData) => {
+        const {final} = data;
+
+        const tiempodesesion = await prisma.tiempodesesion.findUnique({
+            where: {tiempodesesionid}
+        });
+
+        if (!tiempodesesion) {
+            throw new Error('Tiempo de juego no encontrado');
+        }
+
+        return prisma.tiempodesesion.update({
+            where: {tiempodesesionid},
             data: {
                 fin: final,
             }
         });
     },
 
-    getTotalTiempoDeJuegoByUserId: async (usuarioid: number) => {
+    getTotaltiempodesesionByUserId: async (usuarioid: number) => {
         const today = new Date();
         const startOfDay = new Date(today.setHours(0, 0, 0, 0));
         const endOfDay = new Date(today.setHours(23, 59, 59, 999));
 
-        return getTiempoDeJuegoInRange(usuarioid, startOfDay, endOfDay);
+        return gettiempodesesionInRange(usuarioid, startOfDay, endOfDay);
     },
 
-    getAllTiempoDeJuegoByUserId: async (usuarioid: number) => {
+    getAlltiempodesesionByUserId: async (usuarioid: number) => {
         await verifyUserExists(usuarioid);
 
-        return prisma.tiempodejuego.findMany({
+        return prisma.tiempodesesion.findMany({
             where: {user_id: usuarioid},
             orderBy: {fin: 'desc'}
         });
     },
 
-    getUserTiempoDeJuegoByDay: async (usuarioid: number) => {
+    getUsertiempodesesionByDay: async (usuarioid: number) => {
         const today = new Date();
         const startOfDay = new Date(today.setHours(0, 0, 0, 0));
         const endOfDay = new Date(today.setHours(23, 59, 59, 999));
 
-        return getTiempoDeJuegoInRange(usuarioid, startOfDay, endOfDay);
+        return gettiempodesesionInRange(usuarioid, startOfDay, endOfDay);
     },
 
-    getUserTiempoDeJuegoByWeek: async (usuarioid: number) => {
+    getUsertiempodesesionByWeek: async (usuarioid: number) => {
         const now = new Date();
         const day = now.getDay();
         const diffToMonday = (day === 0 ? -6 : 1 - day);
@@ -154,14 +166,33 @@ export const tiempodejuegoService = {
         endOfWeek.setDate(endOfWeek.getDate() + 6);
         endOfWeek.setHours(23, 59, 59, 999);
 
-        return getTiempoDeJuegoInRange(usuarioid, startOfWeek, endOfWeek);
+        return gettiempodesesionInRange(usuarioid, startOfWeek, endOfWeek);
     },
 
-    getUserTiempoDeJuegoByMonth: async (usuarioid: number) => {
+    getUsertiempodesesionByMonth: async (usuarioid: number) => {
         const now = new Date();
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
         const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
 
-        return getTiempoDeJuegoInRange(usuarioid, startOfMonth, endOfMonth);
+        return gettiempodesesionInRange(usuarioid, startOfMonth, endOfMonth);
     },
+
+    makeHeartbeat: async (tiempodesesionid: number) => {
+        const tiempodesesion = await prisma.tiempodesesion.findUnique({
+            where: {tiempodesesionid}
+        });
+
+        if (!tiempodesesion) {
+            throw new Error('Tiempo de juego no encontrado');
+        }
+
+        return prisma.tiempodesesion.update({
+            where: {tiempodesesionid},
+            data: {
+                fin: new Date(new Date().getTime() - 3 * 60 * 60 * 1000)
+            }
+        });
+    }
+
+
 };

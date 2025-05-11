@@ -4,7 +4,7 @@ import {useAuth} from '@context/AuthContext.tsx';
 import '@css/LoginStyle.css';
 import {useState} from 'react';
 import Message from "@components/Error/Message.tsx";
-import tiempodejuegoApi from '@api/tiempodejuegoApi';
+import tiempodesesionApi from '@api/tiempodesesionApi.ts';
 
 const Login = () => {
     const {login, getUserByEmail} = useAuth();
@@ -20,14 +20,13 @@ const Login = () => {
                 // Get user by email
                 const user = await getUserByEmail(data.email);
 
-                // Create tiempo de juego
-                const tiempoDeJuego = await tiempodejuegoApi.createTiempoDeJuego({
-                    usuarioid: user.usuarioid, // Correctly typed user object
+                const tiempoDeJuego = await tiempodesesionApi.createtiempodesesion({
+                    usuarioid: user.usuarioid,
                     final: null
                 });
 
                 // Store the tiempo de juego ID in local storage
-                localStorage.setItem('tiempodejuegoid', tiempoDeJuego.tiempodejuegoid.toString());
+                localStorage.setItem('timepodesesionid', tiempoDeJuego.tiempodesesionid);
 
                 navigate('/home');
             } else {

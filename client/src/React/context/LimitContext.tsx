@@ -12,6 +12,8 @@ const LimitContext = createContext<LimitContextType | null>(null);
 export const LimitProvider = ({children}: { children: ReactNode }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
+
+
     const fetchLimitHorario = useCallback(async (userId: number) => {
         setIsLoading(true);
         try {
@@ -35,6 +37,8 @@ export const LimitProvider = ({children}: { children: ReactNode }) => {
             setIsLoading(false);
         }
     }, []);
+
+
 
     return (
         <LimitContext.Provider

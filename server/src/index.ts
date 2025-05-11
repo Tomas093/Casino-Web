@@ -19,7 +19,8 @@ import messageRoutes from "./routes/messageRoutes";
 import faqRoutes from "./routes/faqRoutes";
 import adminStaticsRoutes from "./routes/adminStaticsRoutes";
 import cuponRoutes from "./routes/cuponRoutes";
-import tiempodejuegoRoutes from "./routes/tiempodejuegoRoutes";
+import tiempodesesionRoutes from "./routes/tiempodesesionRoutes";
+import suspendidoRoutes from "./routes/suspendidosRoutes";
 
 const app = express();
 
@@ -80,7 +81,8 @@ app.use('/message', messageRoutes);
 app.use('/faq', faqRoutes);
 app.use('/admin-statics', adminStaticsRoutes);
 app.use('/cupon', cuponRoutes)
-app.use('/tiempodejuego',tiempodejuegoRoutes)
+app.use('/tiempodesesion',tiempodesesionRoutes)
+app.use('/suspendidos',suspendidoRoutes)
 
 
 const PORT = process.env.PORT || 3001;

@@ -14,7 +14,6 @@ model administrador {
   usuario                 usuario                   @relation(fields: [usuarioid], references: [usuarioid], onDelete: Cascade)
   aumentolimitehorario    aumentolimitehorario[]
   aumentolimitesmonetario aumentolimitesmonetario[]
-  suspendidos             suspendidos[]
   ticket                  ticket[]
 }
 
@@ -66,7 +65,6 @@ model cliente {
   limitemonetario            limitemonetario?
   partida                    partida[]
   pausa                      pausa?
-  suspendidos                suspendidos[]
   ticket                     ticket[]
 }
 
@@ -157,22 +155,12 @@ model pausa {
 }
 
 model suspendidos {
-  suspendidoid  Int            @id @default(autoincrement())
-  clienteid     Int?
-  fechainicio   DateTime?      @db.Timestamp(6)
-  fechafin      DateTime?      @db.Timestamp(6)
-  adminid       Int?
-  razon         String?
-  administrador administrador? @relation(fields: [adminid], references: [adminid], onDelete: Cascade, onUpdate: NoAction)
-  cliente       cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
-}
-
-model tiempodejuego {
-  tiempodejuegoid Int       @id @default(autoincrement())
-  user_id         Int
-  inicio          DateTime  @default(now()) @db.Timestamptz(6)
-  fin             DateTime? @db.Timestamptz(6)
-  usuario         usuario   @relation(fields: [user_id], references: [usuarioid], onDelete: Cascade)
+  suspendidoid Int       @id @default(autoincrement())
+  usuarioid    Int?
+  fechainicio  DateTime  @default(now()) @db.Timestamptz(6)
+  fechafin     DateTime? @db.Timestamptz(6)
+  razon        String?
+  usuario      usuario?  @relation(fields: [usuarioid], references: [usuarioid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model usuario {
@@ -190,7 +178,8 @@ model usuario {
   cliente                                                     cliente?
   solicitudesamistad_solicitudesamistad_id_receptorTousuario  solicitudesamistad[] @relation("solicitudesamistad_id_receptorTousuario")
   solicitudesamistad_solicitudesamistad_id_remitenteTousuario solicitudesamistad[] @relation("solicitudesamistad_id_remitenteTousuario")
-  tiempodejuego                                               tiempodejuego[]
+  suspendidos                                                 suspendidos[]
+  tiempodesesion                                              tiempodesesion[]
 }
 
 model solicitudesamistad {
@@ -246,4 +235,12 @@ model cupon {
   cantidadusos Int?
   mincarga     Decimal?  @db.Decimal(10, 2)
   maxcarga     Decimal?  @db.Decimal(10, 2)
+}
+
+model tiempodesesion {
+  tiempodesesionid Int       @id(map: "tiempodejuego_pkey") @default(autoincrement())
+  user_id          Int
+  inicio           DateTime  @default(now()) @db.Timestamptz(6)
+  fin              DateTime? @db.Timestamptz(6)
+  usuario          usuario   @relation(fields: [user_id], references: [usuarioid], onDelete: Cascade, map: "tiempodejuego_user_id_fkey")
 }
