@@ -4,17 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add auto spin functionality and enhance game controls; improve visual feedback for winning lines">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor footer components; update paths and enhance game navigation with infinite scroll effect">
+      <change afterPath="$PROJECT_DIR$/client/src/React/api/tiempodejuegoApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/context/TiempoDeJuegoContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/routes/tiempodejuegoRoutes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/services/tiempodejuegoService.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/HomeStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/HomeStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/footer/AboutUs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/AboutUs.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/footer/Legal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/Legal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/footer/PrivacyPolicy.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/PrivacyPolicy.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/footer/Terminos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/Terminos.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/Slots.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/Slots.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/WinDisplay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/WinDisplay.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/AboutUs.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/AboutUs.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/authApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/authApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/AuthContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/authRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/authRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/authService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/authService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,9 +34,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="CSS File" />
         <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
-        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -231,14 +235,7 @@
       <workItem from="1746882983593" duration="4732000" />
       <workItem from="1746893281527" duration="1243000" />
       <workItem from="1746896290788" duration="1162000" />
-    </task>
-    <task id="LOCAL-00012" summary="agrego columna emial a manager">
-      <option name="closed" value="true" />
-      <created>1744049285157</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1744049285157</updated>
+      <workItem from="1746918163359" duration="8336000" />
     </task>
     <task id="LOCAL-00013" summary="agrego columna email a manager">
       <option name="closed" value="true" />
@@ -624,7 +621,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746903521645</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Refactor footer components; update paths and enhance game navigation with infinite scroll effect">
+      <option name="closed" value="true" />
+      <created>1746912049259</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1746912049259</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -657,7 +662,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Refactor leaderboard API and service; update endpoints for game winners, highest bets, returns, and accumulated winnings" />
     <MESSAGE value="Add friend request feature; implement API, context, and UI for managing friend requests" />
     <MESSAGE value="Add friend management features; implement APIs for getting friends, searching users, and deleting friends" />
     <MESSAGE value="Subo Friends Andando" />
@@ -682,6 +686,7 @@
     <MESSAGE value="Remove debug logging from friends leaderboard data fetching; streamline error handling" />
     <MESSAGE value="Add auto spin functionality and enhance game controls; improve visual feedback for winning lines" />
     <MESSAGE value="Implement infinite carousel for game selection; enhance navigation and visual elements" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement infinite carousel for game selection; enhance navigation and visual elements" />
+    <MESSAGE value="Refactor footer components; update paths and enhance game navigation with infinite scroll effect" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor footer components; update paths and enhance game navigation with infinite scroll effect" />
   </component>
 </project>

@@ -19,6 +19,7 @@ import messageRoutes from "./routes/messageRoutes";
 import faqRoutes from "./routes/faqRoutes";
 import adminStaticsRoutes from "./routes/adminStaticsRoutes";
 import cuponRoutes from "./routes/cuponRoutes";
+import tiempodejuegoRoutes from "./routes/tiempodejuegoRoutes";
 
 const app = express();
 
@@ -79,6 +80,7 @@ app.use('/message', messageRoutes);
 app.use('/faq', faqRoutes);
 app.use('/admin-statics', adminStaticsRoutes);
 app.use('/cupon', cuponRoutes)
+app.use('/tiempodejuego',tiempodejuegoRoutes)
 
 
 const PORT = process.env.PORT || 3001;

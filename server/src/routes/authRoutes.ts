@@ -9,6 +9,12 @@ declare module 'express-session' {
 
 const router = Router();
 
+function convertBigIntToString(obj: any) {
+    return JSON.parse(JSON.stringify(obj, (key, value) =>
+        typeof value === 'bigint' ? value.toString() : value
+    ));
+}
+
 // Registro de usuario
 router.post('/register', async (req: Request, res: Response) => {
     try {
@@ -16,7 +22,7 @@ router.post('/register', async (req: Request, res: Response) => {
         res.status(201).json(usuario);
     } catch (error: any) {
         console.error("Error al registrar usuario:", error);
-        res.status(400).json({ message: error.message || 'Error del servidor' });
+        res.status(400).json({message: error.message || 'Error del servidor'});
     }
 });
 
@@ -34,7 +40,7 @@ router.post('/login', async (req: Request, res: Response) => {
         });
     } catch (error: any) {
         console.error("Error al iniciar sesión:", error);
-        res.status(401).json({ message: error.message || 'Email o contraseña incorrectos' });
+        res.status(401).json({message: error.message || 'Email o contraseña incorrectos'});
     }
 });
 
@@ -43,10 +49,10 @@ router.post('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
             console.error("Error al cerrar sesión:", err);
-            return res.status(500).json({ message: 'Error del servidor' });
+            return res.status(500).json({message: 'Error del servidor'});
         }
         res.clearCookie('connect.sid');
-        res.status(200).json({ message: 'Sesión cerrada exitosamente' });
+        res.status(200).json({message: 'Sesión cerrada exitosamente'});
     });
 });
 
@@ -56,7 +62,19 @@ router.get('/check-session', (req: Request, res: Response) => {
     if (req.session && req.session.usuario) {
         return res.status(200).json(req.session.usuario);
     } else {
-        return res.status(401).json({ message: 'No autenticado' });
+        return res.status(401).json({message: 'No autenticado'});
+    }
+});
+
+router.get('/email/:email', async (req: Request, res: Response) => {
+    const {email} = req.params;
+
+    try {
+        const usuario = await authService.getUserByemail(email);
+        res.status(200).json(convertBigIntToString(usuario));
+    } catch (error: any) {
+        console.error("Error al obtener usuario por email:", error);
+        res.status(404).json({message: error.message || 'Usuario no encontrado'});
     }
 });
 

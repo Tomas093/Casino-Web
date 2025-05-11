@@ -65,6 +65,15 @@ const authApi = {
         } catch (error) {
             throw error;
         }
+    },
+
+    getUserByEmail: async (email: string) => {
+        try {
+            const response = await axios.get(`${API_URL}/email/${email}`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     }
 };
 

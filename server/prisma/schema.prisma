@@ -68,7 +68,6 @@ model cliente {
   pausa                      pausa?
   suspendidos                suspendidos[]
   ticket                     ticket[]
-  tiempodejuego              tiempodejuego[]
 }
 
 model disminucionlimitehorario {
@@ -162,7 +161,6 @@ model suspendidos {
   clienteid     Int?
   fechainicio   DateTime?      @db.Timestamp(6)
   fechafin      DateTime?      @db.Timestamp(6)
-  duracion      Int?
   adminid       Int?
   razon         String?
   administrador administrador? @relation(fields: [adminid], references: [adminid], onDelete: Cascade, onUpdate: NoAction)
@@ -170,12 +168,11 @@ model suspendidos {
 }
 
 model tiempodejuego {
-  clienteid Int
-  fecha     DateTime @db.Timestamp(6)
-  tiempo    Int?
-  cliente   cliente  @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
-
-  @@id([clienteid, fecha])
+  tiempodejuegoid Int       @id @default(autoincrement())
+  user_id         Int
+  inicio          DateTime  @default(now()) @db.Timestamptz(6)
+  fin             DateTime? @db.Timestamptz(6)
+  usuario         usuario   @relation(fields: [user_id], references: [usuarioid], onDelete: Cascade)
 }
 
 model usuario {
@@ -193,6 +190,7 @@ model usuario {
   cliente                                                     cliente?
   solicitudesamistad_solicitudesamistad_id_receptorTousuario  solicitudesamistad[] @relation("solicitudesamistad_id_receptorTousuario")
   solicitudesamistad_solicitudesamistad_id_remitenteTousuario solicitudesamistad[] @relation("solicitudesamistad_id_remitenteTousuario")
+  tiempodejuego                                               tiempodejuego[]
 }
 
 model solicitudesamistad {

@@ -20,7 +20,8 @@ interface AuthContextType {
     logout: () => Promise<void>;
     register: (userData: RegisterData) => Promise<any>;
     updateProfileImage: (imageUrl: string) => void;
-    updateUserData: (userData: Partial<User>) => void; // Nuevo método para actualizar datos del usuario
+    updateUserData: (userData: Partial<User>) => void;
+    getUserByEmail: (email: string) => Promise<any>;
 }
 
 // Props para el AuthProvider
@@ -45,7 +46,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     };
 
-    // Nuevo método para actualizar los datos del usuario
+
     const updateUserData = (userData: Partial<User>) => {
         if (user) {
             const updatedUser = { ...user, ...userData };
@@ -120,6 +121,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     };
 
+    // Obtener usuario por email
+    const getUserByEmail = async (email: string) => {
+        try {
+            return await authApi.getUserByEmail(email);
+        } catch (error) {
+            console.error('Error al obtener usuario por email:', error);
+            throw error;
+        }
+    };
+
     // Valor del contexto
     const contextValue: AuthContextType = {
         user,
@@ -128,7 +139,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         logout,
         register,
         updateProfileImage,
-        updateUserData // Agregamos el nuevo método al contexto
+        updateUserData,
+        getUserByEmail,
     };
 
     return (

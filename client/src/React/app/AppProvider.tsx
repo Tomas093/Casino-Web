@@ -14,6 +14,7 @@ import {MessageProvider} from '@context/MessageContext.tsx';
 import {FAQProvider} from "@context/FAQContext.tsx";
 import {AdminStaticsProvider} from "@context/AdminStaticsContext.tsx";
 import {CuponProvider} from '@context/CuponContext';
+import {TiempoDeJuegoProvider} from '@context/TiempoDeJuegoContext';
 
 interface AppProviderProps {
     children: ReactNode;
@@ -36,7 +37,9 @@ export const AppProvider = ({children}: AppProviderProps) => {
                                                         <FAQProvider>
                                                             <AdminStaticsProvider>
                                                                 <CuponProvider>
-                                                                    {children}
+                                                                    <TiempoDeJuegoProvider>
+                                                                        {children}
+                                                                    </TiempoDeJuegoProvider>
                                                                 </CuponProvider>
                                                             </AdminStaticsProvider>
                                                         </FAQProvider>

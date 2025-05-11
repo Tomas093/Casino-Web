@@ -4,9 +4,10 @@ import {useAuth} from '@context/AuthContext.tsx';
 import '@css/LoginStyle.css';
 import {useState} from 'react';
 import Message from "@components/Error/Message.tsx";
+import tiempodejuegoApi from '@api/tiempodejuegoApi';
 
 const Login = () => {
-    const {login} = useAuth();
+    const {login, getUserByEmail} = useAuth();
     const navigate = useNavigate();
     const [showMessage, setShowMessage] = useState(false);
     const [message, setMessage] = useState('');
@@ -16,6 +17,18 @@ const Login = () => {
         try {
             const success = await login(data.email, data.password);
             if (success) {
+                // Get user by email
+                const user = await getUserByEmail(data.email);
+
+                // Create tiempo de juego
+                const tiempoDeJuego = await tiempodejuegoApi.createTiempoDeJuego({
+                    usuarioid: user.usuarioid, // Correctly typed user object
+                    final: null
+                });
+
+                // Store the tiempo de juego ID in local storage
+                localStorage.setItem('tiempodejuegoid', tiempoDeJuego.tiempodejuegoid.toString());
+
                 navigate('/home');
             } else {
                 setMessage('Email o contraseña incorrectos. Por favor intente nuevamente.');
