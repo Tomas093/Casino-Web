@@ -139,6 +139,38 @@ const RouletteGame: React.FC = () => {
         return 'black';
     };
 
+    // Función para generar un número aleatorio favorable para influencers
+    const generateRandomNumber = () => {
+        // Verificar si el cliente es un influencer
+        const isInfluencer = client && client.influencer === true;
+        let randomNumber;
+
+        if (isInfluencer) {
+            // Para influencers, dar mayor probabilidad de ganar
+            // Analizamos las apuestas actuales para encontrar números con apuestas
+            const bettedNumbers = Object.keys(bets).filter(betId => {
+                // Incluir solo apuestas a números específicos (no colores ni docenas)
+                return !isNaN(Number(betId));
+            });
+
+            // Si hay apuestas en números específicos, 50% de probabilidad de elegir uno de esos números
+            if (bettedNumbers.length > 0 && Math.random() < 0.5) {
+                // Elegir aleatoriamente entre los números apostados
+                const randomIndex = Math.floor(Math.random() * bettedNumbers.length);
+                randomNumber = bettedNumbers[randomIndex];
+            } else {
+                // Otra opción favorable: menor probabilidad de que caiga en 0
+                // Generar un número entre 1 y 36 (excluyendo el 0)
+                randomNumber = String(Math.floor(Math.random() * 36) + 1);
+            }
+        } else {
+            // Para usuarios normales, probabilidad estándar
+            randomNumber = String(Math.floor(Math.random() * 37)); // 0-36
+        }
+
+        return randomNumber;
+    };
+
     const handleSpin = async () => {
         if (!hasBets) {
             setNotificationData({ winner: 'No hay apuestas', winnings: 0, isWin: false });
@@ -159,8 +191,8 @@ const RouletteGame: React.FC = () => {
         // Guardar el monto actual de la apuesta antes de limpiar
         const currentBet = totalBet;
 
-        // Generar número aleatorio entre 0 y 36
-        const randomNumber = String(Math.floor(Math.random() * 37));
+        // Generar número aleatorio con probabilidad ajustada para influencers
+        const randomNumber = generateRandomNumber();
         setWinningBet(randomNumber);
         setWheelStart(true);
 

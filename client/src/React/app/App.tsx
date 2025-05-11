@@ -42,9 +42,6 @@ function App() {
                     <Route path="/aboutUs" element={<AboutUs/>}/>
                     <Route path="/legal" element={<Legal/>}/>
 
-
-
-
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
                     <Route element={<ProtectedRoute/>}>
                         <Route path="/history" element={<HistoryPage/>}/>
