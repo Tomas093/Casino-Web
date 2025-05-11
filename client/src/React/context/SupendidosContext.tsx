@@ -10,6 +10,7 @@ interface SuspendidosContextType {
     update: (id: number, data: Partial<SuspendidosData>) => Promise<void>;
     remove: (id: number) => Promise<void>;
     isUserSuspended: (userId: number) => Promise<boolean>;
+    getSuspendidosByUserId: (userId: number) => Promise<SuspendidosData | null>;
 }
 
 const SuspendidosContext = createContext<SuspendidosContextType | undefined>(undefined);
@@ -85,12 +86,26 @@ export const SuspendidosProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
+    const getSuspendidosByUserId = async (userId: number) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await suspendidoApi.getSuspendidosByUserId(userId);
+            return data;
+        } catch (err: any) {
+            setError(err.message || 'Error fetching suspendidos by user ID');
+            return null;
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         fetchAll();
     }, []);
 
     return (
-        <SuspendidosContext.Provider value={{ suspendidos, loading, error, fetchAll, create, update, remove, isUserSuspended }}>
+        <SuspendidosContext.Provider value={{ suspendidos,getSuspendidosByUserId ,loading, error, fetchAll, create, update, remove, isUserSuspended }}>
             {children}
         </SuspendidosContext.Provider>
     );

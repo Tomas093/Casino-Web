@@ -45,12 +45,9 @@ const LimitMonitor: React.FC = () => {
                             limiteSemanal: rawLimit.limitesemanal,
                             limiteMensual: rawLimit.limitemensual
                         });
-                        console.log('[DEBUG] Loaded limits:', rawLimit);
-                    } else {
-                        console.warn('[DEBUG] No limit data found');
                     }
                 } catch (error) {
-                    console.error('Error loading time limits:', error);
+                    // Error loading time limits
                 }
             };
 
@@ -58,9 +55,8 @@ const LimitMonitor: React.FC = () => {
                 try {
                     const suspended = await isUserSuspended(user.usuarioid);
                     setIsSuspended(suspended);
-                    console.log('[DEBUG] User suspended:', suspended);
                 } catch (error) {
-                    console.error('Error checking suspension status:', error);
+                    // Error checking suspension status
                 }
             };
 
@@ -78,14 +74,6 @@ const LimitMonitor: React.FC = () => {
             !tiempodesesionMensual ||
             !limits
         ) {
-            console.log('[DEBUG] Skipping limit check:', {
-                user: user?.usuarioid,
-                isSuspended,
-                tiempodesesionDiario,
-                tiempodesesionSemanal,
-                tiempodesesionMensual,
-                limits
-            });
             return;
         }
 
@@ -96,25 +84,13 @@ const LimitMonitor: React.FC = () => {
             const weeklyMinutes = tiempodesesionSemanal.totalDurationMinutes;
             const monthlyMinutes = tiempodesesionMensual.totalDurationMinutes;
 
-            console.log('[DEBUG] Checking limits:', {
-                limiteDiario,
-                dailyMinutes,
-                limiteSemanal,
-                weeklyMinutes,
-                limiteMensual,
-                monthlyMinutes
-            });
-
             if (limiteDiario > 0 && dailyMinutes >= limiteDiario) {
-                console.log('[DEBUG] Daily limit exceeded, suspending user...');
                 await suspendUser('daily');
                 return;
             } else if (limiteSemanal > 0 && weeklyMinutes >= limiteSemanal) {
-                console.log('[DEBUG] Weekly limit exceeded, suspending user...');
                 await suspendUser('weekly');
                 return;
             } else if (limiteMensual > 0 && monthlyMinutes >= limiteMensual) {
-                console.log('[DEBUG] Monthly limit exceeded, suspending user...');
                 await suspendUser('monthly');
                 return;
             }
@@ -124,7 +100,6 @@ const LimitMonitor: React.FC = () => {
                 const warningThreshold = limiteDiario * 0.1;
 
                 if (dailyRemaining > 0 && dailyRemaining <= warningThreshold) {
-                    console.log('[DEBUG] Daily warning threshold reached:', dailyRemaining);
                     setWarningMessage(`¡Atención! Te quedan ${dailyRemaining} minutos de tu límite diario de juego.`);
                     setWarningType('warning');
                     return;
@@ -136,7 +111,6 @@ const LimitMonitor: React.FC = () => {
                 const warningThreshold = limiteSemanal * 0.1;
 
                 if (weeklyRemaining > 0 && weeklyRemaining <= warningThreshold) {
-                    console.log('[DEBUG] Weekly warning threshold reached:', weeklyRemaining);
                     setWarningMessage(`¡Atención! Te quedan ${weeklyRemaining} minutos de tu límite semanal de juego.`);
                     setWarningType('warning');
                     return;
@@ -148,7 +122,6 @@ const LimitMonitor: React.FC = () => {
                 const warningThreshold = limiteMensual * 0.1;
 
                 if (monthlyRemaining > 0 && monthlyRemaining <= warningThreshold) {
-                    console.log('[DEBUG] Monthly warning threshold reached:', monthlyRemaining);
                     setWarningMessage(`¡Atención! Te quedan ${monthlyRemaining} minutos de tu límite mensual de juego.`);
                     setWarningType('warning');
                     return;
@@ -180,27 +153,21 @@ const LimitMonitor: React.FC = () => {
 
         switch (limitType) {
             case 'daily':
-                endDate.setDate(today.getDate() + 1);
-                endDate.setHours(0, 0, 0, 0);
+                endDate.setUTCDate(today.getUTCDate() + 1);
+                endDate.setUTCHours(3, 0, 0, 0); // UTC-3: 00:00
                 break;
             case 'weekly':
-                endDate.setDate(today.getDate() + (7 - today.getDay() + 1));
-                endDate.setHours(0, 0, 0, 0);
+                endDate.setUTCDate(today.getUTCDate() + (7 - today.getUTCDay() + 1));
+                endDate.setUTCHours(3, 0, 0, 0); // UTC-3: 00:00
                 break;
             case 'monthly':
-                endDate.setMonth(today.getMonth() + 1);
-                endDate.setDate(1);
-                endDate.setHours(0, 0, 0, 0);
+                endDate.setUTCMonth(today.getUTCMonth() + 1);
+                endDate.setUTCDate(1);
+                endDate.setUTCHours(3, 0, 0, 0); // UTC-3: 00:00
                 break;
         }
 
         try {
-            console.log('[DEBUG] Creating suspension:', {
-                usuarioid: user.usuarioid,
-                fechafin: endDate,
-                razon: `Límite de tiempo ${limitType} excedido`
-            });
-
             await createSuspension({
                 usuarioid: user.usuarioid,
                 fechafin: endDate,
@@ -211,10 +178,9 @@ const LimitMonitor: React.FC = () => {
             setWarningMessage(`Has excedido tu límite de tiempo ${limitType === 'daily' ? 'diario' : limitType === 'weekly' ? 'semanal' : 'mensual'}. Tu cuenta ha sido suspendida hasta ${endDate.toLocaleDateString()}.`);
             setWarningType('error');
 
-            console.log('[DEBUG] Logging out user...');
             logout();
         } catch (error) {
-            console.error('Error creating suspension:', error);
+            // Error creating suspension
         }
     };
 

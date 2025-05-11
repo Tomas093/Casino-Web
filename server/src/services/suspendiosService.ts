@@ -82,7 +82,6 @@ export const suspendidosService = {
         }
     },
 
-    // server/src/services/suspendiosService.ts
     getAllsuspendidosByUserId: async (usuarioid: number) => {
         try {
             return await prisma.suspendidos.findMany({

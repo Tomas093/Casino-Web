@@ -4,23 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add tiempo de juego functionality; implement API, context, and UI for tracking user playtime">
-      <change afterPath="$PROJECT_DIR$/client/src/React/api/suspendidoApi.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/components/LimitMonitor.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/context/SupendidosContext.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/routes/suspendidosRoutes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/services/suspendiosService.ts" afterDir="false" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for session tracking and user suspension management">
+      <change afterPath="$PROJECT_DIR$/client/src/React/components/admin/UserManagementTable.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/tiempodejuegoApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/tiempodesesionApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/LimitContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/LimitContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/TiempoDeJuegoContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/TiempoDeSesionContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/transactionApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/transactionApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/LimitMonitor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/LimitMonitor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/SupendidosContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/SupendidosContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/tiempodejuegoRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/tiempodesesionRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/services/tiempodejuegoService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/tiempodesesionService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/suspendiosService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/suspendiosService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,15 +230,8 @@
       <workItem from="1746893281527" duration="1243000" />
       <workItem from="1746896290788" duration="1162000" />
       <workItem from="1746918163359" duration="8475000" />
-      <workItem from="1746956209671" duration="10735000" />
-    </task>
-    <task id="LOCAL-00014" summary="Add edit functionality for admins; update AuthContext and routes">
-      <option name="closed" value="true" />
-      <created>1744055256062</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1744055256062</updated>
+      <workItem from="1746956209671" duration="10855000" />
+      <workItem from="1746968220663" duration="3152000" />
     </task>
     <task id="LOCAL-00015" summary="Add user management features; implement user fetching and editing functionality">
       <option name="closed" value="true" />
@@ -632,7 +617,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746929127634</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for session tracking and user suspension management">
+      <option name="closed" value="true" />
+      <created>1746967600352</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1746967600352</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -665,7 +658,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Add friend management features; implement APIs for getting friends, searching users, and deleting friends" />
     <MESSAGE value="Subo Friends Andando" />
     <MESSAGE value="Add friends leaderboard feature; implement API, context, and UI for displaying friends' rankings" />
     <MESSAGE value="Add friends leaderboard feature; update UI components and refactor Home page" />
@@ -690,6 +682,7 @@
     <MESSAGE value="Implement infinite carousel for game selection; enhance navigation and visual elements" />
     <MESSAGE value="Refactor footer components; update paths and enhance game navigation with infinite scroll effect" />
     <MESSAGE value="Add tiempo de juego functionality; implement API, context, and UI for tracking user playtime" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add tiempo de juego functionality; implement API, context, and UI for tracking user playtime" />
+    <MESSAGE value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for session tracking and user suspension management" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for session tracking and user suspension management" />
   </component>
 </project>
