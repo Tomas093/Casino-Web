@@ -157,9 +157,8 @@ const PrivacyPolicy: React.FC = () => {
                 <>
                     <p>12.1 Si tiene preguntas, preocupaciones o solicitudes relacionadas con esta Política de Privacidad o el tratamiento de sus datos personales, puede contactarnos a través de:</p>
                     <ul className="contact-list">
-                        <li><strong>Correo electrónico:</strong> privacy@royalfortunecasino.com</li>
-                        <li><strong>Teléfono:</strong> +123 456 789</li>
-                        <li><strong>Dirección postal:</strong> Australis Casino, Avenida Principal 123, Ciudad</li>
+                        <li><strong>Teléfono:</strong> +54 91130893524</li>
+                        <li><strong>Dirección postal:</strong> Australis Casino, Avenida Siempreviva 742, Springfield</li>
                     </ul>
                     <p>12.2 Nuestro Delegado de Protección de Datos puede ser contactado en: dpo@royalfortunecasino.com</p>
                 </>

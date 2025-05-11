@@ -49,7 +49,7 @@ const TermsAndConditions: React.FC = () => {
 
             {renderAccordionSection('1. Disposiciones Generales', 'general', (
                 <>
-                    <p>1.1 Estos Términos y Condiciones constituyen un acuerdo legal vinculante entre usted (el "Usuario") y Australis Casino (la "Compañía", "nosotros" o "nuestro").</p>
+                    <p>1.1 Estos Términos y Condiciones constituyen un acuerdo legal vinculante entre usted y AustralisCasino.SA</p>
                     <p>1.2 Al registrarse en nuestra plataforma y/o utilizar cualquiera de nuestros servicios, usted confirma que ha leído, entendido y aceptado estos Términos y Condiciones en su totalidad.</p>
                     <p>1.3 Australis Casino se reserva el derecho de modificar estos Términos y Condiciones en cualquier momento. Las modificaciones entrarán en vigor inmediatamente después de su publicación en el sitio web.</p>
                     <p>1.4 Es responsabilidad del Usuario revisar periódicamente los Términos y Condiciones para mantenerse informado sobre posibles cambios.</p>
@@ -107,7 +107,7 @@ const TermsAndConditions: React.FC = () => {
             {renderAccordionSection('7. Propiedad Intelectual', 'intellectual', (
                 <>
                     <p>7.1 Todo el contenido disponible en Australis Casino, incluyendo pero no limitado a logotipos, marcas comerciales, software, juegos, gráficos y texto, está protegido por derechos de propiedad intelectual.</p>
-                    {/*<p>7.2 El Usuario no puede copiar, modificar, distribuir o reproducir ningún contenido del sitio sin el permiso expreso de Australis Casino o del propietario correspondiente.</p>*/}
+                    <p>7.2 El Usuario no puede copiar, modificar, distribuir o reproducir ningún contenido del sitio sin el permiso expreso de Australis Casino o del propietario correspondiente.</p>
                 </>
             ))}
 
@@ -129,7 +129,7 @@ const TermsAndConditions: React.FC = () => {
 
             {renderAccordionSection('10. Ley Aplicable', 'law', (
                 <>
-                    <p>10.1 Estos Términos y Condiciones se rigen por las leyes de [Jurisdicción].</p>
+                    <p>10.1 Estos Términos y Condiciones se rigen por las leyes de las Islas Caiman.</p>
                     <p>10.2 Cualquier disputa derivada de estos Términos y Condiciones será sometida a la jurisdicción exclusiva de los tribunales de San Marino.</p>
                 </>
             ))}

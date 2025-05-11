@@ -4,10 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Implement FAQ functionality; add API, context, and UI for managing FAQs">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add auto spin functionality and enhance game controls; improve visual feedback for winning lines">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/HomeStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/HomeStyle.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/roulette/RouletteGame.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/roulette/RouletteGame.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/footer/AboutUs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/AboutUs.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/footer/Legal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/Legal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/footer/PrivacyPolicy.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/PrivacyPolicy.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/footer/Terminos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/Terminos.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/Slots.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/Slots.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/WinDisplay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/WinDisplay.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,15 +46,28 @@
     <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Tomas093&quot;
-  }
+  &quot;history&quot;: [
+    {
+      &quot;state&quot;: &quot;OPEN&quot;
+    }
+  ],
+  &quot;lastFilter&quot;: {}
+}</component>
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOOGzOas6VJaX7&quot;,
+        &quot;number&quot;: 35
+      },
+      &quot;lastSeen&quot;: 1746553555926
+    }
+  ]
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Tomas093/Casino-Web.git&quot;,
-    &quot;accountId&quot;: &quot;96b38a8a-c17f-4a0e-9f99-e5bdad680b60&quot;
+    &quot;accountId&quot;: &quot;aeb8d57a-9bda-4d87-a562-02ae3e64d914&quot;
   },
   &quot;recentNewPullRequestHead&quot;: {
     &quot;server&quot;: {
@@ -67,7 +87,7 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2vGcaxnqELLcxdc86qh2iWUSxuW" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -76,10 +96,11 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Node.js.leaderboardApi.ts.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Eliseo&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Tomas&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/Casino-Web&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
@@ -89,7 +110,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Eliseos\\Faculty\\Tercer Año\\LaboratorioDefV5\\node_modules\\typescript\\lib&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -100,11 +121,11 @@
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\casinoweb\client\src\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Eliseos\Faculty\Tercer Año\LaboratorioDefV5\client\src\React\components" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\Css" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\Transaction" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games\slots\components" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games\roulette" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games\background" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client/src/React/pages/games/minesweeper" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games\minesweeper" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -115,7 +136,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-WS-243.26053.12" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-WS-251.25410.117" />
       </set>
     </attachedChunks>
   </component>
@@ -193,97 +214,23 @@
       <workItem from="1746534468794" duration="2079000" />
       <workItem from="1746536608681" duration="89000" />
       <workItem from="1746536716663" duration="4794000" />
-      <workItem from="1746743393576" duration="3052000" />
-      <workItem from="1746800681504" duration="20189000" />
-      <workItem from="1746896991478" duration="3910000" />
-    </task>
-    <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
-      <option name="closed" value="true" />
-      <created>1743777662865</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1743777662865</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Update workspace.xml to reflect changes in file paths and project structure">
-      <option name="closed" value="true" />
-      <created>1743779184285</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1743779184285</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Implement landing page, navigation bar, and footer components; update package dependencies">
-      <option name="closed" value="true" />
-      <created>1743805165935</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1743805165935</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Add promotional images to landing page and refactor promo card rendering">
-      <option name="closed" value="true" />
-      <created>1743812145036</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1743812145036</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Refactor authentication context and add user data fetching; update styles for login and register pages">
-      <option name="closed" value="true" />
-      <created>1743858596379</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1743858596379</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Refactor authentication context to include client data fetching; update Sidebar and HistoryPage components">
-      <option name="closed" value="true" />
-      <created>1743880079634</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1743880079634</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Implement ProtectedRoute component for route protection; update AuthContext and Login handling">
-      <option name="closed" value="true" />
-      <created>1743884787149</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1743884787149</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Implement image upload functionality; add ImageUpload component and update ProfilePage and Sidebar components">
-      <option name="closed" value="true" />
-      <created>1743891744811</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1743891744811</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Refactor AuthContext to improve user and client data handling; update Login and Sidebar components">
-      <option name="closed" value="true" />
-      <created>1743894744159</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1743894744159</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Refactor AuthContext to improve user and client data handling; update Login and Sidebar components">
-      <option name="closed" value="true" />
-      <created>1743905550465</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1743905550465</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Add delete specific account feature and fetch admins functionality">
-      <option name="closed" value="true" />
-      <created>1744048538675</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1744048538675</updated>
+      <workItem from="1746553436297" duration="598000" />
+      <workItem from="1746562669682" duration="26000" />
+      <workItem from="1746708983847" duration="120000" />
+      <workItem from="1746709181688" duration="104000" />
+      <workItem from="1746718072122" duration="45000" />
+      <workItem from="1746718394236" duration="22000" />
+      <workItem from="1746718680664" duration="3000" />
+      <workItem from="1746727834670" duration="1845000" />
+      <workItem from="1746731835292" duration="845000" />
+      <workItem from="1746737976369" duration="320000" />
+      <workItem from="1746807277205" duration="5030000" />
+      <workItem from="1746812446332" duration="2635000" />
+      <workItem from="1746815474151" duration="18262000" />
+      <workItem from="1746880646361" duration="1251000" />
+      <workItem from="1746882983593" duration="4732000" />
+      <workItem from="1746893281527" duration="1243000" />
+      <workItem from="1746896290788" duration="1162000" />
     </task>
     <task id="LOCAL-00012" summary="agrego columna emial a manager">
       <option name="closed" value="true" />
@@ -589,7 +536,95 @@
       <option name="project" value="LOCAL" />
       <updated>1746541184478</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Refactor game functionality; rename 'funcionando' to 'estado' in game routes and service">
+      <option name="closed" value="true" />
+      <created>1746544262762</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1746544262762</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Subo con merge completo Creo">
+      <option name="closed" value="true" />
+      <created>1746554032444</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1746554032445</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Add Recent Activities component; integrate with admin management and style updates">
+      <option name="closed" value="true" />
+      <created>1746811845178</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1746811845179</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Refactor NavBar component; add admin status check and improve code formatting">
+      <option name="closed" value="true" />
+      <created>1746812295177</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1746812295177</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Refactor NavBar component; add admin status check and improve code formatting">
+      <option name="closed" value="true" />
+      <created>1746812374223</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1746812374223</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Refactor ticket management components; update status and priority handling, add filters for user roles">
+      <option name="closed" value="true" />
+      <created>1746814668634</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1746814668635</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Subo UN MONTON DE ABMS">
+      <option name="closed" value="true" />
+      <created>1746828963411</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1746828963412</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Add coupon validation and transaction handling; integrate coupon benefits in transaction process">
+      <option name="closed" value="true" />
+      <created>1746879210172</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1746879210172</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Refactor leaderboard components; improve data handling and add debug logging">
+      <option name="closed" value="true" />
+      <created>1746887636432</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1746887636432</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Remove debug logging from friends leaderboard data fetching; streamline error handling">
+      <option name="closed" value="true" />
+      <created>1746887692086</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1746887692086</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Add auto spin functionality and enhance game controls; improve visual feedback for winning lines">
+      <option name="closed" value="true" />
+      <created>1746903521645</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1746903521645</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -622,17 +657,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Refactor transaction components; improve structure and update styles for better readability" />
-    <MESSAGE value="Termino Transacciones AMB" />
-    <MESSAGE value="Refactor project structure; rename files and update import paths for improved organization" />
-    <MESSAGE value="A" />
-    <MESSAGE value="Refactor project structure; rename files and update import paths for improved organization and clarity" />
-    <MESSAGE value="Add user count and transaction statistics endpoints; integrate payment methods chart in admin dashboard" />
-    <MESSAGE value="Add game and history APIs; implement context providers for game and history management" />
-    <MESSAGE value="Merge pull request #30 from Tomas093/main&#10;&#10;Yo" />
-    <MESSAGE value="Refactor LandingPage and styles; update game card components and footer links" />
-    <MESSAGE value="Refactor imports for consistency; update component structure and styles across multiple files y agrego que se actualice al toque (Era problema del Local Storage)" />
-    <MESSAGE value="Add authentication middleware; implement user and admin verification with JWT" />
     <MESSAGE value="Refactor leaderboard API and service; update endpoints for game winners, highest bets, returns, and accumulated winnings" />
     <MESSAGE value="Add friend request feature; implement API, context, and UI for managing friend requests" />
     <MESSAGE value="Add friend management features; implement APIs for getting friends, searching users, and deleting friends" />
@@ -647,6 +671,17 @@
     <MESSAGE value="Implement chat feature; add message API, context, and UI for ticket messaging" />
     <MESSAGE value="Enhance support ticket functionality; implement automatic priority assignment and user data initialization" />
     <MESSAGE value="Implement FAQ functionality; add API, context, and UI for managing FAQs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement FAQ functionality; add API, context, and UI for managing FAQs" />
+    <MESSAGE value="Refactor game functionality; rename 'funcionando' to 'estado' in game routes and service" />
+    <MESSAGE value="Subo con merge completo Creo" />
+    <MESSAGE value="Add Recent Activities component; integrate with admin management and style updates" />
+    <MESSAGE value="Refactor NavBar component; add admin status check and improve code formatting" />
+    <MESSAGE value="Refactor ticket management components; update status and priority handling, add filters for user roles" />
+    <MESSAGE value="Subo UN MONTON DE ABMS" />
+    <MESSAGE value="Add coupon validation and transaction handling; integrate coupon benefits in transaction process" />
+    <MESSAGE value="Refactor leaderboard components; improve data handling and add debug logging" />
+    <MESSAGE value="Remove debug logging from friends leaderboard data fetching; streamline error handling" />
+    <MESSAGE value="Add auto spin functionality and enhance game controls; improve visual feedback for winning lines" />
+    <MESSAGE value="Implement infinite carousel for game selection; enhance navigation and visual elements" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement infinite carousel for game selection; enhance navigation and visual elements" />
   </component>
 </project>

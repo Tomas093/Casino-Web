@@ -23,11 +23,12 @@ import FriendsPage from "../pages/profile/FriendsPage.tsx";
 import TicketsView from "../pages/tickets/TicketsView.tsx";
 import Ticket from '../pages/tickets/Ticket.tsx';
 import SupportPage from "../pages/support/SupportPage.tsx";
-import PrivacyPolicy from "../pages/footer/PrivacyPolicy.tsx"
-import Terminos from "../pages/footer/Terminos.tsx"
-import AboutUs from "../pages/footer/AboutUs.tsx"
-import Legal from "../pages/footer/Legal.tsx"
-import MinesSweeprEnchanced from "../pages/games/minesweeper/MineSweeperEnchanced.tsx"
+import Slots from '../pages/games/slots/Slots.tsx';
+import Terminos from '../pages/legal/Terminos.tsx';
+import PrivacyPolicy from "../pages/legal/PrivacyPolicy.tsx";
+import AboutUs from "../pages/legal/AboutUs.tsx";
+import Legal from "../pages/legal/Legal.tsx";
+
 function App() {
     return (
         <BrowserRouter>
@@ -37,9 +38,9 @@ function App() {
                     <Route path="/" element={<LandingPage/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Register/>}/>
-                    <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
                     <Route path="/terms" element={<Terminos/>}/>
-                    <Route path="/aboutUs" element={<AboutUs/>}/>
+                    <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
+                    <Route path="/aboutus" element={<AboutUs/>}/>
                     <Route path="/legal" element={<Legal/>}/>
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
@@ -51,7 +52,6 @@ function App() {
                         <Route path="/Transaccion" element={<Transaccion/>}/>
                         <Route path="/home" element={<Home/>}/>
                         <Route path="/roulette" element={<RouletteGame/>}/>
-                        <Route path="/mines" element={<MinesSweeprEnchanced/>}/>
                         <Route path="/mines" element={<MineSweeper/>}/>
                         <Route path="/limit" element={<Limit/>}/>
                         <Route path="/monLimitTicket" element={<MonLimitTicketPage/>}/>
@@ -59,11 +59,12 @@ function App() {
                         <Route path="/pausa" element={<div>NO IMPLEMENTADO NADA</div>}/>
                         <Route path="/ticket/:ticketId" element={<Ticket/>}/>
                         <Route path="/support" element={<SupportPage/>}/>
-                        <Route path="/tickets" element={<TicketsView/>}/>
+                        <Route path="/slots" element={<Slots/>}/>
                     </Route>
 
                     {/* rutas Solo para admins */}
                     <Route element={<AdminRoutes/>}>
+                        <Route path="/tickets" element={<TicketsView/>}/>
                     </Route>
 
                     {/* Rutas protegidas Solo (Superadmin) */}
