@@ -1,19 +1,37 @@
-/* Add this file at client/src/React/pages/games/slots/css/SlotsStyle.css */
+/* Estilo general para la página de juego de slots */
 
 .slot-game {
-    background-color: #121a2b;
+    background: linear-gradient(135deg, #0c0c0c, #111c12);
     min-height: 100vh;
-    padding: 20px;
-    color: white;
+    padding: 30px;
+    color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: 'Playfair Display', 'Times New Roman', serif;
 }
 
 .slot-game h1 {
-    color: #ffd700;
+    color: #d4af37;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 32px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.slot-game h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(to right, transparent, #d4af37, transparent);
 }
 
 /* Fix for the z-index issue with paylines-overlay */
@@ -33,25 +51,30 @@
 }
 
 .payline-path {
-    stroke: #ffd700;
+    stroke: #d4af37;
     stroke-width: 5px;
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
-    filter: drop-shadow(0 0 8px #ffaa00);
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.8));
     animation: glow 1.5s infinite alternate;
 }
 
 /* Enhanced win display */
 .win-display {
-    margin: 20px 0;
-    padding: 15px;
+    margin: 25px 0;
+    padding: 20px;
     text-align: center;
-    border-radius: 8px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #0a230f, #0e3512);
+    border: 2px solid #d4af37;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    font-size: 18px;
+    color: #fff;
 }
 
 .win-display.win-animation {
-    animation: pulse 1.2s infinite;
+    animation: winPulse 1.2s infinite;
 }
 
 /* Animation for the winning lines */
@@ -66,17 +89,17 @@
     }
 }
 
-@keyframes pulse {
+@keyframes winPulse {
     0% {
         transform: scale(1);
-        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
     }
     50% {
         transform: scale(1.05);
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 0 0 40px rgba(212, 175, 55, 0.4);
     }
     100% {
         transform: scale(1);
-        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
     }
 }
