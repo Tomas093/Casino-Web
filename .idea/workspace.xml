@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for session tracking and user suspension management" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for user suspension management and add user management table component">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/LimitStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LimitStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/LimitPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/LimitPage.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,9 +23,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="CSS File" />
         <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
-        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -76,33 +80,33 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2vGcaxnqELLcxdc86qh2iWUSxuW" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.leaderboardApi.ts.executor": "Run",
-    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Eliseo",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/Casino-Web",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editing.templates",
-    "ts.external.directory.path": "C:\\Users\\Eliseos\\Faculty\\Tercer Año\\LaboratorioDefV5\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.leaderboardApi.ts.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Tomas&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/Casino-Web&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server" />
@@ -222,15 +226,8 @@
       <workItem from="1746896290788" duration="1162000" />
       <workItem from="1746918163359" duration="8475000" />
       <workItem from="1746956209671" duration="10855000" />
-      <workItem from="1746968220663" duration="3152000" />
-    </task>
-    <task id="LOCAL-00015" summary="Add user management features; implement user fetching and editing functionality">
-      <option name="closed" value="true" />
-      <created>1744062543487</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1744062543487</updated>
+      <workItem from="1746968220663" duration="3352000" />
+      <workItem from="1747083027976" duration="1547000" />
     </task>
     <task id="LOCAL-00016" summary="Add edit functionality for admins; update AuthContext and routes">
       <option name="closed" value="true" />
@@ -616,7 +613,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746967600352</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for user suspension management and add user management table component">
+      <option name="closed" value="true" />
+      <created>1746971603802</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1746971603803</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -649,7 +654,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Subo Friends Andando" />
     <MESSAGE value="Add friends leaderboard feature; implement API, context, and UI for displaying friends' rankings" />
     <MESSAGE value="Add friends leaderboard feature; update UI components and refactor Home page" />
     <MESSAGE value="Add ticket management feature; implement API, context, and UI for ticket handling" />
@@ -674,6 +678,7 @@
     <MESSAGE value="Refactor footer components; update paths and enhance game navigation with infinite scroll effect" />
     <MESSAGE value="Add tiempo de juego functionality; implement API, context, and UI for tracking user playtime" />
     <MESSAGE value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for session tracking and user suspension management" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for session tracking and user suspension management" />
+    <MESSAGE value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for user suspension management and add user management table component" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for user suspension management and add user management table component" />
   </component>
 </project>
