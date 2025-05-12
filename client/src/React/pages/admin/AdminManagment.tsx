@@ -15,6 +15,7 @@ import RecentActivities from "@components/admin/RecentActivities.tsx";
 import CuponsManager from "@components/admin/CuponsManager.tsx";
 import FAQManager from '@/React/components/admin/FAQManager';
 import GameManager from "@components/admin/GameManager.tsx";
+import UserManagementTable from "@components/admin/UserManagementTable.tsx";
 
 
 interface Admin {
@@ -59,8 +60,59 @@ const AdminManager: React.FC = () => {
     const [totalGanancia, setTotalGanancia] = useState<string>("$0");
     const [totalIngreso, setTotalIngreso] = useState<string>("$0");
     const [totalEgreso, setTotalEgreso] = useState<string>("$0");
+    const [currentUserPage, setCurrentUserPage] = useState(1);
+    const usersPerPage = 5;
+    const totalUserPages = Math.ceil(realUsers.length / usersPerPage);
 
 
+    const getCurrentPageUsers = () => {
+        const startIndex = (currentUserPage - 1) * usersPerPage;
+        const endIndex = startIndex + usersPerPage;
+        return realUsers.slice(startIndex, endIndex);
+    };
+
+    const renderUserPaginationControls = () => {
+        const pageButtons = [];
+        const maxButtonsToShow = 3;
+        let startPage = Math.max(1, currentUserPage - Math.floor(maxButtonsToShow / 2));
+        let endPage = Math.min(totalUserPages, startPage + maxButtonsToShow - 1);
+
+        if (endPage - startPage + 1 < maxButtonsToShow) {
+            startPage = Math.max(1, endPage - maxButtonsToShow + 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            pageButtons.push(
+                <button
+                    key={i}
+                    className={`pagination-btn ${currentUserPage === i ? 'active' : ''}`}
+                    onClick={() => setCurrentUserPage(i)}
+                >
+                    {i}
+                </button>
+            );
+        }
+
+        return (
+            <div className="pagination-controls">
+                <button
+                    className="pagination-btn"
+                    onClick={() => setCurrentUserPage(currentUserPage - 1)}
+                    disabled={currentUserPage === 1}
+                >
+                    <span className="material-icons-round">chevron_left</span>
+                </button>
+                {pageButtons}
+                <button
+                    className="pagination-btn"
+                    onClick={() => setCurrentUserPage(currentUserPage + 1)}
+                    disabled={currentUserPage === totalUserPages}
+                >
+                    <span className="material-icons-round">chevron_right</span>
+                </button>
+            </div>
+        );
+    };
 
 
     useEffect(() => {
@@ -408,7 +460,8 @@ const AdminManager: React.FC = () => {
                         <button className="sidebar-nav-item" onClick={() => setActiveTab('faq')}>
                             <span className="sidebar-nav-icon">help_outline</span>FAQ
                         </button>
-                        <button onClick={() => setActiveTab('Creador')} className={`sidebar-nav-item ${activeTab === 'Creador' ? 'active' : ''}`}
+                        <button onClick={() => setActiveTab('Creador')}
+                                className={`sidebar-nav-item ${activeTab === 'Creador' ? 'active' : ''}`}
                         >
                             <span className="sidebar-nav-icon">local_offer</span> Cupones
                         </button>
@@ -682,179 +735,29 @@ const AdminManager: React.FC = () => {
                         </div>
                     )}
 
-                    {/* User Management View */}
                     {activeTab === 'users' && (
-                        <div className="users-section">
-                            <div className="section-header">
-                                <h2 className="section-title">Gestión de Usuarios</h2>
-                            </div>
-
-                            <div className="users-table-container">
-                                <table className="users-table">
-                                    <thead>
-                                    <tr>
-                                        <th>Usuario</th>
-                                        <th>Email</th>
-                                        <th>Edad</th>
-                                        <th>DNI</th>
-                                        <th>Balance</th>
-                                        <th>Influencer</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {realUsers.map(user => (
-                                        <tr key={user.usuarioid} className="user-row">
-                                            <td>
-                                                <div className="user-info">
-                                                    <div className="user-avatar">
-                                                        {user.img ? (
-                                                            <img
-                                                                src={`${serverBaseUrl}${user.img}?t=${Date.now()}`}
-                                                                alt={`${user.usuarioid}`}
-                                                                onError={(e) => {
-                                                                    (e.target as HTMLImageElement).src = defaultImage;
-                                                                }}
-                                                                className="user-avatar-img"
-                                                            />
-                                                        ) : (
-                                                            <span>person</span>
-                                                        )}
-                                                    </div>
-                                                    <div className="user-details">
-                                                        <div className="username">{user.nombre} {user.apellido}</div>
-                                                        <div className="user-id">ID: {user.usuarioid}</div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                {editingUserId === user.usuarioid ? (
-                                                    <input
-                                                        value={editUserForm.email}
-                                                        onChange={(e) => setEditUserForm({
-                                                            ...editUserForm,
-                                                            email: e.target.value
-                                                        })}
-                                                        className="edit-input"
-                                                    />
-                                                ) : (
-                                                    user.email
-                                                )}
-                                            </td>
-                                            <td>
-                                                {editingUserId === user.usuarioid ? (
-                                                    <input
-                                                        value={editUserForm.edad}
-                                                        onChange={(e) => setEditUserForm({
-                                                            ...editUserForm,
-                                                            edad: e.target.value
-                                                        })}
-                                                        className="edit-input"
-                                                    />
-                                                ) : (
-                                                    user.edad
-                                                )}
-                                            </td>
-                                            <td>
-                                                {editingUserId === user.usuarioid ? (
-                                                    <input
-                                                        value={editUserForm.dni}
-                                                        onChange={(e) => setEditUserForm({
-                                                            ...editUserForm,
-                                                            dni: e.target.value
-                                                        })}
-                                                        className="edit-input"
-                                                    />
-                                                ) : (
-                                                    user.dni
-                                                )}
-                                            </td>
-                                            <td className="balance">
-                                                {editingUserId === user.usuarioid ? (
-                                                    <input
-                                                        type="number"
-                                                        value={editUserForm.balance}
-                                                        onChange={(e) => setEditUserForm({
-                                                            ...editUserForm,
-                                                            balance: e.target.value
-                                                        })}
-                                                        className="edit-input"
-                                                    />
-                                                ) : (
-                                                    `$${user.cliente?.balance || 0}`
-                                                )}
-                                            </td>
-                                            <td>
-                                                {editingUserId === user.usuarioid ? (
-                                                    <select
-                                                        value={editUserForm.influencer.toString()}
-                                                        onChange={(e) => setEditUserForm({
-                                                            ...editUserForm,
-                                                            influencer: e.target.value === 'true'  // Conversión a boolean
-                                                        })}
-                                                    >
-                                                        <option value="false">No</option>
-                                                        <option value="true">Sí</option>
-                                                    </select>
-                                                ) : (
-                                                    <span
-                                                        className={`status-badge ${user.cliente?.influencer ? 'active' : 'inactive'}`}>
-                                            {user.cliente?.influencer ? 'Sí' : 'No'}
-                                        </span>
-                                                )}
-                                            </td>
-                                            <td>
-                                                <div className="action-buttons">
-                                                    {editingUserId === user.usuarioid ? (
-                                                        <>
-                                                            <Button
-                                                                variant="contained"
-                                                                color="success"
-                                                                startIcon={<SaveIcon/>}
-                                                                onClick={() => handleSaveUser(user.usuarioid)}
-                                                                className="save-button-admin"
-                                                            >
-                                                                Guardar
-                                                            </Button>
-                                                            <Button
-                                                                variant="contained"
-                                                                color="secondary"
-                                                                startIcon={<CancelIcon/>}
-                                                                onClick={() => setEditingUserId(null)}
-                                                                className="cancel-button-admin"
-                                                            >
-                                                                Cancelar
-                                                            </Button>
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            <Button
-                                                                variant="contained"
-                                                                color="primary"
-                                                                startIcon={<EditIcon/>}
-                                                                className="edit-button-admin"
-                                                                onClick={() => startEditingUser(user)}
-                                                            >
-                                                                Editar
-                                                            </Button>
-                                                            <IconButton
-                                                                aria-label="Eliminar"
-                                                                color="error"
-                                                                className="delete-button-admin"
-                                                                size="large"
-                                                                onClick={() => handledelteUser(user.usuarioid)}
-                                                            >
-                                                                <DeleteIcon fontSize="inherit" className="icon-large"/>
-                                                            </IconButton>
-                                                        </>
-                                                    )}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div>
+                            <UserManagementTable
+                                realUsers={getCurrentPageUsers()}
+                                editingUserId={editingUserId}
+                                editUserForm={editUserForm}
+                                setEditUserForm={setEditUserForm}
+                                handleSaveUser={handleSaveUser}
+                                setEditingUserId={setEditingUserId}
+                                startEditingUser={startEditingUser}
+                                handledelteUser={handledelteUser}
+                                serverBaseUrl={serverBaseUrl}
+                                defaultImage={defaultImage}
+                            />
+                            {realUsers.length > 0 && (
+                                <div className="pagination">
+                                    <div className="pagination-info">
+                                        Showing {getCurrentPageUsers().length} of {realUsers.length} users
+                                        (Page {currentUserPage} of {totalUserPages})
+                                    </div>
+                                    {renderUserPaginationControls()}
+                                </div>
+                            )}
                         </div>
                     )}
 

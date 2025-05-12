@@ -28,11 +28,14 @@ import Terminos from '../pages/legal/Terminos.tsx';
 import PrivacyPolicy from "../pages/legal/PrivacyPolicy.tsx";
 import AboutUs from "../pages/legal/AboutUs.tsx";
 import Legal from "../pages/legal/Legal.tsx";
+import LimitMonitor from "@components/LimitMonitor.tsx";
 
 function App() {
     return (
         <BrowserRouter>
             <AppProvider>
+                <LimitMonitor />
+
                 <Routes>
                     {/* Rutas públicas */}
                     <Route path="/" element={<LandingPage/>}/>
@@ -75,7 +78,6 @@ function App() {
 
                     {/* Cualquier otra ruta (Equivocada) */}
                     <Route path="*" element={<NotFound/>}/>
-
                 </Routes>
             </AppProvider>
         </BrowserRouter>
