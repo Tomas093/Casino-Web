@@ -167,7 +167,9 @@ function Slots() {
             await new Promise(resolve => setTimeout(resolve, 1500));
 
             // Generar nuevo tablero y calcular resultados
-            const newBoard = generateRandomBoard();
+            // Pasamos el objeto client para que la función de generación
+            // pueda determinar si el usuario es influencer
+            const newBoard = generateRandomBoard(client);
             const results = checkWinningLines(newBoard, PAYLINES, gameState.bet);
 
             // Registrar la jugada
@@ -244,7 +246,7 @@ function Slots() {
     return (
         <GameBackground
             currentGame="Slots"
-            userName={user?.nombre || "Usuario"}
+            userName="Usuario"
             onDeposit={() => navigate('/Transaccion')}
             onExit={() => navigate('/home')}
             onNavigate={(destination) => navigate(`/${destination}`)}
@@ -256,7 +258,6 @@ function Slots() {
             />
 
             <div className="slot-game">
-                <h1>Australis Casino - Slot Machine</h1>
 
                 <SlotMachine
                     board={gameState.board}

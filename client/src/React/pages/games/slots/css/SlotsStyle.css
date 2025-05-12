@@ -1,7 +1,7 @@
 /* Estilo general para la página de juego de slots */
 
 .slot-game {
-    background: linear-gradient(135deg, #0c0c0c, #111c12);
+    background: linear-gradient(135deg, #0a0a0a, #0f180f);
     min-height: 100vh;
     padding: 30px;
     color: #fff;
@@ -11,7 +11,8 @@
     font-family: 'Playfair Display', 'Times New Roman', serif;
 }
 
-.slot-game h1 {
+/* Eliminamos el título principal a petición del usuario */
+/* .slot-game h1 {
     color: #d4af37;
     text-align: center;
     margin-bottom: 30px;
@@ -21,17 +22,11 @@
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     position: relative;
     padding-bottom: 15px;
-}
+} */
 
-.slot-game h1::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 3px;
-    background: linear-gradient(to right, transparent, #d4af37, transparent);
+/* Control adicional - Espacio superior cuando no hay título */
+.slot-machine {
+    margin-top: 40px;
 }
 
 /* Fix for the z-index issue with paylines-overlay */
@@ -71,6 +66,7 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     font-size: 18px;
     color: #fff;
+    min-width: 300px;
 }
 
 .win-display.win-animation {
@@ -102,4 +98,78 @@
         transform: scale(1);
         box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
     }
+}
+
+/* Contenedor de controles en horizontal */
+.game-controls-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Estilo para los selectores de apuesta y tema */
+.control-group {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    background: rgba(0, 15, 5, 0.5);
+    border: 1px solid #d4af37;
+    border-radius: 8px;
+    padding: 10px 15px;
+    min-width: 200px;
+}
+
+.control-group label {
+    margin-right: 10px;
+    font-weight: bold;
+    color: #d4af37;
+    white-space: nowrap;
+}
+
+.control-group select {
+    flex-grow: 1;
+    background: #0a1a0c;
+    border: 1px solid #d4af37;
+    color: #fff;
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+}
+
+.control-group select:focus {
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.4);
+}
+
+/* Credits display */
+.credits-display {
+    background: linear-gradient(to right, #0a1a0c, #0d2a10);
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    padding: 15px 25px;
+    margin: 15px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #d4af37;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    min-width: 200px;
+}
+
+/* Fondo decorativo */
+.luxury-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 60%);
+    z-index: -1;
+    pointer-events: none;
 }

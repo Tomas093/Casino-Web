@@ -5,7 +5,7 @@
     border-radius: 10px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
     color: #fff;
-    max-width: 500px;
+    max-width: 600px; /* Ampliado */
     margin: 20px auto;
     border: 2px solid #d4af37;
 }
@@ -101,7 +101,7 @@
 
 .vis-row {
     display: flex;
-    height: 60px;
+    height: 75px; /* Ampliado */
 }
 
 .vis-cell {
@@ -112,6 +112,8 @@
     border: 1px solid #1a3a1a;
     background-color: #0e2a0e;
     transition: all 0.3s;
+    width: 75px; /* Ampliado */
+    height: 75px; /* Ampliado */
 }
 
 .vis-cell.highlighted {
@@ -121,8 +123,8 @@
 }
 
 .path-marker {
-    width: 25px;
-    height: 25px;
+    width: 30px; /* Ampliado */
+    height: 30px; /* Ampliado */
     border-radius: 50%;
     background-color: #d4af37;
     color: #000;
@@ -131,6 +133,7 @@
     justify-content: center;
     font-weight: bold;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    font-size: 16px; /* Ampliado */
 }
 
 .payline-info {

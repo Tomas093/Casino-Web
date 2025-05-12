@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '@css/GameBackgroundStyle.css';
 import { useUser } from "@context/UserContext.tsx";
 import { useAuth } from '@context/AuthContext';
+import { Link } from 'react-router-dom';
+import { useAdmin } from "@context/AdminContext.tsx";
 
 // Define los tipos para los juegos de navegación
 interface GameLink {
@@ -58,10 +60,9 @@ const GameBackground: React.FC<GameBackgroundProps> = ({
 
                                                            // Valores por defecto para las nuevas props
                                                            gameLinks = [
-                                                               { label: "Blackjack", id: "blackjack", icon: "gb-icon-cards" },
                                                                { label: "Ruleta", id: "roulette", icon: "gb-icon-roulette" },
                                                                { label: "Slots", id: "slots", icon: "gb-icon-slots" },
-                                                               { label: "Poker", id: "poker", icon: "gb-icon-poker" }
+                                                               { label: "Mines", id: "mines", icon: "gb-icon-poker" }
                                                            ],
                                                            footerLinks = [
                                                                { label: "Contacto", href: "/legal" },
@@ -73,8 +74,6 @@ const GameBackground: React.FC<GameBackgroundProps> = ({
                                                            showProfile = true,
                                                            showSidebar = true,
                                                            initialSidebarState = 'expanded',
-                                                           showLogo = true,
-                                                           logoText = "LE",
                                                            casinoName = "Australis Casino",
                                                            depositButtonLabel = "Depositar",
                                                            exitButtonLabel = "Salir",
@@ -85,10 +84,15 @@ const GameBackground: React.FC<GameBackgroundProps> = ({
                                                            className = '',
                                                        }) => {
     const [sidebarCollapsed, setSidebarCollapsed] = useState(initialSidebarState === 'collapsed');
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const { client } = useUser();
+    const { isSuperAdmin, isAdmin } = useAdmin();
     const [clientBalance, setClientBalance] = useState(0);
     const [displayName, setDisplayName] = useState(userName || "Usuario");
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [superAdminStatus, setSuperAdminStatus] = useState(false);
+    const [adminStatus, setAdminStatus] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     // Actualiza el balance cuando cambia el cliente (igual que en NavBar)
     useEffect(() => {
@@ -102,12 +106,55 @@ const GameBackground: React.FC<GameBackgroundProps> = ({
         if (user && !userName) {
             setDisplayName(user.nombre);
         } else if (userName) {
-            setDisplayName(userName);
+            setDisplayName(user.nombre);
         }
     }, [user, userName]);
 
+    // Verifica el estado de admin/superadmin
+    useEffect(() => {
+        const checkAdminStatus = async () => {
+            if (user) {
+                const superadminStatus = await isSuperAdmin();
+                const adminStatus = await isAdmin();
+                setSuperAdminStatus(superadminStatus);
+                setAdminStatus(adminStatus);
+            } else {
+                setSuperAdminStatus(false);
+                setAdminStatus(false);
+            }
+        };
+        checkAdminStatus();
+    }, [user, isSuperAdmin, isAdmin]);
+
+    // Cerrar dropdown al hacer clic fuera de él
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     const toggleSidebar = () => {
         setSidebarCollapsed(!sidebarCollapsed);
+    };
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+    };
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+            setDropdownOpen(false);
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error);
+        }
     };
 
     // Generar la clase basada en la variante
@@ -121,16 +168,9 @@ const GameBackground: React.FC<GameBackgroundProps> = ({
             </div>
 
             <header className="gb-top-bar">
-                {showLogo && (
-                    <div className="gb-logo">
-                        <span>{logoText}</span>
-                    </div>
-                )}
                 <h1 className="gb-game-title">{currentGame}</h1>
                 <div className="gb-controls">
-                    <button className="gb-control-button" onClick={onSettings} aria-label="Configuración">
-                        <i className="gb-icon-settings"></i>
-                    </button>
+
                     <button className="gb-control-button gb-exit-button" onClick={onExit} aria-label="Salir del juego">
                         <i className="gb-icon-exit"></i>
                         <span>{exitButtonLabel}</span>
@@ -176,19 +216,51 @@ const GameBackground: React.FC<GameBackgroundProps> = ({
 
                     {!sidebarCollapsed && showProfile && (
                         <div className="gb-profile-info">
-                            <div className="gb-user-info">
+                            <div className="gb-user-dropdown" ref={dropdownRef}>
                                 <div
-                                    className="gb-user-avatar"
-                                    style={
-                                        user && user.img
-                                            ? { backgroundImage: `url(http://localhost:3001${user.img})` }
-                                            : defaultUserAvatar
-                                                ? { backgroundImage: `url(${defaultUserAvatar})` }
-                                                : undefined
-                                    }
-                                ></div>
-                                <span className="gb-user-name">{displayName}</span>
+                                    className="gb-user-info"
+                                    onClick={toggleDropdown}
+                                    aria-expanded={dropdownOpen}
+                                    aria-haspopup="true"
+                                >
+                                    <div
+                                        className="gb-user-avatar"
+                                        style={
+                                            user && user.img
+                                                ? { backgroundImage: `url(http://localhost:3001${user.img})` }
+                                                : defaultUserAvatar
+                                                    ? { backgroundImage: `url(${defaultUserAvatar})` }
+                                                    : undefined
+                                        }
+                                    ></div>
+                                    <span className="gb-user-name">{displayName}</span>
+
+                                    {/* Icono para indicar dropdown */}
+                                    <i className={`gb-dropdown-arrow ${dropdownOpen ? 'gb-dropdown-arrow-up' : 'gb-dropdown-arrow-down'}`}></i>
+                                </div>
+
+                                {dropdownOpen && (
+                                    <div className="gb-dropdown-content gb-dropdown-side">
+                                        <Link to="/profile" className="gb-dropdown-link">
+                                            Mi Perfil
+                                        </Link>
+                                        {(adminStatus || superAdminStatus) && (
+                                            <Link to="/tickets" className="gb-dropdown-link">
+                                                Tickets
+                                            </Link>
+                                        )}
+                                        {superAdminStatus && (
+                                            <Link to="/admin" className="gb-dropdown-link">
+                                                Panel Admin
+                                            </Link>
+                                        )}
+                                        <button onClick={handleLogout} className="gb-logout-btn">
+                                            Cerrar Sesión
+                                        </button>
+                                    </div>
+                                )}
                             </div>
+
                             {showBalance && (
                                 <div className="gb-balance-display">
                                     <span className="gb-balance-label">{balanceLabel}</span>
@@ -204,7 +276,6 @@ const GameBackground: React.FC<GameBackgroundProps> = ({
                             </button>
                         </div>
                     )}
-
                 </div>
             )}
 

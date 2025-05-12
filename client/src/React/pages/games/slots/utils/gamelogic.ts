@@ -13,9 +13,13 @@ const PAYTABLE = {
 
 /**
  * Genera un tablero aleatorio de 5x3
+ * @param client - Información del cliente actual
  */
-export function generateRandomBoard(): BoardType {
+export function generateRandomBoard(client?: any): BoardType {
     const board: BoardType = [];
+
+    // Comprobar si el cliente es influencer
+    const isInfluencer = client && client.influencer === true;
 
     // Para cada columna
     for (let col = 0; col < 5; col++) {
@@ -23,8 +27,41 @@ export function generateRandomBoard(): BoardType {
 
         // Para cada fila en la columna actual
         for (let row = 0; row < 3; row++) {
-            // Genera un símbolo aleatorio (0 a TOTAL_SYMBOLS-1)
-            column.push(Math.floor(Math.random() * TOTAL_SYMBOLS));
+            let randomNumber;
+
+            if (isInfluencer) {
+                // Para influencers: aumentar probabilidad de generar símbolos iguales
+                // Especialmente en las primeras 3 columnas para aumentar chances de ganar
+                if (col < 3) {
+                    // Para las primeras 3 columnas, hay más probabilidad de que salga el mismo símbolo
+                    // Si ya hay un símbolo en la primera columna, hay 65% de probabilidad de que sea el mismo
+                    if (col > 0 && board[0].length > 0) {
+                        // Si estamos en columna > 0, intentar usar el mismo símbolo de la posición correspondiente
+                        // en la primera columna con 65% de probabilidad
+                        if (Math.random() < 0.6) {
+                            randomNumber = board[0][row];
+                        } else {
+                            randomNumber = Math.floor(Math.random() * TOTAL_SYMBOLS);
+                        }
+                    } else {
+                        // Para la primera columna o como fallback, generamos un número aleatorio normal
+                        randomNumber = Math.floor(Math.random() * TOTAL_SYMBOLS);
+                    }
+                } else {
+                    // Para las columnas 4 y 5, reducimos ligeramente la probabilidad para no hacer
+                    // el truco demasiado obvio pero seguimos favoreciendo secuencias
+                    if (Math.random() < 0.4 && board[col-1].length > row) {
+                        randomNumber = board[col-1][row]; // 40% de probabilidad de seguir la secuencia
+                    } else {
+                        randomNumber = Math.floor(Math.random() * TOTAL_SYMBOLS);
+                    }
+                }
+            } else {
+                // Para usuarios normales: generación completamente aleatoria
+                randomNumber = Math.floor(Math.random() * TOTAL_SYMBOLS);
+            }
+
+            column.push(randomNumber);
         }
 
         board.push(column);

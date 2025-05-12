@@ -1,12 +1,12 @@
-import {useEffect, useState} from 'react';
-import {WinningLineType} from '../types';
-
+import { useEffect, useState } from 'react';
+import { WinningLineType } from '../types';
+import "../css/WinDisplayStyle.css"
 type WinDisplayProps = {
     winAmount: number;
     winningLines: WinningLineType[];
 };
 
-const WinDisplay = ({winAmount, winningLines}: WinDisplayProps) => {
+const WinDisplay = ({ winAmount, winningLines }: WinDisplayProps) => {
     const [isAnimating, setIsAnimating] = useState(false);
 
     // Animar cuando hay una ganancia

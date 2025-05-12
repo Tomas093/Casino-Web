@@ -1,0 +1,63 @@
+
+/* Estilos para el componente WinDisplay */
+
+/* Estilos para el componente WinDisplay - Estilo ejecutivo/lujoso */
+
+.win-display {
+    position: fixed;
+    top: -150px; /* Empieza fuera de la pantalla por arriba */
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(145deg, #111111 0%, #1a1a1a 100%);
+    border: 2px solid #d4af37; /* Borde dorado */
+    padding: 18px 35px;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    z-index: 1000;
+    transition: top 0.5s ease-out, opacity 0.5s ease;
+    opacity: 0; /* Inicialmente invisible */
+    width: 300px;
+}
+
+.win-display.win-animation {
+    top: 40px; /* Posición final cuando está visible */
+    opacity: 1; /* Completamente visible */
+    animation: slide-in 0.5s ease-out, gold-pulse 1.5s infinite alternate;
+}
+
+.win-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #d4af37; /* Dorado */
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.win-amount {
+    font-size: 36px;
+    font-weight: 800;
+    color: #00a86b; /* Verde elegante */
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 8px;
+    text-shadow: 0 0 10px rgba(0, 168, 107, 0.3);
+}
+
+.win-lines-count {
+    font-size: 16px;
+    color: #cccccc; /* Gris claro */
+    font-weight: 500;
+}
+
+@keyframes slide-in {
+    0% { top: -150px; opacity: 0; }
+    70% { top: 30px; opacity: 1; }
+    90% { top: 15px; }
+    100% { top: 20px; }
+}
+
+@keyframes gold-pulse {
+    0% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+    100% { box-shadow: 0 0 25px rgba(212, 175, 55, 0.7), 0 0 35px rgba(212, 175, 55, 0.3); }
+}
