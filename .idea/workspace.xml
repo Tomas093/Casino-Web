@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for session tracking and user suspension management">
-      <change afterPath="$PROJECT_DIR$/client/src/React/components/admin/UserManagementTable.tsx" afterDir="false" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for user suspension management and add user management table component">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/transactionApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/transactionApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/LimitMonitor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/LimitMonitor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/SupendidosContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/SupendidosContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/services/suspendiosService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/suspendiosService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/LimitStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LimitStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/LimitPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/LimitPage.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -231,15 +226,8 @@
       <workItem from="1746896290788" duration="1162000" />
       <workItem from="1746918163359" duration="8475000" />
       <workItem from="1746956209671" duration="10855000" />
-      <workItem from="1746968220663" duration="3152000" />
-    </task>
-    <task id="LOCAL-00015" summary="Add user management features; implement user fetching and editing functionality">
-      <option name="closed" value="true" />
-      <created>1744062543487</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1744062543487</updated>
+      <workItem from="1746968220663" duration="3352000" />
+      <workItem from="1747083027976" duration="1547000" />
     </task>
     <task id="LOCAL-00016" summary="Add edit functionality for admins; update AuthContext and routes">
       <option name="closed" value="true" />
@@ -625,7 +613,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746967600352</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for user suspension management and add user management table component">
+      <option name="closed" value="true" />
+      <created>1746971603802</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1746971603803</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -658,7 +654,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Subo Friends Andando" />
     <MESSAGE value="Add friends leaderboard feature; implement API, context, and UI for displaying friends' rankings" />
     <MESSAGE value="Add friends leaderboard feature; update UI components and refactor Home page" />
     <MESSAGE value="Add ticket management feature; implement API, context, and UI for ticket handling" />
@@ -683,6 +678,7 @@
     <MESSAGE value="Refactor footer components; update paths and enhance game navigation with infinite scroll effect" />
     <MESSAGE value="Add tiempo de juego functionality; implement API, context, and UI for tracking user playtime" />
     <MESSAGE value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for session tracking and user suspension management" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for session tracking and user suspension management" />
+    <MESSAGE value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for user suspension management and add user management table component" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for user suspension management and add user management table component" />
   </component>
 </project>
