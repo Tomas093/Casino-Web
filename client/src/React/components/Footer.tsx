@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
                         <li><a href="/slots">Slots</a></li>
                         <li><a href="/ruleta">Ruleta</a></li>
                         <li><a href="/blackjack">Blackjack</a></li>
-                        <li><a href="/poker">Poker</a></li>
+                        <li><a href="/mines">Mines</a></li>
                     </ul>
                 </div>
 

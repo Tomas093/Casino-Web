@@ -4,6 +4,7 @@ import slotImg from '@assets/slots.jpg';
 import ruletaImg from '@assets/ruleta.jpg';
 import blackjackImg from '@assets/blackjack.jpg';
 import dadosImg from '@assets/dados.jpg';
+import minesImg from '@assets/mines.png';
 import AnimatedCounter from "../../animations/AnimatedCounter";
 import Footer from '@components/Footer';
 import NavBar from "@components/NavBar.tsx";
@@ -92,6 +93,7 @@ const HomeDef = () => {
         {id: 2, title: "BlackJack", image: blackjackImg, page: "/blackjack"},
         {id: 3, title: "Slots", image: slotImg, page: "/slots"},
         {id: 4, title: "Dados", image: dadosImg, page: "/dados"},
+        {id: 5, title: "Mines", image: minesImg, page: "/mines"}
     ];
 
     // Create a function to generate the infinite scroll effect

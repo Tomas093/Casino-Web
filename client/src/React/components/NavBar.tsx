@@ -32,7 +32,7 @@ const NavBar: React.FC<NavBarProps> = ({
                                            navLinks = [
                                                {label: "Juegos", href: "#games", isAnchor: true},
                                                {label: "Promociones", href: "#promos", isAnchor: true},
-                                               {label: "Nosotros", href: "#about", isAnchor: true}
+                                               {label: "Nosotros", href: "/aboutUs", isAnchor: true}
                                            ],
                                            logo = "",
                                            logoText = "Australis Casino",

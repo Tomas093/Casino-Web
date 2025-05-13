@@ -29,12 +29,11 @@ const LandingPage: React.FC = () => {
         {id: 1, nombre: "Slots", descripcion: "La emoción de los giros", imagen: "australis-game1"},
         {id: 2, nombre: "Ruleta Premium", descripcion: "La elegancia y el azar se combinan", imagen: "australis-game2"},
         {id: 3, nombre: "Blackjack VIP", descripcion: "Estrategia y suerte al máximo nivel", imagen: "australis-game3"},
-        {
-            id: 4,
-            nombre: "Dado",
-            descripcion: "100 posibilidades, una sola decisión: ¡Lánzalo y deja que el destino hable!",
+        {id: 4, nombre: "Dado", descripcion: "100 posibilidades, una sola decisión: ¡Lánzalo y deja que el destino hable!",
             imagen: "australis-game4"
         },
+        {id: 5, nombre: "Mines", descripcion: "Sabrás elegir el lugar indicado?", imagen: "australis-game5"},
+
     ];
 
     const { user } = useAuth();
@@ -87,7 +86,7 @@ const LandingPage: React.FC = () => {
     const landingNavLinks = [
         {label: "Juegos", href: "#games", isAnchor: true},
         {label: "Promociones", href: "#promos", isAnchor: true},
-        {label: "Nosotros", href: "#about", isAnchor: true}
+        {label: "Nosotros", href: "/aboutUs", isAnchor: true}
     ];
 
     return (
