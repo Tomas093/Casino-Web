@@ -4,20 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in LimitPage">
-      <change afterPath="$PROJECT_DIR$/client/src/Css/ChangeLimitStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/components/ticket/ChangeLimits.tsx" afterDir="false" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/TicketStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/TicketStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/limitApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/limitApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/LimitContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/LimitContext.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/pages/tickets/MonLimitTicketPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/tickets/MonLimitTicketPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/tickets/Ticket.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/tickets/Ticket.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/adminRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/adminRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/limitRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/limitRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/ticketRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/ticketRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/services/limitService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/limitService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,15 +227,8 @@
       <workItem from="1746956209671" duration="10855000" />
       <workItem from="1746968220663" duration="3352000" />
       <workItem from="1747083027976" duration="8095000" />
-      <workItem from="1747093196420" duration="1856000" />
-    </task>
-    <task id="LOCAL-00017" summary="Refactor user profile management; add edit functionality and improve navbar accessibility">
-      <option name="closed" value="true" />
-      <created>1744068798998</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1744068798998</updated>
+      <workItem from="1747093196420" duration="2131000" />
+      <workItem from="1747137805752" duration="1616000" />
     </task>
     <task id="LOCAL-00018" summary="pruebo gh pages">
       <option name="closed" value="true" />
@@ -632,7 +614,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747084876688</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component">
+      <option name="closed" value="true" />
+      <created>1747095196696</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1747095196697</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -665,7 +655,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Add friends leaderboard feature; update UI components and refactor Home page" />
     <MESSAGE value="Add ticket management feature; implement API, context, and UI for ticket handling" />
     <MESSAGE value="Refactor ticket view styles and update filtering functionality; enhance UI components for better usability" />
     <MESSAGE value="Add priority indicators to ticket view; enhance filtering UI with visual cues for priority levels" />
@@ -690,6 +679,7 @@
     <MESSAGE value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for session tracking and user suspension management" />
     <MESSAGE value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for user suspension management and add user management table component" />
     <MESSAGE value="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in LimitPage" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in LimitPage" />
+    <MESSAGE value="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component" />
   </component>
 </project>
