@@ -262,9 +262,9 @@ section {
 .games-carousel {
     display: flex;
     justify-content: center;
-    gap: 25px;
+    gap: 30px;
     flex-wrap: wrap;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
@@ -325,6 +325,11 @@ australis-game-info {
 .australis-game4 {
     background-image: url('@assets/dados.jpg');
 }
+
+.australis-game5 {
+    background-image: url('@assets/mines.png');
+}
+
 
 /* Promo Section */
 .promo-section {

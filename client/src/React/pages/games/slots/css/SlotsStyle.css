@@ -1,19 +1,32 @@
-/* Add this file at client/src/React/pages/games/slots/css/SlotsStyle.css */
+/* Estilo general para la página de juego de slots */
 
 .slot-game {
-    background-color: #121a2b;
+    background: linear-gradient(135deg, #0a0a0a, #0f180f);
     min-height: 100vh;
-    padding: 20px;
-    color: white;
+    padding: 30px;
+    color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: 'Playfair Display', 'Times New Roman', serif;
 }
 
-.slot-game h1 {
-    color: #ffd700;
+/* Eliminamos el título principal a petición del usuario */
+/* .slot-game h1 {
+    color: #d4af37;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 32px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+    padding-bottom: 15px;
+} */
+
+/* Control adicional - Espacio superior cuando no hay título */
+.slot-machine {
+    margin-top: 40px;
 }
 
 /* Fix for the z-index issue with paylines-overlay */
@@ -33,25 +46,31 @@
 }
 
 .payline-path {
-    stroke: #ffd700;
+    stroke: #d4af37;
     stroke-width: 5px;
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
-    filter: drop-shadow(0 0 8px #ffaa00);
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.8));
     animation: glow 1.5s infinite alternate;
 }
 
 /* Enhanced win display */
 .win-display {
-    margin: 20px 0;
-    padding: 15px;
+    margin: 25px 0;
+    padding: 20px;
     text-align: center;
-    border-radius: 8px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #0a230f, #0e3512);
+    border: 2px solid #d4af37;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    font-size: 18px;
+    color: #fff;
+    min-width: 300px;
 }
 
 .win-display.win-animation {
-    animation: pulse 1.2s infinite;
+    animation: winPulse 1.2s infinite;
 }
 
 /* Animation for the winning lines */
@@ -66,17 +85,91 @@
     }
 }
 
-@keyframes pulse {
+@keyframes winPulse {
     0% {
         transform: scale(1);
-        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
     }
     50% {
         transform: scale(1.05);
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 0 0 40px rgba(212, 175, 55, 0.4);
     }
     100% {
         transform: scale(1);
-        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
     }
+}
+
+/* Contenedor de controles en horizontal */
+.game-controls-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Estilo para los selectores de apuesta y tema */
+.control-group {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    background: rgba(0, 15, 5, 0.5);
+    border: 1px solid #d4af37;
+    border-radius: 8px;
+    padding: 10px 15px;
+    min-width: 200px;
+}
+
+.control-group label {
+    margin-right: 10px;
+    font-weight: bold;
+    color: #d4af37;
+    white-space: nowrap;
+}
+
+.control-group select {
+    flex-grow: 1;
+    background: #0a1a0c;
+    border: 1px solid #d4af37;
+    color: #fff;
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+}
+
+.control-group select:focus {
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.4);
+}
+
+/* Credits display */
+.credits-display {
+    background: linear-gradient(to right, #0a1a0c, #0d2a10);
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    padding: 15px 25px;
+    margin: 15px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #d4af37;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    min-width: 200px;
+}
+
+/* Fondo decorativo */
+.luxury-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 60%);
+    z-index: -1;
+    pointer-events: none;
 }

@@ -4,7 +4,7 @@ import Sidebar from '@components/SideBar.tsx';
 import {useHistory} from '@context/HistoryContext';
 import {useAuth} from '@context/AuthContext';
 import '@css/ProfileStyle.css';
-import mineImg from '@assets/mines.jpg';
+import mineImg from '@assets/mines.png';
 import rouletteImg from '@assets/ruleta.jpg';
 
 interface Transaction {
