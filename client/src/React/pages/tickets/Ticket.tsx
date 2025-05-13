@@ -7,6 +7,7 @@ import {useAdmin} from '@context/AdminContext';
 import NavBar from '@components/NavBar';
 import '@css/TicketStyle.css';
 import {useTicket} from "@context/TicketContext.tsx";
+import ChangeLimits from "@components/ticket/ChangeLimits.tsx";
 
 type TicketStatus = 'open' | 'closed';
 type TicketPriority = 'baja' | 'media' | 'alta';
@@ -26,7 +27,8 @@ Id De Cliente: ${ticket.clienteid}
 Categoría: ${ticket.categoria.charAt(0).toUpperCase() + ticket.categoria.slice(1)}
 Prioridad: ${ticket.prioridad.charAt(0).toUpperCase() + ticket.prioridad.slice(1)}
 Creado el: ${fechaCreacion}
-Estado: ${estado}`;
+Estado: ${estado}
+Problema: ${ticket.problema}`;
 };
 
 const Ticket = () => {
@@ -117,16 +119,19 @@ const Ticket = () => {
     const handlePriorityChange = async (newPriority: TicketPriority) => {
         if (!ticket || !ticketId) return;
 
+        // Capitalize the first letter
+        const formattedPriority = newPriority.toLowerCase()
+
         const ticketData = {
-            prioridad: newPriority
+            prioridad: formattedPriority
         };
 
         await editTicket(Number(ticketId), ticketData);
-        setPriority(newPriority);
+        setPriority(formattedPriority as TicketPriority);
 
         setTicket({
             ...ticket,
-            prioridad: newPriority
+            prioridad: formattedPriority
         });
     };
 
@@ -264,6 +269,10 @@ const Ticket = () => {
                                 )}
                             </div>
                         )}
+
+                        {isAdminUser && ticket && ticket.categoria === 'Aumento de limite' && (
+                            <ChangeLimits clienteId={ticket.clienteid} />
+                        )}
                     </div>
 
                     {/* Description */}
@@ -358,7 +367,7 @@ const Ticket = () => {
                                     className="send-button"
                                     onClick={handleSendMessage}
                                 >
-                                    Send Message
+                                    Enviar Mensaje
                                 </button>
                             </div>
                         </div>

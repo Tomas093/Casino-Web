@@ -143,11 +143,30 @@ router.post('/create', async (req: Request, res: Response): Promise<void> => {
         });
 
         // Crear cliente asociado
-        await prisma.cliente.create({
+        const nuevoCliente = await prisma.cliente.create({
             data: {
                 usuarioid: nuevoUsuario.usuarioid,
                 balance: 0,
                 influencer: false,
+            }
+        });
+
+        // Crear límites horario y monetario por defecto
+        await prisma.limitehorario.create({
+            data: {
+                clienteid: nuevoCliente.clienteid,
+                limitediario: 10000000,
+                limitesemanal: 10000000,
+                limitemensual: 100000000,
+            }
+        });
+
+        await prisma.limitemonetario.create({
+            data: {
+                clienteid: nuevoCliente.clienteid,
+                limitediario: 10000000,
+                limitesemanal: 100000000,
+                limitemensual: 100000000,
             }
         });
 

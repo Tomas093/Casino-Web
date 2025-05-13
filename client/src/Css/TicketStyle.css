@@ -177,7 +177,7 @@ body {
 }
 
 .description-text {
-    color: var(--color-light-gray);
+    color: var(--color-white);
     line-height: 1.6;
     margin: 0;
 }
@@ -271,8 +271,7 @@ body {
 
 .message-content {
     color: var(--color-light-gray);
-    margin: 0;
-    margin-left: 44px;
+    margin: 0 0 0 44px;
     line-height: 1.5;
 }
 

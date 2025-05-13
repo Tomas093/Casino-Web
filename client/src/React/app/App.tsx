@@ -63,11 +63,12 @@ function App() {
                         <Route path="/ticket/:ticketId" element={<Ticket/>}/>
                         <Route path="/support" element={<SupportPage/>}/>
                         <Route path="/slots" element={<Slots/>}/>
+                        <Route path="/tickets" element={<TicketsView/>}/>
                     </Route>
 
                     {/* rutas Solo para admins */}
                     <Route element={<AdminRoutes/>}>
-                        <Route path="/tickets" element={<TicketsView/>}/>
+
                     </Route>
 
                     {/* Rutas protegidas Solo (Superadmin) */}
