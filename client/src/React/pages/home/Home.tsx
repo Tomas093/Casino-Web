@@ -254,7 +254,6 @@ const HomeDef = () => {
             <NavBar/>
             <section className="hero-section">
                 <div className="hero-background">
-                    <img alt="Casino Background" className="hero-image"/>
                     <div className="overlay"></div>
                 </div>
                 <div className="hero-content">

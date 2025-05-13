@@ -50,7 +50,7 @@ export function generateRandomBoard(client?: any): BoardType {
                 } else {
                     // Para las columnas 4 y 5, reducimos ligeramente la probabilidad para no hacer
                     // el truco demasiado obvio pero seguimos favoreciendo secuencias
-                    if (Math.random() < 0.4 && board[col-1].length > row) {
+                    if (Math.random() < 0.55 && board[col-1].length > row) {
                         randomNumber = board[col-1][row]; // 40% de probabilidad de seguir la secuencia
                     } else {
                         randomNumber = Math.floor(Math.random() * TOTAL_SYMBOLS);
