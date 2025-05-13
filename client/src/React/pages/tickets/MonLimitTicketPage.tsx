@@ -53,7 +53,7 @@ const MonLimitTicketPage: React.FC = () => {
         try {
 
             await createTicket({
-                clienteid: client?.clienteid || 0, // Use clienteid, not usuarioid
+                clienteid: client?.clienteid || 0,
                 problema: `Solicitud de aumento de limite (${formatCategory(state.category)} ${formatPeriod(state.period)}):\nLímite actual: ${formatValue(state.category, state.currentValue)}\nNuevo límite: ${formatValue(state.category, newLimit)}\nMotivo: ${reason}`,
                 categoria: 'Aumento de limite',
                 prioridad: 'media'

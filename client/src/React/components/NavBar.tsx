@@ -5,7 +5,6 @@ import '@css/NavBarStyle.css';
 import {useUser} from "@context/UserContext.tsx";
 import {useAdmin} from "@context/AdminContext.tsx";
 
-// Define los tipos de enlaces de navegación
 interface NavLink {
     label: string;
     href: string;

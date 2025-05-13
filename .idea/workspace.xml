@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in LimitPage">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/css/WinDisplayStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/css/WinDisplayStyle.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +72,7 @@
   }
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
@@ -92,7 +91,7 @@
     &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Eliseo&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Tomas&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/Casino-Web&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
@@ -102,7 +101,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Eliseos\\Faculty\\Tercer Año\\LaboratorioDefV5\\node_modules\\typescript\\lib&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -227,23 +226,8 @@
       <workItem from="1746956209671" duration="10855000" />
       <workItem from="1746968220663" duration="3352000" />
       <workItem from="1747083027976" duration="8095000" />
-      <workItem from="1747093196420" duration="1856000" />
-    </task>
-    <task id="LOCAL-00017" summary="Refactor user profile management; add edit functionality and improve navbar accessibility">
-      <option name="closed" value="true" />
-      <created>1744068798998</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1744068798998</updated>
-    </task>
-    <task id="LOCAL-00018" summary="pruebo gh pages">
-      <option name="closed" value="true" />
-      <created>1744113061687</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1744113061687</updated>
+      <workItem from="1747093196420" duration="2131000" />
+      <workItem from="1747137805752" duration="2936000" />
     </task>
     <task id="LOCAL-00019" summary="Enhance footer layout and content; update styles for improved responsiveness">
       <option name="closed" value="true" />
@@ -621,7 +605,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747084876688</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component">
+      <option name="closed" value="true" />
+      <created>1747095196696</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1747095196697</updated>
+    </task>
+    <task id="LOCAL-00067" summary="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component">
+      <option name="closed" value="true" />
+      <created>1747140416856</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1747140416856</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -654,7 +654,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Add friends leaderboard feature; update UI components and refactor Home page" />
     <MESSAGE value="Add ticket management feature; implement API, context, and UI for ticket handling" />
     <MESSAGE value="Refactor ticket view styles and update filtering functionality; enhance UI components for better usability" />
     <MESSAGE value="Add priority indicators to ticket view; enhance filtering UI with visual cues for priority levels" />
@@ -679,6 +678,7 @@
     <MESSAGE value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for session tracking and user suspension management" />
     <MESSAGE value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for user suspension management and add user management table component" />
     <MESSAGE value="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in LimitPage" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in LimitPage" />
+    <MESSAGE value="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component" />
   </component>
 </project>
