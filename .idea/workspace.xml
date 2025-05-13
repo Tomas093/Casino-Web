@@ -228,22 +228,7 @@
       <workItem from="1747083027976" duration="8095000" />
       <workItem from="1747093196420" duration="2131000" />
       <workItem from="1747137805752" duration="2936000" />
-    </task>
-    <task id="LOCAL-00019" summary="Enhance footer layout and content; update styles for improved responsiveness">
-      <option name="closed" value="true" />
-      <created>1744122464123</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1744122464123</updated>
-    </task>
-    <task id="LOCAL-00020" summary="Enhance footer layout and content; update styles for improved responsiveness">
-      <option name="closed" value="true" />
-      <created>1744127222709</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1744127222709</updated>
+      <workItem from="1747141044409" duration="826000" />
     </task>
     <task id="LOCAL-00021" summary="Refactor transaction components; improve structure and update styles for better readability">
       <option name="closed" value="true" />
@@ -621,7 +606,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747140416856</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component">
+      <option name="closed" value="true" />
+      <created>1747141196622</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1747141196622</updated>
+    </task>
+    <task id="LOCAL-00069" summary="Remove unused comment in NavBar component">
+      <option name="closed" value="true" />
+      <created>1747141379827</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1747141379828</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
