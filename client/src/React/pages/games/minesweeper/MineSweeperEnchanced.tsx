@@ -472,7 +472,7 @@ const Minesweeper: React.FC<MineProps> = () => {
                             <div className="setting-group">
                                 <h3>Bet Amount</h3>
                                 <div className="bet-input">
-                                    <span className="currency-symbol">$</span>
+                                    <span className="currency-symbol-mines">$</span>
                                     <input
                                         type="number"
                                         value={betAmount}

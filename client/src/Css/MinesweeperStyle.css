@@ -84,7 +84,7 @@
     box-shadow: var(--shadow-sm);
 }
 
-.currency-symbol {
+.currency-symbol-mines {
     display: flex;
     align-items: center;
     padding: 0 10px;
