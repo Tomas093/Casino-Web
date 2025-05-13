@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/tickets/MonLimitTicketPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/tickets/MonLimitTicketPage.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +72,7 @@
   }
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
@@ -228,15 +227,7 @@
       <workItem from="1746968220663" duration="3352000" />
       <workItem from="1747083027976" duration="8095000" />
       <workItem from="1747093196420" duration="2131000" />
-      <workItem from="1747137805752" duration="1616000" />
-    </task>
-    <task id="LOCAL-00018" summary="pruebo gh pages">
-      <option name="closed" value="true" />
-      <created>1744113061687</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1744113061687</updated>
+      <workItem from="1747137805752" duration="2936000" />
     </task>
     <task id="LOCAL-00019" summary="Enhance footer layout and content; update styles for improved responsiveness">
       <option name="closed" value="true" />
@@ -622,7 +613,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747095196697</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component">
+      <option name="closed" value="true" />
+      <created>1747140416856</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1747140416856</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
