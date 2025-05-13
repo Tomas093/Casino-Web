@@ -9,10 +9,10 @@ export interface GameData {
 }
 
 const gameApi = {
-    // Obtener todos los juegos
+
     getGames: async (): Promise<GameData[]> => {
         try {
-            const response = await axios.get(`${API_URL}`);
+            const response = await axios.get(`${API_URL}/all`);
             return response.data;
         } catch (error: any) {
             console.error('Error al obtener juegos:', error);
@@ -39,10 +39,9 @@ const gameApi = {
         }
     },
 
-    // Crear un nuevo juego (solo administradores)
-    createGame: async (gameData: Omit<GameData, 'juegoid'>): Promise<GameData> => {
+    createGame: async (gameData: GameData): Promise<GameData> => {
         try {
-            const response = await axios.post(`${API_URL}`, gameData);
+            const response = await axios.post(`${API_URL}/create`, gameData);
             return response.data;
         } catch (error: any) {
             console.error('Error al crear juego:', error);
@@ -54,10 +53,10 @@ const gameApi = {
         }
     },
 
-    // Actualizar un juego (solo administradores)
-    updateGame: async (gameId: number, gameData: Partial<GameData>): Promise<GameData> => {
+
+    updateGame: async (gameId: number, gameData: GameData): Promise<GameData> => {
         try {
-            const response = await axios.put(`${API_URL}/${gameId}`, gameData);
+            const response = await axios.put(`${API_URL}/edit/${gameId}`, gameData);
             return response.data;
         } catch (error: any) {
             console.error(`Error al actualizar juego con ID ${gameId}:`, error);
@@ -69,10 +68,9 @@ const gameApi = {
         }
     },
 
-    // Eliminar un juego (solo administradores)
     deleteGame: async (gameId: number): Promise<void> => {
         try {
-            await axios.delete(`${API_URL}/${gameId}`);
+            await axios.delete(`${API_URL}/delete/${gameId}`);
         } catch (error: any) {
             console.error(`Error al eliminar juego con ID ${gameId}:`, error);
             if (error.response) {

@@ -99,12 +99,12 @@
 .gb-game-title {
     font-family: 'Playfair Display', serif;
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 3rem;
     letter-spacing: 0.5px;
-    color: var(--text-primary);
+    color: #d4af37;
 }
 
-.gb-controls {
+    .gb-controls {
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -201,6 +201,7 @@
     z-index: 10;
     font-size: 18px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
 }
 
 .gb-navigation {
@@ -221,7 +222,7 @@
     cursor: pointer;
     text-align: left;
     transition: all 0.2s ease;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
 }
 
 .gb-nav-button:hover {
@@ -465,4 +466,221 @@
         flex-wrap: wrap;
         justify-content: center;
     }
+}
+
+.chip-item .chip-value {
+    display: none;
+}
+
+
+/*
+ * Estilos para el menú desplegable en GameBackground
+ * Añade estos estilos a tu archivo GameBackgroundStyle.css
+ */
+
+/* Estilos para el dropdown de usuario */
+.gb-user-dropdown {
+    position: relative;
+    width: 100%;
+}
+
+.gb-user-info {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.gb-user-info:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Flechas para indicar menú desplegable */
+.gb-dropdown-arrow {
+    margin-left: auto;
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+}
+
+.gb-dropdown-arrow-down:after {
+    content: '▼';
+    font-size: 0.6rem;
+    opacity: 0.7;
+}
+
+.gb-dropdown-arrow-up:after {
+    content: '▲';
+    font-size: 0.6rem;
+    opacity: 0.7;
+}
+
+/* Contenido del dropdown */
+.gb-dropdown-content {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    width: 100%;
+    background-color: #2a2a3a;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    overflow: hidden;
+    animation: dropdownFadeIn 0.2s ease;
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Enlaces del dropdown */
+.gb-dropdown-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    color: #fff;
+    transition: background-color 0.2s;
+}
+
+.gb-dropdown-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Botón de cerrar sesión */
+.gb-logout-btn {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: transparent;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ff6b6b;
+    cursor: pointer;
+    text-align: left;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.gb-logout-btn:hover {
+    background-color: rgba(255, 99, 99, 0.1);
+}
+
+/* Ajustes adicionales para el perfil */
+.gb-profile-info {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    padding: 0.75rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
+}
+
+/* Modificación de los elementos existentes */
+.gb-user-name {
+    margin-left: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
+}
+
+.gb-balance-display {
+    margin-top: 0.75rem;
+    padding: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 0.25rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.gb-deposit-button {
+    margin-top: 0.75rem;
+    padding: 0.5rem;
+    background-color: #ffc107;
+    color: #000;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.gb-deposit-button:hover {
+    background-color: #ffca2c;
+}
+/* Estilos adicionales para el GameBackground */
+
+/* Actualización para el dropdown del usuario - Salida lateral */
+.gb-dropdown-side {
+    position: absolute;
+    left: 100%; /* Posición al lado derecho del contenedor */
+    top: 0;     /* Alineado con la parte superior */
+    width: 180px; /* Ancho fijo para el menú lateral */
+    background-color: #2a2a3a;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    overflow: hidden;
+    animation: dropdownSlideIn 0.2s ease;
+}
+
+@keyframes dropdownSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Asegurar que el contenedor del dropdown tiene espacio suficiente */
+.gb-user-dropdown {
+    position: relative;
+    width: 100%;
+}
+
+/* Mejorar la visualización del avatar y nombre de usuario */
+.gb-user-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #4a4a5a;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+}
+
+.gb-user-info {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+    position: relative; /* Para posicionamiento relativo */
+}
+
+.gb-user-info:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Asegurar que el menú desplegable sea visible incluso cuando está cerca del borde */
+.gb-profile-info {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    padding: 0.75rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
 }

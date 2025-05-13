@@ -106,6 +106,23 @@ const leaderboardApi = {
         }
     },
 
+    // Get leaderboard data for friends
+    getFriendsLeaderboard: async (userId: number, timeframe: TimeFrame = 'all', limit: number = 10) => {
+        try {
+            const response = await axios.get(`${API_URL}/friends/${userId}`, {
+                params: { timeframe, limit }
+            });
+            return response.data || [];
+        } catch (error: any) {
+            console.error("Error fetching friends leaderboard:", error);
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error getting friends leaderboard');
+            } else {
+                throw new Error('Network error while fetching friends leaderboard');
+            }
+        }
+    },
+
     // Get all leaderboard data at once
     getAllLeaderboards: async (timeframe: TimeFrame = 'all', limit: number = 10) => {
         try {

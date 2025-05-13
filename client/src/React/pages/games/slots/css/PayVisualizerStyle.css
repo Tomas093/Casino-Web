@@ -1,0 +1,192 @@
+/* Visualizador de líneas de pago - Estilo Ejecutivo Lujoso */
+.payline-visualizer {
+    background: linear-gradient(135deg, #0c1c0e, #1a2c1a);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    color: #fff;
+    max-width: 600px; /* Ampliado */
+    margin: 20px auto;
+    border: 2px solid #d4af37;
+}
+
+.visualizer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.visualizer-header h2 {
+    color: #d4af37;
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: #d4af37;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 5px;
+    transition: all 0.2s;
+}
+
+.close-button:hover {
+    color: #ffdf00;
+    transform: scale(1.1);
+}
+
+.payline-selector {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.payline-selector label {
+    margin-right: 15px;
+    color: #d4af37;
+    font-weight: bold;
+}
+
+.payline-selector select {
+    flex-grow: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #d4af37;
+    background-color: #0a230f;
+    color: #fff;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+}
+
+.payline-selector select:focus {
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.5);
+}
+
+.payline-grid {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #071808;
+    border: 3px solid #d4af37;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.payline-svg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.payline-path {
+    fill: none;
+    stroke: #d4af37;
+    stroke-width: 4px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.8));
+    animation: glow 1.5s infinite alternate;
+}
+
+.vis-row {
+    display: flex;
+    height: 75px; /* Ampliado */
+}
+
+.vis-cell {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #1a3a1a;
+    background-color: #0e2a0e;
+    transition: all 0.3s;
+    width: 75px; /* Ampliado */
+    height: 75px; /* Ampliado */
+}
+
+.vis-cell.highlighted {
+    background-color: #d4af37;
+    box-shadow: inset 0 0 10px rgba(179, 135, 40, 0.8);
+    position: relative;
+}
+
+.path-marker {
+    width: 30px; /* Ampliado */
+    height: 30px; /* Ampliado */
+    border-radius: 50%;
+    background-color: #d4af37;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    font-size: 16px; /* Ampliado */
+}
+
+.payline-info {
+    background-color: #071808;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.info-item {
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.info-label {
+    font-weight: bold;
+    width: 120px;
+    color: #d4af37;
+}
+
+.info-value {
+    flex-grow: 1;
+}
+
+.show-paylines-container {
+    margin: 15px 0;
+    text-align: center;
+}
+
+.show-paylines-button {
+    background: linear-gradient(135deg, #d4af37, #b38728);
+    border: none;
+    border-radius: 30px;
+    color: #000;
+    font-weight: bold;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.show-paylines-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes glow {
+    from {
+        stroke-opacity: 0.7;
+        stroke-width: 3px;
+    }
+    to {
+        stroke-opacity: 1;
+        stroke-width: 5px;
+    }
+}

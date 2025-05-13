@@ -7,6 +7,7 @@ interface TransactionData {
     fecha: string;
     metodo: string;
     monto: number;
+    cuponid?: number;
 }
 
 // Funciones auxiliares privadas
@@ -33,7 +34,6 @@ const transformTransactions = (
             monto: Number(ingreso.monto),
             fecha: ingreso.fecha,
             metodo: ingreso.metodo,
-            estado: 'completada'
         })),
         ...egresos.map(egreso => ({
             id: egreso.egresoid,
@@ -41,7 +41,6 @@ const transformTransactions = (
             monto: Number(egreso.monto),
             fecha: egreso.fecha,
             metodo: egreso.metodo,
-            estado: 'completada'
         }))
     ];
 
@@ -57,7 +56,7 @@ const transformTransactions = (
 export const transactionService = {
     // Crear un nuevo ingreso
     createIngreso: async (data: TransactionData) => {
-        const {usuarioid, fecha, metodo, monto} = data;
+        const {usuarioid, fecha, metodo, monto,cuponid} = data;
 
         if (monto <= 0) {
             throw new Error('El monto debe ser mayor a cero');
@@ -73,7 +72,8 @@ export const transactionService = {
                 fecha,
                 metodo,
                 monto,
-                clienteid
+                clienteid,
+                cuponid
             }
         });
 

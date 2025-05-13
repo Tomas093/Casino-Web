@@ -66,9 +66,9 @@ export const authService = {
         await prisma.limitehorario.create({
             data: {
                 clienteid: nuevoCliente.clienteid,
-                limitediario: 5,
-                limitesemanal: 30,
-                limitemensual: 100
+                limitediario: 10000,
+                limitesemanal: 300000,
+                limitemensual: 10000000,
             }
         });
 
@@ -155,5 +155,23 @@ export const authService = {
         });
 
         return nuevoUsuario;
+    },
+
+    async getUserByemail(email: string) {
+        const usuario = await prisma.usuario.findUnique({
+            where: { email },
+            include: {
+                cliente: true,
+                administrador: true
+            }
+        });
+
+        if (!usuario) {
+            throw new Error('Usuario no encontrado');
+        }
+
+        // Eliminar la contraseña del objeto usuario
+        const { password: _, ...usuarioSinPassword } = usuario;
+        return usuarioSinPassword;
     }
 };

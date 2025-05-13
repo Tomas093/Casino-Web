@@ -143,11 +143,30 @@ router.post('/create', async (req: Request, res: Response): Promise<void> => {
         });
 
         // Crear cliente asociado
-        await prisma.cliente.create({
+        const nuevoCliente = await prisma.cliente.create({
             data: {
                 usuarioid: nuevoUsuario.usuarioid,
                 balance: 0,
                 influencer: false,
+            }
+        });
+
+        // Crear límites horario y monetario por defecto
+        await prisma.limitehorario.create({
+            data: {
+                clienteid: nuevoCliente.clienteid,
+                limitediario: 10000000,
+                limitesemanal: 10000000,
+                limitemensual: 100000000,
+            }
+        });
+
+        await prisma.limitemonetario.create({
+            data: {
+                clienteid: nuevoCliente.clienteid,
+                limitediario: 10000000,
+                limitesemanal: 100000000,
+                limitemensual: 100000000,
             }
         });
 
@@ -224,6 +243,46 @@ router.put('/edit/:id', async (req: Request, res: Response): Promise<void> => {
         });
     } catch (error) {
         console.error("Error al actualizar administrador:", error);
+        res.status(500).json({message: 'Error del servidor'});
+    }
+});
+
+router.get('/getAdminByUserId/:id', async (req: Request, res: Response): Promise<void> => {
+    const {id} = req.params;
+
+    try {
+        const admin = await prisma.administrador.findUnique({
+            where: {usuarioid: Number(id)},
+            include: {
+                usuario: {
+                    include: {
+                        cliente: true
+                    }
+                }
+            }
+        });
+
+        if (!admin) {
+            res.status(404).json({message: 'Administrador no encontrado'});
+            return;
+        }
+
+        const dataConverted = {
+            ...admin,
+            usuario: {
+                ...admin.usuario,
+                cliente: admin.usuario.cliente
+                    ? {
+                        ...admin.usuario.cliente,
+                        balance: Number(admin.usuario.cliente.balance),
+                    }
+                    : null,
+            },
+        };
+
+        res.status(200).json(dataConverted);
+    } catch (error) {
+        console.error("Error al obtener administrador:", error);
         res.status(500).json({message: 'Error del servidor'});
     }
 });

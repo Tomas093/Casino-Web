@@ -1,0 +1,781 @@
+/*ROULETTE TABLE*/
+.roulette-table-container * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+}
+.roulette-background {
+    background-image: url('@assets/rouleta7.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 80% center;
+}
+.roulette-table-container {
+    /* Paleta de colores sofisticada */
+    --red: #b8151f;
+    --black: #1a1a1a;
+    --green: #0f5a36;
+    --gold: #d4af37;
+    --gold-light: #f0e6c3;
+    --hover: rgba(212, 175, 55, 0.4);
+    --roulette-romb-size: 10px;
+
+    /* Tipografía elegante */
+    font-family: 'Playfair Display', 'Times New Roman', serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+
+    aspect-ratio: 2 / 1;
+    width: 1000px;
+    max-width: 100%;
+
+    /* Fondo refinado */
+    background: linear-gradient(145deg, #0f0f0f, #1c1c1c);
+    padding: 12px;
+    border-radius: 6px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--gold);
+    margin: auto;
+    /*margin-left:150px ;*/
+
+}
+
+/* Contenedor principal - 62% */
+.roulette-table-container-first {
+    position: relative;
+    display: flex;
+    flex-flow: column-reverse wrap;
+    align-content: flex-start;
+    height: 62%;
+    background-color: var(--green);
+    border-radius: 4px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--gold);
+}
+
+/* Elementos interactivos */
+.split-up-bet-catcher-top,
+.split-up-bet-catcher-right,
+.split-up-bet-catcher-bottom,
+.spleet-bet-catcher,
+.corner-bet-catcher,
+.six-lines-catcher,
+.basket-catcher-top,
+.basket-catcher-bottom,
+.double-street-catcher-top-right {
+    position: absolute;
+    z-index: 11;
+    transition: all 0.2s ease-in-out;
+}
+
+.spleet-bet-catcher,
+.corner-bet-catcher,
+.six-lines-catcher,
+.double-street-catcher-top-right {
+    width: 30px;
+    height: 30px;
+    z-index: 12;
+}
+
+.split-up-bet-catcher-top {
+    top: -3px;
+    width: 100%;
+    height: calc(3px + 2px);
+}
+
+.split-up-bet-catcher-right {
+    top: 0;
+    bottom: 0;
+    right: -3px;
+    width: calc(3px + 2px);
+    height: 100%;
+}
+
+.split-up-bet-catcher-bottom {
+    bottom: -3px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: calc(3px + 2px);
+}
+
+/* Efecto dorado en hover para todos los elementos interactivos */
+.split-up-bet-catcher-top:hover,
+.split-up-bet-catcher-right:hover,
+.split-up-bet-catcher-bottom:hover,
+.spleet-bet-catcher:hover,
+.corner-bet-catcher:hover,
+.six-lines-catcher:hover,
+.basket-catcher-top:hover,
+.basket-catcher-bottom:hover,
+.double-street-catcher-top-right:hover {
+    background-color: var(--hover);
+    box-shadow: 0 0 8px var(--gold-light);
+    cursor: pointer;
+}
+
+.spleet-bet-catcher {
+    border-radius: 50%;
+    top: -15px;
+    left: -15px;
+}
+
+.corner-bet-catcher {
+    border-radius: 50%;
+    top: -15px;
+    right: -15px;
+}
+
+.corner-bet-catcher.bottom {
+    top: auto;
+    bottom: -15px;
+}
+
+.six-lines-catcher,
+.double-street-catcher-top-right {
+    border-radius: 50%;
+}
+
+.six-lines-catcher {
+    bottom: -15px;
+    right: -15px;
+}
+
+.double-street-catcher-top-right {
+    top: -15px;
+    right: -15px;
+}
+
+.basket-catcher-top,
+.basket-catcher-bottom {
+    width: 100%;
+    height: 5px;
+}
+
+.basket-catcher-top {
+    top: -5px;
+}
+
+.basket-catcher-bottom {
+    bottom: -5px;
+}
+
+/* Contenedor segunda sección - 19% */
+.roulette-table-container-second {
+    display: flex;
+    justify-content: center;
+    width: calc(100% - 7.14% - 7.14%);
+    margin: 0 auto;
+    height: 19%;
+    flex-flow: row wrap;
+    align-content: flex-start;
+    background-color: var(--green);
+    border-left: 1px solid var(--gold);
+    border-right: 1px solid var(--gold);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Contenedor tercera sección - 19% */
+.roulette-table-container-third {
+    display: flex;
+    width: calc(100% - 7.14% - 7.14%);
+    margin: 0 auto;
+    flex-flow: row wrap;
+    align-content: flex-start;
+    height: 19%;
+    background-color: var(--green);
+    border-radius: 0 0 4px 4px;
+    border: 1px solid var(--gold);
+    border-top: none;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo para números y apuestas */
+.number-cell {
+    border: 1px solid var(--gold);
+    text-align: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.number-cell.red {
+    background-color: var(--red);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.number-cell.black {
+    background-color: var(--black);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.number-cell.green {
+    background-color: var(--green);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.number-cell:hover {
+    transform: scale(0.98);
+    box-shadow: inset 0 0 10px var(--gold-light), 0 0 5px var(--gold);
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* Efecto visual para la selección */
+.number-cell.selected {
+    box-shadow: inset 0 0 15px var(--gold), 0 0 10px var(--gold-light);
+    transform: scale(0.95);
+}
+
+/* Botones de apuesta */
+.bet-button {
+    background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.bet-button:hover {
+    background: linear-gradient(145deg, #2a2a2a, #3a3a3a);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 5px var(--gold-light);
+    transform: translateY(-1px);
+    cursor: pointer;
+}
+
+/* Efecto de debug mejorado */
+.roulette-table-container.debug .split-up-bet-catcher-top,
+.roulette-table-container.debug .split-up-bet-catcher-right,
+.roulette-table-container.debug .split-up-bet-catcher-bottom,
+.roulette-table-container.debug .spleet-bet-catcher,
+.roulette-table-container.debug .corner-bet-catcher,
+.roulette-table-container.debug .six-lines-catcher,
+.roulette-table-container.debug .basket-catcher-top,
+.roulette-table-container.debug .basket-catcher-bottom,
+.roulette-table-container.debug .double-street-catcher-top-right {
+    background-color: rgba(65, 105, 225, 0.4);
+    border: 1px dashed var(--gold);
+}
+
+
+.roulette-wheel-inner::after {
+    z-index: 3;
+    top: 24%;
+    right: 24%;
+    bottom: 24%;
+    left: 24%;
+    background-color: #4d4d4d;
+    border: 3px solid #808080;
+    background-position: center;
+    background-size: cover;
+}
+
+
+
+
+
+/*CHIP*/
+.roulette-chips-list li p {
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*ROULETTE TABLE CELLS*/
+
+/* Estilos básicos para todas las celdas de la ruleta */
+.item-hover,
+.zero-item,
+.red-item,
+.black-item,
+.column-item,
+.doz-item,
+.outside-section {
+    /* Paleta de colores sofisticada (heredada del contenedor principal) */
+    --red: #b8151f;
+    --black: #1a1a1a;
+    --green: #0f5a36;
+    --gold: #d4af37;
+    --gold-light: #f0e6c3;
+    --hover: rgba(212, 175, 55, 0.4);
+
+    /* Transiciones elegantes */
+    transition: all 0.2s ease-in-out;
+
+    /* Tipografía elegante */
+
+    font-family: 'Playfair Display', 'Times New Roman', serif;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+
+    /* Estilos comunes */
+    color: #fff;
+    user-select: none;
+    position: relative;
+    box-sizing: border-box;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Primera sección - Estilos comunes para celdas numéricas */
+.red-item,
+.black-item,
+.column-item,
+.zero-item {
+    border-left: 1px solid var(--gold);
+    border-top: 1px solid var(--gold);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    text-align: center;
+}
+
+/* Tamaños para celdas numéricas regulares */
+
+
+/* Rotación de valores para mejor visualización */
+.item-hover .value,
+.zero-item .value,
+.red-item .value,
+.black-item .value {
+    transform: rotate(-90deg);
+    font-size: 16px;
+}
+
+
+
+.zero-item:first-child {
+    border-bottom: 1px solid var(--gold);
+}
+
+
+
+/* Estilos para columnas */
+.column-item {
+    border-right: 1px solid var(--gold);
+    background-color: var(--green);
+}
+
+.column-item[data-action="1ST_COLUMN"] {
+    border-bottom: 1px solid var(--gold);
+}
+
+/* Segunda sección - Docenas */
+.doz-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    border: 1px solid var(--gold);
+    text-align: center;
+    height: 100%;
+    background-color: var(--green);
+    font-size: 16px;
+}
+
+/* Tercera sección - Apuestas externas */
+.outside-section {
+    flex: 1;
+    border: 1px solid var(--gold);
+    text-align: center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--green);
+    font-size: 16px;
+}
+
+
+
+
+
+
+
+
+
+/*ROULETTE WHEEL*/
+.roulette-wheel-plate {
+    width: 350px;
+    height: 350px;
+}
+
+.roulette-wheel-inner {
+    width: 350px;
+    height: 350px;
+}
+.roulette-wheel-container * {
+    margin: 0;
+    box-sizing: border-box;
+}
+.roulette-wheel-container {
+    --spinningAnimationSpeed: 30s;
+    --spinningSpeed: 9s;
+    width: 374px;
+    margin: 0 auto;
+    user-select: none;
+    font-size: 18px;
+    font-weight: 400;
+    font-family: Helvetica, sans-serif;
+    line-height: 1.15;
+}
+
+
+
+
+
+
+
+/*ROULETTE WHELL NUMBERS*/
+.roulette-wheel-bet-number {
+    /* Paleta de colores de lujo */
+    --red: #aa0000;
+    --red-metallic: linear-gradient(145deg, #aa0000, #8b0000);
+    --black-base: #080808;
+    --black-gradient: linear-gradient(145deg, #080808, #1e1e1e);
+    --gold: #d4af37;
+    --gold-light: #f4cf57;
+    --emerald: #00553e;
+    --emerald-hover: rgba(0, 85, 62, 0.7);
+
+    width: 32px;
+    height: 175px;
+    display: inline-block;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: calc(50% - (32px/2));
+    transform-origin: 50% 100%;
+    background-color: transparent;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 175px solid var(--red);
+    box-sizing: border-box;
+    font-family: 'Playfair Display', 'Roboto', serif;
+    letter-spacing: 0.5px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Añadimos un efecto sutil al borde de cada número */
+.roulette-wheel-bet-number::after {
+    content: '';
+    position: absolute;
+    top: -175px;
+    left: -16px;
+    width: 32px;
+    height: 0;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 175px solid;
+    border-top-color: inherit;
+    box-sizing: border-box;
+    opacity: 0.1;
+}
+
+.roulette-wheel-bet-number:hover {
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+.roulette-wheel-bet-number[data-bet="0"],
+.roulette-wheel-bet-number[data-bet="00"] {
+    border-top-color: var(--emerald);
+}
+
+.roulette-wheel-bet-number[data-bet="0"]:hover,
+.roulette-wheel-bet-number[data-bet="00"]:hover {
+    border-top-color: var(--emerald-hover);
+}
+
+.roulette-wheel-bet-number[data-bet="2"],
+.roulette-wheel-bet-number[data-bet="4"],
+.roulette-wheel-bet-number[data-bet="6"],
+.roulette-wheel-bet-number[data-bet="8"],
+.roulette-wheel-bet-number[data-bet="10"],
+.roulette-wheel-bet-number[data-bet="11"],
+.roulette-wheel-bet-number[data-bet="13"],
+.roulette-wheel-bet-number[data-bet="15"],
+.roulette-wheel-bet-number[data-bet="17"],
+.roulette-wheel-bet-number[data-bet="20"],
+.roulette-wheel-bet-number[data-bet="22"],
+.roulette-wheel-bet-number[data-bet="24"],
+.roulette-wheel-bet-number[data-bet="26"],
+.roulette-wheel-bet-number[data-bet="28"],
+.roulette-wheel-bet-number[data-bet="29"],
+.roulette-wheel-bet-number[data-bet="31"],
+.roulette-wheel-bet-number[data-bet="33"],
+.roulette-wheel-bet-number[data-bet="35"]
+{
+    border-top-color: var(--black-base);
+}
+
+/* Añadimos un destello dorado al seleccionar un número */
+.roulette-wheel-bet-number.selected {
+    box-shadow: 0 0 20px var(--gold-light);
+}
+
+/* Mejora visual para el texto de los números */
+.roulette-wheel-bet-number .number-text {
+    position: absolute;
+    top: -140px;
+    width: 32px;
+    text-align: center;
+    color: white;
+    font-weight: 500;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/*NOTIFICACION*/
+.bet-results-container {
+    margin-top: 1rem;
+    background: rgba(18, 18, 18, 0.8);
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid #d4af37;
+}
+
+.bet-results-container h3 {
+    margin-top: 0;
+    color: #d4af37;
+    font-size: 1.2rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.bet-results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 10px 5px;
+}
+
+.bet-results-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.bet-results-list::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 3px;
+}
+
+.bet-results-list::-webkit-scrollbar-thumb {
+    background: #d4af37;
+    border-radius: 3px;
+}
+
+.bet-result-item {
+    padding: 12px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.bet-result-item.win {
+    background: linear-gradient(145deg, rgba(21, 87, 36, 0.7), rgba(16, 71, 30, 0.9));
+    border-left: 3px solid #4CAF50;
+}
+
+.bet-result-item.lose {
+    background: linear-gradient(145deg, rgba(87, 21, 21, 0.7), rgba(71, 16, 16, 0.9));
+    border-left: 3px solid #f44336;
+}
+
+/* Estilos para la notificación de resultado */
+.result-notification-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.result-notification {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 320px;
+    max-width: 500px;
+    background: #121212;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    position: relative;
+    animation: slideDown 0.5s ease-out forwards;
+    pointer-events: auto;
+    border: 2px solid #d4af37;
+}
+
+.result-notification.win {
+    background: linear-gradient(145deg, #121212, #1a1a1a);
+    border-left: 6px solid #d4af37;
+}
+
+.result-notification.lose {
+    background: linear-gradient(145deg, #121212, #1a1a1a);
+    border-left: 6px solid #767676;
+}
+
+.notification-icon {
+    font-size: 2rem;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-title {
+    margin: 0 0 8px 0;
+    color: #d4af37;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.notification-message {
+    margin: 0 0 8px 0;
+    color: #e0e0e0;
+    font-size: 1rem;
+}
+
+.notification-result {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.result-notification.win .notification-result {
+    color: #d4af37;
+}
+
+.result-notification.lose .notification-result {
+    color: #e0e0e0;
+}
+
+.highlight-number {
+    background-color: rgba(212, 175, 55, 0.2);
+    color: #d4af37;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.notification-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid #767676;
+    color: #d4af37;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    transition: all 0.2s ease;
+}
+
+.notification-close:hover {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: #d4af37;
+}
+
+@keyframes slideDown {
+    0% {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+
+
+
+
+
+/*BOTONES RULETA*/
+.roulette-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.roulette-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.spin-button {
+    background: linear-gradient(145deg, #d4af37, #ffd700);
+    color: #000;
+    border: 1px solid #b8860b;
+}
+
+.spin-button:hover:not(:disabled) {
+    background: linear-gradient(145deg, #ffd700, #d4af37);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.clear-button {
+    background: linear-gradient(145deg, #2c2c2c, #1a1a1a);
+    color: #d4af37;
+    border: 1px solid #333;
+}
+
+.clear-button:hover:not(:disabled) {
+    background: linear-gradient(145deg, #1a1a1a, #2c2c2c);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+

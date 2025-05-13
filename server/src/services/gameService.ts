@@ -3,39 +3,33 @@ import {PrismaClient} from '@prisma/client';
 const prisma = new PrismaClient();
 
 interface gameData {
-    juegoid: number;
     nombre: string;
-    estado: boolean | null | undefined;
+    estado: boolean;
 }
 
 export const gameService = {
-    createGame: async (data: gameData) => {
-        const {juegoid, nombre, estado} = data;
 
-        // Crear el juego
+    createGame: async (data: gameData) => {
+        const {nombre, estado} = data;
         return prisma.juego.create({
             data: {
-                juegoid,
                 nombre,
                 estado,
             },
         });
     },
 
-    getGames: async () => {
-        // Obtener todos los juegos
+    getAllGames: async () => {
         return prisma.juego.findMany();
     },
 
     getGameById: async (juegoid: number) => {
-        // Obtener un juego por ID
         return prisma.juego.findUnique({
             where: {juegoid},
         });
     },
 
     updateGame: async (juegoid: number, data: Partial<Omit<gameData, 'juegoid'>>) => {
-        // Actualizar un juego
         return prisma.juego.update({
             where: {juegoid},
             data,
@@ -43,7 +37,6 @@ export const gameService = {
     },
 
     deleteGame: async (juegoid: number) => {
-        // Eliminar un juego
         return prisma.juego.delete({
             where: {juegoid},
         });

@@ -1,0 +1,318 @@
+/* Controles de juego - Estilo Ejecutivo Lujoso */
+.game-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+    padding: 25px;
+    background: linear-gradient(135deg, #0c1c0e, #1a2c1a);
+    border: 2px solid #d4af37;
+    border-radius: 12px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 10px rgba(212, 175, 55, 0.2);
+    position: relative;
+}
+
+/* Marco decorativo para los controles */
+.game-controls::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+/* Adornos decorativos en las esquinas */
+.game-controls::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    bottom: 10px;
+    right: 10px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d4af37'%3E%3Cpath d='M12 1L1 12l11 11 11-11L12 1z'/%3E%3C/svg%3E");
+    background-size: contain;
+    opacity: 0.7;
+    transform: rotate(45deg);
+}
+
+/* Grupo de controles para la apuesta */
+.bet-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Etiquetas de texto */
+.control-label {
+    font-family: 'Playfair Display', 'Times New Roman', serif;
+    color: #d4af37;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-right: 5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Botones de ajuste (+ y -) */
+.adjust-button {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #093616, #0a4e1d);
+    border: 1px solid #d4af37;
+    border-radius: 50%;
+    color: #d4af37;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.adjust-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25), 0 0 8px rgba(212, 175, 55, 0.3);
+    background: linear-gradient(135deg, #0a4e1d, #0c5e23);
+}
+
+.adjust-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Visualización de valores */
+.value-display {
+    min-width: 70px;
+    padding: 8px 15px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid #d4af37;
+    border-radius: 6px;
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    text-align: center;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Controles de giro */
+.spin-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Botón de giro principal */
+.spin-button {
+    padding: 14px 35px;
+    background: linear-gradient(135deg, #d4af37, #b38728);
+    color: #000;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 10px rgba(212, 175, 55, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.spin-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 15px rgba(212, 175, 55, 0.5);
+    background: linear-gradient(135deg, #e5c158, #d4af37);
+}
+
+.spin-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Efecto brillante en botón de giro */
+.spin-button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+            to bottom right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0) 40%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0) 60%,
+            rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(45deg);
+    transition: all 0.3s;
+    opacity: 0;
+}
+
+.spin-button:hover::after {
+    animation: shine 1.5s ease-in-out;
+}
+
+@keyframes shine {
+    0% {
+        opacity: 0;
+        transform: rotate(45deg) translateX(-100%);
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 0;
+        transform: rotate(45deg) translateX(100%);
+    }
+}
+
+/* Estilo para el botón Auto Spin */
+.auto-spin-button {
+    padding: 14px 25px;
+    background: linear-gradient(135deg, #093616, #0a4e1d);
+    border: 2px solid #d4af37;
+    border-radius: 50px;
+    color: #d4af37;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.auto-spin-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.25), 0 0 10px rgba(212, 175, 55, 0.2);
+    background: linear-gradient(135deg, #0a4e1d, #0c5e23);
+}
+
+.auto-spin-button:disabled {
+    background: #333;
+    border-color: #555;
+    color: #777;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Estilo cuando Auto Spin está activo */
+.auto-spin-button.active {
+    background: linear-gradient(135deg, #d4af37, #b38728);
+    color: #000;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+    }
+}
+
+/* Controles adicionales (Max Bet, etc.) */
+.auxiliary-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.max-bet-button {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #093616, #0a4e1d);
+    border: 1px solid #d4af37;
+    border-radius: 8px;
+    color: #d4af37;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.max-bet-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25), 0 0 8px rgba(212, 175, 55, 0.2);
+    background: linear-gradient(135deg, #0a4e1d, #0c5e23);
+}
+
+/* Selector de líneas de pago */
+.lines-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Panel de información */
+.info-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid #d4af37;
+    border-radius: 8px;
+}
+
+.balance-display, .win-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info-label {
+    color: #d4af37;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.info-value {
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+}
+
+/* Diseño responsivo */
+@media (max-width: 768px) {
+    .game-controls {
+        flex-direction: column;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .bet-controls, .spin-controls, .auxiliary-controls {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .spin-button, .auto-spin-button {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+
+    .info-panel {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

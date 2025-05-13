@@ -14,8 +14,7 @@ model administrador {
   usuario                 usuario                   @relation(fields: [usuarioid], references: [usuarioid], onDelete: Cascade)
   aumentolimitehorario    aumentolimitehorario[]
   aumentolimitesmonetario aumentolimitesmonetario[]
-  suspendidos             suspendidos[]
-  tickets                 tickets[]
+  ticket                  ticket[]
 }
 
 model amistad {
@@ -66,9 +65,7 @@ model cliente {
   limitemonetario            limitemonetario?
   partida                    partida[]
   pausa                      pausa?
-  suspendidos                suspendidos[]
-  tickets                    tickets[]
-  tiempodejuego              tiempodejuego[]
+  ticket                     ticket[]
 }
 
 model disminucionlimitehorario {
@@ -140,12 +137,6 @@ model limitemonetario {
   cliente       cliente  @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
-model mensajes {
-  ticketid Int     @id
-  mensaje  String?
-  tickets  tickets @relation(fields: [ticketid], references: [ticketid], onDelete: Cascade, onUpdate: NoAction)
-}
-
 model partida {
   partidaid       Int       @id @default(autoincrement())
   clienteid       Int?
@@ -163,47 +154,13 @@ model pausa {
   cliente     cliente   @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
 }
 
-model promocion {
-  promocionid  Int       @id @default(autoincrement())
-  tipo         String?   @db.VarChar(255)
-  descripcion  String?
-  fechainicio  DateTime? @db.Timestamp(6)
-  fechafin     DateTime? @db.Timestamp(6)
-  cantidadusos Int?
-  mincarga     Decimal?  @db.Decimal(10, 2)
-  maxcarga     Decimal?  @db.Decimal(10, 2)
-}
-
 model suspendidos {
-  suspendidoid  Int            @id @default(autoincrement())
-  clienteid     Int?
-  fechainicio   DateTime?      @db.Timestamp(6)
-  fechafin      DateTime?      @db.Timestamp(6)
-  duracion      Int?
-  adminid       Int?
-  razon         String?
-  administrador administrador? @relation(fields: [adminid], references: [adminid], onDelete: Cascade, onUpdate: NoAction)
-  cliente       cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
-}
-
-model tickets {
-  ticketid      Int            @id @default(autoincrement())
-  clienteid     Int?
-  problema      String?
-  resuelto      Boolean?
-  idadmin       Int?
-  mensajes      mensajes?
-  cliente       cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
-  administrador administrador? @relation(fields: [idadmin], references: [adminid], onDelete: Cascade, onUpdate: NoAction)
-}
-
-model tiempodejuego {
-  clienteid Int
-  fecha     DateTime @db.Timestamp(6)
-  tiempo    Int?
-  cliente   cliente  @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
-
-  @@id([clienteid, fecha])
+  suspendidoid Int       @id @default(autoincrement())
+  usuarioid    Int?
+  fechainicio  DateTime  @default(now()) @db.Timestamptz(6)
+  fechafin     DateTime? @db.Timestamptz(6)
+  razon        String?
+  usuario      usuario?  @relation(fields: [usuarioid], references: [usuarioid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model usuario {
@@ -221,6 +178,8 @@ model usuario {
   cliente                                                     cliente?
   solicitudesamistad_solicitudesamistad_id_receptorTousuario  solicitudesamistad[] @relation("solicitudesamistad_id_receptorTousuario")
   solicitudesamistad_solicitudesamistad_id_remitenteTousuario solicitudesamistad[] @relation("solicitudesamistad_id_remitenteTousuario")
+  suspendidos                                                 suspendidos[]
+  tiempodesesion                                              tiempodesesion[]
 }
 
 model solicitudesamistad {
@@ -231,4 +190,57 @@ model solicitudesamistad {
   fecha_creacion                                   DateTime? @default(now()) @db.Timestamp(6)
   usuario_solicitudesamistad_id_receptorTousuario  usuario   @relation("solicitudesamistad_id_receptorTousuario", fields: [id_receptor], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
   usuario_solicitudesamistad_id_remitenteTousuario usuario   @relation("solicitudesamistad_id_remitenteTousuario", fields: [id_remitente], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model mensaje {
+  mensajeid  Int       @id @default(autoincrement())
+  ticketid   Int
+  contenido  String
+  fechaenvio DateTime? @default(now()) @db.Timestamp(6)
+  usuarioid  Int
+  tickets    ticket    @relation(fields: [ticketid], references: [ticketid], onDelete: Cascade, onUpdate: NoAction, map: "fk_ticket")
+}
+
+model ticket {
+  ticketid      Int            @id(map: "tickets_pkey") @default(autoincrement())
+  clienteid     Int?
+  problema      String?
+  resuelto      Boolean?       @default(false)
+  adminid       Int?
+  fechacreacion DateTime?      @default(now()) @db.Timestamp(6)
+  fechacierre   DateTime?      @db.Timestamp(6)
+  prioridad     String?
+  categoria     String?
+  mensaje       mensaje[]
+  administrador administrador? @relation(fields: [adminid], references: [adminid], onDelete: Cascade, onUpdate: NoAction, map: "fk_admin")
+  cliente       cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction, map: "fk_cliente")
+
+  @@index([clienteid], map: "idx_tickets_clienteid")
+  @@index([adminid], map: "idx_tickets_idadmin")
+  @@index([resuelto], map: "idx_tickets_resuelto")
+}
+
+model faq {
+  preguntaid Int    @id @default(autoincrement())
+  pregunta   String
+  respuesta  String
+  categoria  String @db.VarChar(255)
+}
+
+model cupon {
+  cuponid      Int       @id(map: "promocion_pkey") @default(autoincrement())
+  beneficio    Decimal?  @db.Decimal
+  fechainicio  DateTime? @db.Timestamp(6)
+  fechafin     DateTime? @db.Timestamp(6)
+  cantidadusos Int?
+  mincarga     Decimal?  @db.Decimal(10, 2)
+  maxcarga     Decimal?  @db.Decimal(10, 2)
+}
+
+model tiempodesesion {
+  tiempodesesionid Int       @id(map: "tiempodejuego_pkey") @default(autoincrement())
+  user_id          Int
+  inicio           DateTime  @default(now()) @db.Timestamptz(6)
+  fin              DateTime? @db.Timestamptz(6)
+  usuario          usuario   @relation(fields: [user_id], references: [usuarioid], onDelete: Cascade, map: "tiempodejuego_user_id_fkey")
 }

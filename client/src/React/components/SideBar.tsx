@@ -100,6 +100,7 @@ const Sidebar: React.FC = () => {
         {link: '/limit', text: 'Límites'},
         {link: '/pausa', text: 'Pausa'},
         {link: '/history', text: 'Historial'},
+        {link: '/tickets', text: 'Mis Tickets'},
         {link: '/', text: 'Cerrar Sesión', action: handleLogout},
         {link: '/delete-account', text: 'Eliminar Cuenta'},
     ];

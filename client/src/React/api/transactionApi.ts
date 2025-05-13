@@ -7,6 +7,7 @@ export interface TransactionData {
     fecha: string;
     metodo: string;
     monto: number;
+    cuponid?: number;
 }
 
 const transactionApi = {
@@ -38,7 +39,7 @@ const transactionApi = {
 
     getUserTransactions: async (userId: string) => {
         try {
-            const response = await axios.get(`${API_URL}/${userId}`);
+            const response = await axios.get(`${API_URL}/user/${userId}`);
             return response.data;
         } catch (error) {
             console.error('Error al obtener transacciones:', error);
@@ -48,7 +49,7 @@ const transactionApi = {
 
     getTotalRevenue: async () => {
         try {
-            const response = await axios.get(`${API_URL}/totalRevenue`);
+            const response = await axios.get(`${API_URL}/Revenue`);
             return response.data;
         } catch (error) {
             console.error('Error al obtener ingresos totales:', error);
@@ -58,7 +59,7 @@ const transactionApi = {
 
     getTransactionStatsByMethod: async () => {
         try {
-            const response = await axios.get(`${API_URL}/methodCount`);
+            const response = await axios.get(`${API_URL}/stats/method`);
             return response.data;
         } catch (error) {
             console.error('Error al obtener conteo por metodo:', error);

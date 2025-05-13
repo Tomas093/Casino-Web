@@ -1,0 +1,349 @@
+/* AustralisAboutUs.css */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+:root {
+    --australis-black: #121212;
+    --australis-dark-gray: #1e1e1e;
+    --australis-gold: #d4af37;
+    --australis-gold-light: #e9cd6c;
+    --australis-gold-dark: #a88a2a;
+    --australis-green: #1a5d1a;
+    --australis-green-light: #2a7a2a;
+    --australis-green-dark: #0f3c0f;
+    --australis-white: #ffffff;
+    --australis-off-white: #f5f5f5;
+    --australis-shadow: rgba(0, 0, 0, 0.25);
+}
+
+.australis-about-container {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--australis-white);
+    line-height: 1.6;
+    background-color: var(--australis-black);
+    overflow-x: hidden;
+}
+
+
+.australis-accent-text {
+    color: var(--australis-gold);
+}
+
+/* Hero Section */
+.australis-hero-section {
+    position: relative;
+    height: 70vh;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-image: url('/api/placeholder/1200/800');
+    background-size: cover;
+    background-position: center;
+    color: var(--australis-white);
+}
+
+.australis-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(18, 18, 18, 0.9) 30%, rgba(26, 93, 26, 0.8) 100%);
+    z-index: 1;
+}
+
+.australis-hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    max-width: 800px;
+}
+
+.australis-tagline {
+    font-size: 1.5rem;
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+}
+
+/* Separator */
+.australis-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem auto 2rem;
+    width: 60%;
+}
+
+.australis-left-aligned {
+    justify-content: flex-start;
+    margin-left: 0;
+}
+
+.australis-separator::before,
+.australis-separator::after {
+    content: "";
+    flex-grow: 1;
+    height: 1px;
+    background-color: var(--australis-gold);
+}
+
+.australis-diamond {
+    width: 12px;
+    height: 12px;
+    background-color: var(--australis-gold);
+    transform: rotate(45deg);
+    margin: 0 15px;
+}
+
+/* Section Containers */
+.australis-section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+}
+
+/* Vision Section */
+.australis-vision-section {
+    background-color: var(--australis-dark-gray);
+    text-align: center;
+}
+
+.australis-vision-section p {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+}
+
+/* History Section */
+.australis-history-section {
+    background-color: var(--australis-black);
+    color: var(--australis-white);
+}
+
+.australis-two-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+}
+
+.australis-column {
+    flex: 1;
+    min-width: 300px;
+}
+
+.australis-image-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.australis-decorative-frame {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    aspect-ratio: 3/4;
+    padding: 20px;
+    border: 1px solid var(--australis-gold);
+}
+
+.australis-decorative-frame::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid var(--australis-gold);
+    z-index: 0;
+}
+
+.australis-inner-image {
+    width: 100%;
+    height: 100%;
+    background-image: url('/api/placeholder/450/600');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Values Section */
+.australis-values-section {
+    background: linear-gradient(to bottom, var(--australis-dark-gray) 0%, var(--australis-black) 100%);
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.australis-values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.australis-value-card {
+    background-color: rgba(30, 30, 30, 0.7);
+    border: 1px solid var(--australis-gold-dark);
+    border-radius: 5px;
+    padding: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.australis-value-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    border-color: var(--australis-gold);
+}
+
+.australis-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--australis-gold-dark) 0%, var(--australis-gold) 100%);
+}
+
+.australis-icon {
+    color: var(--australis-black);
+}
+
+/* Team Section */
+.australis-team-section {
+    background-color: var(--australis-black);
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.australis-team-intro {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+}
+
+.australis-departments {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.australis-department {
+    padding: 2rem;
+    background-color: var(--australis-dark-gray);
+    border-left: 3px solid var(--australis-green);
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+.australis-department:hover {
+    transform: scale(1.03);
+    border-left: 3px solid var(--australis-gold);
+}
+
+.australis-department h3 {
+    color: var(--australis-gold);
+    margin-bottom: 1rem;
+}
+
+/* CTA Section */
+.australis-cta-section {
+    position: relative;
+    padding: 6rem 2rem;
+    text-align: center;
+    background-image: url('/api/placeholder/1200/400');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.australis-cta-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.australis-cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    padding: 0.8rem 2rem;
+    background: linear-gradient(135deg, var(--australis-gold-dark) 0%, var(--australis-gold) 100%);
+    color: var(--australis-black);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.australis-button-icon {
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+.australis-cta-button:hover {
+    background: linear-gradient(135deg, var(--australis-gold) 0%, var(--australis-gold-light) 100%);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+.australis-cta-button:hover .australis-button-icon {
+    transform: translateX(5px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    .australis-section-container {
+        padding: 3rem 1.5rem;
+    }
+
+    .australis-hero-section {
+        height: 60vh;
+    }
+
+    .australis-column {
+        flex: 100%;
+    }
+
+    .australis-separator {
+        width: 80%;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    .australis-tagline {
+        font-size: 1.2rem;
+    }
+
+    .australis-hero-section {
+        height: 50vh;
+    }
+
+    .australis-value-card,
+    .australis-department {
+        padding: 1.5rem;
+    }
+}

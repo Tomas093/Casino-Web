@@ -12,28 +12,39 @@ import DeleteUser from "../pages/deletes/DeleteUser.tsx";
 import DeleteSpecificAccount from "../pages/deletes/DeleteSpecificAccount.tsx";
 import Transaccion from "../pages/transaction/Transaccion.tsx";
 import Home from "../pages/home/Home.tsx";
-import MineSweeper from "../pages/games/MineSweeperEnchanced.tsx";
-import {AppProvider} from './appProvider';
-import RouletteGame from "../pages/games/RouletteGame.tsx";
+import MineSweeper from "../pages/games/minesweeper/MineSweeperEnchanced.tsx";
+import {AppProvider} from './AppProvider.tsx';
+import RouletteGame from "../pages/games/roulette/RouletteGame.tsx";
 import StatisticsPage from "../pages/profile/StatisticsPage.tsx"
-import LeaderBoard from "@components/LeaderBoard.tsx";
 import Limit from "../pages/profile/LimitPage.tsx";
 import MonLimitTicketPage from "../pages/tickets/MonLimitTicketPage.tsx";
 import NotFound from "@components/Error/Error404.tsx";
 import FriendsPage from "../pages/profile/FriendsPage.tsx";
-
+import TicketsView from "../pages/tickets/TicketsView.tsx";
+import Ticket from '../pages/tickets/Ticket.tsx';
+import SupportPage from "../pages/support/SupportPage.tsx";
+import Slots from '../pages/games/slots/Slots.tsx';
+import Terminos from '../pages/legal/Terminos.tsx';
+import PrivacyPolicy from "../pages/legal/PrivacyPolicy.tsx";
+import AboutUs from "../pages/legal/AboutUs.tsx";
+import Legal from "../pages/legal/Legal.tsx";
+import LimitMonitor from "@components/LimitMonitor.tsx";
 
 function App() {
     return (
         <BrowserRouter>
             <AppProvider>
+                <LimitMonitor />
+
                 <Routes>
-                    {/* Rutas publicas */}
+                    {/* Rutas públicas */}
                     <Route path="/" element={<LandingPage/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Register/>}/>
-                    <Route path={"/leaderboard"} element={<LeaderBoard/>}/>
-                    <Route path="/notfound" element={<NotFound/>}/>
+                    <Route path="/terms" element={<Terminos/>}/>
+                    <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
+                    <Route path="/aboutus" element={<AboutUs/>}/>
+                    <Route path="/legal" element={<Legal/>}/>
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
                     <Route element={<ProtectedRoute/>}>
@@ -49,11 +60,15 @@ function App() {
                         <Route path="/monLimitTicket" element={<MonLimitTicketPage/>}/>
                         <Route path="/friends" element={<FriendsPage/>}/>
                         <Route path="/pausa" element={<div>NO IMPLEMENTADO NADA</div>}/>
+                        <Route path="/ticket/:ticketId" element={<Ticket/>}/>
+                        <Route path="/support" element={<SupportPage/>}/>
+                        <Route path="/slots" element={<Slots/>}/>
+                        <Route path="/tickets" element={<TicketsView/>}/>
                     </Route>
 
                     {/* rutas Solo para admins */}
                     <Route element={<AdminRoutes/>}>
-                        <Route path="/HIHIHIHIHI" element={<div>NO IMPLEMENTADO NADA</div>}/>
+
                     </Route>
 
                     {/* Rutas protegidas Solo (Superadmin) */}
@@ -64,7 +79,6 @@ function App() {
 
                     {/* Cualquier otra ruta (Equivocada) */}
                     <Route path="*" element={<NotFound/>}/>
-
                 </Routes>
             </AppProvider>
         </BrowserRouter>

@@ -1,0 +1,354 @@
+/* Estilo Ejecutivo Lujoso de Casino - Paleta: Negro, Verde y Dorado */
+.slot-machine {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background: linear-gradient(135deg, #0c1c0e, #1a2c1a);
+    border: 3px solid #d4af37; /* Borde dorado */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.3);
+    color: #fff;
+    font-family: 'Playfair Display', 'Times New Roman', serif;
+    max-width: 900px; /* Aumentado para mayor espacio */
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Adorno dorado en las esquinas */
+.slot-machine::before,
+.slot-machine::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d4af37'%3E%3Cpath d='M12 1L1 12l11 11 11-11L12 1z'/%3E%3C/svg%3E");
+    background-size: contain;
+    opacity: 0.8;
+}
+
+.slot-machine::before {
+    top: 15px;
+    left: 15px;
+}
+
+.slot-machine::after {
+    bottom: 15px;
+    right: 15px;
+    transform: rotate(180deg);
+}
+
+/* Slot board styling - AMPLIADO */
+.slot-board {
+    display: flex;
+    gap: 15px; /* Ampliado */
+    margin: 25px 0;
+    padding: 30px; /* Ampliado */
+    background: #0a230f; /* Verde oscuro elegante */
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto de reflejo superior */
+.slot-board::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), transparent);
+    border-radius: 10px 10px 0 0;
+}
+
+.slot-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Ampliado */
+    position: relative;
+    overflow: hidden;
+    height: 280px; /* Ampliado */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.slot-cell {
+    width: 85px; /* Ampliado */
+    height: 85px; /* Ampliado */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #121a12, #1e2e1e);
+    border: 2px solid #1a3a1a;
+    border-radius: 8px;
+    font-size: 32px; /* Ampliado */
+    font-weight: bold;
+    color: #fff;
+    transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Reflejo suave en las celdas */
+.slot-cell::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+    border-radius: 6px 6px 0 0;
+    pointer-events: none;
+}
+
+/* Highlight winning cells */
+.slot-cell.highlight {
+    background: linear-gradient(135deg, #d4af37, #b38728); /* Dorado degradado */
+    color: #000;
+    transform: scale(1.08);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
+    border: 2px solid #ffdf00;
+    z-index: 10;
+}
+
+/* Spinning animation */
+.slot-cell.spinning {
+    animation: spin 0.8s ease-in-out;
+}
+
+/*@keyframes spin {*/
+/*    0% {*/
+/*        transform: translateY(-300px);*/
+/*    }*/
+/*    100% {*/
+/*        transform: translateY(0);*/
+/*    }*/
+/*}*/
+
+.column-content {
+    position: relative;
+    transition: transform 0.5s cubic-bezier(0.5, 0, 0.5, 1);
+}
+
+/* Animación de giro vertical */
+@keyframes spinColumn {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-300px);
+    }
+}
+
+.slot-column.spinning .column-content {
+    animation: spinColumn 0.5s linear infinite;
+}
+
+/* Symbol inside the cell */
+.symbol {
+    font-size: 42px; /* Ampliado */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s;
+}
+
+.highlight .symbol {
+    transform: scale(1.1);
+    animation: pulseGlow 1.5s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    from {
+        text-shadow: 0 0 5px #ffdf00, 0 0 10px #ffdf00;
+    }
+    to {
+        text-shadow: 0 0 15px #ffdf00, 0 0 20px #ffdf00, 0 0 25px #ffdf00;
+    }
+}
+
+.win-amount {
+    font-size: 20px;
+    font-weight: bold;
+    color: #d4af37; /* Verde brillante */
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+    margin-left: 10px;
+}
+
+/* Líneas de pago y visualización */
+.paylines-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.payline-path {
+    stroke: #d4af37;
+    stroke-width: 5px;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.8));
+    animation: glowLine 1.5s infinite alternate;
+}
+
+@keyframes glowLine {
+    from {
+        stroke-opacity: 0.7;
+        stroke-width: 4px;
+        filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.5));
+    }
+    to {
+        stroke-opacity: 1;
+        stroke-width: 6px;
+        filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.8));
+    }
+}
+
+.paylines-display {
+    margin-top: 15px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid #d4af37;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-family: 'Playfair Display', serif;
+}
+
+.payline-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.payline-name {
+    font-size: 16px;
+    color: #d4af37;
+    margin-right: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Controles adicionales */
+.slot-controls {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.spin-button {
+    background: linear-gradient(135deg, #d4af37, #b38728);
+    color: #000;
+    border: none;
+    padding: 14px 35px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 10px rgba(212, 175, 55, 0.3);
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.spin-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 15px rgba(212, 175, 55, 0.5);
+    background: linear-gradient(135deg, #e5c158, #d4af37);
+}
+
+.spin-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .slot-machine {
+        padding: 20px 15px;
+    }
+
+    .slot-board {
+        padding: 15px;
+        gap: 8px;
+    }
+
+    .slot-cell {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+    }
+
+    .symbol {
+        font-size: 32px;
+    }
+
+    .slot-column {
+        height: 200px;
+    }
+
+    .spin-button {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+}
+
+/* Añadir un marco decorativo ornamental */
+.luxury-frame {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border: 2px solid #d4af37;
+    border-radius: 20px;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.luxury-frame::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 15px;
+}
+
+/* Añadir efecto brillante aleatorio a los símbolos */
+@keyframes randomSparkle {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.sparkle:nth-child(odd) {
+    background: #d4af37;
+}
+
+.sparkle:nth-child(1) { top: 20%; left: 30%; animation: randomSparkle 3s infinite 0.2s; }
+.sparkle:nth-child(2) { top: 70%; left: 60%; animation: randomSparkle 2.7s infinite 0.5s; }
+.sparkle:nth-child(3) { top: 40%; left: 80%; animation: randomSparkle 2.3s infinite 0.7s; }
+.sparkle:nth-child(4) { top: 10%; left: 10%; animation: randomSparkle 2.9s infinite 1.1s; }
+.sparkle:nth-child(5) { top: 80%; left: 20%; animation: randomSparkle 3.2s infinite 1.5s; }

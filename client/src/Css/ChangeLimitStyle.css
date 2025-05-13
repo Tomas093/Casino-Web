@@ -1,0 +1,11 @@
+.limits-flex-container {
+    display: flex;
+    gap: 32px;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.limits-flex-container fieldset {
+    min-width: 250px;
+    flex: 1;
+}

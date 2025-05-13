@@ -45,6 +45,14 @@ const LimitPage: React.FC = () => {
     const [isSaving, setIsSaving] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
+    // Estado para manejar la edición de límites
+    const [editingField, setEditingField] = useState<{
+        category: 'time' | 'money',
+        period: 'daily' | 'weekly' | 'monthly'
+    } | null>(null);
+
+    const [editValue, setEditValue] = useState<string>('');
+
     useEffect(() => {
         const fetchLimits = async () => {
             try {
@@ -122,6 +130,72 @@ const LimitPage: React.FC = () => {
             }
         }));
     };
+
+    // Manejo de la edición de valores
+    const startEditing = (category: 'time' | 'money', period: 'daily' | 'weekly' | 'monthly') => {
+        setEditingField({category, period});
+        setEditValue(limits[category][period].toString());
+    };
+
+    const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        // Solo permitir números
+        const value = e.target.value.replace(/[^0-9]/g, '');
+        setEditValue(value);
+    };
+
+    const handleEditKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            saveEdit();
+        } else if (e.key === 'Escape') {
+            cancelEdit();
+        }
+    };
+
+    const saveEdit = () => {
+        if (editingField) {
+            const {category, period} = editingField;
+            const newValue = parseInt(editValue) || 0;
+            const currentValue = limits[category][period];
+
+            if (newValue > currentValue) {
+                setMessage({
+                    type: 'error',
+                    text: 'No puedes aumentar el límite desde aquí. Usa el botón de + para solicitar un aumento.'
+                });
+                setEditingField(null);
+                return;
+            }
+
+            setLimits(prev => ({
+                ...prev,
+                [category]: {
+                    ...prev[category],
+                    [period]: newValue
+                }
+            }));
+
+            setEditingField(null);
+        }
+    };
+
+    const cancelEdit = () => {
+        setEditingField(null);
+    };
+
+    // Manejo del clic fuera del campo de edición
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
+            if (!target.closest('.limit-value') && editingField) {
+                saveEdit();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [editingField, editValue]);
 
     const handleSaveLimits = async () => {
         if (!user?.usuarioid) {
@@ -236,7 +310,26 @@ const LimitPage: React.FC = () => {
                                             -
                                         </button>
                                         <div className="limit-value">
-                                            {formatValue(activeTab, limits[activeTab].daily)}
+                                            {editingField &&
+                                            editingField.category === activeTab &&
+                                            editingField.period === 'daily' ? (
+                                                <input
+                                                    type="text"
+                                                    className="limit-input"
+                                                    value={editValue}
+                                                    onChange={handleEditChange}
+                                                    onKeyDown={handleEditKeyDown}
+                                                    onBlur={saveEdit}
+                                                    autoFocus
+                                                />
+                                            ) : (
+                                                <div
+                                                    className="limit-display"
+                                                    onClick={() => startEditing(activeTab, 'daily')}
+                                                >
+                                                    {formatValue(activeTab, limits[activeTab].daily)}
+                                                </div>
+                                            )}
                                         </div>
                                         <button
                                             className="limit-button increase"
@@ -258,7 +351,26 @@ const LimitPage: React.FC = () => {
                                             -
                                         </button>
                                         <div className="limit-value">
-                                            {formatValue(activeTab, limits[activeTab].weekly)}
+                                            {editingField &&
+                                            editingField.category === activeTab &&
+                                            editingField.period === 'weekly' ? (
+                                                <input
+                                                    type="text"
+                                                    className="limit-input"
+                                                    value={editValue}
+                                                    onChange={handleEditChange}
+                                                    onKeyDown={handleEditKeyDown}
+                                                    onBlur={saveEdit}
+                                                    autoFocus
+                                                />
+                                            ) : (
+                                                <div
+                                                    className="limit-display"
+                                                    onClick={() => startEditing(activeTab, 'weekly')}
+                                                >
+                                                    {formatValue(activeTab, limits[activeTab].weekly)}
+                                                </div>
+                                            )}
                                         </div>
                                         <button
                                             className="limit-button increase"
@@ -280,7 +392,26 @@ const LimitPage: React.FC = () => {
                                             -
                                         </button>
                                         <div className="limit-value">
-                                            {formatValue(activeTab, limits[activeTab].monthly)}
+                                            {editingField &&
+                                            editingField.category === activeTab &&
+                                            editingField.period === 'monthly' ? (
+                                                <input
+                                                    type="text"
+                                                    className="limit-input"
+                                                    value={editValue}
+                                                    onChange={handleEditChange}
+                                                    onKeyDown={handleEditKeyDown}
+                                                    onBlur={saveEdit}
+                                                    autoFocus
+                                                />
+                                            ) : (
+                                                <div
+                                                    className="limit-display"
+                                                    onClick={() => startEditing(activeTab, 'monthly')}
+                                                >
+                                                    {formatValue(activeTab, limits[activeTab].monthly)}
+                                                </div>
+                                            )}
                                         </div>
                                         <button
                                             className="limit-button increase"
@@ -295,10 +426,11 @@ const LimitPage: React.FC = () => {
                             <div className="limit-info">
                                 {activeTab === 'time' ? (
                                     <p>Cuando alcances tu límite de tiempo, se te notificará y no podrás seguir jugando
-                                        hasta que el período termine.</p>
+                                        hasta que el período termine. Haz clic en los valores para editarlos
+                                        directamente.</p>
                                 ) : (
                                     <p>Cuando alcances tu límite de dinero, no podrás realizar más apuestas hasta que el
-                                        período termine.</p>
+                                        período termine. Haz clic en los valores para editarlos directamente.</p>
                                 )}
                             </div>
 
