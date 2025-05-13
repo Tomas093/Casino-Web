@@ -122,14 +122,14 @@
     animation: spin 0.8s ease-in-out;
 }
 
-@keyframes spin {
-    0% {
-        transform: translateY(-300px);
-    }
-    100% {
-        transform: translateY(0);
-    }
-}
+/*@keyframes spin {*/
+/*    0% {*/
+/*        transform: translateY(-300px);*/
+/*    }*/
+/*    100% {*/
+/*        transform: translateY(0);*/
+/*    }*/
+/*}*/
 
 .column-content {
     position: relative;
