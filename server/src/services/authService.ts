@@ -66,9 +66,9 @@ export const authService = {
         await prisma.limitehorario.create({
             data: {
                 clienteid: nuevoCliente.clienteid,
-                limitediario: 5,
-                limitesemanal: 30,
-                limitemensual: 100
+                limitediario: 10000,
+                limitesemanal: 300000,
+                limitemensual: 10000000,
             }
         });
 
