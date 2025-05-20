@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor date handling in game components; adjust timestamps to account for timezone offset and update limit values in authService">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Update workspace.xml and styles; rename currency symbol class for Minesweeper and adjust task entries">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/MinesweeperStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/MinesweeperStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/minesweeper/MineSweeperEnchanced.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/minesweeper/MineSweeperEnchanced.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/leaderboardService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/leaderboardService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +73,7 @@
   }
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
@@ -87,26 +86,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Node.js.leaderboardApi.ts.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Tomas&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/Casino-Web&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Node.js.leaderboardApi.ts.executor": "Run",
+    "Node.js.leaderboardService.ts.executor": "Run",
+    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Tomas",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/Casino-Web",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editing.templates",
+    "ts.external.directory.path": "C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server" />
@@ -230,15 +230,12 @@
       <workItem from="1747083027976" duration="8095000" />
       <workItem from="1747093196420" duration="2131000" />
       <workItem from="1747137805752" duration="2936000" />
-      <workItem from="1747141044409" duration="2914000" />
-    </task>
-    <task id="LOCAL-00023" summary="Refactor project structure; rename files and update import paths for improved organization">
-      <option name="closed" value="true" />
-      <created>1744505741740</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1744505741740</updated>
+      <workItem from="1747141044409" duration="3509000" />
+      <workItem from="1747241129989" duration="39000" />
+      <workItem from="1747682200862" duration="61000" />
+      <workItem from="1747688846231" duration="262000" />
+      <workItem from="1747689202672" duration="42000" />
+      <workItem from="1747748103916" duration="733000" />
     </task>
     <task id="LOCAL-00024" summary="Refactor project structure; rename files and update import paths for improved organization">
       <option name="closed" value="true" />
@@ -624,7 +621,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747143581518</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="Update workspace.xml and styles; rename currency symbol class for Minesweeper and adjust task entries">
+      <option name="closed" value="true" />
+      <created>1747144119815</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1747144119815</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -657,7 +662,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Add priority indicators to ticket view; enhance filtering UI with visual cues for priority levels" />
     <MESSAGE value="Refactor ticket view styles; update class names for improved clarity and consistency" />
     <MESSAGE value="Chat Implementado aflta css descipcion y que se pueda editar" />
     <MESSAGE value="Implement chat feature; add message API, context, and UI for ticket messaging" />
@@ -682,6 +686,7 @@
     <MESSAGE value="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component" />
     <MESSAGE value="Refactor task entries in workspace.xml; remove closed tasks and update localTasksCounter in SupportPage.tsx for consistent priority casing" />
     <MESSAGE value="Refactor date handling in game components; adjust timestamps to account for timezone offset and update limit values in authService" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor date handling in game components; adjust timestamps to account for timezone offset and update limit values in authService" />
+    <MESSAGE value="Update workspace.xml and styles; rename currency symbol class for Minesweeper and adjust task entries" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update workspace.xml and styles; rename currency symbol class for Minesweeper and adjust task entries" />
   </component>
 </project>
