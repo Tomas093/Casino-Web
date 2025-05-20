@@ -130,8 +130,41 @@ const Minesweeper: React.FC<MineProps> = () => {
     const gridSizeOptions = [25, 36, 49, 64];
 
     // Mines options
-    const minesOptions = [4, 15, 25, 35, 1];
+    const minesOptions = [1, 4, 15, 25, 35];
 
+    // Esta función verifica si una opción de minas debe estar deshabilitada
+    const isMineOptionDisabled = (mineCount) => {
+        return mineCount >= gridSize;
+    };
+
+    // Esta función verifica si una opción de tamaño de grid debe estar deshabilitada
+    const isGridSizeDisabled = (size) => {
+        return size <= totalMines;
+    };
+
+    // Función para manejar cambios en el tamaño del grid
+    const handleGridSizeChange = (size) => {
+        setGridSize(size);
+
+        // Si el número actual de minas es inválido para el nuevo tamaño de grid, ajustarlo
+        if (totalMines >= size) {
+            setTotalMines(size - 1);
+        }
+    };
+
+    // Función para manejar cambios en el número de minas
+    const handleMinesChange = (mines) => {
+        setTotalMines(mines);
+
+        // Si el tamaño actual del grid es inválido para el nuevo número de minas, ajustarlo
+        if (gridSize <= mines) {
+            // Encontrar el primer tamaño de grid válido que sea mayor que el número de minas
+            const validSize = gridSizeOptions.find(size => size > mines);
+            if (validSize) {
+                setGridSize(validSize);
+            }
+        }
+    };
 
     // Función para registrar una jugada
     const registerPlay = async (betAmount: number, winAmount: number) => {
@@ -180,67 +213,92 @@ const Minesweeper: React.FC<MineProps> = () => {
         const safeRemaining = gridSize - totalMines - hits;
         const tilesRemaining = gridSize - hits;
 
-        if (safeRemaining <= 0 || tilesRemaining <= 0) return 0;
+        // Si ya no quedan casillas seguras por encontrar, pero el jugador
+        // ha encontrado todas las casillas seguras (no ha tocado ninguna mina),
+        // entonces debería recibir el multiplicador máximo, no cero
+        if (safeRemaining < 0 || tilesRemaining <= 0) return 0;
+
+        // Si no quedan casillas seguras pero tampoco ha perdido,
+        // significa que ha ganado el juego completo
+        if (safeRemaining === 0) {
+            // Multiplicador máximo (podría ser un valor fijo alto o calculado de otra manera)
+            const maxMultiplier = (gridSize / (gridSize - totalMines)) * houseEdge;
+            return Number(maxMultiplier.toFixed(2));
+        }
 
         const probability = safeRemaining / tilesRemaining;
         const fairMultiplier = 1 / probability;
         const offeredMultiplier = fairMultiplier * houseEdge;
 
         return Number(offeredMultiplier.toFixed(2));
-    };
+    }
 
     // Función modificada para generar ubicaciones de bombas con ventaja para influencers
     const generateBombLocations = (gridSize: number, totalMines: number): number[] => {
         const isInfluencer = client && client.influencer === true;
         const newBombLocations: number[] = [];
 
+        // Creamos un array con todas las posiciones posibles
+        const allPositions: number[] = [];
+        for (let i = 1; i <= gridSize; i++) {
+            allPositions.push(i);
+        }
+
         // Si es influencer, aplicamos lógica de ventaja
         if (isInfluencer) {
-            // Generamos una "zona segura" para los influencers
-            // Esta zona segura será un área del tablero donde no habrá minas
-            // Por ejemplo, podemos hacer que el cuadrante superior izquierdo sea más seguro
-            const dimension = getGridDimensions(gridSize);
+            // Verificamos que no sea un caso extremo (muchas minas para pocas casillas)
+            const isCriticalCase = totalMines > gridSize * 0.7; // Si las minas ocupan más del 70% del tablero
+
+            if (isCriticalCase) {
+                // En casos extremos usamos una lógica más simple pero asegurando el número correcto de minas
+                // Simplemente colocamos minas aleatoriamente en todo el tablero
+                const shuffledPositions = [...allPositions].sort(() => Math.random() - 0.5);
+                return shuffledPositions.slice(0, totalMines);
+            }
+
+            // Para casos normales, aplicamos la lógica de ventaja
             const safeAreaSize = Math.floor(gridSize * 0.4); // 40% del grid será más seguro
 
-            // Creamos un array con todas las posiciones posibles
-            const allPositions: number[] = [];
-            for (let i = 1; i <= gridSize; i++) {
-                allPositions.push(i);
-            }
-
-            // Definimos las posiciones en la zona segura (primera mitad del tablero)
+            // Dividimos en zona segura y zona menos segura
             const safePositions: number[] = allPositions.slice(0, safeAreaSize);
-
-            // Definimos las posiciones menos seguras (resto del tablero)
             const unsafePositions: number[] = allPositions.slice(safeAreaSize);
 
-            // Distribuimos las minas: 20% en zona segura, 80% en zona no segura
-            const minesInSafeArea = Math.floor(totalMines * 0.2);
+            // Calculamos cuántas minas poner en cada zona
+            // En casos de muchas minas, ajustamos para que haya menos en la zona segura
+            const safeRatio = Math.max(0.05, 0.2 - ((totalMines / gridSize) * 0.25)); // Reducimos el ratio para casos con muchas minas
+            const minesInSafeArea = Math.min(
+                Math.floor(totalMines * safeRatio),
+                Math.floor(safeAreaSize * 0.5)  // No más del 50% de la zona segura con minas
+            );
             const minesInUnsafeArea = totalMines - minesInSafeArea;
 
-            // Colocamos algunas minas en la zona segura
-            while (newBombLocations.length < minesInSafeArea && safePositions.length > 0) {
-                const randomIndex = Math.floor(Math.random() * safePositions.length);
-                const position = safePositions[randomIndex];
-                newBombLocations.push(position);
-                safePositions.splice(randomIndex, 1); // Eliminamos esta posición
-            }
+            // Verificamos que podamos colocar la cantidad correcta de minas
+            if (minesInUnsafeArea > unsafePositions.length) {
+                // No hay suficientes posiciones inseguras, necesitamos usar algunas seguras
+                const additionalMinesForSafeArea = minesInUnsafeArea - unsafePositions.length;
 
-            // Colocamos el resto de las minas en la zona no segura
-            while (newBombLocations.length < totalMines && unsafePositions.length > 0) {
-                const randomIndex = Math.floor(Math.random() * unsafePositions.length);
-                const position = unsafePositions[randomIndex];
-                newBombLocations.push(position);
-                unsafePositions.splice(randomIndex, 1); // Eliminamos esta posición
+                // Colocamos todas las minas posibles en zona insegura
+                newBombLocations.push(...unsafePositions);
+
+                // Colocamos el resto en la zona segura
+                const totalMinesInSafeArea = minesInSafeArea + additionalMinesForSafeArea;
+                const shuffledSafePositions = [...safePositions].sort(() => Math.random() - 0.5);
+                newBombLocations.push(...shuffledSafePositions.slice(0, totalMinesInSafeArea));
+            } else {
+                // Caso normal: colocamos minas en ambas zonas según la distribución calculada
+                // Colocamos algunas minas en la zona segura
+                const shuffledSafePositions = [...safePositions].sort(() => Math.random() - 0.5);
+                newBombLocations.push(...shuffledSafePositions.slice(0, minesInSafeArea));
+
+                // Colocamos el resto de las minas en la zona no segura
+                const shuffledUnsafePositions = [...unsafePositions].sort(() => Math.random() - 0.5);
+                newBombLocations.push(...shuffledUnsafePositions.slice(0, minesInUnsafeArea));
             }
         } else {
             // Para usuarios regulares, distribución normal de minas
-            while (newBombLocations.length < totalMines) {
-                const randomLocation = Math.floor(Math.random() * gridSize) + 1;
-                if (!newBombLocations.includes(randomLocation)) {
-                    newBombLocations.push(randomLocation);
-                }
-            }
+            // Usamos Fisher-Yates shuffle para más eficiencia y garantizar el número correcto de minas
+            const shuffledPositions = [...allPositions].sort(() => Math.random() - 0.5);
+            return shuffledPositions.slice(0, totalMines);
         }
 
         return newBombLocations;
@@ -470,7 +528,7 @@ const Minesweeper: React.FC<MineProps> = () => {
                         {/* Left panel - Settings */}
                         <div className="settings-panel">
                             <div className="setting-group">
-                                <h3>Bet Amount</h3>
+                                <h3>Apuesta</h3>
                                 <div className="bet-input">
                                     <span className="currency-symbol">$</span>
                                     <input
@@ -504,13 +562,14 @@ const Minesweeper: React.FC<MineProps> = () => {
                             </div>
 
                             <div className="setting-group">
-                                <h3>Grid Size</h3>
+                                <h3>Tamaño De Tabla</h3>
                                 <div className="option-buttons">
                                     {gridSizeOptions.map(size => (
                                         <button
                                             key={size}
-                                            className={`option-btn ${gridSize === size ? 'selected' : ''}`}
-                                            onClick={() => setGridSize(size)}
+                                            className={`option-btn ${gridSize === size ? 'selected' : ''} ${isGridSizeDisabled(size) ? 'disabled' : ''}`}
+                                            onClick={() => handleGridSizeChange(size)}
+                                            disabled={isGridSizeDisabled(size) || (gameStarted && !gameOver)}
                                         >
                                             {size}
                                         </button>
@@ -519,13 +578,14 @@ const Minesweeper: React.FC<MineProps> = () => {
                             </div>
 
                             <div className="setting-group">
-                                <h3>Number of Mines</h3>
+                                <h3>Cantidad De Minas</h3>
                                 <div className="option-buttons">
                                     {minesOptions.map(mines => (
                                         <button
                                             key={mines}
-                                            className={`option-btn ${totalMines === mines ? 'selected' : ''}`}
-                                            onClick={() => setTotalMines(mines)}
+                                            className={`option-btn ${totalMines === mines ? 'selected' : ''} ${isMineOptionDisabled(mines) ? 'disabled' : ''}`}
+                                            onClick={() => handleMinesChange(mines)}
+                                            disabled={isMineOptionDisabled(mines) || (gameStarted && !gameOver)}
                                         >
                                             {mines}
                                         </button>
@@ -538,7 +598,7 @@ const Minesweeper: React.FC<MineProps> = () => {
                                 onClick={initGame}
                                 disabled={gameStarted && !gameOver || isLoading}
                             >
-                                {isLoading ? 'Procesando...' : 'Start Game'}
+                                {isLoading ? 'Procesando...' : 'Jugar'}
                             </button>
 
                             {gameStarted && !gameOver && (

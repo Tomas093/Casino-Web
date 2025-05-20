@@ -251,7 +251,7 @@ const RouletteGame: React.FC = () => {
             const playData = {
                 usuarioid: user.usuarioid,
                 juegoid: ROULETTE_GAME_ID,
-                fecha: new Date().toISOString(),
+                fecha: (Date.now()- 3 * 60* 60 *1000).toISOString(),
                 retorno: winAmount,
                 apuesta: betAmount
             };
