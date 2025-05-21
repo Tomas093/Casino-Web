@@ -436,26 +436,26 @@ const AdminManager: React.FC = () => {
                             onClick={() => setActiveTab('dashboard')}
                             className={`sidebar-nav-item ${activeTab === 'dashboard' ? 'active' : ''}`}
                         >
-                            <span className="sidebar-nav-icon">dashboard</span> Dashboard
+                            <span className="sidebar-nav-icon">dashboard</span> Panel de Control
                         </button>
                         <button
                             onClick={() => setActiveTab('admins')}
                             className={`sidebar-nav-item ${activeTab === 'admins' ? 'active' : ''}`}
                         >
-                            <span className="sidebar-nav-icon">admin_panel_settings</span> Admin Management
+                            <span className="sidebar-nav-icon">admin_panel_settings</span> Gestion de Admins
                         </button>
                         <button
                             onClick={() => setActiveTab('users')}
                             className={`sidebar-nav-item ${activeTab === 'users' ? 'active' : ''}`}
                         >
-                            <span className="sidebar-nav-icon">people</span> User Management
+                            <span className="sidebar-nav-icon">people</span> Gestion de Usuarios
                         </button>
                     </div>
 
                     <div className="sidebar-section">
                         <h2 className="sidebar-section-title">Casino</h2>
                         <button className="sidebar-nav-item" onClick={() => setActiveTab('game')}>
-                            <span className="sidebar-nav-icon">casino</span> Games
+                            <span className="sidebar-nav-icon">casino</span> Juegos
                         </button>
                         <button className="sidebar-nav-item" onClick={() => setActiveTab('faq')}>
                             <span className="sidebar-nav-icon">help_outline</span>FAQ
@@ -464,16 +464,6 @@ const AdminManager: React.FC = () => {
                                 className={`sidebar-nav-item ${activeTab === 'Creador' ? 'active' : ''}`}
                         >
                             <span className="sidebar-nav-icon">local_offer</span> Cupones
-                        </button>
-                    </div>
-
-                    <div className="sidebar-section">
-                        <h2 className="sidebar-section-title">Reports</h2>
-                        <button className="sidebar-nav-item">
-                            <span className="sidebar-nav-icon">analytics</span> Analytics
-                        </button>
-                        <button className="sidebar-nav-item">
-                            <span className="sidebar-nav-icon">report</span> Reports
                         </button>
                     </div>
                 </nav>

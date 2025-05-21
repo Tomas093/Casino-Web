@@ -65,13 +65,13 @@ const SupportPage: React.FC = () => {
     const getPriorityByProblem = (problemType: string): string => {
         switch (problemType) {
             case "Problema Técnico":
-                return "Alta";
+                return "alta";
             case "Problema Con la Cuenta":
             case "Problema Algun Juego":
-                return "Media";
+                return "media";
             case "Consulta General":
             default:
-                return "Baja";
+                return "baja";
         }
     };
 

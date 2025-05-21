@@ -248,6 +248,12 @@ export const leaderboardService = {
                 }
             });
 
+            // Get user's own client and jugadas
+            const userClient = await prisma.cliente.findUnique({
+                where: { usuarioid: userId },
+                include: { jugada: true, usuario: true }
+            });
+
             const friendClients = friends.flatMap(friend => {
                 const friendClient =
                     friend.usuario1_id === userId
@@ -267,7 +273,6 @@ export const leaderboardService = {
                         ? (filteredJugadas.filter(j => (j.retorno || 0) > (j.apuesta || 0)).length / filteredJugadas.length) * 100
                         : 0;
 
-                // Calculate mayorRetorno and mayorApuesta
                 const mayorRetorno = filteredJugadas.length > 0
                     ? Math.max(...filteredJugadas.map(j => Number(j.retorno || 0))).toString()
                     : '0';
@@ -289,7 +294,43 @@ export const leaderboardService = {
                 };
             });
 
-            return friendClients.sort((a, b) => parseFloat(b.gananciaNeta) - parseFloat(a.gananciaNeta)).slice(0, limit);
+            // Add user's own stats
+            if (userClient) {
+                const filteredJugadas = dateFilter
+                    ? userClient.jugada.filter(j => j.fecha && j.fecha >= dateFilter.gte && j.fecha <= dateFilter.lte)
+                    : userClient.jugada;
+
+                const totalProfit = filteredJugadas.reduce((sum, j) => sum + (j.retorno || 0) - (j.apuesta || 0), 0);
+                const jugadaCount = filteredJugadas.length;
+                const winPercentage =
+                    filteredJugadas.length > 0
+                        ? (filteredJugadas.filter(j => (j.retorno || 0) > (j.apuesta || 0)).length / filteredJugadas.length) * 100
+                        : 0;
+
+                const mayorRetorno = filteredJugadas.length > 0
+                    ? Math.max(...filteredJugadas.map(j => Number(j.retorno || 0))).toString()
+                    : '0';
+
+                const mayorApuesta = filteredJugadas.length > 0
+                    ? Math.max(...filteredJugadas.map(j => Number(j.apuesta || 0))).toString()
+                    : '0';
+
+                friendClients.push({
+                    clienteid: userClient.clienteid,
+                    nombre: userClient.usuario.nombre,
+                    apellido: userClient.usuario.apellido,
+                    img: userClient.usuario.img,
+                    gananciaNeta: totalProfit.toString(),
+                    mayorRetorno,
+                    mayorApuesta,
+                    winPercentage,
+                    jugadaCount
+                });
+            }
+
+            return friendClients
+                .sort((a, b) => parseFloat(b.gananciaNeta) - parseFloat(a.gananciaNeta))
+                .slice(0, limit);
         } catch (error) {
             console.error('Error in getFriendsLeaderboard:', error);
             return [];

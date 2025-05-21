@@ -111,7 +111,7 @@ function Slots() {
             const playData = {
                 usuarioid: user.usuarioid,
                 juegoid: SLOTS_GAME_ID,
-                fecha: new Date().toISOString(),
+                fecha: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
                 retorno: winAmount,
                 apuesta: betAmount
             };

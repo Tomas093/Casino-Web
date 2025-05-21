@@ -178,7 +178,7 @@ const Minesweeper: React.FC<MineProps> = () => {
             const playData = {
                 usuarioid: user.usuarioid,
                 juegoid: MINESWEEPER_GAME_ID,
-                fecha: new Date().toISOString(),
+                fecha: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
                 retorno: winAmount,
                 apuesta: betAmount
             };
@@ -530,7 +530,7 @@ const Minesweeper: React.FC<MineProps> = () => {
                             <div className="setting-group">
                                 <h3>Apuesta</h3>
                                 <div className="bet-input">
-                                    <span className="currency-symbol">$</span>
+                                    <span className="currency-symbol-mines">$</span>
                                     <input
                                         type="number"
                                         value={betAmount}
