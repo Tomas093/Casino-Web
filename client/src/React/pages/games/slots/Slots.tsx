@@ -8,16 +8,21 @@ import {PAYLINES} from './constants/paylines';
 import {GameStateType} from './types';
 import './css/SlotsStyle.css';
 import GameBackground from '@components/GameBackground.tsx';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from "@context/AuthContext.tsx";
-import { usePlay } from '@context/PlayContext.tsx';
-import { useUser } from '@context/UserContext';
+import {useNavigate} from 'react-router-dom';
+import {useAuth} from "@context/AuthContext.tsx";
+import {usePlay} from '@context/PlayContext.tsx';
+import {useUser} from '@context/UserContext';
 
 // ID del juego de slots
 const SLOTS_GAME_ID = 4;
 
 // Componente de notificación de saldo insuficiente
-const InsufficientBalanceNotification = ({ show, onClose }) => {
+interface InsufficientBalanceNotificationProps {
+    show: boolean;
+    onClose: () => void;
+}
+
+const InsufficientBalanceNotification: React.FC<InsufficientBalanceNotificationProps> = ({show, onClose}) => {
     useEffect(() => {
         if (show) {
             const timer = setTimeout(() => {
@@ -53,9 +58,9 @@ const InsufficientBalanceNotification = ({ show, onClose }) => {
 
 function Slots() {
     const navigate = useNavigate();
-    const { user } = useAuth();
-    const { createPlay, isLoading } = usePlay();
-    const { client, getUserData } = useUser();
+    const {user} = useAuth();
+    const {createPlay, isLoading} = usePlay();
+    const {client, getUserData} = useUser();
 
     // Notificación de saldo insuficiente
     const [showInsufficientBalance, setShowInsufficientBalance] = useState(false);
@@ -68,6 +73,7 @@ function Slots() {
         winAmount: 0,
         winningLines: [],
         theme: defaultTheme,
+        credits: 0,
     });
 
     // Estado para Auto Spin
