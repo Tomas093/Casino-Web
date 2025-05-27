@@ -98,6 +98,15 @@ const CuponsManager: React.FC = () => {
         setMessageInfo(prev => ({...prev, visible: false}));
     };
 
+    // Helper to check date validity
+    const isEndDateValid = (fechainicio: string, fechafin: string) => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Ignore time
+        const start = new Date(fechainicio);
+        const end = new Date(fechafin);
+        return end >= today && end >= start;
+    };
+
     // Calculate current page items
     const getCurrentPageItems = () => {
         const startIndex = (currentPage - 1) * itemsPerPage;
@@ -144,6 +153,11 @@ const CuponsManager: React.FC = () => {
 
             if (beneficio < 0 || cantidadusos < 0 || mincarga < 0 || maxcarga < 0) {
                 showMessage('Los valores numéricos no pueden ser negativos', 'error');
+                return;
+            }
+
+            if (!isEndDateValid(formData.fechainicio, formData.fechafin)) {
+                showMessage('La fecha de fin no puede ser anterior a hoy ni a la fecha de inicio', 'error');
                 return;
             }
 
@@ -195,6 +209,11 @@ const CuponsManager: React.FC = () => {
             if (editForm.beneficio < 0 || editForm.cantidadusos < 0 ||
                 editForm.mincarga < 0 || editForm.maxcarga < 0) {
                 showMessage('Los valores numéricos no pueden ser negativos', 'error');
+                return;
+            }
+
+            if (!isEndDateValid(editForm.fechainicio, editForm.fechafin)) {
+                showMessage('La fecha de fin no puede ser anterior a hoy ni a la fecha de inicio', 'error');
                 return;
             }
 
