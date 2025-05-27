@@ -99,8 +99,16 @@ import {useState, useEffect, useRef} from 'react';
                     const isPositionInActiveLine = (col: number, row: number): boolean => {
                         if (!showWinningLines || activePaylineIndex === null) return false;
 
-                        const activeLine = paylines.find(line => line.id === activePaylineIndex);
-                        return activeLine ? activeLine.positions[col] === row : false;
+                        const winLine = winningLines.find(wl => wl.paylineId === activePaylineIndex);
+                        if (!winLine) return false;
+
+                        const payline = paylines.find(p => p.id === activePaylineIndex);
+                        if (!payline) return false;
+
+                        // Solo considerar las primeras `count` columnas de la línea ganadora
+                        if (col >= winLine.count) return false;
+
+                        return payline.positions[col] === row;
                     };
 
                     // Función para aplicar clases de estilo a las celdas
