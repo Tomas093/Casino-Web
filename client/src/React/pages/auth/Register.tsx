@@ -56,7 +56,7 @@ const Register: React.FC = () => {
                             Al registrarme, declaro que soy mayor de 18 años, que no me encuentro incluido dentro de
                             ninguna de
                             las prohibiciones conforme la normativa vigente,
-                            acepto los <Link to="/TerminosyCondiciones" className="no-link"><strong> Términos y
+                            acepto los <Link to="/terms" className="no-link"><strong> Términos y
                             Condiciones</strong></Link>
                             y acepto recibir información promocional. Para más detalles, ver nuestra
                             <Link to="/politica-privacidad" className="no-link"><strong> Política de Privacidad</strong></Link>
