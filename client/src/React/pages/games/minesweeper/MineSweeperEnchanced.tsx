@@ -71,7 +71,7 @@ const ResultNotification = ({ show, result, onClose }) => {
                     <h3 className="notification-title">{isWin ? '¡FELICIDADES!' : 'INTENTA DE NUEVO'}</h3>
                     <p className="notification-message">
                         {isWin
-                            ? `Has hecho un cash-out exitoso`
+                            ? `Bien Fabri`
                             : 'Has encontrado una mina'}
                     </p>
                     <p className="notification-result">
@@ -179,7 +179,7 @@ const Minesweeper: React.FC<MineProps> = () => {
                 usuarioid: user.usuarioid,
                 juegoid: MINESWEEPER_GAME_ID,
                 fecha: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
-                retorno: winAmount,
+                retorno: Math.floor(winAmount),
                 apuesta: betAmount
             };
 
@@ -189,7 +189,7 @@ const Minesweeper: React.FC<MineProps> = () => {
             console.log('Jugada registrada con éxito');
 
             // Actualizar inmediatamente el balance local
-            const netResult = winAmount - betAmount;
+            const netResult = Math.floor(winAmount - betAmount);
             setLocalBalance(prevBalance => prevBalance + netResult);
 
             // Actualizar los datos del cliente para refrescar el balance
@@ -457,7 +457,7 @@ const Minesweeper: React.FC<MineProps> = () => {
             // Mostrar notificación de ganancia
             setNotificationResult({
                 isWin: true,
-                winnings: currentWinAmount
+                winnings: Math.floor(currentWinAmount)
             });
             setShowResultNotification(true);
 
