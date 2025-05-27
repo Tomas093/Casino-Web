@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Update workspace.xml and leaderboardService.ts; adjust task entries and add user stats retrieval for leaderboard" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Update workspace.xml and AdminManagement.tsx; translate sidebar navigation items to Spanish">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/PlayContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/PlayContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/minesweeper/MineSweeperEnchanced.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/minesweeper/MineSweeperEnchanced.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/home/LandingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/home/LandingPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/playService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/playService.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,30 +34,17 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Eliseo" />
+        <entry key="$PROJECT_DIR$" value="Tomas" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-  &quot;history&quot;: [
-    {
-      &quot;state&quot;: &quot;OPEN&quot;
-    }
-  ],
-  &quot;lastFilter&quot;: {}
-}</component>
-  <component name="GitHubPullRequestState">{
-  &quot;prStates&quot;: [
-    {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOOGzOas6VJaX7&quot;,
-        &quot;number&quot;: 35
-      },
-      &quot;lastSeen&quot;: 1746553555926
-    }
-  ]
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Tomas093&quot;
+  }
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
@@ -83,27 +76,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.leaderboardApi.ts.executor": "Run",
-    "Node.js.leaderboardService.ts.executor": "Run",
-    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Eliseo",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Eliseos/Faculty/Segundo Año/MiniBar",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editing.templates",
-    "ts.external.directory.path": "C:\\Users\\Eliseos\\Faculty\\Tercer Año\\LaboratorioDefV5\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.leaderboardApi.ts.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.leaderboardService.ts.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/Casino-Web&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server" />
@@ -111,11 +104,11 @@
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\casinoweb\client\src\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\components" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games\slots\components" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games\roulette" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games\background" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client/src/React/pages/games/minesweeper" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\Css" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\Transaction" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\Routes" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -187,53 +180,200 @@
       <workItem from="1746191501505" duration="10651000" />
       <workItem from="1746203466615" duration="6509000" />
       <workItem from="1746230255668" duration="1896000" />
-      <workItem from="1746296110258" duration="1204000" />
-      <workItem from="1746297658828" duration="1071000" />
-      <workItem from="1746305146088" duration="928000" />
-      <workItem from="1746306824085" duration="851000" />
-      <workItem from="1746307751202" duration="2039000" />
-      <workItem from="1746311924875" duration="240000" />
-      <workItem from="1746312185935" duration="226000" />
-      <workItem from="1746312547293" duration="9185000" />
-      <workItem from="1746358771618" duration="9421000" />
-      <workItem from="1746370805257" duration="131000" />
-      <workItem from="1746370984725" duration="11058000" />
-      <workItem from="1746403364212" duration="7908000" />
-      <workItem from="1746465993328" duration="1117000" />
-      <workItem from="1746469031181" duration="2000" />
-      <workItem from="1746534468794" duration="2079000" />
-      <workItem from="1746536608681" duration="89000" />
-      <workItem from="1746536716663" duration="4794000" />
-      <workItem from="1746553436297" duration="598000" />
-      <workItem from="1746562669682" duration="26000" />
-      <workItem from="1746708983847" duration="120000" />
-      <workItem from="1746709181688" duration="104000" />
-      <workItem from="1746718072122" duration="45000" />
-      <workItem from="1746718394236" duration="22000" />
-      <workItem from="1746718680664" duration="3000" />
-      <workItem from="1746727834670" duration="1845000" />
-      <workItem from="1746731835292" duration="845000" />
-      <workItem from="1746737976369" duration="320000" />
-      <workItem from="1746807277205" duration="5030000" />
-      <workItem from="1746812446332" duration="2635000" />
-      <workItem from="1746815474151" duration="18262000" />
-      <workItem from="1746880646361" duration="1251000" />
-      <workItem from="1746882983593" duration="4732000" />
-      <workItem from="1746893281527" duration="1243000" />
-      <workItem from="1746896290788" duration="1162000" />
-      <workItem from="1746918163359" duration="8475000" />
-      <workItem from="1746956209671" duration="10855000" />
-      <workItem from="1746968220663" duration="3352000" />
-      <workItem from="1747083027976" duration="8095000" />
-      <workItem from="1747093196420" duration="2131000" />
-      <workItem from="1747137805752" duration="2936000" />
-      <workItem from="1747141044409" duration="3509000" />
-      <workItem from="1747241129989" duration="39000" />
-      <workItem from="1747682200862" duration="61000" />
-      <workItem from="1747688846231" duration="262000" />
-      <workItem from="1747689202672" duration="42000" />
-      <workItem from="1747748103916" duration="841000" />
-      <workItem from="1747750068506" duration="920000" />
+      <workItem from="1748348695471" duration="1036000" />
+      <workItem from="1748350024486" duration="1926000" />
+    </task>
+    <task id="LOCAL-00001" summary="Refactor project structure and update styles for Vite + React integration">
+      <option name="closed" value="true" />
+      <created>1743777662865</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1743777662865</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Update workspace.xml to reflect changes in file paths and project structure">
+      <option name="closed" value="true" />
+      <created>1743779184285</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1743779184285</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Implement landing page, navigation bar, and footer components; update package dependencies">
+      <option name="closed" value="true" />
+      <created>1743805165935</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1743805165935</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Add promotional images to landing page and refactor promo card rendering">
+      <option name="closed" value="true" />
+      <created>1743812145036</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1743812145036</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Refactor authentication context and add user data fetching; update styles for login and register pages">
+      <option name="closed" value="true" />
+      <created>1743858596379</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1743858596379</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Refactor authentication context to include client data fetching; update Sidebar and HistoryPage components">
+      <option name="closed" value="true" />
+      <created>1743880079634</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1743880079634</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Implement ProtectedRoute component for route protection; update AuthContext and Login handling">
+      <option name="closed" value="true" />
+      <created>1743884787149</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1743884787149</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Implement image upload functionality; add ImageUpload component and update ProfilePage and Sidebar components">
+      <option name="closed" value="true" />
+      <created>1743891744811</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1743891744811</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Refactor AuthContext to improve user and client data handling; update Login and Sidebar components">
+      <option name="closed" value="true" />
+      <created>1743894744159</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1743894744159</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Refactor AuthContext to improve user and client data handling; update Login and Sidebar components">
+      <option name="closed" value="true" />
+      <created>1743905550465</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1743905550465</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Add delete specific account feature and fetch admins functionality">
+      <option name="closed" value="true" />
+      <created>1744048538675</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1744048538675</updated>
+    </task>
+    <task id="LOCAL-00012" summary="agrego columna emial a manager">
+      <option name="closed" value="true" />
+      <created>1744049285157</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1744049285157</updated>
+    </task>
+    <task id="LOCAL-00013" summary="agrego columna email a manager">
+      <option name="closed" value="true" />
+      <created>1744049296492</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1744049296492</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Add edit functionality for admins; update AuthContext and routes">
+      <option name="closed" value="true" />
+      <created>1744055256062</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1744055256062</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Add user management features; implement user fetching and editing functionality">
+      <option name="closed" value="true" />
+      <created>1744062543487</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1744062543487</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Add edit functionality for admins; update AuthContext and routes">
+      <option name="closed" value="true" />
+      <created>1744062553338</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1744062553338</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Refactor user profile management; add edit functionality and improve navbar accessibility">
+      <option name="closed" value="true" />
+      <created>1744068798998</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1744068798998</updated>
+    </task>
+    <task id="LOCAL-00018" summary="pruebo gh pages">
+      <option name="closed" value="true" />
+      <created>1744113061687</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1744113061687</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Enhance footer layout and content; update styles for improved responsiveness">
+      <option name="closed" value="true" />
+      <created>1744122464123</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1744122464123</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Enhance footer layout and content; update styles for improved responsiveness">
+      <option name="closed" value="true" />
+      <created>1744127222709</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1744127222709</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Refactor transaction components; improve structure and update styles for better readability">
+      <option name="closed" value="true" />
+      <created>1744155430677</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1744155430677</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Termino Transacciones AMB">
+      <option name="closed" value="true" />
+      <created>1744231935680</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1744231935680</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Refactor project structure; rename files and update import paths for improved organization">
+      <option name="closed" value="true" />
+      <created>1744505741740</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1744505741740</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Refactor project structure; rename files and update import paths for improved organization">
+      <option name="closed" value="true" />
+      <created>1744505826418</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1744505826418</updated>
     </task>
     <task id="LOCAL-00025" summary="Refactor project structure; rename files and update import paths for improved organization">
       <option name="closed" value="true" />
@@ -347,287 +487,7 @@
       <option name="project" value="LOCAL" />
       <updated>1746210095408</updated>
     </task>
-    <task id="LOCAL-00039" summary="Add friends leaderboard feature; implement API, context, and UI for displaying friends' rankings">
-      <option name="closed" value="true" />
-      <created>1746296652739</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1746296652739</updated>
-    </task>
-    <task id="LOCAL-00040" summary="Add friends leaderboard feature; update UI components and refactor Home page">
-      <option name="closed" value="true" />
-      <created>1746308558615</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1746308558615</updated>
-    </task>
-    <task id="LOCAL-00041" summary="Add ticket management feature; implement API, context, and UI for ticket handling">
-      <option name="closed" value="true" />
-      <created>1746318419889</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1746318419889</updated>
-    </task>
-    <task id="LOCAL-00042" summary="Add ticket management feature; implement API, context, and UI for ticket handling">
-      <option name="closed" value="true" />
-      <created>1746360817569</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1746360817569</updated>
-    </task>
-    <task id="LOCAL-00043" summary="Refactor ticket view styles and update filtering functionality; enhance UI components for better usability">
-      <option name="closed" value="true" />
-      <created>1746361975915</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1746361975915</updated>
-    </task>
-    <task id="LOCAL-00044" summary="Add priority indicators to ticket view; enhance filtering UI with visual cues for priority levels">
-      <option name="closed" value="true" />
-      <created>1746362059726</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1746362059726</updated>
-    </task>
-    <task id="LOCAL-00045" summary="Refactor ticket view styles; update class names for improved clarity and consistency">
-      <option name="closed" value="true" />
-      <created>1746362888913</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1746362888913</updated>
-    </task>
-    <task id="LOCAL-00046" summary="Implement chat feature; add message API, context, and UI for ticket messaging">
-      <option name="closed" value="true" />
-      <created>1746392497852</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1746392497852</updated>
-    </task>
-    <task id="LOCAL-00047" summary="Implement chat feature; add message API, context, and UI for ticket messaging">
-      <option name="closed" value="true" />
-      <created>1746406833992</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1746406833992</updated>
-    </task>
-    <task id="LOCAL-00048" summary="Enhance support ticket functionality; implement automatic priority assignment and user data initialization">
-      <option name="closed" value="true" />
-      <created>1746411008533</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1746411008533</updated>
-    </task>
-    <task id="LOCAL-00049" summary="Implement FAQ functionality; add API, context, and UI for managing FAQs">
-      <option name="closed" value="true" />
-      <created>1746541184478</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1746541184478</updated>
-    </task>
-    <task id="LOCAL-00050" summary="Refactor game functionality; rename 'funcionando' to 'estado' in game routes and service">
-      <option name="closed" value="true" />
-      <created>1746544262762</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1746544262762</updated>
-    </task>
-    <task id="LOCAL-00051" summary="Subo con merge completo Creo">
-      <option name="closed" value="true" />
-      <created>1746554032444</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1746554032445</updated>
-    </task>
-    <task id="LOCAL-00052" summary="Add Recent Activities component; integrate with admin management and style updates">
-      <option name="closed" value="true" />
-      <created>1746811845178</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1746811845179</updated>
-    </task>
-    <task id="LOCAL-00053" summary="Refactor NavBar component; add admin status check and improve code formatting">
-      <option name="closed" value="true" />
-      <created>1746812295177</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1746812295177</updated>
-    </task>
-    <task id="LOCAL-00054" summary="Refactor NavBar component; add admin status check and improve code formatting">
-      <option name="closed" value="true" />
-      <created>1746812374223</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1746812374223</updated>
-    </task>
-    <task id="LOCAL-00055" summary="Refactor ticket management components; update status and priority handling, add filters for user roles">
-      <option name="closed" value="true" />
-      <created>1746814668634</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1746814668635</updated>
-    </task>
-    <task id="LOCAL-00056" summary="Subo UN MONTON DE ABMS">
-      <option name="closed" value="true" />
-      <created>1746828963411</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1746828963412</updated>
-    </task>
-    <task id="LOCAL-00057" summary="Add coupon validation and transaction handling; integrate coupon benefits in transaction process">
-      <option name="closed" value="true" />
-      <created>1746879210172</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1746879210172</updated>
-    </task>
-    <task id="LOCAL-00058" summary="Refactor leaderboard components; improve data handling and add debug logging">
-      <option name="closed" value="true" />
-      <created>1746887636432</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1746887636432</updated>
-    </task>
-    <task id="LOCAL-00059" summary="Remove debug logging from friends leaderboard data fetching; streamline error handling">
-      <option name="closed" value="true" />
-      <created>1746887692086</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1746887692086</updated>
-    </task>
-    <task id="LOCAL-00060" summary="Add auto spin functionality and enhance game controls; improve visual feedback for winning lines">
-      <option name="closed" value="true" />
-      <created>1746903521645</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1746903521645</updated>
-    </task>
-    <task id="LOCAL-00061" summary="Refactor footer components; update paths and enhance game navigation with infinite scroll effect">
-      <option name="closed" value="true" />
-      <created>1746912049259</created>
-      <option name="number" value="00061" />
-      <option name="presentableId" value="LOCAL-00061" />
-      <option name="project" value="LOCAL" />
-      <updated>1746912049259</updated>
-    </task>
-    <task id="LOCAL-00062" summary="Add tiempo de juego functionality; implement API, context, and UI for tracking user playtime">
-      <option name="closed" value="true" />
-      <created>1746929127634</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1746929127634</updated>
-    </task>
-    <task id="LOCAL-00063" summary="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for session tracking and user suspension management">
-      <option name="closed" value="true" />
-      <created>1746967600352</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1746967600352</updated>
-    </task>
-    <task id="LOCAL-00064" summary="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for user suspension management and add user management table component">
-      <option name="closed" value="true" />
-      <created>1746971603802</created>
-      <option name="number" value="00064" />
-      <option name="presentableId" value="LOCAL-00064" />
-      <option name="project" value="LOCAL" />
-      <updated>1746971603803</updated>
-    </task>
-    <task id="LOCAL-00065" summary="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in LimitPage">
-      <option name="closed" value="true" />
-      <created>1747084876687</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1747084876688</updated>
-    </task>
-    <task id="LOCAL-00066" summary="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component">
-      <option name="closed" value="true" />
-      <created>1747095196696</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1747095196697</updated>
-    </task>
-    <task id="LOCAL-00067" summary="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component">
-      <option name="closed" value="true" />
-      <created>1747140416856</created>
-      <option name="number" value="00067" />
-      <option name="presentableId" value="LOCAL-00067" />
-      <option name="project" value="LOCAL" />
-      <updated>1747140416856</updated>
-    </task>
-    <task id="LOCAL-00068" summary="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component">
-      <option name="closed" value="true" />
-      <created>1747141196622</created>
-      <option name="number" value="00068" />
-      <option name="presentableId" value="LOCAL-00068" />
-      <option name="project" value="LOCAL" />
-      <updated>1747141196622</updated>
-    </task>
-    <task id="LOCAL-00069" summary="Remove unused comment in NavBar component">
-      <option name="closed" value="true" />
-      <created>1747141379827</created>
-      <option name="number" value="00069" />
-      <option name="presentableId" value="LOCAL-00069" />
-      <option name="project" value="LOCAL" />
-      <updated>1747141379828</updated>
-    </task>
-    <task id="LOCAL-00070" summary="Refactor task entries in workspace.xml; remove closed tasks and update localTasksCounter in SupportPage.tsx for consistent priority casing">
-      <option name="closed" value="true" />
-      <created>1747142067328</created>
-      <option name="number" value="00070" />
-      <option name="presentableId" value="LOCAL-00070" />
-      <option name="project" value="LOCAL" />
-      <updated>1747142067328</updated>
-    </task>
-    <task id="LOCAL-00071" summary="Refactor date handling in game components; adjust timestamps to account for timezone offset and update limit values in authService">
-      <option name="closed" value="true" />
-      <created>1747143581518</created>
-      <option name="number" value="00071" />
-      <option name="presentableId" value="LOCAL-00071" />
-      <option name="project" value="LOCAL" />
-      <updated>1747143581518</updated>
-    </task>
-    <task id="LOCAL-00072" summary="Update workspace.xml and styles; rename currency symbol class for Minesweeper and adjust task entries">
-      <option name="closed" value="true" />
-      <created>1747144119815</created>
-      <option name="number" value="00072" />
-      <option name="presentableId" value="LOCAL-00072" />
-      <option name="project" value="LOCAL" />
-      <updated>1747144119815</updated>
-    </task>
-    <task id="LOCAL-00073" summary="Update workspace.xml and leaderboardService.ts; adjust task entries and add user stats retrieval for leaderboard">
-      <option name="closed" value="true" />
-      <created>1747748951729</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1747748951729</updated>
-    </task>
-    <option name="localTasksCounter" value="74" />
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

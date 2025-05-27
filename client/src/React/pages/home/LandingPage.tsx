@@ -20,9 +20,8 @@ const LandingPage: React.FC = () => {
     };
 
     const promociones = [
-        {titulo: "Bono de Bienvenida", descripcion: "¡100% en tu primer depósito hasta $500!", imagen: "promo1"},
-        {titulo: "Cashback Semanal", descripcion: "Recupera el 15% de tus pérdidas cada semana", imagen: "promo2"},
-        {titulo: "Giros Gratis", descripcion: "20 giros gratis en nuestros juegos premium", imagen: "promo3"}
+        {titulo: "Bono de Bienvenida", descripcion: "¡100% en tu primer depósito hasta $10000! con el codigo 11", imagen: "promo1"},
+        {titulo: "Promoción de Fin de Semana", descripcion: "Recibe un 50% extra en tus depósitos del fin de semana con el codigo 10 ", imagen: "promo2"},
     ];
 
     const australisJuegos = [

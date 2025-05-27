@@ -235,7 +235,7 @@ const Minesweeper: React.FC<MineProps> = () => {
 
     // Función modificada para generar ubicaciones de bombas con ventaja para influencers
     const generateBombLocations = (gridSize: number, totalMines: number): number[] => {
-        const isInfluencer = client && client.influencer === true;
+        const isInfluencer = client && client.influencer;
         const newBombLocations: number[] = [];
 
         // Creamos un array con todas las posiciones posibles
