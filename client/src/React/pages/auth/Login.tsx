@@ -101,7 +101,7 @@ const Login = () => {
                 termsText={
                     <>
                         Al Ingresar, declaro que soy mayor de 18 años y acepto los{' '}
-                        <Link to="/TerminosyCondiciones" className="terms-link">
+                        <Link to="/terms" className="terms-link">
                             <strong>Términos y Condiciones</strong>
                         </Link>
                     </>
