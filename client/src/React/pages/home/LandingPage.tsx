@@ -20,22 +20,33 @@ const LandingPage: React.FC = () => {
     };
 
     const promociones = [
-        {titulo: "Bono de Bienvenida", descripcion: "¡100% en tu primer depósito hasta $10000! con el codigo 11", imagen: "promo1"},
-        {titulo: "Promoción de Fin de Semana", descripcion: "Recibe un 50% extra en tus depósitos del fin de semana con el codigo 10 ", imagen: "promo2"},
+        {
+            titulo: "Bono de Bienvenida",
+            descripcion: "¡100% en tu primer depósito hasta $10000! con el codigo 11",
+            imagen: "promo1"
+        },
+        {
+            titulo: "Promoción de Fin de Semana",
+            descripcion: "Recibe un 50% extra en tus depósitos del fin de semana con el codigo 10 ",
+            imagen: "promo2"
+        },
     ];
 
     const australisJuegos = [
         {id: 1, nombre: "Slots", descripcion: "La emoción de los giros", imagen: "australis-game1"},
         {id: 2, nombre: "Ruleta Premium", descripcion: "La elegancia y el azar se combinan", imagen: "australis-game2"},
         {id: 3, nombre: "Blackjack VIP", descripcion: "Estrategia y suerte al máximo nivel", imagen: "australis-game3"},
-        {id: 4, nombre: "Dado", descripcion: "100 posibilidades, una sola decisión: ¡Lánzalo y deja que el destino hable!",
+        {
+            id: 4,
+            nombre: "Dado",
+            descripcion: "100 posibilidades, una sola decisión: ¡Lánzalo y deja que el destino hable!",
             imagen: "australis-game4"
         },
         {id: 5, nombre: "Mines", descripcion: "Sabrás elegir el lugar indicado?", imagen: "australis-game5"},
 
     ];
 
-    const { user } = useAuth();
+    const {user} = useAuth();
     const {getUserData} = useUser()
 
     useEffect(() => {
