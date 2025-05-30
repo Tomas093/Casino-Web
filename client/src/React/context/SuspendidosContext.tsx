@@ -1,5 +1,5 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import suspendidoApi, { SuspendidosData } from '../api/suspendidoApi';
+import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
+import suspendidoApi, {SuspendidosData} from '../api/suspendidoApi';
 
 interface SuspendidosContextType {
     suspendidos: SuspendidosData[];

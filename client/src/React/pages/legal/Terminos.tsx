@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import '@css/Terminos.css';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import {ChevronDown, ChevronUp} from 'lucide-react';
 
 const TermsAndConditions: React.FC = () => {
     const [expandedSection, setExpandedSection] = useState<string | null>('general');

@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from "react";
-import {Phone, Mail, MessageCircle, Clock, HelpCircle, Send} from "lucide-react";
+import React, {useEffect, useState} from "react";
+import {Clock, HelpCircle, Mail, MessageCircle, Phone, Send} from "lucide-react";
 import Form from "@components/Form";
 import FAQAccordion from "@components/support/FAQAccordion";
 import ContactCard from "@components/support/ContactCard";

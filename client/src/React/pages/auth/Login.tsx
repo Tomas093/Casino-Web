@@ -1,13 +1,13 @@
 import {useAuth} from '@context/AuthContext.tsx';
-                import {useSuspendidos} from '@context/SuspendidosContext.tsx';
-                import '@css/LoginStyle.css';
-                import {useState} from 'react';
-                import {Link, useNavigate} from 'react-router-dom';
-                import Message from '@components/Error/Message.tsx';
-                import Form from '../../components/Form.tsx';
-                import tiempodesesionApi from '@api/tiempodesesionApi.ts';
+import {useSuspendidos} from '@context/SuspendidosContext.tsx';
+import '@css/LoginStyle.css';
+import {useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import Message from '@components/Error/Message.tsx';
+import Form from '../../components/Form.tsx';
+import tiempodesesionApi from '@api/tiempodesesionApi.ts';
 
-                interface LoginProps {
+interface LoginProps {
                     footerText?: React.ReactNode;
                 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import '@css/AboutUs.css';
-import { Users, Trophy, Shield, Clock, ChevronRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import {ChevronRight, Clock, Shield, Trophy, Users} from 'lucide-react';
+import {useNavigate} from 'react-router-dom';
 
 const AboutUs: React.FC = () => {
     const navigate = useNavigate();

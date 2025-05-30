@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { WinningLineType } from '../types';
+import {useEffect, useState} from 'react';
+import {WinningLineType} from '../types';
+
 type WinDisplayProps = {
     winAmount: number;
     winningLines: WinningLineType[];

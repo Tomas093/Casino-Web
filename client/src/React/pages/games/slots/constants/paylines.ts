@@ -1,4 +1,4 @@
-import { PaylineType } from '../types';
+import {PaylineType} from '../types';
 
 // 25 líneas de pago predefinidas
 export const PAYLINES: PaylineType[] = [

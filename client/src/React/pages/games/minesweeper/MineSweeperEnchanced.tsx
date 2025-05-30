@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import '@css/MinesweeperStyle.css';
 import {useAuth} from "@context/AuthContext.tsx";
 import {usePlay} from '@context/PlayContext.tsx';

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ChipList, RouletteTable, RouletteWheel, useRoulette} from 'react-casino-roulette';
 import 'react-casino-roulette/dist/index.css';
 import '@css/NavBarStyle.css';
