@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TextField} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import LockIcon from "@mui/icons-material/Lock";
-import {useSuspendidos} from '@context/SupendidosContext.tsx';
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import {useSuspendidos} from '@context/SuspendidosContext.tsx';
 import Message from '../Error/Message';
 
 interface User {
@@ -57,7 +58,22 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({
                                                                      serverBaseUrl,
                                                                      defaultImage
                                                                  }) => {
-    const {create: suspendUser, loading: suspending} = useSuspendidos();
+    const {create: suspendUser, remove: removeSuspension, isUserSuspended, loading: suspending} = useSuspendidos();
+
+    // Suspension status state
+    const [suspendedUsers, setSuspendedUsers] = useState<{ [key: number]: boolean }>({});
+
+    useEffect(() => {
+        const checkSuspensions = async () => {
+            const statuses: { [key: number]: boolean } = {};
+            for (const user of realUsers) {
+                statuses[user.usuarioid] = await isUserSuspended(user.usuarioid);
+            }
+            setSuspendedUsers(statuses);
+        };
+        checkSuspensions();
+        // eslint-disable-next-line
+    }, [realUsers]);
 
     // Dialog state
     const [openDialog, setOpenDialog] = useState(false);
@@ -96,9 +112,24 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({
             setMessage('Usuario suspendido correctamente.');
             setMessageType('success');
             setShowMessage(true);
+            setSuspendedUsers(prev => ({...prev, [suspendUserTarget.usuarioid]: true}));
             handleCloseDialog();
         } catch (error) {
             setMessage('Ocurrió un error al suspender el usuario.');
+            setMessageType('error');
+            setShowMessage(true);
+        }
+    };
+
+    const handleRemoveSuspension = async (userId: number) => {
+        try {
+            await removeSuspension(userId);
+            setMessage('Suspensión eliminada correctamente.');
+            setMessageType('success');
+            setShowMessage(true);
+            setSuspendedUsers(prev => ({...prev, [userId]: false}));
+        } catch (error) {
+            setMessage('Ocurrió un error al quitar la suspensión.');
             setMessageType('error');
             setShowMessage(true);
         }
@@ -226,8 +257,8 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({
                                 ) : (
                                     <span
                                         className={`status-badge ${user.cliente?.influencer ? 'active' : 'inactive'}`}>
-                                                        {user.cliente?.influencer ? 'Sí' : 'No'}
-                                                    </span>
+                                                                                                   {user.cliente?.influencer ? 'Sí' : 'No'}
+                                                                                               </span>
                                 )}
                             </td>
                             <td>
@@ -274,13 +305,19 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({
                                                 <DeleteIcon fontSize="inherit" className="icon-large"/>
                                             </IconButton>
                                             <IconButton
-                                                aria-label="Suspender"
-                                                color="warning"
-                                                onClick={() => handleOpenSuspendDialog(user)}
+                                                aria-label={suspendedUsers[user.usuarioid] ? "Quitar suspensión" : "Suspender"}
+                                                color={suspendedUsers[user.usuarioid] ? "success" : "warning"}
+                                                onClick={async () => {
+                                                    if (suspendedUsers[user.usuarioid]) {
+                                                        await handleRemoveSuspension(user.usuarioid);
+                                                    } else {
+                                                        handleOpenSuspendDialog(user);
+                                                    }
+                                                }}
                                                 disabled={suspending}
                                                 style={{marginLeft: 4}}
                                             >
-                                                <LockIcon/>
+                                                {suspendedUsers[user.usuarioid] ? <LockIcon/> : <LockOpenIcon/>}
                                             </IconButton>
                                         </>
                                     )}

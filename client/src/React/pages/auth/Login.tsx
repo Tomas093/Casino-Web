@@ -1,5 +1,5 @@
 import {useAuth} from '@context/AuthContext.tsx';
-                import {useSuspendidos} from '@context/SupendidosContext.tsx';
+                import {useSuspendidos} from '@context/SuspendidosContext.tsx';
                 import '@css/LoginStyle.css';
                 import {useState} from 'react';
                 import {Link, useNavigate} from 'react-router-dom';

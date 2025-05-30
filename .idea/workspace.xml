@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor coupon management; update workspace configuration and enhance login form with footer text">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor session management; integrate user suspension check and enhance API methods">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/TiempoDeSesionContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/TiempoDeSesionContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/suspendidoApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/suspendidoApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/LimitMonitor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/LimitMonitor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/admin/UserManagementTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/admin/UserManagementTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/SupendidosContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/SuspendidosContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/routes/suspendidosRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/suspendidosRoutes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/services/suspendiosService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/suspendiosService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/services/tiempodesesionService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/tiempodesesionService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -241,15 +245,7 @@
       <workItem from="1747748103916" duration="841000" />
       <workItem from="1747750068506" duration="920000" />
       <workItem from="1748349818282" duration="1971000" />
-      <workItem from="1748620933851" duration="3035000" />
-    </task>
-    <task id="LOCAL-00030" summary="Add game and history APIs; implement context providers for game and history management">
-      <option name="closed" value="true" />
-      <created>1744728604967</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1744728604967</updated>
+      <workItem from="1748620933851" duration="4621000" />
     </task>
     <task id="LOCAL-00031" summary="Add game and history APIs; implement context providers for game and history management">
       <option name="closed" value="true" />
@@ -635,7 +631,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748620564435</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="Refactor session management; integrate user suspension check and enhance API methods">
+      <option name="closed" value="true" />
+      <created>1748624123683</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1748624123683</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -668,7 +672,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Subo con merge completo Creo" />
     <MESSAGE value="Add Recent Activities component; integrate with admin management and style updates" />
     <MESSAGE value="Refactor NavBar component; add admin status check and improve code formatting" />
     <MESSAGE value="Refactor ticket management components; update status and priority handling, add filters for user roles" />
@@ -693,6 +696,7 @@
     <MESSAGE value="Enhance coupon validation and UI; add monetary limits display and refactor coupon handling logic" />
     <MESSAGE value="Enhance coupon management; add cuponid field, update API methods, and improve validation logic" />
     <MESSAGE value="Refactor coupon management; update workspace configuration and enhance login form with footer text" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor coupon management; update workspace configuration and enhance login form with footer text" />
+    <MESSAGE value="Refactor session management; integrate user suspension check and enhance API methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor session management; integrate user suspension check and enhance API methods" />
   </component>
 </project>

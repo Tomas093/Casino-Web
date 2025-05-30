@@ -56,11 +56,15 @@ export const suspendidosService = {
         }
     },
 
-    deletesuspendidos: async (suspendidosId: number) => {
+    deletesuspendidos: async (usuarioid: number) => {
         try {
-            return await prisma.suspendidos.delete({
-                where: {suspendidoid: suspendidosId}
+            const result = await prisma.suspendidos.deleteMany({
+                where: { usuarioid }
             });
+            if (result.count === 0) {
+                throw new Error('Suspendido not found');
+            }
+            return result;
         } catch (error) {
             console.error('Error al eliminar el suspendidos:', error);
             throw error;
@@ -94,6 +98,4 @@ export const suspendidosService = {
             throw error;
         }
     },
-
-
 }
