@@ -11,10 +11,6 @@ const PAYTABLE = {
     5: 50  // 5 símbolos iguales consecutivos = 50x la apuesta por línea
 };
 
-/**
- * Genera un tablero aleatorio de 5x3
- * @param client - Información del cliente actual
- */
 export function generateRandomBoard(client?: any): BoardType {
     const board: BoardType = [];
 
@@ -70,9 +66,6 @@ export function generateRandomBoard(client?: any): BoardType {
     return board;
 }
 
-/**
- * Verifica todas las líneas de pago para encontrar combinaciones ganadoras
- */
 export function checkWinningLines(
     board: BoardType,
     paylines: PaylineType[],
@@ -119,9 +112,6 @@ export function checkWinningLines(
     return {winningLines, totalWin};
 }
 
-/**
- * Convierte coordenadas de línea de pago a posiciones en el tablero
- */
 export function getPaylinePositions(payline: PaylineType): { row: number; col: number }[] {
     return payline.positions.map((row, col) => ({row, col}));
 }

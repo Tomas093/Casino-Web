@@ -11,19 +11,6 @@
     font-family: 'Playfair Display', 'Times New Roman', serif;
 }
 
-/* Eliminamos el título principal a petición del usuario */
-/* .slot-game h1 {
-    color: #d4af37;
-    text-align: center;
-    margin-bottom: 30px;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    font-size: 32px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    position: relative;
-    padding-bottom: 15px;
-} */
-
 /* Control adicional - Espacio superior cuando no hay título */
 .slot-machine {
     margin-top: 40px;

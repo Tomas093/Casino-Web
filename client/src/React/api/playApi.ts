@@ -13,9 +13,7 @@ interface UserPlayData {
 const playApi = {
     createPlay: async (playData: UserPlayData) => {
         try {
-            console.log('Enviando datos de jugada al backend:', playData);
             const response = await axios.post(`${API_URL}/jugada`, playData);
-            console.log('Respuesta del backend:', response.data);
             return response.data;
         } catch (error: any) {
             console.error('Error completo en createPlay:', error);
@@ -79,9 +77,7 @@ const playApi = {
 
     getJugadasByUserId: async (userId: number) => {
         try {
-            console.log(`Obteniendo jugadas para el cliente ID: ${userId}`);
             const response = await axios.get(`${API_URL}/jugadas/cliente/${userId}`);
-            console.log('Jugadas obtenidas:', response.data);
             return response.data;
         } catch (error: any) {
             console.error('Error completo en getJugadasByUserId:', error);
