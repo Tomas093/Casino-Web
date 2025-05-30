@@ -4,7 +4,7 @@ import {Button} from '@mui/material';
 export interface FormFieldProps {
     id: string;
     label: string;
-    type: 'text' | 'email' | 'password' | 'number' | 'select' | 'date' | 'checkbox';
+    type: 'text' | 'email' | 'password' | 'number' | 'select' | 'date' | 'datetime-local' | 'checkbox';
     placeholder?: string;
     options?: string[];
     required?: boolean;
@@ -39,7 +39,6 @@ const GenericABM: React.FC<GenericFormCreatorProps> = ({
         event.preventDefault();
         try {
             await onSubmit(formValues);
-            // Reset form after successful submission
             setFormValues({});
             (event.target as HTMLFormElement).reset();
         } catch (error) {
@@ -89,7 +88,9 @@ const GenericABM: React.FC<GenericFormCreatorProps> = ({
                                     onChange={(e) =>
                                         handleInputChange(
                                             field.id,
-                                            field.type === 'number' ? parseFloat(e.target.value) : e.target.value
+                                            field.type === 'number'
+                                                ? parseFloat(e.target.value)
+                                                : e.target.value
                                         )
                                     }
                                     defaultValue={field.defaultValue}
