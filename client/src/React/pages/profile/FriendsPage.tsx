@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import "@css/FriendStyle.css"; // Mantenemos la referencia al CSS existente
 import SideBar from "@components/SideBar.tsx";
 import Message from "@components/Error/Message.tsx";
-import { useFriendRequestContext } from "@context/FriendRequestContext.tsx";
-import { useAuth } from "@context/AuthContext.tsx";
+import {useFriendRequestContext} from "@context/FriendRequestContext.tsx";
+import {useAuth} from "@context/AuthContext.tsx";
 
 interface User {
     usuarioid: number;

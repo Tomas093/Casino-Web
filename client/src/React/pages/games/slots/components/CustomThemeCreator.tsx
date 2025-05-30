@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { SymbolsThemeType } from '../types';
+import {useState} from 'react';
+import {SymbolsThemeType} from '../types';
 import './CustomThemeCreator.css';
 
 type CustomThemeCreatorProps = {

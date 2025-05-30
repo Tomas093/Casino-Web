@@ -1,5 +1,17 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Scale, FileText, BookOpen, Globe, AlertCircle, Award, Briefcase, Building, CheckCircle } from 'lucide-react';
+import React, {useState} from 'react';
+import {
+    AlertCircle,
+    Award,
+    BookOpen,
+    Briefcase,
+    Building,
+    CheckCircle,
+    ChevronDown,
+    ChevronUp,
+    FileText,
+    Globe,
+    Scale
+} from 'lucide-react';
 import '@css/LegalStyle.css'
 
 const LegalPage = () => {

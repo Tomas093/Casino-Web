@@ -1,5 +1,5 @@
 import {PrismaClient} from '@prisma/client';
-import { suspendidosService } from './suspendiosService';
+import {suspendidosService} from './suspendiosService';
 
 const prisma = new PrismaClient();
 

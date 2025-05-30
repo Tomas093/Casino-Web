@@ -1,10 +1,9 @@
 import {createContext, ReactNode, useCallback, useContext, useState} from 'react';
 import playApi from '@api/playApi';
 
-// Esta interfaz debe coincidir exactamente con lo que espera el backend
 interface UserPlayData {
     usuarioid: number;
-    juegoid: number;  // Debe ser juegoid, no partidaid
+    juegoid: number;
     fecha: string;
     retorno: number;
     apuesta: number;
@@ -17,7 +16,7 @@ interface playContextType {
     getAllJugadasByPartidaId: (partidaid: number) => Promise<any>;
     getJugadasByUserId: (userId: number) => Promise<any>;
     getJugadasByRetorno: (retorno: number) => Promise<any>;
-    isLoading: boolean; // Añadido para poder mostrar estados de carga
+    isLoading: boolean;
 }
 
 interface PlayProviderProps {

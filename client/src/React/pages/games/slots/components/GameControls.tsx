@@ -1,12 +1,12 @@
 import {SymbolsThemeType} from '../types';
 import {
-    defaultTheme,
-    fruitTheme,
-    cardsTheme,
     animalsTheme,
     argentinaTheme,
+    cardsTheme,
     countriesTheme,
+    defaultTheme,
     foodTheme,
+    fruitTheme,
     sportsTheme,
     travelTheme
 } from '../themes/deafultThemes.tsx';

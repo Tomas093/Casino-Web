@@ -2,7 +2,7 @@ import {useCallback, useEffect, useState} from 'react';
 import SlotMachine from './components/SlotMachine';
 import GameControls from './components/GameControls';
 import WinDisplay from './components/WinDisplay';
-import {generateRandomBoard, checkWinningLines} from './utils/gamelogic.ts';
+import {checkWinningLines, generateRandomBoard} from './utils/gamelogic.ts';
 import {defaultTheme} from './themes/deafultThemes.tsx';
 import {PAYLINES} from './constants/paylines';
 import {GameStateType} from './types';

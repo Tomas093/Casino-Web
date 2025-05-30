@@ -11,7 +11,7 @@ import NavBar from "@components/NavBar.tsx";
 import {useUser} from "@context/UserContext.tsx";
 import {useAuth} from "@context/AuthContext.tsx";
 import LeaderBoard from "@components/LeaderBoard";
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 interface GameCardProps {
     title: string;

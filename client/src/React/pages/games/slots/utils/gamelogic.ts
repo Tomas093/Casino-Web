@@ -1,4 +1,4 @@
-import {BoardType, PaylineType, WinResultType, WinningLineType} from '../types';
+import {BoardType, PaylineType, WinningLineType, WinResultType} from '../types';
 
 // Número total de símbolos diferentes en el juego
 const TOTAL_SYMBOLS = 8;
