@@ -31,10 +31,7 @@ export const PlayProvider = ({children}: PlayProviderProps) => {
     const createPlay = useCallback(async (playData: UserPlayData) => {
         setIsLoading(true);
         try {
-            console.log('PlayContext: Creando jugada con datos:', playData);
-            const result = await playApi.createPlay(playData);
-            console.log('PlayContext: Jugada creada exitosamente:', result);
-            return result;
+            return await playApi.createPlay(playData);
         } catch (error) {
             console.error('PlayContext: Error al crear jugada:', error);
             throw error;
@@ -82,10 +79,7 @@ export const PlayProvider = ({children}: PlayProviderProps) => {
     const getJugadasByUserId = useCallback(async (userId: number) => {
         setIsLoading(true);
         try {
-            console.log(`PlayContext: Obteniendo jugadas para el cliente ID: ${userId}`);
-            const result = await playApi.getJugadasByUserId(userId);
-            console.log(`PlayContext: Jugadas obtenidas para cliente ${userId}:`, result);
-            return result;
+            return await playApi.getJugadasByUserId(userId);
         } catch (error) {
             console.error('PlayContext: Error al obtener jugadas por usuario ID:', error);
             throw error;

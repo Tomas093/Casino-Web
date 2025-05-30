@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import '@css/PrivacyPolicyStyle.css';
-import { ChevronDown, ChevronUp, Shield, Lock, Eye, Database, Mail, FileWarning } from 'lucide-react';
+import {ChevronDown, ChevronUp, Database, Eye, FileWarning, Lock, Mail, Shield} from 'lucide-react';
 
 const PrivacyPolicy: React.FC = () => {
     const [expandedSection, setExpandedSection] = useState<string | null>('introduction');

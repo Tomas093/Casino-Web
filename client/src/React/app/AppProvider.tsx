@@ -15,7 +15,7 @@ import {FAQProvider} from "@context/FAQContext.tsx";
 import {AdminStaticsProvider} from "@context/AdminStaticsContext.tsx";
 import {CuponProvider} from '@context/CuponContext';
 import {TiempoDeSesionProvider} from '@context/TiempoDeSesionContext.tsx';
-import {SuspendidosProvider} from '@context/SupendidosContext.tsx';
+import {SuspendidosProvider} from '@context/SuspendidosContext.tsx';
 
 interface AppProviderProps {
     children: ReactNode;

@@ -1,10 +1,10 @@
 import {createContext, ReactNode, useCallback, useContext, useState} from 'react';
 import adminStaticsApi, {
+    Activity,
+    EntityCounts,
     MethodTotal,
     RevenueStats,
-    TransactionStats,
-    EntityCounts,
-    Activity
+    TransactionStats
 } from '@api/adminStaticsApi';
 
 interface AdminStaticsContextType {

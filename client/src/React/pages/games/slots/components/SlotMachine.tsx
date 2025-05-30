@@ -1,8 +1,8 @@
-import {useState, useEffect, useRef} from 'react';
-                import {BoardType, PaylineType, WinningLineType, SymbolsThemeType} from '../types';
-                import '../css/SlotMachineStyle.css';
+import {useEffect, useRef, useState} from 'react';
+import {BoardType, PaylineType, SymbolsThemeType, WinningLineType} from '../types';
+import '../css/SlotMachineStyle.css';
 
-                type SlotMachineProps = {
+type SlotMachineProps = {
                     board: BoardType;
                     isSpinning: boolean;
                     winningLines: WinningLineType[];

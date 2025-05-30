@@ -316,3 +316,7 @@
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+.notification-content{
+    margin-top: 100px;
+}

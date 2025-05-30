@@ -1,5 +1,15 @@
 import {SymbolsThemeType} from '../types';
-import {defaultTheme, fruitTheme, cardsTheme} from '../themes/deafultThemes.tsx';
+import {
+    animalsTheme,
+    argentinaTheme,
+    cardsTheme,
+    countriesTheme,
+    defaultTheme,
+    foodTheme,
+    fruitTheme,
+    sportsTheme,
+    travelTheme
+} from '../themes/deafultThemes.tsx';
 import '../css/GameControlsStyle.css';
 
 
@@ -24,7 +34,8 @@ const GameControls = ({
                           isAutoSpinActive
                       }: GameControlsProps) => {
     // Lista de temas disponibles
-    const availableThemes = [defaultTheme, fruitTheme, cardsTheme];
+    const availableThemes = [defaultTheme, fruitTheme, cardsTheme,
+        animalsTheme, argentinaTheme, countriesTheme, foodTheme, sportsTheme, travelTheme];
 
     // Lista de opciones de apuesta
     const betOptions = [25, 50, 75, 100, 125];

@@ -1,5 +1,5 @@
-import { Request, Response, Router, NextFunction } from 'express';
-import { messageService } from '../services/messageService';
+import {NextFunction, Request, Response, Router} from 'express';
+import {messageService} from '../services/messageService';
 
 const router = Router();
 
