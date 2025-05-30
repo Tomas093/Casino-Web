@@ -10,7 +10,6 @@ import {useLimitContext} from "@context/LimitContext.tsx";
 import {useCupon} from "@context/CuponContext.tsx";
 import Message from "@components/Error/Message";
 
-// Métodos disponibles
 const METODOS_INGRESO = [
     {value: 'Tarjeta', label: 'Tarjeta de crédito/débito', via: 'Ingreso'},
     {value: 'Transferencia', label: 'Transferencia bancaria', via: 'Ingreso'},
@@ -24,14 +23,14 @@ const METODOS_RETIRO = [
     {value: 'Cripto', label: 'Criptomonedas', via: 'Retiro'}
 ];
 
-// Interfaces
+
 interface TransaccionUI {
     id: number;
     tipo: 'ingreso' | 'retiro';
     monto: number;
     fecha: Date;
     metodo: string;
-    estado?: string; // opcional, por compatibilidad
+    estado?: string;
 }
 
 interface MetodoProps {
@@ -39,7 +38,7 @@ interface MetodoProps {
     via?: string;
 }
 
-// Componente de transacción individual
+
 const TransaccionItem: React.FC<{ transaccion: TransaccionUI }> = ({transaccion}) => {
     const formatFecha = (fecha: Date): string => {
         return fecha.toLocaleDateString('es-ES', {

@@ -4,7 +4,7 @@ import {PrismaClient} from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// Extend Express Request to include user property
+
 declare global {
     namespace Express {
         interface Request {
