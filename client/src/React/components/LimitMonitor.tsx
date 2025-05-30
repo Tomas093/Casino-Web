@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useLimitContext} from '@context/LimitContext';
 import {usetiempodesesion} from '@context/TiempoDeSesionContext';
-import {useSuspendidos} from '@context/SupendidosContext';
+import {useSuspendidos} from '@context/SuspendidosContext.tsx';
 import {useAuth} from '@context/AuthContext';
 import Message from '../components/Error/Message';
 

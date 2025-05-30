@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, {FormEvent, useState} from 'react';
 
 // Tipos de campos soportados
 type FieldType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select';
@@ -25,16 +25,18 @@ interface FormProps {
     termsText?: React.ReactNode;
     onSubmit: (formData: Record<string, string>) => void;
     errorMessage?: string;
+    footerText?: React.ReactNode; // Optional footer text
 }
 
 const Form: React.FC<FormProps> = ({
-    title = "Australis",
-    subtitle = "Crea tu cuenta",
-    fields,
-    submitButtonText = "Crear Cuenta",
-    termsText,
-    onSubmit
-}) => {
+                                       title = "Australis",
+                                       subtitle = "Crea tu cuenta",
+                                       fields,
+                                       submitButtonText = "Crear Cuenta",
+                                       termsText,
+                                       onSubmit,
+                                       footerText
+                                   }) => {
     // Estado del formulario dinámico
     const [formData, setFormData] = useState<Record<string, string>>(() => {
         const initialState: Record<string, string> = {};
@@ -45,7 +47,7 @@ const Form: React.FC<FormProps> = ({
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setFormData(prevState => ({
             ...prevState,
             [name]: value
@@ -108,9 +110,9 @@ const Form: React.FC<FormProps> = ({
                 <button type="submit" className="form-button">{submitButtonText}</button>
             </form>
             {termsText && <p className="terms">{termsText}</p>}
+            {footerText && <div className="form-footer">{footerText}</div>}
         </div>
     );
 };
 
 export default Form;
-

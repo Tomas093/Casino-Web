@@ -3,12 +3,14 @@ import {PrismaClient} from '@prisma/client';
 const prisma = new PrismaClient();
 
 interface CuponData {
+    cuponid: string
     beneficio: number;
-    fechainicio: string;
-    fechafin: string;
+    fechainicio: string; // ISO date string
+    fechafin: string; // ISO date string
     cantidadusos: number;
-    mincarga: number;
     maxcarga: number;
+    mincarga: number;
+    vecesusadas?: number; // Optional, default is 0
 }
 
 export const cuponService = {
@@ -21,7 +23,7 @@ export const cuponService = {
         });
     },
 
-    getCuponById: async (cuponid: number) => {
+    getCuponById: async (cuponid: string) => {
         const cupon = await prisma.cupon.findUnique({
             where: {
                 cuponid: cuponid
@@ -40,6 +42,7 @@ export const cuponService = {
 
         return prisma.cupon.create({
             data: {
+                cuponid: cuponData.cuponid,
                 beneficio,
                 fechainicio: new Date(fechainicio).toISOString(),
                 fechafin: new Date(fechafin).toISOString(),
@@ -50,7 +53,7 @@ export const cuponService = {
         });
     },
 
-    updateCupon: async (cuponid: number, cuponData: CuponData) => {
+    updateCupon: async (cuponid: string, cuponData: CuponData) => {
         const {beneficio, fechainicio, fechafin, cantidadusos, maxcarga, mincarga} = cuponData;
 
         return prisma.cupon.update({
@@ -66,7 +69,18 @@ export const cuponService = {
         });
     },
 
-    deleteCupon: async (cuponid: number) => {
+    updatecuponUsage: async (cuponid: string) => {
+        return prisma.cupon.update({
+            where: {cuponid},
+            data: {
+                vecesusadas: {
+                    increment: 1
+                }
+            }
+        });
+    },
+
+    deleteCupon: async (cuponid: string) => {
         return prisma.cupon.delete({
             where: {cuponid}
         });
