@@ -23,6 +23,7 @@ const CuponsManager: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [editForm, setEditForm] = useState<CuponData>({
+        cuponid: '',
         beneficio: 0,
         fechainicio: '',
         fechafin: '',
@@ -45,6 +46,13 @@ const CuponsManager: React.FC = () => {
 
     const cuponFields: FormFieldProps[] = [
         {
+            id: 'cuponid',
+            label: 'ID del Cupón',
+            type: 'text',
+            placeholder: 'Ej: BIENVENIDO10',
+            required: true,
+        },
+        {
             id: 'beneficio',
             label: 'Beneficio (%)',
             type: 'number',
@@ -53,14 +61,14 @@ const CuponsManager: React.FC = () => {
         },
         {
             id: 'fechainicio',
-            label: 'Fecha Inicio',
-            type: 'date',
+            label: 'Fecha y Hora Inicio',
+            type: 'datetime-local',
             required: true
         },
         {
             id: 'fechafin',
-            label: 'Fecha Fin',
-            type: 'date',
+            label: 'Fecha y Hora Fin',
+            type: 'datetime-local',
             required: true
         },
         {
@@ -86,6 +94,22 @@ const CuponsManager: React.FC = () => {
         }
     ];
 
+    // Helper for datetime-local input value
+    const formatDateTimeForInput = (dateString: string) => {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        const tzOffset = date.getTimezoneOffset() * 60000;
+        const localISOTime = new Date(date.getTime() - tzOffset).toISOString().slice(0, 16);
+        return localISOTime;
+    };
+
+    // Helper for display
+    const formatDateTimeForDisplay = (dateString: string) => {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        return date.toLocaleString();
+    };
+
     const showMessage = (text: string, type: 'error' | 'warning' | 'info' | 'success') => {
         setMessageInfo({
             text,
@@ -101,7 +125,7 @@ const CuponsManager: React.FC = () => {
     // Helper to check date validity
     const isEndDateValid = (fechainicio: string, fechafin: string) => {
         const today = new Date();
-        today.setHours(0, 0, 0, 0); // Ignore time
+        today.setHours(0, 0, 0, 0);
         const start = new Date(fechainicio);
         const end = new Date(fechafin);
         return end >= today && end >= start;
@@ -129,7 +153,6 @@ const CuponsManager: React.FC = () => {
                 const data = await cuponApi.getAllCupon();
                 setCupones(data);
                 setTotalPages(Math.ceil(data.length / itemsPerPage));
-                // Reset to page 1 when data refreshes
                 setCurrentPage(1);
             } catch (error) {
                 console.error('Error al cargar cupones:', error);
@@ -138,30 +161,38 @@ const CuponsManager: React.FC = () => {
                 setLoading(false);
             }
         };
-
         fetchCupones();
     }, [refreshCupones]);
 
     // Handle form submission for creating new coupons
     const handleCreateCupon = async (formData: Record<string, any>) => {
         try {
-            // Validate no negative values
+            const cuponid = String(formData.cuponid).trim();
             const beneficio = Number(formData.beneficio);
             const cantidadusos = Number(formData.cantidadusos);
             const mincarga = Number(formData.mincarga);
             const maxcarga = Number(formData.maxcarga);
 
+            if (!cuponid) {
+                showMessage('El ID del cupón es obligatorio', 'error');
+                return;
+            }
+            // Check if cuponid already exists
+            if (cupones.some(c => c.cuponid.toLowerCase() === cuponid.toLowerCase())) {
+                showMessage('Ya existe un cupón con ese ID', 'error');
+                return;
+            }
             if (beneficio < 0 || cantidadusos < 0 || mincarga < 0 || maxcarga < 0) {
                 showMessage('Los valores numéricos no pueden ser negativos', 'error');
                 return;
             }
-
             if (!isEndDateValid(formData.fechainicio, formData.fechafin)) {
                 showMessage('La fecha de fin no puede ser anterior a hoy ni a la fecha de inicio', 'error');
                 return;
             }
 
             await cuponApi.createCupon({
+                cuponid,
                 beneficio,
                 fechainicio: formData.fechainicio,
                 fechafin: formData.fechafin,
@@ -181,42 +212,28 @@ const CuponsManager: React.FC = () => {
     const startEditing = (cupon: Cupon) => {
         setEditingId(cupon.cuponid);
         setEditForm({
+            cuponid: cupon.cuponid,
             beneficio: cupon.beneficio,
-            fechainicio: formatDateForInput(cupon.fechainicio),
-            fechafin: formatDateForInput(cupon.fechafin),
+            fechainicio: formatDateTimeForInput(cupon.fechainicio),
+            fechafin: formatDateTimeForInput(cupon.fechafin),
             cantidadusos: cupon.cantidadusos,
             mincarga: cupon.mincarga,
             maxcarga: cupon.maxcarga
         });
     };
 
-    // Format date for input fields
-    const formatDateForInput = (dateString: string) => {
-        const date = new Date(dateString);
-        return date.toISOString().split('T')[0];
-    };
-
-    // Format date for display
-    const formatDateForDisplay = (dateString: string) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString();
-    };
-
     // Save edited coupon
     const handleSave = async (cuponid: string) => {
         try {
-            // Validate no negative values
             if (editForm.beneficio < 0 || editForm.cantidadusos < 0 ||
                 editForm.mincarga < 0 || editForm.maxcarga < 0) {
                 showMessage('Los valores numéricos no pueden ser negativos', 'error');
                 return;
             }
-
             if (!isEndDateValid(editForm.fechainicio, editForm.fechafin)) {
                 showMessage('La fecha de fin no puede ser anterior a hoy ni a la fecha de inicio', 'error');
                 return;
             }
-
             await cuponApi.updateCupon(cuponid, editForm);
             setEditingId(null);
             setRefreshCupones(prev => prev + 1);
@@ -352,7 +369,7 @@ const CuponsManager: React.FC = () => {
                                 <td>
                                     {editingId === cupon.cuponid ? (
                                         <input
-                                            type="date"
+                                            type="datetime-local"
                                             value={editForm.fechainicio}
                                             onChange={(e) => setEditForm({
                                                 ...editForm,
@@ -361,13 +378,13 @@ const CuponsManager: React.FC = () => {
                                             className="edit-input"
                                         />
                                     ) : (
-                                        formatDateForDisplay(cupon.fechainicio)
+                                        formatDateTimeForDisplay(cupon.fechainicio)
                                     )}
                                 </td>
                                 <td>
                                     {editingId === cupon.cuponid ? (
                                         <input
-                                            type="date"
+                                            type="datetime-local"
                                             value={editForm.fechafin}
                                             onChange={(e) => setEditForm({
                                                 ...editForm,
@@ -376,7 +393,7 @@ const CuponsManager: React.FC = () => {
                                             className="edit-input"
                                         />
                                     ) : (
-                                        formatDateForDisplay(cupon.fechafin)
+                                        formatDateTimeForDisplay(cupon.fechafin)
                                     )}
                                 </td>
                                 <td>

@@ -8,13 +8,11 @@ datasource db {
 }
 
 model administrador {
-  adminid                 Int                       @id @default(autoincrement())
-  superadmin              Boolean?
-  usuarioid               Int                       @unique
-  usuario                 usuario                   @relation(fields: [usuarioid], references: [usuarioid], onDelete: Cascade)
-  aumentolimitehorario    aumentolimitehorario[]
-  aumentolimitesmonetario aumentolimitesmonetario[]
-  ticket                  ticket[]
+  adminid    Int      @id @default(autoincrement())
+  superadmin Boolean?
+  usuarioid  Int      @unique
+  usuario    usuario  @relation(fields: [usuarioid], references: [usuarioid], onDelete: Cascade)
+  ticket     ticket[]
 }
 
 model amistad {
@@ -26,62 +24,20 @@ model amistad {
   usuario_amistad_usuario2_idTousuario usuario   @relation("amistad_usuario2_idTousuario", fields: [usuario2_id], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model aumentolimitehorario {
-  aumenthorarioid Int            @id @default(autoincrement())
-  clienteid       Int?
-  cantidad        Int?
-  adminid         Int?
-  fechaabierto    DateTime?      @db.Timestamp(6)
-  fecharesuelto   DateTime?      @db.Timestamp(6)
-  administrador   administrador? @relation(fields: [adminid], references: [adminid], onDelete: Cascade, onUpdate: NoAction)
-  cliente         cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
-}
-
-model aumentolimitesmonetario {
-  aumentomonetarioid Int            @id @default(autoincrement())
-  clienteid          Int?
-  cantidad           Decimal?       @db.Decimal(10, 2)
-  adminid            Int?
-  fechaabierto       DateTime?      @db.Timestamp(6)
-  fecharesuelto      DateTime?      @db.Timestamp(6)
-  administrador      administrador? @relation(fields: [adminid], references: [adminid], onDelete: Cascade, onUpdate: NoAction)
-  cliente            cliente?       @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
-}
-
 model cliente {
-  clienteid                  Int                          @id @default(autoincrement())
-  balance                    BigInt?
-  influencer                 Boolean?
-  usuarioid                  Int                          @unique
-  aumentolimitehorario       aumentolimitehorario[]
-  aumentolimitesmonetario    aumentolimitesmonetario[]
-  usuario                    usuario                      @relation(fields: [usuarioid], references: [usuarioid], onDelete: Cascade)
-  disminucionlimitehorario   disminucionlimitehorario[]
-  disminucionlimitemonetario disminucionlimitemonetario[]
-  egreso                     egreso[]
-  ingreso                    ingreso[]
-  jugada                     jugada[]
-  limitehorario              limitehorario?
-  limitemonetario            limitemonetario?
-  partida                    partida[]
-  pausa                      pausa?
-  ticket                     ticket[]
-}
-
-model disminucionlimitehorario {
-  disminucionhorarioid Int       @id @default(autoincrement())
-  clienteid            Int?
-  cantidad             Int?
-  fecha                DateTime? @db.Timestamp(6)
-  cliente              cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
-}
-
-model disminucionlimitemonetario {
-  disminucionmontarioid Int       @id @default(autoincrement())
-  clienteid             Int?
-  cantidad              Decimal?  @db.Decimal(10, 2)
-  fecha                 DateTime? @db.Timestamp(6)
-  cliente               cliente?  @relation(fields: [clienteid], references: [clienteid], onDelete: Cascade, onUpdate: NoAction)
+  clienteid       Int              @id @default(autoincrement())
+  balance         BigInt?
+  influencer      Boolean?
+  usuarioid       Int              @unique
+  usuario         usuario          @relation(fields: [usuarioid], references: [usuarioid], onDelete: Cascade)
+  egreso          egreso[]
+  ingreso         ingreso[]
+  jugada          jugada[]
+  limitehorario   limitehorario?
+  limitemonetario limitemonetario?
+  partida         partida[]
+  pausa           pausa?
+  ticket          ticket[]
 }
 
 model egreso {
@@ -228,13 +184,14 @@ model faq {
 }
 
 model cupon {
-  cuponid      Int       @id(map: "promocion_pkey") @default(autoincrement())
+  cuponid      String    @id(map: "promocion_pkey") @default(dbgenerated("nextval('promocion_promocionid_seq'::regclass)"))
   beneficio    Decimal?  @db.Decimal
-  fechainicio  DateTime? @db.Timestamp(6)
-  fechafin     DateTime? @db.Timestamp(6)
+  fechainicio  DateTime? @db.Timestamptz(6)
+  fechafin     DateTime? @db.Timestamptz(6)
   cantidadusos Int?
-  mincarga     Decimal?  @db.Decimal(10, 2)
-  maxcarga     Decimal?  @db.Decimal(10, 2)
+  mincarga     Decimal?  @db.Decimal
+  maxcarga     Decimal?  @db.Decimal
+  vecesusadas  Int?
 }
 
 model tiempodesesion {
