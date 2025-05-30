@@ -6,21 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor game components; add InsufficientBalanceNotification and enhance theme options">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/playApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/playApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/transactionApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/transactionApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/PlayContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/PlayContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/minesweeper/MineSweeperEnchanced.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/minesweeper/MineSweeperEnchanced.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/Slots.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/Slots.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/GameControls.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/GameControls.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/WinDisplay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/WinDisplay.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/css/SlotsStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/css/SlotsStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/css/WinDisplayStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/games/InsufficientBalanceNotification.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/themes/deafultThemes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/themes/deafultThemes.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/utils/gamelogic.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/utils/gamelogic.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/transaction/Transaccion.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/transaction/Transaccion.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/middleware/authMiddleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/middleware/authMiddleware.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,14 +238,6 @@
       <workItem from="1747748103916" duration="841000" />
       <workItem from="1747750068506" duration="920000" />
       <workItem from="1748349818282" duration="1971000" />
-    </task>
-    <task id="LOCAL-00025" summary="Refactor project structure; rename files and update import paths for improved organization">
-      <option name="closed" value="true" />
-      <created>1744506598543</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1744506598543</updated>
     </task>
     <task id="LOCAL-00026" summary="A">
       <option name="closed" value="true" />
@@ -645,7 +623,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747748951729</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="Refactor game components; add InsufficientBalanceNotification and enhance theme options">
+      <option name="closed" value="true" />
+      <created>1748607853373</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1748607853373</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
