@@ -89,7 +89,7 @@ router.get('/is-suspended/:userId', async (req: Request, res: Response) => {
     const {userId} = req.params;
 
     try {
-        const suspendidos = await suspendidosService.isUseridSuspendidos(parseInt(userId));
+        const suspendidos = await suspendidosService.isUseridSuspendido(parseInt(userId));
         res.status(200).json(suspendidos);
     } catch (error: any) {
         console.error("Error al verificar si el usuario está suspendido:", error);

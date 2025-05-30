@@ -10,7 +10,7 @@ interface suspendidosData {
 
 
 export const suspendidosService = {
-    
+
     getsuspendidosById: async (suspendidosId: number) => {
         try {
             return await prisma.suspendidos.findUnique({
@@ -67,12 +67,14 @@ export const suspendidosService = {
         }
     },
 
-    isUseridSuspendidos: async (userid: number) => {
+    isUseridSuspendido: async (userid: number) => {
         try {
+            const now = new Date();
             const suspendidos = await prisma.suspendidos.findFirst({
                 where: {
                     usuarioid: userid,
-                    fechafin: null
+                    fechainicio: {lte: now},
+                    fechafin: {not: null, gt: now}
                 }
             });
             return suspendidos !== null;
@@ -85,17 +87,13 @@ export const suspendidosService = {
     getAllsuspendidosByUserId: async (usuarioid: number) => {
         try {
             return await prisma.suspendidos.findMany({
-                where: { usuarioid }
+                where: {usuarioid}
             });
         } catch (error) {
             console.error('Error al obtener suspendidos por usuario:', error);
             throw error;
         }
     },
-
-
-
-
 
 
 }
