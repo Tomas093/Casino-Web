@@ -292,6 +292,7 @@ const Transaccion: React.FC = () => {
     const [validatingCoupon, setValidatingCoupon] = useState<boolean>(false);
     const [couponError, setCouponError] = useState<string>('');
     const [benefitAmount, setBenefitAmount] = useState<number>(0);
+    const [isCouponValidated, setIsCouponValidated] = useState<boolean>(true); // Nuevo estado
 
     // Estado para mensajes
     const [errorMessage, setErrorMessage] = useState<string>('');
@@ -355,9 +356,7 @@ const Transaccion: React.FC = () => {
             setCoupon(couponData);
             setCouponError('');
 
-            // Mostrar mensaje de éxito
-            setSuccessMessage(`¡Cupón aplicado! Beneficio: ${couponData.beneficio}%`);
-            setMessageType('success');
+            setIsCouponValidated(true); // Habilitar el botón de "Depositar" después de validar
 
             // Auto-clear success message after 3 seconds
             setTimeout(() => {
@@ -370,9 +369,16 @@ const Transaccion: React.FC = () => {
             setBenefitAmount(0);
             setErrorMessage('Cupón no válido o no encontrado');
             setMessageType('error');
+            setIsCouponValidated(false); // Mantener deshabilitado si falla la validación
         } finally {
             setValidatingCoupon(false);
         }
+    };
+
+    // Manejar cambios en el campo del cupón
+    const handleCouponChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setCouponId(e.target.value);
+        setIsCouponValidated(false); // Deshabilitar el botón si el usuario escribe en el campo
     };
 
     // Actualizar monto de beneficio cuando cambia el monto o hay cupón válido
@@ -690,7 +696,7 @@ const Transaccion: React.FC = () => {
                                             type="text"
                                             id="coupon"
                                             value={couponId}
-                                            onChange={(e) => setCouponId(e.target.value)}
+                                            onChange={handleCouponChange} // Usar el nuevo manejador
                                             placeholder="Ingrese ID del cupón"
                                         />
                                         <button
@@ -719,25 +725,71 @@ const Transaccion: React.FC = () => {
                                 </div>
                             )}
 
-                            <button type="submit" className="cta-btn transaccion-btn" disabled={loading}>
-                                {loading ? 'Procesando...' : activeTab === 'ingreso' ? 'Depositar' : 'Retirar'}
+                            <button
+                                type="submit"
+                                className="cta-btn transaccion-btn"
+                                disabled={loading || (activeTab === 'ingreso' && !!couponId.trim() && !isCouponValidated)}
+                            >
+                                {loading
+                                    ? 'Procesando...'
+                                    : activeTab === 'ingreso'
+                                        ? 'Depositar'
+                                        : 'Retirar'}
                             </button>
                         </form>
+
+                        {/* Límites monetarios */}
+                        {activeTab === 'ingreso' && monetaryLimits && (
+                            <div className="limits-section">
+                                <div className="limits-block">
+                                    <div className="limits-block-title">Límites</div>
+                                    <div className="limits-pills">
+                                        <span className="limits-pill">
+                                            <span
+                                                className="limits-pill-label">Diario</span> ${monetaryLimits.limitediario}
+                                        </span>
+                                        <span className="limits-pill">
+                                            <span
+                                                className="limits-pill-label">Semanal</span> ${monetaryLimits.limitesemanal}
+                                        </span>
+                                        <span className="limits-pill">
+                                            <span
+                                                className="limits-pill-label">Mensual</span> ${monetaryLimits.limitemensual}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="limits-block">
+                                    <div className="limits-block-title">Usado</div>
+                                    <div className="limits-pills">
+                                        <span className="limits-pill">
+                                            <span
+                                                className="limits-pill-label">Diario</span> ${calculateCurrentUsage().daily}
+                                        </span>
+                                        <span className="limits-pill">
+                                            <span
+                                                className="limits-pill-label">Semanal</span> ${calculateCurrentUsage().weekly}
+                                        </span>
+                                        <span className="limits-pill">
+                                            <span
+                                                className="limits-pill-label">Mensual</span> ${calculateCurrentUsage().monthly}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
-                    {/* Historial */}
+                    {/* Historial de transacciones */}
                     <div className="transaccion-historial">
                         <h2>Historial de transacciones</h2>
-
                         {historial.length === 0 ? (
-                            <p className="no-transacciones">No hay transacciones para mostrar</p>
+                            <div className="no-transacciones">
+                                No hay transacciones registradas.
+                            </div>
                         ) : (
                             <div className="historial-lista">
                                 {historial.map((transaccion) => (
-                                    <TransaccionItem
-                                        key={`${transaccion.tipo}-${transaccion.id}`}
-                                        transaccion={transaccion}
-                                    />
+                                    <TransaccionItem key={transaccion.id} transaccion={transaccion}/>
                                 ))}
                             </div>
                         )}
