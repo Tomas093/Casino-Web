@@ -6,9 +6,9 @@ const TOTAL_SYMBOLS = 8;
 // Tabla de pagos: multiplicadores para cada combinación ganadora
 // Por ejemplo: 3 símbolos iguales = apuesta x3, 4 símbolos = apuesta x10, 5 símbolos = apuesta x50
 const PAYTABLE = {
-    3: 3,  // 3 símbolos iguales consecutivos = 3x la apuesta por línea
-    4: 10, // 4 símbolos iguales consecutivos = 10x la apuesta por línea
-    5: 50  // 5 símbolos iguales consecutivos = 50x la apuesta por línea
+    3: 20,  // 3 símbolos iguales consecutivos = 3x la apuesta por línea
+    4: 35, // 4 símbolos iguales consecutivos = 10x la apuesta por línea
+    5: 75  // 5 símbolos iguales consecutivos = 50x la apuesta por línea
 };
 
 export function generateRandomBoard(client?: any): BoardType {
