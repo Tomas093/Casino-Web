@@ -1,4 +1,5 @@
 import {PrismaClient} from '@prisma/client';
+import { suspendidosService } from './suspendiosService';
 
 const prisma = new PrismaClient();
 
@@ -179,15 +180,22 @@ export const tiempodesesionService = {
 
     makeHeartbeat: async (tiempodesesionid: number) => {
         const tiempodesesion = await prisma.tiempodesesion.findUnique({
-            where: {tiempodesesionid}
+            where: { tiempodesesionid }
         });
 
         if (!tiempodesesion) {
             throw new Error('Tiempo de juego no encontrado');
         }
 
+        // Check if the user is suspended
+        const isSuspended = await suspendidosService.isUseridSuspendido(tiempodesesion.user_id);
+        if (isSuspended) {
+            return { status: 'suspended' };
+        }
+
+        // Update session end time
         return prisma.tiempodesesion.update({
-            where: {tiempodesesionid},
+            where: { tiempodesesionid },
             data: {
                 fin: new Date(new Date().getTime() - 3 * 60 * 60 * 1000)
             }

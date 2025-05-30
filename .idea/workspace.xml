@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Enhance coupon management; add cuponid field, update API methods, and improve validation logic">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor coupon management; update workspace configuration and enhance login form with footer text">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/admin/CuponsManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/admin/CuponsManager.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/legal/AboutUs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/AboutUs.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/TiempoDeSesionContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/TiempoDeSesionContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/suspendidosRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/suspendidosRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/suspendiosService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/suspendiosService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/tiempodesesionService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/tiempodesesionService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,22 +59,22 @@
     }
   ]
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Tomas093/Casino-Web.git&quot;,
-    &quot;accountId&quot;: &quot;96b38a8a-c17f-4a0e-9f99-e5bdad680b60&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Tomas093/Casino-Web.git",
+    "accountId": "aeb8d57a-9bda-4d87-a562-02ae3e64d914"
   },
-  &quot;recentNewPullRequestHead&quot;: {
-    &quot;server&quot;: {
-      &quot;useHttp&quot;: false,
-      &quot;host&quot;: &quot;github.com&quot;,
-      &quot;port&quot;: null,
-      &quot;suffix&quot;: null
+  "recentNewPullRequestHead": {
+    "server": {
+      "useHttp": false,
+      "host": "github.com",
+      "port": null,
+      "suffix": null
     },
-    &quot;owner&quot;: &quot;Tomas093&quot;,
-    &quot;repository&quot;: &quot;Casino-Web&quot;
+    "owner": "Tomas093",
+    "repository": "Casino-Web"
   }
-}</component>
+}]]></component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -89,27 +89,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.leaderboardApi.ts.executor": "Run",
-    "Node.js.leaderboardService.ts.executor": "Run",
-    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Tomas",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Eliseos/Faculty/Tercer Año/LaboratorioDefV5",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editing.templates",
-    "ts.external.directory.path": "C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.leaderboardApi.ts.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.leaderboardService.ts.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Tomas&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Eliseos/Faculty/Tercer Año/LaboratorioDefV5&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server" />
@@ -132,7 +132,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-WS-243.26053.12" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-WS-251.25410.117" />
       </set>
     </attachedChunks>
   </component>
@@ -241,14 +241,7 @@
       <workItem from="1747748103916" duration="841000" />
       <workItem from="1747750068506" duration="920000" />
       <workItem from="1748349818282" duration="1971000" />
-    </task>
-    <task id="LOCAL-00029" summary="Add user count and transaction statistics endpoints; integrate payment methods chart in admin dashboard">
-      <option name="closed" value="true" />
-      <created>1744679270910</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1744679270910</updated>
+      <workItem from="1748620933851" duration="3035000" />
     </task>
     <task id="LOCAL-00030" summary="Add game and history APIs; implement context providers for game and history management">
       <option name="closed" value="true" />
@@ -634,7 +627,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748619434615</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="Refactor coupon management; update workspace configuration and enhance login form with footer text">
+      <option name="closed" value="true" />
+      <created>1748620564435</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1748620564435</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -667,7 +668,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Refactor game functionality; rename 'funcionando' to 'estado' in game routes and service" />
     <MESSAGE value="Subo con merge completo Creo" />
     <MESSAGE value="Add Recent Activities component; integrate with admin management and style updates" />
     <MESSAGE value="Refactor NavBar component; add admin status check and improve code formatting" />
@@ -692,6 +692,7 @@
     <MESSAGE value="Update paytable multipliers for improved game balance; refactor workspace.xml for task management" />
     <MESSAGE value="Enhance coupon validation and UI; add monetary limits display and refactor coupon handling logic" />
     <MESSAGE value="Enhance coupon management; add cuponid field, update API methods, and improve validation logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="Enhance coupon management; add cuponid field, update API methods, and improve validation logic" />
+    <MESSAGE value="Refactor coupon management; update workspace configuration and enhance login form with footer text" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor coupon management; update workspace configuration and enhance login form with footer text" />
   </component>
 </project>
