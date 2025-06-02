@@ -15,6 +15,7 @@
     "react": "^19.1.0",
     "react-awesome-button": "^7.0.5",
     "react-casino-roulette": "github:dozsolti/react-casino-roulette",
+    "react-country-flag": "^3.1.0",
     "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.4.1",
@@ -29,6 +30,5 @@
     "server": "npm run dev --prefix server",
     "client": "npm run dev --prefix client",
     "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"red,blue\" -p \"[{name}]\" \"npm run server\" \"npm run client\""
-
   }
 }

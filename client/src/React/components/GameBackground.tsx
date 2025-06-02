@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import '@css/GameBackgroundStyle.css';
-import { useUser } from "@context/UserContext.tsx";
-import { useAuth } from '@context/AuthContext';
-import { Link } from 'react-router-dom';
-import { useAdmin } from "@context/AdminContext.tsx";
+import {useUser} from "@context/UserContext.tsx";
+import {useAuth} from '@context/AuthContext';
+import {Link} from 'react-router-dom';
+import {useAdmin} from "@context/AdminContext.tsx";
 
 // Define los tipos para los juegos de navegación
 interface GameLink {

@@ -1,10 +1,9 @@
 import {createContext, ReactNode, useCallback, useContext, useState} from 'react';
 import playApi from '@api/playApi';
 
-// Esta interfaz debe coincidir exactamente con lo que espera el backend
 interface UserPlayData {
     usuarioid: number;
-    juegoid: number;  // Debe ser juegoid, no partidaid
+    juegoid: number;
     fecha: string;
     retorno: number;
     apuesta: number;
@@ -17,7 +16,7 @@ interface playContextType {
     getAllJugadasByPartidaId: (partidaid: number) => Promise<any>;
     getJugadasByUserId: (userId: number) => Promise<any>;
     getJugadasByRetorno: (retorno: number) => Promise<any>;
-    isLoading: boolean; // Añadido para poder mostrar estados de carga
+    isLoading: boolean;
 }
 
 interface PlayProviderProps {
@@ -32,10 +31,7 @@ export const PlayProvider = ({children}: PlayProviderProps) => {
     const createPlay = useCallback(async (playData: UserPlayData) => {
         setIsLoading(true);
         try {
-            console.log('PlayContext: Creando jugada con datos:', playData);
-            const result = await playApi.createPlay(playData);
-            console.log('PlayContext: Jugada creada exitosamente:', result);
-            return result;
+            return await playApi.createPlay(playData);
         } catch (error) {
             console.error('PlayContext: Error al crear jugada:', error);
             throw error;
@@ -83,10 +79,7 @@ export const PlayProvider = ({children}: PlayProviderProps) => {
     const getJugadasByUserId = useCallback(async (userId: number) => {
         setIsLoading(true);
         try {
-            console.log(`PlayContext: Obteniendo jugadas para el cliente ID: ${userId}`);
-            const result = await playApi.getJugadasByUserId(userId);
-            console.log(`PlayContext: Jugadas obtenidas para cliente ${userId}:`, result);
-            return result;
+            return await playApi.getJugadasByUserId(userId);
         } catch (error) {
             console.error('PlayContext: Error al obtener jugadas por usuario ID:', error);
             throw error;

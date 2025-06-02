@@ -15,7 +15,7 @@
   "dependencies": {
     "@eslint/js": "^9.23.0",
     "@primer/octicons-react": "^19.15.1",
-    "@prisma/client": "^6.7.0",
+    "@prisma/client": "^6.8.2",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.1",
     "@types/react-router-dom": "^5.3.3",
@@ -52,7 +52,7 @@
     "@types/multer": "^1.4.12",
     "@types/node": "^22.14.0",
     "nodemon": "^3.1.9",
-    "prisma": "^6.7.0",
+    "prisma": "^6.8.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }

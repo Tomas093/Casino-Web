@@ -1,10 +1,8 @@
-
 .login-page {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #2466a8;
     padding: 20px 0;
     background-size: cover;
     width: 100%;
@@ -125,6 +123,14 @@
 
 .login-page .submit-button:active, .login-page .btn:active {
     transform: scale(0.98);
+}
+.register-link {
+    margin-top: 1rem;
+    text-align: center;
+    color: #ffd700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: color 0.3s;
 }
 
 /* Estilos responsivos */

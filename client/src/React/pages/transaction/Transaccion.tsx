@@ -10,7 +10,6 @@ import {useLimitContext} from "@context/LimitContext.tsx";
 import {useCupon} from "@context/CuponContext.tsx";
 import Message from "@components/Error/Message";
 
-// Métodos disponibles
 const METODOS_INGRESO = [
     {value: 'Tarjeta', label: 'Tarjeta de crédito/débito', via: 'Ingreso'},
     {value: 'Transferencia', label: 'Transferencia bancaria', via: 'Ingreso'},
@@ -24,14 +23,13 @@ const METODOS_RETIRO = [
     {value: 'Cripto', label: 'Criptomonedas', via: 'Retiro'}
 ];
 
-// Interfaces
 interface TransaccionUI {
     id: number;
     tipo: 'ingreso' | 'retiro';
     monto: number;
     fecha: Date;
     metodo: string;
-    estado?: string; // opcional, por compatibilidad
+    estado?: string;
 }
 
 interface MetodoProps {
@@ -39,7 +37,6 @@ interface MetodoProps {
     via?: string;
 }
 
-// Componente de transacción individual
 const TransaccionItem: React.FC<{ transaccion: TransaccionUI }> = ({transaccion}) => {
     const formatFecha = (fecha: Date): string => {
         return fecha.toLocaleDateString('es-ES', {
@@ -272,13 +269,13 @@ const DetalleMetodo: React.FC<MetodoProps> = ({metodo, via}) => {
     }
 };
 
-// Componente principal
 const Transaccion: React.FC = () => {
     const {user} = useAuth();
     const {client, getUserData} = useUser();
     const {getTransactions, createIngreso, createEgreso} = useTransaction();
     const {getLimitMonetario} = useLimitContext();
-    const {getCuponsById} = useCupon();
+    // Use updateCouponUsage instead of incrementCouponUsage
+    const {getCuponsById, updateCouponUsage} = useCupon();
 
     const [activeTab, setActiveTab] = useState<'ingreso' | 'retiro'>('ingreso');
     const [monto, setMonto] = useState<string>('');
@@ -293,6 +290,7 @@ const Transaccion: React.FC = () => {
     const [validatingCoupon, setValidatingCoupon] = useState<boolean>(false);
     const [couponError, setCouponError] = useState<string>('');
     const [benefitAmount, setBenefitAmount] = useState<number>(0);
+    const [isCouponValidated, setIsCouponValidated] = useState<boolean>(true);
 
     // Estado para mensajes
     const [errorMessage, setErrorMessage] = useState<string>('');
@@ -319,15 +317,22 @@ const Transaccion: React.FC = () => {
             const startDate = new Date(couponData.fechainicio);
             const endDate = new Date(couponData.fechafin);
 
-            if (now < startDate || now > endDate) {
-                setCouponError('Este cupón no está vigente');
+            if (now < startDate) {
+                setCouponError('Este cupón aún no está vigente');
                 setCoupon(null);
                 setBenefitAmount(0);
                 return;
             }
 
-            if (couponData.cantidadusos <= 0) {
-                setCouponError('Este cupón ya no tiene usos disponibles');
+            if (now >= endDate) {
+                setCouponError('Este cupón ya expiró');
+                setCoupon(null);
+                setBenefitAmount(0);
+                return;
+            }
+
+            if (couponData.vecesusadas >= couponData.cantidadusos) {
+                setCouponError('Este cupón ya alcanzó el límite de usos');
                 setCoupon(null);
                 setBenefitAmount(0);
                 return;
@@ -335,7 +340,6 @@ const Transaccion: React.FC = () => {
 
             const montoNum = parseInt(monto) || 0;
 
-            // Verificar montos mínimos/máximos
             if (montoNum < couponData.mincarga) {
                 setCouponError(`El monto mínimo para este cupón es $${couponData.mincarga}`);
                 setCoupon(null);
@@ -350,17 +354,12 @@ const Transaccion: React.FC = () => {
                 return;
             }
 
-            // Calcular beneficio como entero
             const benefit = Math.round((montoNum * couponData.beneficio) / 100);
             setBenefitAmount(benefit);
             setCoupon(couponData);
             setCouponError('');
+            setIsCouponValidated(true);
 
-            // Mostrar mensaje de éxito
-            setSuccessMessage(`¡Cupón aplicado! Beneficio: ${couponData.beneficio}%`);
-            setMessageType('success');
-
-            // Auto-clear success message after 3 seconds
             setTimeout(() => {
                 setSuccessMessage('');
             }, 3000);
@@ -371,12 +370,17 @@ const Transaccion: React.FC = () => {
             setBenefitAmount(0);
             setErrorMessage('Cupón no válido o no encontrado');
             setMessageType('error');
+            setIsCouponValidated(false);
         } finally {
             setValidatingCoupon(false);
         }
     };
 
-    // Actualizar monto de beneficio cuando cambia el monto o hay cupón válido
+    const handleCouponChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setCouponId(e.target.value);
+        setIsCouponValidated(false);
+    };
+
     useEffect(() => {
         if (coupon && monto) {
             const montoNum = parseInt(monto) || 0;
@@ -387,7 +391,6 @@ const Transaccion: React.FC = () => {
         }
     }, [monto, coupon]);
 
-    // Fetch monetary limits on component mount
     useEffect(() => {
         const fetchLimits = async () => {
             if (!user) return;
@@ -406,11 +409,9 @@ const Transaccion: React.FC = () => {
         fetchLimits();
     }, [user, getLimitMonetario]);
 
-    // Cambiar automáticamente el método según la pestaña
     useEffect(() => {
         setMetodo(activeTab === 'ingreso' ? METODOS_INGRESO[0].value : METODOS_RETIRO[0].value);
 
-        // Reset coupon data when switching tabs
         if (activeTab === 'retiro') {
             setCouponId('');
             setCoupon(null);
@@ -419,7 +420,6 @@ const Transaccion: React.FC = () => {
         }
     }, [activeTab]);
 
-    // Cargar historial desde el backend
     useEffect(() => {
         const fetchHistorial = async () => {
             if (!user) return;
@@ -429,7 +429,7 @@ const Transaccion: React.FC = () => {
                 const parsed = data.map((t: any) => ({
                     ...t,
                     fecha: new Date(t.fecha),
-                    estado: 'completada', // default visual
+                    estado: 'completada',
                 }));
 
                 setHistorial(parsed);
@@ -443,7 +443,6 @@ const Transaccion: React.FC = () => {
         fetchHistorial();
     }, [user, getTransactions]);
 
-    // Calculate current usage for limits
     const calculateCurrentUsage = () => {
         if (!historial.length) return {daily: 0, weekly: 0, monthly: 0};
 
@@ -453,7 +452,6 @@ const Transaccion: React.FC = () => {
         weekStart.setDate(now.getDate() - now.getDay());
         const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
 
-        // Filter ingreso transactions by time periods
         const ingresos = historial.filter(t => t.tipo === 'ingreso');
 
         const dailyTotal = ingresos
@@ -492,11 +490,9 @@ const Transaccion: React.FC = () => {
 
         const montoNum = parseInt(monto, 10);
 
-        // Check monetary limits for deposits
         if (activeTab === 'ingreso' && monetaryLimits) {
             const usage = calculateCurrentUsage();
 
-            // Check if deposit would exceed any limit
             if (usage.daily + montoNum > monetaryLimits.limitediario) {
                 setErrorMessage(`Este depósito excedería su límite diario de $${monetaryLimits.limitediario}`);
                 setMessageType('warning');
@@ -516,7 +512,6 @@ const Transaccion: React.FC = () => {
             }
         }
 
-        // Para retiros, verificar si hay suficiente balance (como entero)
         const clientBalance = client ? Math.round(client.balance) : 0;
         if (activeTab === 'retiro' && client && montoNum > clientBalance) {
             setErrorMessage('No tiene suficiente saldo para realizar este retiro');
@@ -530,21 +525,23 @@ const Transaccion: React.FC = () => {
             const fecha = new Date().toISOString();
 
             if (activeTab === 'ingreso') {
-                // Calcular el monto total con el beneficio del cupón como entero
                 const totalAmount = coupon ? montoNum + benefitAmount : montoNum;
 
-                // Datos para la transacción con posible cupón
-                const transaccionData = {
+                const transaccionData: any = {
                     usuarioid: user.usuarioid,
                     fecha: fecha,
                     metodo: metodo,
-                    monto: totalAmount, // Usar el monto total (original + beneficio)
-                    cuponid: coupon ? parseInt(couponId) : undefined // Asegurar que se envíe el ID del cupón
+                    monto: totalAmount,
+                    cuponid: coupon ? parseInt(couponId) : undefined
                 };
 
                 await createIngreso(transaccionData);
 
-                // Mensaje de éxito con información del beneficio
+                // Update coupon usage if coupon was used
+                if (coupon) {
+                    await updateCouponUsage(couponId);
+                }
+
                 if (coupon) {
                     setSuccessMessage(`Depósito exitoso: $${montoNum} + $${benefitAmount} (beneficio) = $${totalAmount}`);
                 } else {
@@ -552,7 +549,6 @@ const Transaccion: React.FC = () => {
                 }
                 setMessageType('success');
             } else {
-                // Datos para retiro (sin cambios)
                 const transaccionData = {
                     usuarioid: user.usuarioid,
                     fecha: fecha,
@@ -565,12 +561,10 @@ const Transaccion: React.FC = () => {
                 setMessageType('success');
             }
 
-            // Actualizar los datos del usuario para reflejar el nuevo balance
             if (user.usuarioid) {
                 await getUserData(user.usuarioid.toString());
             }
 
-            // Actualizar el historial de transacciones
             const updatedHistorial = await getTransactions(user.usuarioid.toString());
             setHistorial(updatedHistorial.map((t: any) => ({
                 ...t,
@@ -578,7 +572,6 @@ const Transaccion: React.FC = () => {
                 estado: 'completada'
             })));
 
-            // Limpiar el formulario
             setMonto('');
             setCouponId('');
             setCoupon(null);
@@ -603,7 +596,6 @@ const Transaccion: React.FC = () => {
                 <div className="australis-container">
                     <h1 className="transaccion-title">Transacciones</h1>
 
-                    {/* Mensajes de error/éxito */}
                     {errorMessage && (
                         <Message
                             message={errorMessage}
@@ -619,7 +611,6 @@ const Transaccion: React.FC = () => {
                         />
                     )}
 
-                    {/* Tabs de ingreso / retiro */}
                     <div className="transaccion-tabs">
                         <button
                             className={`tab-btn ${activeTab === 'ingreso' ? 'active' : ''}`}
@@ -635,7 +626,6 @@ const Transaccion: React.FC = () => {
                         </button>
                     </div>
 
-                    {/* Formulario */}
                     <div className="transaccion-form-container">
                         <form onSubmit={handleSubmit} className="transaccion-form">
                             <h2>{activeTab === 'ingreso' ? 'Realizar un depósito' : 'Solicitar un retiro'}</h2>
@@ -654,7 +644,6 @@ const Transaccion: React.FC = () => {
                                         min="10"
                                         step="1"
                                         onKeyDown={(e) => {
-                                            // Prevent entering decimal point
                                             if (e.key === '.') {
                                                 e.preventDefault();
                                             }
@@ -682,7 +671,6 @@ const Transaccion: React.FC = () => {
 
                             <DetalleMetodo metodo={metodo} via={activeTab === 'ingreso' ? 'Ingreso' : 'Retiro'}/>
 
-                            {/* Añadir campo de cupón solo para ingresos (como penúltimo campo) */}
                             {activeTab === 'ingreso' && (
                                 <div className="form-group">
                                     <label htmlFor="coupon">Código de Cupón (opcional)</label>
@@ -691,7 +679,7 @@ const Transaccion: React.FC = () => {
                                             type="text"
                                             id="coupon"
                                             value={couponId}
-                                            onChange={(e) => setCouponId(e.target.value)}
+                                            onChange={handleCouponChange}
                                             placeholder="Ingrese ID del cupón"
                                         />
                                         <button
@@ -720,25 +708,69 @@ const Transaccion: React.FC = () => {
                                 </div>
                             )}
 
-                            <button type="submit" className="cta-btn transaccion-btn" disabled={loading}>
-                                {loading ? 'Procesando...' : activeTab === 'ingreso' ? 'Depositar' : 'Retirar'}
+                            <button
+                                type="submit"
+                                className="cta-btn transaccion-btn"
+                                disabled={loading || (activeTab === 'ingreso' && !!couponId.trim() && !isCouponValidated)}
+                            >
+                                {loading
+                                    ? 'Procesando...'
+                                    : activeTab === 'ingreso'
+                                        ? 'Depositar'
+                                        : 'Retirar'}
                             </button>
                         </form>
+
+                        {activeTab === 'ingreso' && monetaryLimits && (
+                            <div className="limits-section">
+                                <div className="limits-block">
+                                    <div className="limits-block-title">Límites</div>
+                                    <div className="limits-pills">
+                                                <span className="limits-pill">
+                                                    <span
+                                                        className="limits-pill-label">Diario</span> ${monetaryLimits.limitediario}
+                                                </span>
+                                        <span className="limits-pill">
+                                                    <span
+                                                        className="limits-pill-label">Semanal</span> ${monetaryLimits.limitesemanal}
+                                                </span>
+                                        <span className="limits-pill">
+                                                    <span
+                                                        className="limits-pill-label">Mensual</span> ${monetaryLimits.limitemensual}
+                                                </span>
+                                    </div>
+                                </div>
+                                <div className="limits-block">
+                                    <div className="limits-block-title">Usado</div>
+                                    <div className="limits-pills">
+                                                <span className="limits-pill">
+                                                    <span
+                                                        className="limits-pill-label">Diario</span> ${calculateCurrentUsage().daily}
+                                                </span>
+                                        <span className="limits-pill">
+                                                    <span
+                                                        className="limits-pill-label">Semanal</span> ${calculateCurrentUsage().weekly}
+                                                </span>
+                                        <span className="limits-pill">
+                                                    <span
+                                                        className="limits-pill-label">Mensual</span> ${calculateCurrentUsage().monthly}
+                                                </span>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
-                    {/* Historial */}
                     <div className="transaccion-historial">
                         <h2>Historial de transacciones</h2>
-
                         {historial.length === 0 ? (
-                            <p className="no-transacciones">No hay transacciones para mostrar</p>
+                            <div className="no-transacciones">
+                                No hay transacciones registradas.
+                            </div>
                         ) : (
                             <div className="historial-lista">
                                 {historial.map((transaccion) => (
-                                    <TransaccionItem
-                                        key={`${transaccion.tipo}-${transaccion.id}`}
-                                        transaccion={transaccion}
-                                    />
+                                    <TransaccionItem key={transaccion.id} transaccion={transaccion}/>
                                 ))}
                             </div>
                         )}

@@ -1,8 +1,10 @@
 import React from 'react';
 import '@css/AboutUs.css';
-import { Users, Trophy, Shield, Clock, ChevronRight } from 'lucide-react';
+import {ChevronRight, Clock, Shield, Trophy, Users} from 'lucide-react';
+import {useNavigate} from 'react-router-dom';
 
 const AboutUs: React.FC = () => {
+    const navigate = useNavigate();
     return (
         <div className="australis-about-container">
             <div className="australis-hero-section">
@@ -137,7 +139,10 @@ const AboutUs: React.FC = () => {
                 <div className="australis-cta-content">
                     <h2>Únete a la Experiencia Australis</h2>
                     <p>Descubre por qué miles de jugadores confían en nosotros para vivir emociones inolvidables.</p>
-                    <button className="australis-cta-button">
+                    <button
+                        className="australis-cta-button"
+                        onClick={() => navigate('/login')}
+                    >
                         Comenzar Ahora <ChevronRight size={20} className="australis-button-icon" />
                     </button>
                 </div>

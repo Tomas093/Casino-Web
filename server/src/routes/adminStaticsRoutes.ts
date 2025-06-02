@@ -1,6 +1,6 @@
-import { Request, Response, Router } from 'express';
-import { isAuthenticated } from '../middlewares/authMiddleware';
-import { adminstaticsService } from '../services/adminstaticsService';
+import {Request, Response, Router} from 'express';
+import {isAuthenticated} from '../middlewares/authMiddleware';
+import {adminstaticsService} from '../services/adminstaticsService';
 
 const router = Router();
 
