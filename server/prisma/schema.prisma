@@ -144,7 +144,7 @@ model solicitudesamistad {
   id_receptor                                      Int
   estado                                           String    @db.VarChar(20)
   fecha_creacion                                   DateTime? @default(now()) @db.Timestamp(6)
-  usuario_solicitudesamistad_id_receptorTousuario  usuario   @relation("solicitudesamistad_id_receptorTousuario", fields: [id_receptor], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
+  usuario_solicitudesamistad_id_receptorTousuario  usuario   @relation("solicitudesamistad_id_receptorTousuario", fields: [id_receptor], references: [usuarioid], onDelete: Cascade, onUpdate: NoAction)
   usuario_solicitudesamistad_id_remitenteTousuario usuario   @relation("solicitudesamistad_id_remitenteTousuario", fields: [id_remitente], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
 }
 
