@@ -160,3 +160,30 @@
     z-index: -1;
     pointer-events: none;
 }
+
+.jackpot-celebration {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    animation: jackpotFadeIn 0.5s;
+}
+
+.jackpot-text {
+    font-size: 3rem;
+    color: #ffd700;
+    text-shadow: 0 0 20px #d4af37, 0 0 40px #fff;
+    animation: jackpotPulse 1s infinite alternate;
+}
+
+@keyframes jackpotFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes jackpotPulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
