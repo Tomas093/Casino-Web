@@ -20,8 +20,8 @@ model amistad {
   usuario1_id                          Int
   usuario2_id                          Int
   fecha_creacion                       DateTime? @default(now()) @db.Timestamp(6)
-  usuario_amistad_usuario1_idTousuario usuario   @relation("amistad_usuario1_idTousuario", fields: [usuario1_id], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
-  usuario_amistad_usuario2_idTousuario usuario   @relation("amistad_usuario2_idTousuario", fields: [usuario2_id], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
+  usuario_amistad_usuario1_idTousuario usuario   @relation("amistad_usuario1_idTousuario", fields: [usuario1_id], references: [usuarioid], onDelete: Cascade, onUpdate: NoAction)
+  usuario_amistad_usuario2_idTousuario usuario   @relation("amistad_usuario2_idTousuario", fields: [usuario2_id], references: [usuarioid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model cliente {
@@ -127,7 +127,7 @@ model usuario {
   password                                                    String?              @db.VarChar(255)
   dni                                                         String?
   img                                                         String?
-  edad                                                        String?
+  edad                                                        DateTime?            @db.Date
   administrador                                               administrador?
   amistad_amistad_usuario1_idTousuario                        amistad[]            @relation("amistad_usuario1_idTousuario")
   amistad_amistad_usuario2_idTousuario                        amistad[]            @relation("amistad_usuario2_idTousuario")
