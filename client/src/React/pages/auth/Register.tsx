@@ -9,6 +9,25 @@ const Register: React.FC = () => {
     const [message, setMessage] = useState('');
     const [messageType, setMessageType] = useState<'error' | 'warning' | 'info' | 'success'>('warning');
 
+    // Helper to calculate age from birthdate
+    const getAge = (birthdate: string) => {
+        const today = new Date();
+        const birth = new Date(birthdate);
+        let age = today.getFullYear() - birth.getFullYear();
+        const m = today.getMonth() - birth.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+        return age;
+    };
+
+    // Helper to format date as yyyy/mm/dd
+    const formatDate = (dateStr: string) => {
+        // dateStr is 'yyyy-mm-dd'
+        const [yyyy, mm, dd] = dateStr.split('-');
+        return `${yyyy}/${mm}/${dd}`;
+    };
+
     return (
         <div className="register-page">
             <div style={{
@@ -26,8 +45,8 @@ const Register: React.FC = () => {
                     <Message
                         message={message}
                         type={messageType}
-                        icon={messageType === 'error' 
-                            ? <span style={{fontSize: '24px'}}>⛔</span> 
+                        icon={messageType === 'error'
+                            ? <span style={{fontSize: '24px'}}>⛔</span>
                             : <span style={{fontSize: '24px'}}>⚠️</span>}
                         onClose={() => setShowMessage(false)}
                     />
@@ -48,7 +67,7 @@ const Register: React.FC = () => {
                             placeholder: 'Ingresa nuevamente la contraseña',
                             required: true
                         },
-                        {name: 'edad', type: 'number', placeholder: 'Edad', required: true, min: 18},
+                        {name: 'birthdate', type: 'date', placeholder: 'Fecha de nacimiento', required: true},
                         {name: 'dni', type: 'text', placeholder: 'DNI', required: true}
                     ]}
                     termsText={
@@ -80,12 +99,27 @@ const Register: React.FC = () => {
                                 return;
                             }
 
+                            // Verificar si tiene al menos 18 años
+                            if (!formData.birthdate || getAge(formData.birthdate) < 18) {
+                                setMessage('Debes ser mayor de 18 años para registrarte');
+                                setMessageType('warning');
+                                setShowMessage(true);
+                                return;
+                            }
+
+                            // Enviar la fecha de nacimiento como 'edad' en formato yyyy/mm/dd
+                            const dataToSend = {
+                                ...formData,
+                                edad: formatDate(formData.birthdate)
+                            };
+                            delete dataToSend.birthdate;
+
                             const response = await fetch('http://localhost:3001/auth/register', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json'
                                 },
-                                body: JSON.stringify(formData)
+                                body: JSON.stringify(dataToSend)
                             });
 
                             if (!response.ok) {
@@ -114,4 +148,3 @@ const Register: React.FC = () => {
 };
 
 export default Register;
-
