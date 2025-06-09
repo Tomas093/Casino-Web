@@ -14,7 +14,7 @@ interface User {
     nombre: string;
     apellido: string;
     email: string;
-    edad: string;
+    edad: Date | string | null; // Allow for null/string values
     dni: string;
     img?: string;
     cliente: {
@@ -27,7 +27,7 @@ interface EditUserForm {
     nombre: string;
     apellido: string;
     email: string;
-    edad: string;
+    edad: Date | null;
     dni: string;
     balance: string;
     influencer: boolean;
@@ -45,6 +45,89 @@ interface UserManagementTableProps {
     serverBaseUrl: string;
     defaultImage: string;
 }
+
+// Función mejorada para calcular la edad
+const calculateAge = (birthDate: Date | string | null): number | null => {
+    if (!birthDate) return null;
+
+    try {
+        const birth = new Date(birthDate);
+
+        // Verificar que la fecha sea válida
+        if (isNaN(birth.getTime())) {
+            console.warn('Fecha de nacimiento inválida:', birthDate);
+            return null;
+        }
+
+        const today = new Date();
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+
+        // Ajustar si aún no ha cumplido años este año
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+
+        // Verificar que la edad sea razonable (entre 0 y 150 años)
+        if (age < 0 || age > 150) {
+            console.warn('Edad calculada fuera de rango:', age, 'para fecha:', birthDate);
+            return null;
+        }
+
+        return age;
+    } catch (error) {
+        console.error('Error calculando edad:', error, 'para fecha:', birthDate);
+        return null;
+    }
+};
+
+// Función mejorada para mostrar la edad en la tabla
+const renderAge = (user: User, isEditing: boolean, editForm: EditUserForm, setEditForm: Function) => {
+    if (isEditing) {
+        // Calcular la fecha máxima permitida (18 años atrás desde hoy)
+        const maxDate = new Date();
+        maxDate.setFullYear(maxDate.getFullYear() - 18);
+        const maxDateString = maxDate.toISOString().split('T')[0];
+
+        return (
+            <input
+                value={formatDateForInput(editForm.edad)}
+                onChange={(e) => {
+                    const dateValue = e.target.value ? new Date(e.target.value) : null;
+                    setEditForm({
+                        ...editForm,
+                        edad: dateValue
+                    });
+                }}
+                className="edit-input"
+                type="date"
+                max={maxDateString} // Máximo 18 años atrás
+                title="El usuario debe ser mayor de 18 años"
+            />
+        );
+    }
+
+    const age = calculateAge(user.edad);
+
+    if (age === null) {
+        return <span className="no-data">Sin fecha</span>;
+    }
+
+    return <span>{age} años</span>;
+};
+
+// Helper function to safely convert date for editing
+const formatDateForInput = (date: Date | null): string => {
+    if (!date) return '';
+
+    try {
+        if (isNaN(date.getTime())) return '';
+        return date.toISOString().slice(0, 10);
+    } catch (error) {
+        console.warn('Error formatting date for input:', error);
+        return '';
+    }
+};
 
 const UserManagementTable: React.FC<UserManagementTableProps> = ({
                                                                      realUsers,
@@ -200,17 +283,11 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({
                                 )}
                             </td>
                             <td>
-                                {editingUserId === user.usuarioid ? (
-                                    <input
-                                        value={editUserForm.edad}
-                                        onChange={(e) => setEditUserForm({
-                                            ...editUserForm,
-                                            edad: e.target.value
-                                        })}
-                                        className="edit-input"
-                                    />
-                                ) : (
-                                    user.edad
+                                {renderAge(
+                                    user,
+                                    editingUserId === user.usuarioid,
+                                    editUserForm,
+                                    setEditUserForm
                                 )}
                             </td>
                             <td>
@@ -257,8 +334,8 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({
                                 ) : (
                                     <span
                                         className={`status-badge ${user.cliente?.influencer ? 'active' : 'inactive'}`}>
-                                                                                                   {user.cliente?.influencer ? 'Sí' : 'No'}
-                                                                                               </span>
+                                        {user.cliente?.influencer ? 'Sí' : 'No'}
+                                    </span>
                                 )}
                             </td>
                             <td>
