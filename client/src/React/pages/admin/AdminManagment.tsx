@@ -32,7 +32,7 @@ interface User {
     nombre: string;
     apellido: string;
     email: string;
-    edad: string;
+    edad: Date;
     dni: string;
     img?: string;
     cliente: {
@@ -68,7 +68,10 @@ const AdminManager: React.FC = () => {
     const getCurrentPageUsers = () => {
         const startIndex = (currentUserPage - 1) * usersPerPage;
         const endIndex = startIndex + usersPerPage;
-        return realUsers.slice(startIndex, endIndex);
+        return realUsers.slice(startIndex, endIndex).map(user => ({
+            ...user,
+            edad: user.edad instanceof Date ? user.edad : new Date(user.edad)
+        }));
     };
 
     const renderUserPaginationControls = () => {
@@ -178,12 +181,12 @@ const AdminManager: React.FC = () => {
 
     const realUsersCount = realUsers.length;
 
-    // Actualiza el estado del formulario
+    // Fixed: Updated the editUserForm state to handle edad properly
     const [editUserForm, setEditUserForm] = useState({
         nombre: '',
         apellido: '',
         email: '',
-        edad: '',
+        edad: '', // Keep as string for form input
         dni: '',
         balance: '',
         influencer: false
@@ -195,7 +198,12 @@ const AdminManager: React.FC = () => {
             setLoading(true);
             try {
                 const data = await getAllUsers();
-                setRealUsers(data);
+                // Convert edad strings to Date objects
+                const processedData = data.map((user: any) => ({
+                    ...user,
+                    edad: typeof user.edad === 'string' ? new Date(user.edad) : user.edad
+                }));
+                setRealUsers(processedData);
             } catch (err) {
                 console.error('Error al cargar usuarios:', err);
             } finally {
@@ -207,14 +215,15 @@ const AdminManager: React.FC = () => {
     }, [getAllUsers, refreshUsers]);
 
 
-    // Iniciar edición de usuario
+    // Fixed: Iniciar edición de usuario - properly format date for input
     const startEditingUser = (user: User) => {
         setEditingUserId(user.usuarioid);
+        const edadDate = user.edad instanceof Date ? user.edad : new Date(user.edad);
         setEditUserForm({
             nombre: user.nombre,
             apellido: user.apellido,
             email: user.email,
-            edad: user.edad,
+            edad: edadDate.toISOString().split('T')[0], // Format as YYYY-MM-DD for date input
             dni: user.dni,
             balance: user.cliente.balance.toString(),
             influencer: user.cliente.influencer
@@ -222,16 +231,15 @@ const AdminManager: React.FC = () => {
     };
 
 
-    // Guardar cambios del usuario
+    // Fixed: Guardar cambios del usuario - properly handle date conversion
     const handleSaveUser = async (userId: number) => {
-        // Ensure numeric values are properly parsed
         const updatedUser = {
             nombre: editUserForm.nombre,
             apellido: editUserForm.apellido,
             email: editUserForm.email,
-            edad: parseInt(editUserForm.edad) || 0, // Use 0 as fallback if parseInt fails
+            edad: new Date(editUserForm.edad), // Convert string back to Date
             dni: editUserForm.dni,
-            balance: parseFloat(editUserForm.balance) || 0, // Use 0 as fallback if parseFloat fails
+            balance: parseFloat(editUserForm.balance) || 0,
             influencer: editUserForm.influencer
         };
 
@@ -362,7 +370,7 @@ const AdminManager: React.FC = () => {
             apellido: apellido,
             dni: dni,
             email: email,
-            edad: parseInt(edad, 10),
+            edad: new Date(edad),
             password: password,
             superadmin: role === 'Super Admin'
         };
@@ -782,4 +790,3 @@ const AdminManager: React.FC = () => {
 
 
 export default AdminManager;
-

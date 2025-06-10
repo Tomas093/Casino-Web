@@ -7,7 +7,7 @@ interface User {
     nombre: string;
     apellido: string;
     email: string;
-    edad: string;
+    edad: Date;
     dni: string;
     img?: string;
 }

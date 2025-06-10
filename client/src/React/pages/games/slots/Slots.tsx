@@ -22,6 +22,7 @@ function Slots() {
     const {createPlay, isLoading} = usePlay();
     const {client, getUserData} = useUser();
 
+
     const [showInsufficientBalance, setShowInsufficientBalance] = useState(false);
 
     const [gameState, setGameState] = useState<GameStateType>({
@@ -45,6 +46,10 @@ function Slots() {
 
     const handleBetChange = (newBet: number) => {
         if (newBet <= 0) return;
+        if (client && newBet > Number(client.balance || 0)) {
+            setShowInsufficientBalance(true);
+            return;
+        }
         setGameState(prev => ({
             ...prev,
             bet: newBet,

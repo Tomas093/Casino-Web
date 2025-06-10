@@ -6,11 +6,56 @@ interface UserUpdateData {
     nombre: string;
     apellido: string;
     email: string;
-    edad: number;
+    edad: Date;
     dni: string;
     balance?: number;
     influencer?: boolean;
 }
+// Función auxiliar para validar y convertir fechas
+const validateAndConvertDate = (dateInput: Date | string | null): Date | null => {
+    if (!dateInput) return null;
+
+    try {
+        const date = new Date(dateInput);
+
+        // Verificar que la fecha sea válida
+        if (isNaN(date.getTime())) {
+            console.warn('Fecha inválida recibida:', dateInput);
+            return null;
+        }
+
+        // Verificar que la fecha no sea futura
+        if (date > new Date()) {
+            console.warn('Fecha de nacimiento en el futuro:', dateInput);
+            throw new Error('La fecha de nacimiento no puede ser en el futuro');
+        }
+
+        // Verificar que el usuario tenga al menos 18 años
+        const minDate = new Date();
+        minDate.setFullYear(minDate.getFullYear() - 18);
+
+        if (date > minDate) {
+            throw new Error('El usuario debe ser mayor de 18 años');
+        }
+
+        // Verificar que la fecha sea razonable (no más de 150 años)
+        const maxAge = new Date();
+        maxAge.setFullYear(maxAge.getFullYear() - 150);
+
+        if (date < maxAge) {
+            console.warn('Fecha de nacimiento muy antigua:', dateInput);
+            throw new Error('La fecha de nacimiento es demasiado antigua');
+        }
+
+        return date;
+    } catch (error) {
+        if (error instanceof Error) {
+            throw error; // Re-lanzar errores específicos
+        }
+        console.error('Error procesando fecha:', error);
+        throw new Error('Error al procesar la fecha de nacimiento');
+    }
+};
 
 export const userService = {
     // Obtener un usuario por ID
@@ -24,12 +69,16 @@ export const userService = {
             throw new Error('Usuario no encontrado');
         }
 
-        return usuario;
+        // Asegurar que la fecha se retorne correctamente
+        return {
+            ...usuario,
+            edad: usuario.edad ? new Date(usuario.edad).toISOString() : null
+        };
     },
 
     // Obtener todos los usuarios (no administradores)
     getAllUsers: async () => {
-        return prisma.usuario.findMany({
+        const users = await prisma.usuario.findMany({
             where: {
                 administrador: null
             },
@@ -50,9 +99,15 @@ export const userService = {
                 }
             }
         });
+
+        // Procesar las fechas antes de retornar
+        return users.map(user => ({
+            ...user,
+            edad: user.edad ? new Date(user.edad).toISOString() : null
+        }));
     },
 
-    // En server/src/services/userService.ts
+    // Contar usuarios
     async getUserCount(): Promise<number> {
         try {
             const count = await prisma.usuario.count({
@@ -79,6 +134,9 @@ export const userService = {
         if (!usuario) {
             throw new Error('Usuario no encontrado');
         }
+
+        // Validar y convertir la fecha
+        const fechaValidada = validateAndConvertDate(edad);
 
         // Verificar si el email o DNI ya están en uso por otro usuario
         if (email !== usuario.email || dni !== usuario.dni) {
@@ -108,7 +166,7 @@ export const userService = {
                 nombre,
                 apellido,
                 email,
-                edad: edad.toString(),
+                edad: fechaValidada, // Usar la fecha validada
                 dni
             }
         });
@@ -118,13 +176,16 @@ export const userService = {
             await prisma.cliente.update({
                 where: { usuarioid: userId },
                 data: {
-                    ...(balance !== undefined && { balance }),
+                    ...(balance !== undefined && { balance: Number(balance) }),
                     ...(influencer !== undefined && { influencer })
                 }
             });
         }
 
-        return usuarioActualizado;
+        return {
+            ...usuarioActualizado,
+            edad: usuarioActualizado.edad ? usuarioActualizado.edad.toISOString() : null
+        };
     },
 
     // Eliminar un usuario
@@ -144,8 +205,6 @@ export const userService = {
         });
 
         return true;
-    },
+    }
 
-
-    
 };

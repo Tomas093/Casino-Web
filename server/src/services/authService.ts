@@ -8,7 +8,7 @@ interface RegisterData {
     apellido: string;
     email: string;
     password: string;
-    edad: number;
+    edad: Date; // ISO date string (birthdate)
     dni: string;
 }
 
@@ -43,14 +43,14 @@ export const authService = {
         // Hashear password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Crear usuario
+        // Crear usuario (edad como Date)
         const nuevoUsuario = await prisma.usuario.create({
             data: {
                 nombre,
                 apellido,
                 email,
                 password: hashedPassword,
-                edad: edad.toString(),
+                edad: new Date(edad), // birthdate as Date
                 dni
             }
         });
@@ -125,14 +125,14 @@ export const authService = {
         // Hashear password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Crear usuario
+        // Crear usuario (edad como Date)
         const nuevoUsuario = await prisma.usuario.create({
             data: {
                 nombre,
                 apellido,
                 email,
                 password: hashedPassword,
-                edad: edad.toString(),
+                edad: new Date(edad), // birthdate as Date
                 dni
             }
         });
@@ -159,7 +159,7 @@ export const authService = {
 
     async getUserByemail(email: string) {
         const usuario = await prisma.usuario.findUnique({
-            where: { email },
+            where: {email},
             include: {
                 cliente: true,
                 administrador: true
@@ -171,7 +171,7 @@ export const authService = {
         }
 
         // Eliminar la contraseña del objeto usuario
-        const { password: _, ...usuarioSinPassword } = usuario;
+        const {password: _, ...usuarioSinPassword} = usuario;
         return usuarioSinPassword;
     }
 };

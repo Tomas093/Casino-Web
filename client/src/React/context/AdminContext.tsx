@@ -16,7 +16,7 @@ interface AdminCreateData {
     apellido: string;
     email: string;
     password: string;
-    edad: number;
+    edad: Date;
     dni: string;
     superadmin: boolean;
 }

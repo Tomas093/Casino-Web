@@ -16,7 +16,7 @@ const ProfilePage: React.FC = () => {
         nombre: '',
         apellido: '',
         email: '',
-        edad: 0,
+        edad: '',
         dni: ''
     });
     const [error, setError] = useState<string | null>(null);
@@ -50,7 +50,7 @@ const ProfilePage: React.FC = () => {
                 nombre: user.nombre || '',
                 apellido: user.apellido || '',
                 email: user.email || '',
-                edad: parseInt(user.edad?.toString() || '0') || 0,
+                edad: user.edad ? user.edad.toString() : '', // birth date as string
                 dni: user.dni || ''
             });
         }
@@ -69,10 +69,10 @@ const ProfilePage: React.FC = () => {
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: name === 'edad' ? parseInt(value) || 0 : value
+        const { name, value } = e.target;
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: name === 'edad' ? new Date(value).toISOString() : value,
         }));
     };
 
@@ -202,12 +202,12 @@ const ProfilePage: React.FC = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="edad">Edad</label>
+                                <label htmlFor="edad">Fecha de Nacimiento</label>
                                 <input
-                                    type="number"
+                                    type="date"
                                     id="edad"
                                     name="edad"
-                                    value={formData.edad}
+                                    value={formData.edad ? formData.edad.slice(0, 10) : ''}
                                     disabled={true} // Siempre deshabilitado
                                     className="readonly-field" // Clase para campos de solo lectura
                                 />

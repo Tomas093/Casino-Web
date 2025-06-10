@@ -10,7 +10,7 @@ export interface RegisterData {
     apellido: string;
     email: string;
     password: string;
-    edad: number;
+    edad: Date;
     dni: string;
 }
 

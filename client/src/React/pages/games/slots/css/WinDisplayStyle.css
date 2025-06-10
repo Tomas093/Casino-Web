@@ -1,0 +1,287 @@
+/* Estilos base para WinDisplay */
+.win-display {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    border: 3px solid #FFD700;
+    min-width: 250px;
+    backdrop-filter: blur(10px);
+}
+
+.win-display.mega-win {
+    background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 25%, #45B7D1 50%, #96CEB4 75%, #FECA57 100%);
+    background-size: 400% 400%;
+    animation: megaWinGradient 2s ease infinite, megaWinPulse 1s ease-in-out infinite alternate;
+    border: 5px solid #FFD700;
+    box-shadow:
+            0 0 30px rgba(255, 215, 0, 0.8),
+            0 0 60px rgba(255, 215, 0, 0.6),
+            0 0 90px rgba(255, 215, 0, 0.4);
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+@keyframes megaWinGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes megaWinPulse {
+    from {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1.3);
+    }
+}
+
+.mega-win-text {
+    margin-bottom: 20px;
+}
+
+.mega-text {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #FFD700;
+    text-shadow:
+            0 0 10px #FFD700,
+            0 0 20px #FFD700,
+            0 0 30px #FFD700;
+    animation: megaTextGlow 1s ease-in-out infinite alternate;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.five-line-text {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #FF4500;
+    text-shadow: 0 0 10px #FF4500;
+    animation: fiveLineFlash 0.5s ease-in-out infinite alternate;
+    margin-top: 10px;
+}
+
+@keyframes megaTextGlow {
+    from {
+        text-shadow:
+                0 0 10px #FFD700,
+                0 0 20px #FFD700,
+                0 0 30px #FFD700;
+    }
+    to {
+        text-shadow:
+                0 0 15px #FFD700,
+                0 0 30px #FFD700,
+                0 0 45px #FFD700,
+                0 0 60px #FFD700;
+    }
+}
+
+@keyframes fiveLineFlash {
+    from { opacity: 0.8; }
+    to { opacity: 1; }
+}
+
+.win-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: #FFD700;
+}
+
+.mega-win .win-title {
+    font-size: 3rem;
+    animation: winTitleBounce 1s ease-in-out infinite;
+}
+
+@keyframes winTitleBounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+.win-amount {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #FFD700;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    margin-bottom: 10px;
+}
+
+.mega-win .win-amount {
+    font-size: 4rem;
+    animation: amountPulse 0.8s ease-in-out infinite alternate;
+    background: linear-gradient(45deg, #FFD700, #FFA500, #FF4500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+@keyframes amountPulse {
+    from {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    to {
+        transform: scale(1.1);
+        filter: brightness(1.3);
+    }
+}
+
+.win-lines-count {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+.mega-win .win-lines-count {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #FECA57;
+}
+
+.celebration-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    font-size: 2rem;
+}
+
+.celebration-icon {
+    animation: celebrationBounce 1s ease-in-out infinite;
+    display: inline-block;
+}
+
+.celebration-icon:nth-child(2) { animation-delay: 0.2s; }
+.celebration-icon:nth-child(3) { animation-delay: 0.4s; }
+.celebration-icon:nth-child(4) { animation-delay: 0.6s; }
+.celebration-icon:nth-child(5) { animation-delay: 0.8s; }
+
+@keyframes celebrationBounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    40% {
+        transform: translateY(-20px) rotate(10deg);
+    }
+    60% {
+        transform: translateY(-10px) rotate(-10deg);
+    }
+}
+
+/* Animación de entrada */
+.win-animation {
+    animation: winAppear 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes winAppear {
+    0% {
+        transform: translate(-50%, -50%) scale(0) rotate(180deg);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2) rotate(90deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+.win-animation.mega-win {
+    animation: megaWinAppear 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes megaWinAppear {
+    0% {
+        transform: translate(-50%, -50%) scale(0) rotate(360deg);
+        opacity: 0;
+    }
+    30% {
+        transform: translate(-50%, -50%) scale(0.5) rotate(180deg);
+        opacity: 0.5;
+    }
+    70% {
+        transform: translate(-50%, -50%) scale(1.4) rotate(90deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.2) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+/* Efectos de resplandor para mega win */
+.mega-win::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, #FFD700, #FFA500, #FF4500, #DC143C, #8A2BE2, #4169E1, #00CED1, #32CD32);
+    background-size: 400% 400%;
+    border-radius: 25px;
+    z-index: -1;
+    animation: borderGlow 2s ease infinite;
+}
+
+@keyframes borderGlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .win-display {
+        padding: 20px;
+        min-width: 200px;
+    }
+
+    .mega-text {
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+
+    .five-line-text {
+        font-size: 1.4rem;
+    }
+
+    .win-title {
+        font-size: 2rem;
+    }
+
+    .mega-win .win-title {
+        font-size: 2.5rem;
+    }
+
+    .win-amount {
+        font-size: 2.5rem;
+    }
+
+    .mega-win .win-amount {
+        font-size: 3rem;
+    }
+
+    .celebration-icons {
+        font-size: 1.5rem;
+        gap: 10px;
+    }
+}

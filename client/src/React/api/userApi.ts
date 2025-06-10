@@ -6,7 +6,7 @@ export interface EditUserData {
     nombre: string;
     apellido: string;
     email: string;
-    edad: number;
+    edad: Date | string; // Puede ser una fecha ISO o un objeto Date
     dni: string;
     balance: number;
     influencer: boolean;

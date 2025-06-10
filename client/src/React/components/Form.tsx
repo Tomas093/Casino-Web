@@ -1,7 +1,7 @@
 import React, {FormEvent, useState} from 'react';
 
 // Tipos de campos soportados
-type FieldType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select';
+type FieldType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select' | 'date';
 
 // Configuración de cada campo
 interface FieldConfig {
