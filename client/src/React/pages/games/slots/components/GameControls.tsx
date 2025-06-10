@@ -84,7 +84,7 @@ const GameControls = ({
                 <button
                     className="spin-button"
                     onClick={onSpin}
-                    disabled={isSpinning || credits < bet || isAutoSpinActive}
+                    disabled={isSpinning || isAutoSpinActive}
                 >
                     {isSpinning ? 'Girando...' : 'GIRAR'}
                 </button>

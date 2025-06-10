@@ -4,12 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor workspace configuration; update dependencies and enhance styles for win display">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor imports for consistency; adjust import order and spacing across multiple components">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/auth/Register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/auth/Register.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/services/authService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/authService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/adminApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/adminApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/authApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/authApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/userApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/userApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/admin/UserManagementTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/admin/UserManagementTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/AdminContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/AdminContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/AuthContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/Slots.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/Slots.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/GameControls.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/GameControls.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/ProfilePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/ProfilePage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/adminRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/adminRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/userService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/userService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +73,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Tomas093/Casino-Web.git&quot;,
-    &quot;accountId&quot;: &quot;aeb8d57a-9bda-4d87-a562-02ae3e64d914&quot;
+    &quot;accountId&quot;: &quot;96b38a8a-c17f-4a0e-9f99-e5bdad680b60&quot;
   },
   &quot;recentNewPullRequestHead&quot;: {
     &quot;server&quot;: {
@@ -89,28 +100,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.authService.ts.executor": "Run",
-    "Node.js.leaderboardApi.ts.executor": "Run",
-    "Node.js.leaderboardService.ts.executor": "Run",
-    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Tomas",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Eliseos/Faculty/Tercer Año/LaboratorioDefV5",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editing.templates",
-    "ts.external.directory.path": "C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.leaderboardApi.ts.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.leaderboardService.ts.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Eliseo&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Eliseos/Faculty/Segundo Año/MiniBar&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Eliseos\\Faculty\\Tercer Año\\LaboratorioDefV5\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server" />
@@ -133,7 +143,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-WS-251.25410.117" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-WS-243.26053.12" />
       </set>
     </attachedChunks>
   </component>
@@ -247,7 +257,21 @@
       <workItem from="1748730119747" duration="84000" />
       <workItem from="1748810608848" duration="7442000" />
       <workItem from="1748866252355" duration="139000" />
-      <workItem from="1748956921322" duration="2605000" />
+      <workItem from="1748961514692" duration="2083000" />
+      <workItem from="1748966431679" duration="105000" />
+      <workItem from="1749136219153" duration="133000" />
+      <workItem from="1749169599046" duration="614000" />
+      <workItem from="1749214161210" duration="29000" />
+      <workItem from="1749473178116" duration="316000" />
+      <workItem from="1749473546338" duration="9887000" />
+    </task>
+    <task id="LOCAL-00033" summary="Refactor imports for consistency; update component structure and styles across multiple files y agrego que se actualice al toque (Era problema del Local Storage)">
+      <option name="closed" value="true" />
+      <created>1746099769634</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1746099769634</updated>
     </task>
     <task id="LOCAL-00034" summary="Add authentication middleware; implement user and admin verification with JWT">
       <option name="closed" value="true" />
@@ -633,15 +657,7 @@
       <option name="project" value="LOCAL" />
       <updated>1748627305828</updated>
     </task>
-    <task id="LOCAL-00082" summary="Refactor workspace configuration; update dependencies and enhance styles for win display">
-      <option name="closed" value="true" />
-      <created>1748957124346</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1748957124346</updated>
-    </task>
-    <option name="localTasksCounter" value="83" />
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -674,6 +690,7 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
+    <MESSAGE value="Refactor ticket management components; update status and priority handling, add filters for user roles" />
     <MESSAGE value="Subo UN MONTON DE ABMS" />
     <MESSAGE value="Add coupon validation and transaction handling; integrate coupon benefits in transaction process" />
     <MESSAGE value="Refactor leaderboard components; improve data handling and add debug logging" />
@@ -698,7 +715,6 @@
     <MESSAGE value="Refactor session management; integrate user suspension check and enhance API methods" />
     <MESSAGE value="Refactor imports for consistency; adjust import order and spacing across multiple components" />
     <MESSAGE value="Refactor workspace configuration; update HTML title and favicon for consistency" />
-    <MESSAGE value="Refactor workspace configuration; update dependencies and enhance styles for win display" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor workspace configuration; update dependencies and enhance styles for win display" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor workspace configuration; update HTML title and favicon for consistency" />
   </component>
 </project>

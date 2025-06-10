@@ -17,7 +17,7 @@ interface AddAdminRequestBody {
     apellido: string;
     email: string;
     password: string;
-    edad: number;
+    edad: Date;
     dni: string;
     superadmin: boolean;
 }
@@ -137,7 +137,7 @@ router.post('/create', async (req: Request, res: Response): Promise<void> => {
                 apellido,
                 email,
                 password: hashedPassword,
-                edad: edad.toString(),
+                edad: edad,
                 dni
             }
         });
