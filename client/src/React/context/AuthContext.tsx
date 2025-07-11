@@ -103,8 +103,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             await authApi.logout();
             setUser(null);
             localStorage.removeItem('user');
+            localStorage.removeItem('timepodesesionid');
         } catch (error) {
             console.error('Error al cerrar sesión:', error);
+            localStorage.removeItem('timepodesesionid');
             setUser(null);
             localStorage.removeItem('user');
         }

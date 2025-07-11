@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import "@css/FriendStyle.css"; // Mantenemos la referencia al CSS existente
+import "@css/FriendStyle.css";
 import SideBar from "@components/SideBar.tsx";
 import Message from "@components/Error/Message.tsx";
 import {useFriendRequestContext} from "@context/FriendRequestContext.tsx";
