@@ -4,23 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor workspace configuration; update dependencies and enhance styles for win display">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Login Con Boton Falso">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/FriendStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/FriendStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/LoginStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LoginStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/components/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/admin/UserManagementTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/admin/UserManagementTable.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/AuthContext.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/auth/Register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/auth/Register.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/FriendsPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/FriendsPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/tickets/AdminTickets.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/tickets/AdminTickets.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/transaction/Transaccion.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/transaction/Transaccion.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -264,15 +256,8 @@
       <workItem from="1749729798918" duration="86000" />
       <workItem from="1750636852879" duration="1391000" />
       <workItem from="1752261193197" duration="6656000" />
-      <workItem from="1752276177561" duration="965000" />
-    </task>
-    <task id="LOCAL-00034" summary="Add authentication middleware; implement user and admin verification with JWT">
-      <option name="closed" value="true" />
-      <created>1746099801522</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1746099801522</updated>
+      <workItem from="1752276177561" duration="3463000" />
+      <workItem from="1752323112857" duration="7284000" />
     </task>
     <task id="LOCAL-00035" summary="Refactor leaderboard API and service; update endpoints for game winners, highest bets, returns, and accumulated winnings">
       <option name="closed" value="true" />
@@ -658,7 +643,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748957124346</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="Login Con Boton Falso">
+      <option name="closed" value="true" />
+      <created>1752277793091</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1752277793091</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -691,7 +684,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Subo UN MONTON DE ABMS" />
     <MESSAGE value="Add coupon validation and transaction handling; integrate coupon benefits in transaction process" />
     <MESSAGE value="Refactor leaderboard components; improve data handling and add debug logging" />
     <MESSAGE value="Remove debug logging from friends leaderboard data fetching; streamline error handling" />
@@ -716,6 +708,7 @@
     <MESSAGE value="Refactor imports for consistency; adjust import order and spacing across multiple components" />
     <MESSAGE value="Refactor workspace configuration; update HTML title and favicon for consistency" />
     <MESSAGE value="Refactor workspace configuration; update dependencies and enhance styles for win display" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor workspace configuration; update dependencies and enhance styles for win display" />
+    <MESSAGE value="Login Con Boton Falso" />
+    <option name="LAST_COMMIT_MESSAGE" value="Login Con Boton Falso" />
   </component>
 </project>

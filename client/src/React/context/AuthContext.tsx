@@ -1,5 +1,7 @@
 import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 import authApi, {RegisterData} from '@api/authApi';
+import tiempodesesionApi from '@api/tiempodesesionApi';
+import {useSuspendidos} from '@context/SuspendidosContext';
 
 // Tipo para el usuario autenticado
 interface User {
@@ -16,7 +18,8 @@ interface User {
 interface AuthContextType {
     user: User | null;
     isLoading: boolean;
-    login: (email: string, password: string) => Promise<any>;
+    login: (email: string, password: string | null) => Promise<any>; // Updated to allow null password
+    loginWithGoogle: (email: string) => Promise<any>;
     logout: () => Promise<void>;
     register: (userData: RegisterData) => Promise<any>;
     updateProfileImage: (imageUrl: string) => void;
@@ -33,23 +36,23 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 // Provider del contexto
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+export const AuthProvider = ({children}: AuthProviderProps) => {
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const {getSuspendidosByUserId} = useSuspendidos();
 
     // Actualizar imagen de perfil (en local)
     const updateProfileImage = (imageUrl: string) => {
         if (user) {
-            const updatedUser = { ...user, img: imageUrl };
+            const updatedUser = {...user, img: imageUrl};
             setUser(updatedUser);
             localStorage.setItem('user', JSON.stringify(updatedUser));
         }
     };
 
-
     const updateUserData = (userData: Partial<User>) => {
         if (user) {
-            const updatedUser = { ...user, ...userData };
+            const updatedUser = {...user, ...userData};
             setUser(updatedUser);
             localStorage.setItem('user', JSON.stringify(updatedUser));
         }
@@ -77,23 +80,79 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         checkSession();
     }, []);
 
-    // Iniciar sesión
-    const login = async (email: string, password: string) => {
+    // Iniciar sesión - Updated to handle null password
+    const login = async (email: string, password: string | null) => {
         try {
             setIsLoading(true);
-            const response = await authApi.login({ email, password });
 
-            if (response && response.usuario) {
-                setUser(response.usuario);
-                localStorage.setItem('user', JSON.stringify(response.usuario));
+            // Si password es null, asumimos que es login con Google
+            if (password === null) {
+                // Buscar el usuario en la base de datos por email
+                const user = await authApi.getUserByEmail(email);
+                if (!user) {
+                    return false;
+                }
+
+                // Verificar suspensiones del usuario
+                const suspensions = await getSuspendidosByUserId(user.usuarioid);
+
+                let activeSuspension = null;
+                if (Array.isArray(suspensions)) {
+                    activeSuspension = suspensions.find(
+                        (s: any) => !s.fechafin || new Date(s.fechafin) > new Date()
+                    );
+                } else if (suspensions && (!suspensions.fechafin || new Date(suspensions.fechafin) > new Date())) {
+                    activeSuspension = suspensions;
+                }
+
+                if (activeSuspension) {
+                    throw new Error(`Tu cuenta está suspendida hasta el ${
+                        activeSuspension.fechafin
+                            ? new Date(activeSuspension.fechafin).toLocaleDateString()
+                            : 'indefinida'
+                    }.`);
+                }
+
+                // Establecer el usuario en el contexto y localStorage
+                setUser(user);
+                localStorage.setItem('user', JSON.stringify(user));
+
+                // Crear sesión de tiempo de juego
+                const tiempoDeJuego = await tiempodesesionApi.createtiempodesesion({
+                    usuarioid: user.usuarioid,
+                    final: null
+                });
+
+                // Guardar el ID de sesión en localStorage
+                localStorage.setItem('timepodesesionid', tiempoDeJuego.tiempodesesionid);
+
                 return true;
+            } else {
+                // Login normal con contraseña
+                const response = await authApi.login({email, password});
+
+                if (response && response.usuario) {
+                    setUser(response.usuario);
+                    localStorage.setItem('user', JSON.stringify(response.usuario));
+                    return true;
+                }
+                return false;
             }
-            return false;
         } catch (error) {
             console.error('Error al iniciar sesión:', error);
             throw error;
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    // Iniciar sesión con Google - Updated to use the login function
+    const loginWithGoogle = async (email: string) => {
+        try {
+            return await login(email, null);
+        } catch (error) {
+            console.error('Error al iniciar sesión con Google:', error);
+            throw error;
         }
     };
 
@@ -138,6 +197,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         user,
         isLoading,
         login,
+        loginWithGoogle,
         logout,
         register,
         updateProfileImage,
