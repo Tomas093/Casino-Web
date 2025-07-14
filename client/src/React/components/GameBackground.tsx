@@ -59,8 +59,6 @@ const GameBackground: React.FC<GameBackgroundProps> = ({
                                                            },
                                                            onExit = () => {
                                                            },
-                                                           onSettings = () => {
-                                                           },
 
                                                            // Valores por defecto para las nuevas props
                                                            gameLinks = [
@@ -76,7 +74,7 @@ const GameBackground: React.FC<GameBackgroundProps> = ({
                                                                {label: "Contacto", href: "/legal"},
                                                                {label: "Términos", href: "/terms"},
                                                                {label: "Privacidad", href: "/privacy-policy"},
-                                                               {label: "Ayuda", href: "/help"}
+                                                               {label: "Ayuda", href: "/support"}
                                                            ],
                                                            showBalance = true,
                                                            showProfile = true,
@@ -111,9 +109,7 @@ const GameBackground: React.FC<GameBackgroundProps> = ({
 
     // Actualiza el nombre de usuario cuando cambia el usuario
     useEffect(() => {
-        if (user && !userName) {
-            setDisplayName(user.nombre);
-        } else if (userName) {
+        if (user) {
             setDisplayName(user.nombre);
         }
     }, [user, userName]);

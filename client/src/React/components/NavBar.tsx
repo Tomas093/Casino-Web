@@ -4,6 +4,7 @@ import {useAuth} from '@context/AuthContext';
 import '@css/NavBarStyle.css';
 import {useUser} from "@context/UserContext.tsx";
 import {useAdmin} from "@context/AdminContext.tsx";
+import NotificationDropdown from '@components/Notification.tsx';
 
 interface NavLink {
     label: string;
@@ -26,6 +27,48 @@ interface NavBarProps {
     homeSectionId?: string; // ID de la sección de juegos en Home para scroll
     targetSection?: string; // Nueva prop para especificar la sección destino
 }
+
+interface NotificationProps {
+    count?: number;
+}
+
+const NotificationBell: React.FC<NotificationProps> = ({count = 0}) => {
+    const [notificationsOpen, setNotificationsOpen] = useState(false);
+    const notificationRef = useRef<HTMLDivElement>(null);
+
+    // Close notifications when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+                setNotificationsOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const toggleNotifications = () => {
+        setNotificationsOpen(prev => !prev);
+    };
+
+    return (
+        <div className="navbar-notification-container" ref={notificationRef}>
+            <div className="navbar-notification-bell" onClick={toggleNotifications}>
+                <span className="bell-icon">🔔</span>
+                {count > 0 && <span className="notification-count">{count}</span>}
+            </div>
+
+            {notificationsOpen && (
+                <div className="navbar-notification-dropdown">
+                    <NotificationDropdown/>
+                </div>
+            )}
+        </div>
+    );
+};
 
 const NavBar: React.FC<NavBarProps> = ({
                                            navLinks = [
@@ -182,8 +225,8 @@ const NavBar: React.FC<NavBarProps> = ({
                     className={`navbar-hamburger ${mobileMenuOpen ? 'open' : ''}`}
                     onClick={toggleMobileMenu}
                     aria-label="Abrir menú"
-                    aria-expanded={mobileMenuOpen}
-                >
+                    aria-expanded={mobileMenuOpen}>
+
                     <span className="navbar-bar"></span>
                     <span className="navbar-bar"></span>
                     <span className="navbar-bar"></span>
@@ -220,6 +263,10 @@ const NavBar: React.FC<NavBarProps> = ({
                             >
                                 {playButtonLabel}
                             </button>
+
+                            {/* Notification Bell */}
+                            <NotificationBell count={3}/>
+
                             <div className="navbar-user-dropdown" ref={dropdownRef}>
                                 <div
                                     className="navbar-user-info"

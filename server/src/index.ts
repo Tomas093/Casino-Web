@@ -21,6 +21,7 @@ import adminStaticsRoutes from "./routes/adminStaticsRoutes";
 import cuponRoutes from "./routes/cuponRoutes";
 import tiempodesesionRoutes from "./routes/tiempodesesionRoutes";
 import suspendidoRoutes from "./routes/suspendidosRoutes";
+import notificationRoutes from "./routes/notificationRoutes";
 
 const app = express();
 
@@ -54,10 +55,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: process.env.NODE_ENV === 'production', // Solo usar true con HTTPS
+        secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días
-        sameSite: 'lax' // Ayuda con CORS
+        sameSite: 'lax'
     }
 }));
 
@@ -83,6 +84,7 @@ app.use('/admin-statics', adminStaticsRoutes);
 app.use('/cupon', cuponRoutes)
 app.use('/tiempodesesion', tiempodesesionRoutes)
 app.use('/suspendidos', suspendidoRoutes)
+app.use('/notification', notificationRoutes)
 
 
 const PORT = process.env.PORT || 3001;
