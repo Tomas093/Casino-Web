@@ -1,7 +1,5 @@
 import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 import authApi, {RegisterData} from '@api/authApi';
-import tiempodesesionApi from '@api/tiempodesesionApi';
-import {useSuspendidos} from '@context/SuspendidosContext';
 
 // Tipo para el usuario autenticado
 interface User {
@@ -18,7 +16,7 @@ interface User {
 interface AuthContextType {
     user: User | null;
     isLoading: boolean;
-    login: (email: string, password: string | null) => Promise<any>; // Updated to allow null password
+    login: (email: string, password: string | null) => Promise<any>;
     loginWithGoogle: (email: string) => Promise<any>;
     logout: () => Promise<void>;
     register: (userData: RegisterData) => Promise<any>;
@@ -39,7 +37,6 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({children}: AuthProviderProps) => {
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const {getSuspendidosByUserId} = useSuspendidos();
 
     // Actualizar imagen de perfil (en local)
     const updateProfileImage = (imageUrl: string) => {
@@ -80,53 +77,20 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
         checkSession();
     }, []);
 
-    // Iniciar sesión - Updated to handle null password
     const login = async (email: string, password: string | null) => {
         try {
             setIsLoading(true);
 
-            // Si password es null, asumimos que es login con Google
             if (password === null) {
-                // Buscar el usuario en la base de datos por email
-                const user = await authApi.getUserByEmail(email);
-                if (!user) {
-                    return false;
+                // Login con Google - USAR EL ENDPOINT ESPECÍFICO
+                const response = await authApi.googleLogin(email);
+
+                if (response && response.usuario) {
+                    setUser(response.usuario);
+                    localStorage.setItem('user', JSON.stringify(response.usuario));
+                    return true;
                 }
-
-                // Verificar suspensiones del usuario
-                const suspensions = await getSuspendidosByUserId(user.usuarioid);
-
-                let activeSuspension = null;
-                if (Array.isArray(suspensions)) {
-                    activeSuspension = suspensions.find(
-                        (s: any) => !s.fechafin || new Date(s.fechafin) > new Date()
-                    );
-                } else if (suspensions && (!suspensions.fechafin || new Date(suspensions.fechafin) > new Date())) {
-                    activeSuspension = suspensions;
-                }
-
-                if (activeSuspension) {
-                    throw new Error(`Tu cuenta está suspendida hasta el ${
-                        activeSuspension.fechafin
-                            ? new Date(activeSuspension.fechafin).toLocaleDateString()
-                            : 'indefinida'
-                    }.`);
-                }
-
-                // Establecer el usuario en el contexto y localStorage
-                setUser(user);
-                localStorage.setItem('user', JSON.stringify(user));
-
-                // Crear sesión de tiempo de juego
-                const tiempoDeJuego = await tiempodesesionApi.createtiempodesesion({
-                    usuarioid: user.usuarioid,
-                    final: null
-                });
-
-                // Guardar el ID de sesión en localStorage
-                localStorage.setItem('timepodesesionid', tiempoDeJuego.tiempodesesionid);
-
-                return true;
+                return false;
             } else {
                 // Login normal con contraseña
                 const response = await authApi.login({email, password});

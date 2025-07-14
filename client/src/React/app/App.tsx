@@ -34,7 +34,7 @@ function App() {
     return (
         <BrowserRouter>
             <AppProvider>
-                <LimitMonitor />
+                <LimitMonitor/>
 
                 <Routes>
                     {/* Rutas públicas */}

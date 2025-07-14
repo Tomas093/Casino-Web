@@ -5,8 +5,8 @@ import {useUser} from "@context/UserContext.tsx";
 import userApi from '@api/userApi';
 
 const DeleteUser: React.FC = () => {
-    const { user, isLoading: authLoading, logout } = useAuth();
-    const {isLoading: userLoading } = useUser();
+    const {user, isLoading: authLoading, logout} = useAuth();
+    const {isLoading: userLoading} = useUser();
     const [error, setError] = useState<string | null>(null);
     const [userExists, setUserExists] = useState<boolean>(true);
 
@@ -85,7 +85,8 @@ const DeleteUser: React.FC = () => {
                 ) : (
                     <>
                         <p>
-                            ¿Estás seguro que deseas eliminar tu cuenta? Esta acción es <strong>irreversible</strong> y se
+                            ¿Estás seguro que deseas eliminar tu cuenta? Esta acción es <strong>irreversible</strong> y
+                            se
                             perderán todos tus datos.
                         </p>
                         <p>

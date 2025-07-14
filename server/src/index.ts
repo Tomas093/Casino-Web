@@ -81,8 +81,8 @@ app.use('/message', messageRoutes);
 app.use('/faq', faqRoutes);
 app.use('/admin-statics', adminStaticsRoutes);
 app.use('/cupon', cuponRoutes)
-app.use('/tiempodesesion',tiempodesesionRoutes)
-app.use('/suspendidos',suspendidoRoutes)
+app.use('/tiempodesesion', tiempodesesionRoutes)
+app.use('/suspendidos', suspendidoRoutes)
 
 
 const PORT = process.env.PORT || 3001;

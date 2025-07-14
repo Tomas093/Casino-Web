@@ -4,15 +4,105 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Login Con Boton Falso">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Con Login De Google Pero no Register">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/eslint.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/eslint.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/AdminManagmentStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/AdminManagmentStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/Error404Style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/Error404Style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/FooterStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/FooterStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/FriendStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/FriendStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/GameBackgroundStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/GameBackgroundStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/HomeStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/HomeStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/LandingPageStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LandingPageStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/LeaderboardStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LeaderboardStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/LegalStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LegalStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/MinesweeperStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/MinesweeperStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/NavBarStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/NavBarStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/NewStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/NewStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/PieChartStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/PieChartStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/PrivacyPolicyStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/PrivacyPolicyStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/ProfileStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/ProfileStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/RegisterStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/RegisterStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/SideBarStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/SideBarStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/SidebarExtraStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/SidebarExtraStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/SupportStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/SupportStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/Terminos.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/Terminos.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/TicketStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/TicketStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/TransaccionStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/TransaccionStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/animations/AnimatedCounter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/animations/AnimatedCounter.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/authApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/authApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/faqApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/faqApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/friendRequestApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/friendRequestApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/leaderboardApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/leaderboardApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/playApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/playApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/transactionApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/transactionApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/Error/Message.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Error/Message.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Footer.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/components/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/GameBackground.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/GameBackground.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/HistoryItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/HistoryItems.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/ImageUpload.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/ImageUpload.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/PieChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/PieChart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/admin/FAQManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/admin/FAQManager.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/admin/UserManagementTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/admin/UserManagementTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/support/FAQAccordion.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/support/FAQAccordion.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/support/StatusIndicator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/support/StatusIndicator.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/AuthContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/FAQContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/FAQContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/GameContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/GameContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/HistoryContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/HistoryContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/PlayContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/PlayContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/SuspendidosContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/SuspendidosContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/TransactionContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/TransactionContext.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/deletes/DeleteSpecificAccount.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/deletes/DeleteSpecificAccount.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/deletes/DeleteUser.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/deletes/DeleteUser.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/roulette/RouletteGame.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/roulette/RouletteGame.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/CustomThemeCreator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/CustomThemeCreator.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/SlotMachine.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/SlotMachine.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/WinDisplay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/WinDisplay.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/constants/paylines.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/constants/paylines.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/css/SlotMachineStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/css/SlotMachineStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/css/SlotsStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/css/SlotsStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/css/WinDisplayStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/css/WinDisplayStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/themes/deafultThemes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/themes/deafultThemes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/utils/gamelogic.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/utils/gamelogic.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/legal/AboutUs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/AboutUs.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/legal/Legal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/Legal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/legal/PrivacyPolicy.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/PrivacyPolicy.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/legal/Terminos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/Terminos.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/FriendsPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/FriendsPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/HistoryPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/HistoryPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/ProfilePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/ProfilePage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/StatisticsPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/StatisticsPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/tickets/Ticket.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/tickets/Ticket.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/transaction/Transaccion.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/transaction/Transaccion.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/routes/AdminRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/routes/AdminRoutes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/routes/ProtectedRoute.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/routes/ProtectedRoute.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/routes/SuperAdminRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/routes/SuperAdminRoutes.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/adminRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/adminRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/adminStaticsRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/adminStaticsRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/authRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/authRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/faqRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/faqRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/historyRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/historyRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/leaderboardRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/leaderboardRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/messageRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/messageRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/suspendidosRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/suspendidosRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/uploads.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/uploads.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/userRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/userRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/leaderboardService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/leaderboardService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/suspendiosService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/suspendiosService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/tiempodesesionService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/tiempodesesionService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/transactionService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/transactionService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/userService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/userService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,15 +347,10 @@
       <workItem from="1750636852879" duration="1391000" />
       <workItem from="1752261193197" duration="6656000" />
       <workItem from="1752276177561" duration="3463000" />
-      <workItem from="1752323112857" duration="7284000" />
-    </task>
-    <task id="LOCAL-00035" summary="Refactor leaderboard API and service; update endpoints for game winners, highest bets, returns, and accumulated winnings">
-      <option name="closed" value="true" />
-      <created>1746107809888</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1746107809888</updated>
+      <workItem from="1752323112857" duration="7493000" />
+      <workItem from="1752447175609" duration="436000" />
+      <workItem from="1752493401417" duration="2068000" />
+      <workItem from="1752495678722" duration="2632000" />
     </task>
     <task id="LOCAL-00036" summary="Add friend request feature; implement API, context, and UI for managing friend requests">
       <option name="closed" value="true" />
@@ -651,7 +736,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752277793091</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="Con Login De Google Pero no Register">
+      <option name="closed" value="true" />
+      <created>1752331179123</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1752331179123</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -684,7 +777,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Add coupon validation and transaction handling; integrate coupon benefits in transaction process" />
     <MESSAGE value="Refactor leaderboard components; improve data handling and add debug logging" />
     <MESSAGE value="Remove debug logging from friends leaderboard data fetching; streamline error handling" />
     <MESSAGE value="Add auto spin functionality and enhance game controls; improve visual feedback for winning lines" />
@@ -709,6 +801,7 @@
     <MESSAGE value="Refactor workspace configuration; update HTML title and favicon for consistency" />
     <MESSAGE value="Refactor workspace configuration; update dependencies and enhance styles for win display" />
     <MESSAGE value="Login Con Boton Falso" />
-    <option name="LAST_COMMIT_MESSAGE" value="Login Con Boton Falso" />
+    <MESSAGE value="Con Login De Google Pero no Register" />
+    <option name="LAST_COMMIT_MESSAGE" value="Con Login De Google Pero no Register" />
   </component>
 </project>

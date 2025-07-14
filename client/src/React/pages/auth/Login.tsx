@@ -127,9 +127,7 @@ const Login: React.FC<LoginProps> = () => {
             }
 
             // Si llegamos aquí, el usuario existe y no está suspendido
-
-
-            const success = await login(decodedToken.email,null);
+            const success = await login(decodedToken.email, null);
             if (success) {
                 const tiempoDeJuego = await tiempodesesionApi.createtiempodesesion({
                     usuarioid: user.usuarioid,
@@ -142,9 +140,6 @@ const Login: React.FC<LoginProps> = () => {
                 setMessageType('warning');
                 setShowMessage(true);
             }
-
-            // Navegar a la página principal
-            navigate('/home');
 
         } catch (error) {
             console.error('Error en Google Login:', error);

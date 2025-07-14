@@ -13,7 +13,7 @@ const faqApi = {
         }
     },
 
-    createFAQ: async (faqData: { pregunta: string; respuesta: string,categoria: string }) => {
+    createFAQ: async (faqData: { pregunta: string; respuesta: string, categoria: string }) => {
         try {
             const response = await axios.post(`${API_URL}/create`, faqData);
             return response.data;
@@ -23,7 +23,7 @@ const faqApi = {
         }
     },
 
-    updateFAQ: async (faqId: string, faqData: { pregunta: string; respuesta: string,categoria: string }) => {
+    updateFAQ: async (faqId: string, faqData: { pregunta: string; respuesta: string, categoria: string }) => {
         try {
             const response = await axios.put(`${API_URL}/edit/${faqId}`, faqData);
             return response.data;

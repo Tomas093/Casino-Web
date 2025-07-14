@@ -10,6 +10,7 @@ interface UserPlayData {
     retorno: number;
     apuesta: number;
 }
+
 const playApi = {
     createPlay: async (playData: UserPlayData) => {
         try {

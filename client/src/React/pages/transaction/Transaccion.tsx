@@ -717,7 +717,8 @@ const Transaccion: React.FC = () => {
                                         </div>
                                     )}
                                     {couponId.trim() && !coupon && !validatingCoupon && !isCouponValidated && (
-                                        <p className="coupon-revalidate">Por favor, vuelva a validar el cupón después de cambiar el monto</p>
+                                        <p className="coupon-revalidate">Por favor, vuelva a validar el cupón después de
+                                            cambiar el monto</p>
                                     )}
                                 </div>
                             )}

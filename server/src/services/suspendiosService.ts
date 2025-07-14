@@ -59,7 +59,7 @@ export const suspendidosService = {
     deletesuspendidos: async (usuarioid: number) => {
         try {
             const result = await prisma.suspendidos.deleteMany({
-                where: { usuarioid }
+                where: {usuarioid}
             });
             if (result.count === 0) {
                 throw new Error('Suspendido not found');

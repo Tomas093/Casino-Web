@@ -271,7 +271,7 @@ const Ticket = () => {
                         )}
 
                         {isAdminUser && ticket && ticket.categoria === 'Aumento de limite' && (
-                            <ChangeLimits clienteId={ticket.clienteid} />
+                            <ChangeLimits clienteId={ticket.clienteid}/>
                         )}
                     </div>
 

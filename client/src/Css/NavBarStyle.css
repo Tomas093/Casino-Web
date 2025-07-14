@@ -156,9 +156,11 @@
 
 .navbar-user-info:hover {
     background: rgba(255, 215, 0, 0.2);
-}.navbar-user-info:hover, .navbar-user-info:focus {
-     background-color: rgba(255, 255, 255, 0.2);
- }
+}
+
+.navbar-user-info:hover, .navbar-user-info:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+}
 
 .navbar-user-info:hover, .navbar-user-info:focus {
     background-color: rgba(255, 255, 255, 0.2);
@@ -195,7 +197,7 @@
     background-color: #1a1a1a;
     min-width: 180px;
     border-radius: 8px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     z-index: 101;
     padding: 10px;
 }

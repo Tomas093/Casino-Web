@@ -520,6 +520,7 @@
     align-items: flex-start;
     gap: 16px;
 }
+
 /* Enhance card interactions */
 .friend-card:active {
     transform: translateY(1px);

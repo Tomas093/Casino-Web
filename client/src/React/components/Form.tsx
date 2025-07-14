@@ -1,5 +1,5 @@
 import React, {FormEvent, useState} from 'react';
-import {GoogleLogin, CredentialResponse} from "@react-oauth/google";
+import {CredentialResponse, GoogleLogin} from "@react-oauth/google";
 
 // Tipos de campos soportados
 type FieldType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select' | 'date';
@@ -91,16 +91,16 @@ const Form: React.FC<FormProps> = ({
                 {/* Botón de Google */}
                 {showGoogleButton && (
                     <>
-                            <div className="google-button-container">
-                                <GoogleLogin
-                                    onSuccess={handleGoogleSuccess}
-                                    onError={handleGoogleError}
-                                    text="continue_with"
-                                    shape="circle"
-                                    logo_alignment="center"
-                                    width= {1000}
-                                />
-                            </div>
+                        <div className="google-button-container">
+                            <GoogleLogin
+                                onSuccess={handleGoogleSuccess}
+                                onError={handleGoogleError}
+                                text="continue_with"
+                                shape="circle"
+                                logo_alignment="center"
+                                width={1000}
+                            />
+                        </div>
                         <div className="divider">
                             <span>O ingresa con email</span>
                         </div>

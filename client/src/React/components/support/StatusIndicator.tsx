@@ -5,7 +5,7 @@ interface StatusIndicatorProps {
     label: string;
 }
 
-const StatusIndicator: React.FC<StatusIndicatorProps> = ({ status, label }) => {
+const StatusIndicator: React.FC<StatusIndicatorProps> = ({status, label}) => {
     return (
         <div className={`status-indicator status-${status}`}>
             <div className="status-dot"></div>

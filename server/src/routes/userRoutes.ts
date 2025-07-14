@@ -30,34 +30,34 @@ function serializeBigInt(data: any): any {
 
 // Modificación del controlador de usuario por ID
 router.get('/:id', async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const {id} = req.params;
     try {
         const usuario = await userService.getUserById(Number(id));
         res.status(200).json(serializeBigInt(usuario));
     } catch (error: any) {
         console.error("Error al obtener usuario:", error);
-        res.status(error.statusCode || 500).json({ message: error.message || 'Error del servidor' });
+        res.status(error.statusCode || 500).json({message: error.message || 'Error del servidor'});
     }
 });
 
 // Eliminar un usuario
 router.delete('/:id', async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const {id} = req.params;
 
     try {
         await userService.deleteUser(Number(id));
-        res.status(200).json({ message: 'Usuario eliminado exitosamente' });
+        res.status(200).json({message: 'Usuario eliminado exitosamente'});
     } catch (error: any) {
         console.error("Error al eliminar usuario:", error);
-        res.status(error.statusCode || 500).json({ message: error.message || 'Error del servidor' });
+        res.status(error.statusCode || 500).json({message: error.message || 'Error del servidor'});
     }
 });
 
 
 // Actualizar un usuario
 router.put('/:id', isAuthenticated, async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const { nombre, apellido, email, edad, dni, balance, influencer } = req.body;
+    const {id} = req.params;
+    const {nombre, apellido, email, edad, dni, balance, influencer} = req.body;
 
     try {
         const updatedUser = await userService.updateUser(Number(id), {
@@ -77,7 +77,7 @@ router.put('/:id', isAuthenticated, async (req: Request, res: Response) => {
         // No devolver res aquí
     } catch (error: any) {
         console.error("Error al actualizar usuario:", error);
-        res.status(error.statusCode || 500).json({ message: error.message || 'Error del servidor' });
+        res.status(error.statusCode || 500).json({message: error.message || 'Error del servidor'});
         // No devolver res aquí
     }
 });
@@ -86,10 +86,10 @@ router.put('/:id', isAuthenticated, async (req: Request, res: Response) => {
 router.get('/count/total', async (req: Request, res: Response) => {
     try {
         const count = await userService.getUserCount();
-        res.status(200).json({ total: count });
+        res.status(200).json({total: count});
     } catch (error: any) {
         console.error("Error al contar usuarios:", error);
-        res.status(error.statusCode || 500).json({ message: error.message || 'Error del servidor' });
+        res.status(error.statusCode || 500).json({message: error.message || 'Error del servidor'});
     }
 });
 
@@ -100,7 +100,7 @@ router.get('/', async (req: Request, res: Response) => {
         res.status(200).json(serializeBigInt(users)); // Aplicar serializeBigInt a los datos
     } catch (error: any) {
         console.error("Error al obtener usuarios:", error);
-        res.status(500).json({ message: 'Error del servidor' });
+        res.status(500).json({message: 'Error del servidor'});
     }
 });
 

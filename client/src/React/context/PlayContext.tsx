@@ -100,7 +100,7 @@ export const PlayProvider = ({children}: PlayProviderProps) => {
         }
     }, []);
 
-    const contextValue : playContextType = {
+    const contextValue: playContextType = {
         createPlay,
         getAllPlays,
         getJugadaById,

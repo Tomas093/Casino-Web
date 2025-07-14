@@ -20,7 +20,7 @@ interface PaymentMethodStats {
 }
 
 export default function PaymentMethodsChart() {
-    const { getTransactionStatsByMethod } = useTransaction();
+    const {getTransactionStatsByMethod} = useTransaction();
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
     const [paymentMethodsStats, setPaymentMethodsStats] = useState<PaymentMethodStats>({
         ingresos: [],
@@ -60,7 +60,6 @@ export default function PaymentMethodsChart() {
     };
 
 
-
     const formatTooltipValue = (value: number, name: string) => {
         const percent = ((value / total) * 100).toFixed(1);
         return [`${formatNumber(value)} (${percent}%)`, name];
@@ -74,7 +73,7 @@ export default function PaymentMethodsChart() {
         setActiveIndex(null);
     };
 
-    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) => {
+    const renderCustomizedLabel = ({cx, cy, midAngle, innerRadius, outerRadius, percent}: any) => {
         if (percent < 0.05) return null;
 
         const RADIAN = Math.PI / 180;
@@ -111,7 +110,7 @@ export default function PaymentMethodsChart() {
     }, [getTransactionStatsByMethod]);
 
     const renderLegend = (props: any) => {
-        const { payload } = props;
+        const {payload} = props;
 
         return (
             <div className="chart-legend">
@@ -126,7 +125,7 @@ export default function PaymentMethodsChart() {
                             onMouseEnter={() => setActiveIndex(index)}
                             onMouseLeave={() => setActiveIndex(null)}
                         >
-                            <div className="legend-color" style={{ backgroundColor: entry.color }} />
+                            <div className="legend-color" style={{backgroundColor: entry.color}}/>
                             <div className="legend-text">
                                 <span className="legend-name">{entry.value}</span>
                                 <span className="legend-value">
@@ -160,7 +159,7 @@ export default function PaymentMethodsChart() {
                 {chartData.length === 0 ? (
                     <div className="no-data-message">No hay datos disponibles</div>
                 ) : (
-                    <div className="chart-container" style={{ position: 'relative' }}>
+                    <div className="chart-container" style={{position: 'relative'}}>
                         <ResponsiveContainer width="100%" height={280}>
                             <PieChart>
                                 <Pie
@@ -206,8 +205,8 @@ export default function PaymentMethodsChart() {
                                         fontSize: '13px',
                                         boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)'
                                     }}
-                                    itemStyle={{ color: '#e0e0e0' }}
-                                    labelStyle={{ color: '#d4af37', fontWeight: 600 }}
+                                    itemStyle={{color: '#e0e0e0'}}
+                                    labelStyle={{color: '#d4af37', fontWeight: 600}}
                                 />
                                 <Legend
                                     content={renderLegend}

@@ -426,7 +426,8 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({
                         fontSize: 22,
                     }}
                 >
-                    Suspender Usuario: {suspendUserTarget ? `${suspendUserTarget.nombre} ${suspendUserTarget.apellido}` : ''}
+                    Suspender
+                    Usuario: {suspendUserTarget ? `${suspendUserTarget.nombre} ${suspendUserTarget.apellido}` : ''}
                 </DialogTitle>
                 <DialogContent sx={{backgroundColor: '#121212'}}>
                     <TextField

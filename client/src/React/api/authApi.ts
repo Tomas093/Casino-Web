@@ -19,6 +19,7 @@ export interface LoginData {
     password: string;
 }
 
+
 const authApi = {
     login: async (loginData: LoginData) => {
         try {
@@ -27,6 +28,21 @@ const authApi = {
         } catch (error: any) {
             if (error.response) {
                 throw new Error(error.response.data.message || 'Error en el servidor');
+            } else if (error.request) {
+                throw new Error('No se recibió respuesta del servidor');
+            } else {
+                throw new Error(error.message);
+            }
+        }
+    },
+
+    googleLogin: async (email: string) => {
+        try {
+            const response = await axios.post(`${API_URL}/google-login`, {email});
+            return response.data;
+        } catch (error: any) {
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error al iniciar sesión con Google');
             } else if (error.request) {
                 throw new Error('No se recibió respuesta del servidor');
             } else {

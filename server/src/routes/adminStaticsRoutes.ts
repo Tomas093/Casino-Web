@@ -11,7 +11,7 @@ router.get('/ingresos-by-method', isAuthenticated, async (req: Request, res: Res
         res.status(200).json(ingresos);
     } catch (error: any) {
         console.error("Error getting income by method:", error);
-        res.status(500).json({ error: error.message || 'Server error' });
+        res.status(500).json({error: error.message || 'Server error'});
     }
 });
 
@@ -22,7 +22,7 @@ router.get('/egresos-by-method', isAuthenticated, async (req: Request, res: Resp
         res.status(200).json(egresos);
     } catch (error: any) {
         console.error("Error getting withdrawals by method:", error);
-        res.status(500).json({ error: error.message || 'Server error' });
+        res.status(500).json({error: error.message || 'Server error'});
     }
 });
 
@@ -33,7 +33,7 @@ router.get('/total-revenue', isAuthenticated, async (req: Request, res: Response
         res.status(200).json(revenue);
     } catch (error: any) {
         console.error("Error getting total revenue:", error);
-        res.status(500).json({ error: error.message || 'Server error' });
+        res.status(500).json({error: error.message || 'Server error'});
     }
 });
 
@@ -44,7 +44,7 @@ router.get('/transaction-stats', isAuthenticated, async (req: Request, res: Resp
         res.status(200).json(stats);
     } catch (error: any) {
         console.error("Error getting transaction stats:", error);
-        res.status(500).json({ error: error.message || 'Server error' });
+        res.status(500).json({error: error.message || 'Server error'});
     }
 });
 
@@ -86,7 +86,7 @@ router.get('/counts', isAuthenticated, async (req: Request, res: Response) => {
         });
     } catch (error: any) {
         console.error("Error getting entity counts:", error);
-        res.status(500).json({ error: error.message || 'Server error' });
+        res.status(500).json({error: error.message || 'Server error'});
     }
 });
 
@@ -97,7 +97,7 @@ router.get('/recent-activities', isAuthenticated, async (req: Request, res: Resp
         res.status(200).json(activities);
     } catch (error: any) {
         console.error("Error getting recent activities:", error);
-        res.status(500).json({ error: error.message || 'Server error' });
+        res.status(500).json({error: error.message || 'Server error'});
     }
 });
 

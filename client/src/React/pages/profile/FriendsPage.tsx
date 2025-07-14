@@ -24,7 +24,7 @@ interface FriendRequest {
 }
 
 // Componente mejorado para avatar de usuario con animación de hover
-const UserAvatar: React.FC<{ user: User | any, className?: string }> = ({ user, className = "friends-avatar" }) => {
+const UserAvatar: React.FC<{ user: User | any, className?: string }> = ({user, className = "friends-avatar"}) => {
     return (
         <div className={`${className}-container`}>
             {user.img ? (
@@ -61,7 +61,7 @@ const UserCard: React.FC<{
     onAction: (id: number) => void,
     onSecondaryAction?: (id: number) => void,
     date?: string
-}> = ({ user, type, onAction, onSecondaryAction, date }) => {
+}> = ({user, type, onAction, onSecondaryAction, date}) => {
     const getActionButtons = () => {
         switch (type) {
             case 'search':
@@ -82,7 +82,8 @@ const UserCard: React.FC<{
                         <button onClick={() => onAction(user.id_remitente)} className="friends-accept-button">
                             <i className="fas fa-check"></i> Aceptar
                         </button>
-                        <button onClick={() => onSecondaryAction && onSecondaryAction(user.id_remitente)} className="friends-reject-button">
+                        <button onClick={() => onSecondaryAction && onSecondaryAction(user.id_remitente)}
+                                className="friends-reject-button">
                             <i className="fas fa-times"></i> Rechazar
                         </button>
                     </div>
@@ -107,7 +108,7 @@ const UserCard: React.FC<{
     return (
         <div className="friend-card">
             <div className="friend-card-avatar">
-                <UserAvatar user={userData || { nombre: '', apellido: '' }} />
+                <UserAvatar user={userData || {nombre: '', apellido: ''}}/>
             </div>
             <div className="friend-card-content">
                 <h3 className="friend-card-name">
@@ -131,7 +132,7 @@ const UserCard: React.FC<{
 };
 
 // Componente de estado vacío mejorado
-const EmptyState: React.FC<{ type: string }> = ({ type }) => {
+const EmptyState: React.FC<{ type: string }> = ({type}) => {
     const messages: { [key: string]: { icon: string, message: string } } = {
         search: {
             icon: 'fa-search',
@@ -173,7 +174,7 @@ const FriendsPage: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    const { user } = useAuth();
+    const {user} = useAuth();
     const {
         sendFriendRequest,
         acceptFriendRequest,
@@ -384,7 +385,9 @@ const FriendsPage: React.FC = () => {
 
     const renderTabContent = () => {
         if (isLoading) {
-            return <div className="loading-spinner"><div className="spinner"></div><span>Cargando...</span></div>;
+            return <div className="loading-spinner">
+                <div className="spinner"></div>
+                <span>Cargando...</span></div>;
         }
 
         switch (activeTab) {
@@ -419,7 +422,7 @@ const FriendsPage: React.FC = () => {
                                     />
                                 ))
                             ) : searchQuery && !isSearching ? (
-                                <EmptyState type="search" />
+                                <EmptyState type="search"/>
                             ) : null}
                         </div>
                     </>
@@ -437,7 +440,7 @@ const FriendsPage: React.FC = () => {
                                 />
                             ))
                         ) : (
-                            <EmptyState type="friends" />
+                            <EmptyState type="friends"/>
                         )}
                     </div>
                 );
@@ -456,7 +459,7 @@ const FriendsPage: React.FC = () => {
                                 />
                             ))
                         ) : (
-                            <EmptyState type="pending" />
+                            <EmptyState type="pending"/>
                         )}
                     </div>
                 );
@@ -474,7 +477,7 @@ const FriendsPage: React.FC = () => {
                                 />
                             ))
                         ) : (
-                            <EmptyState type="sent" />
+                            <EmptyState type="sent"/>
                         )}
                     </div>
                 );
@@ -485,12 +488,12 @@ const FriendsPage: React.FC = () => {
 
     return (
         <div className="container">
-            <SideBar />
+            <SideBar/>
             <main className="main-content">
                 <div className="friends-page">
                     <header className="friends-header">
                         <h1 className="friends-title">Amigos</h1>
-                        {error && <Message type="error" message={error} />}
+                        {error && <Message type="error" message={error}/>}
                     </header>
 
                     <div className="friends-container">
