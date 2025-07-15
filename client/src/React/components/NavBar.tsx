@@ -31,17 +31,23 @@ interface NavBarProps {
 
 interface NotificationProps {
     count?: number;
+    refreshCount?: () => void;
 }
 
-const NotificationBell: React.FC<NotificationProps> = ({count = 0}) => {
+const NotificationBell: React.FC<NotificationProps> = ({count = 0, refreshCount}) => {
     const [notificationsOpen, setNotificationsOpen] = useState(false);
     const notificationRef = useRef<HTMLDivElement>(null);
 
-    // Close notifications when clicking outside
+
+    // Close notifications when clicking outside and refresh count
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
                 setNotificationsOpen(false);
+                // Refresh count when closing as notifications may have been read
+                if (refreshCount) {
+                    refreshCount();
+                }
             }
         };
 
@@ -49,7 +55,7 @@ const NotificationBell: React.FC<NotificationProps> = ({count = 0}) => {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, []);
+    }, [refreshCount]);
 
     const toggleNotifications = () => {
         setNotificationsOpen(prev => !prev);
@@ -115,7 +121,7 @@ const NavBar: React.FC<NavBarProps> = ({
         setDropdownOpen(false);
     }, [location]);
 
-    // Fetch notification count
+    // Fetch notification count with polling
     useEffect(() => {
         const fetchNotificationCount = async () => {
             if (user) {
@@ -128,8 +134,27 @@ const NavBar: React.FC<NavBarProps> = ({
             }
         };
 
+        // Initial fetch
         fetchNotificationCount();
+
+        // Set up polling interval (check every 30 seconds)
+        const intervalId = setInterval(fetchNotificationCount, 30000);
+
+        // Clean up interval on component unmount
+        return () => clearInterval(intervalId);
     }, [user]);
+
+    // Function to refresh notification count
+    const refreshNotificationCount = async () => {
+        if (user) {
+            try {
+                const count = await notificationApi.countUnreadNotificationsByUserId(user.usuarioid);
+                setNotificationCount(count);
+            } catch (error) {
+                console.error("Error refreshing notification count:", error);
+            }
+        }
+    };
 
     // Efecto para manejar el scroll a la sección después de la navegación
     useEffect(() => {
@@ -282,8 +307,11 @@ const NavBar: React.FC<NavBarProps> = ({
                                 {playButtonLabel}
                             </button>
 
-                            {/* Notification Bell */}
-                            <NotificationBell count={notificationCount}/>
+                            {/* Notification Bell with refresh function */}
+                            <NotificationBell
+                                count={notificationCount}
+                                refreshCount={refreshNotificationCount}
+                            />
 
                             <div className="navbar-user-dropdown" ref={dropdownRef}>
                                 <div

@@ -4,6 +4,7 @@ import SideBar from "@components/SideBar.tsx";
 import Message from "@components/Error/Message.tsx";
 import {useFriendRequestContext} from "@context/FriendRequestContext.tsx";
 import {useAuth} from "@context/AuthContext.tsx";
+import notificationApi from "@api/notificationApi.ts";
 
 interface User {
     usuarioid: number;
@@ -320,10 +321,31 @@ const FriendsPage: React.FC = () => {
         searchUsers(searchQuery);
     };
 
+    const handleCreateSubmitNotification = async (recipientUserId: number) => {
+        if (!isUserAuthenticated() || !user) return;
+
+        try {
+            // Create a notification for the recipient of the friend request
+            await notificationApi.createNotification({
+                usuarioid: recipientUserId, // The user receiving the request
+                titulo: "Nueva solicitud de amistad",
+                contenido: `${user.nombre} ${user.apellido} te ha enviado una solicitud de amistad.`,
+                destino: "/friends",
+                fecha: new Date(),
+                estado: "pendiente" // Use "pendiente" to match the enum in the server
+            });
+        } catch (error) {
+            console.error("Error al crear notificación de solicitud de amistad:", error);
+            // We don't throw the error to avoid blocking the main friend request flow
+        }
+    };
+
     const handleSendRequest = async (userId: number) => {
         if (!isUserAuthenticated()) return;
         try {
             await sendFriendRequest(user!.usuarioid, userId);
+            // Create notification after successful friend request
+            await handleCreateSubmitNotification(userId);
             setSearchResults(searchResults.filter(u => u.usuarioid !== userId));
         } catch (error: any) {
             console.error("Error sending friend request:", error);

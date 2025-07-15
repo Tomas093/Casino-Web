@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {useNotificationContext} from '../context/NotificationContext';
 import {useAuth} from '@context/AuthContext';
 import notificationApi from "@api/notificationApi.ts";
+import { useNavigate } from 'react-router-dom';
 
 interface NotificationDropdownProps {
     userId?: number;
@@ -41,9 +42,34 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({userId, onCl
         return notifDate.toLocaleDateString();
     };
 
-    const manejarClickNotificacion = (notificacion: { destino: string }): void => {
-        console.log(`Navegando a: ${notificacion.destino}`);
-        alert(`TODO: Navegar a ${notificacion.destino}`);
+
+
+    // Inside the component:
+    const navigate = useNavigate();
+
+    const manejarClickNotificacion = async (notificacion: any): void => {
+        if (notificacion.destino) {
+            // Mark notification as read if it has an ID and isn't already read
+            if (notificacion.notificacion_id && notificacion.estado !== 'leida') {
+                try {
+                    await notificationApi.updateNotification(notificacion.notificacion_id, "leida");
+                    // Refresh notifications
+                    if (effectiveUserId) {
+                        fetchUserNotifications(effectiveUserId);
+                    }
+                } catch (error) {
+                    console.error('Error al marcar notificación como leída:', error);
+                }
+            }
+
+            // Navigate to the destination
+            navigate(notificacion.destino);
+
+            // Close dropdown if onClose exists
+            if (onClose) {
+                onClose();
+            }
+        }
     };
 
     const marcarTodasComoLeidas = async (): Promise<void> => {
