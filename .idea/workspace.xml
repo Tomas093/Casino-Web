@@ -4,20 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Google de login andando y con reformat code y clean up code de intelij">
-      <change afterPath="$PROJECT_DIR$/client/src/Css/NotificationStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/components/Notification.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/components/NotificationDemo.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/routes/notificationRoutes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/services/notificationService.ts" afterDir="false" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Notificaciones media implementadas, pero falta el estilo y que se creen de verdad, esta como medio de pinta ppoor ahora">
+      <change afterPath="$PROJECT_DIR$/client/src/React/api/notificationApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/context/NotificationContext.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/NavBarStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/NavBarStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/GameBackground.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/GameBackground.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/components/NavBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/NavBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/SideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/SideBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/Notification.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Notification.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/GameContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/GameContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/notificationRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/notificationRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/notificationService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/notificationService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,8 +30,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -270,15 +266,7 @@
       <workItem from="1752506098235" duration="3056000" />
       <workItem from="1752510153443" duration="319000" />
       <workItem from="1752510753624" duration="7206000" />
-      <workItem from="1752519039994" duration="1087000" />
-    </task>
-    <task id="LOCAL-00037" summary="Add friend management features; implement APIs for getting friends, searching users, and deleting friends">
-      <option name="closed" value="true" />
-      <created>1746208966559</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1746208966559</updated>
+      <workItem from="1752519039994" duration="24623000" />
     </task>
     <task id="LOCAL-00038" summary="Subo Friends Andando">
       <option name="closed" value="true" />
@@ -664,7 +652,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752499209960</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="Notificaciones media implementadas, pero falta el estilo y que se creen de verdad, esta como medio de pinta ppoor ahora">
+      <option name="closed" value="true" />
+      <created>1752520669386</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1752520669386</updated>
+    </task>
+    <option name="localTasksCounter" value="87" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -697,7 +693,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Remove debug logging from friends leaderboard data fetching; streamline error handling" />
     <MESSAGE value="Add auto spin functionality and enhance game controls; improve visual feedback for winning lines" />
     <MESSAGE value="Implement infinite carousel for game selection; enhance navigation and visual elements" />
     <MESSAGE value="Refactor footer components; update paths and enhance game navigation with infinite scroll effect" />
@@ -722,6 +717,7 @@
     <MESSAGE value="Login Con Boton Falso" />
     <MESSAGE value="Con Login De Google Pero no Register" />
     <MESSAGE value="Google de login andando y con reformat code y clean up code de intelij" />
-    <option name="LAST_COMMIT_MESSAGE" value="Google de login andando y con reformat code y clean up code de intelij" />
+    <MESSAGE value="Notificaciones media implementadas, pero falta el estilo y que se creen de verdad, esta como medio de pinta ppoor ahora" />
+    <option name="LAST_COMMIT_MESSAGE" value="Notificaciones media implementadas, pero falta el estilo y que se creen de verdad, esta como medio de pinta ppoor ahora" />
   </component>
 </project>

@@ -65,7 +65,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({children}) => {
         setLoading(true);
         setError(null);
         try {
-            const newGame = await gameApi.createGame(game);
+            const newGame = await gameApi.createGame(game as GameData);
             setGames([...games, newGame]);
         } catch (err: any) {
             setError(err.message || 'Error al crear el juego');
@@ -81,7 +81,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({children}) => {
         setLoading(true);
         setError(null);
         try {
-            const updatedGame = await gameApi.updateGame(id, game);
+            const updatedGame = await gameApi.updateGame(id, game as GameData);
             setGames(games.map(g => g.juegoid === id ? updatedGame : g));
             if (selectedGame && selectedGame.juegoid === id) {
                 setSelectedGame(updatedGame);

@@ -1,43 +1,38 @@
 import '@css/NotificationStyle.css';
+import React, {useEffect, useState} from 'react';
+import {useNotificationContext} from '../context/NotificationContext';
+import {useAuth} from '@context/AuthContext';
 
-const NotificationDropdown = () => {
-    // Datos de ejemplo para las notificaciones
-    const notifications = [
-        {
-            usuarioId: 'usr_001',
-            titulo: 'Nueva mensaje recibido',
-            contenido: 'Tienes un nuevo mensaje de María González sobre el proyecto.',
-            destino: '/mensajes/123',
-            fecha: '2025-07-14T10:30:00Z',
-            estado: 'no_leida'
-        },
-        {
-            usuarioId: 'usr_001',
-            titulo: 'Recordatorio de reunión',
-            contenido: 'Tu reunión con el equipo de desarrollo comienza en 15 minutos.',
-            destino: '/calendario/reunion-456',
-            fecha: '2025-07-14T09:45:00Z',
-            estado: 'leida'
-        },
-        {
-            usuarioId: 'usr_001',
-            titulo: 'Actualización del sistema',
-            contenido: 'El sistema se actualizará esta noche a las 2:00 AM.',
-            destino: '/configuracion/actualizaciones',
-            fecha: '2025-07-14T08:20:00Z',
-            estado: 'no_leida'
-        },
-        {
-            usuarioId: 'usr_001',
-            titulo: 'Tarea completada',
-            contenido: 'La tarea "Revisar documentos" ha sido marcada como completada.',
-            destino: '/tareas/789',
-            fecha: '2025-07-13T16:15:00Z',
-            estado: 'leida'
+interface NotificationDropdownProps {
+    userId?: number;
+    onClose?: () => void;
+}
+
+const NotificationDropdown: React.FC<NotificationDropdownProps> = ({userId, onClose}) => {
+    const {user} = useAuth();
+    const {
+        notifications,
+        loading,
+        error,
+        fetchUserNotifications,
+        deleteNotification
+    } = useNotificationContext();
+
+    const [isMarkingAllAsRead, setIsMarkingAllAsRead] = useState(false);
+    const [hasAttemptedFetch, setHasAttemptedFetch] = useState(false);
+
+    // Use the userId from props if provided, otherwise use the current user's ID
+    const effectiveUserId = userId || user?.usuarioid;
+
+    // Only fetch notifications when we have a valid user ID and haven't already tried
+    useEffect(() => {
+        if (effectiveUserId && !hasAttemptedFetch) {
+            setHasAttemptedFetch(true);
+            fetchUserNotifications(effectiveUserId);
         }
-    ];
+    }, [effectiveUserId, fetchUserNotifications, hasAttemptedFetch]);
 
-    const formatearFecha = (fecha: string): string => {
+    const formatearFecha = (fecha: Date | string): string => {
         const now = new Date();
         const notifDate = new Date(fecha);
         const diffHours = Math.floor((now.getTime() - notifDate.getTime()) / (1000 * 60 * 60));
@@ -52,12 +47,99 @@ const NotificationDropdown = () => {
         alert(`TODO: Navegar a ${notificacion.destino}`);
     };
 
+    const marcarTodasComoLeidas = async (): Promise<void> => {
+        setIsMarkingAllAsRead(true);
+        try {
+            const notificacionesNoLeidas = notifications.filter(n => n.estado === 'no_leida');
+
+            for (const notificacion of notificacionesNoLeidas) {
+                if (notificacion.notificacion_id) {
+                    console.log(`Marcando como leída: ${notificacion.notificacion_id}`);
+                }
+            }
+
+            // Only refetch if we have a valid user ID
+            if (effectiveUserId) {
+                await fetchUserNotifications(effectiveUserId);
+            }
+        } catch (error) {
+            console.error('Error al marcar todas como leídas:', error);
+        } finally {
+            setIsMarkingAllAsRead(false);
+        }
+    };
+
+    const eliminarNotificacion = async (notificacionId: number): Promise<void> => {
+        try {
+            await deleteNotification(notificacionId);
+        } catch (error) {
+            console.error('Error al eliminar notificación:', error);
+        }
+    };
+
+    // If no user ID is available, show a message
+    if (!effectiveUserId) {
+        return (
+            <div className="notification-dropdown">
+                <div className="notification-header">
+                    <h3 className="notification-title">Notificaciones</h3>
+                    <button className="notification-close-btn" onClick={onClose}>
+                        <span className="close-icon">×</span>
+                    </button>
+                </div>
+                <div className="notification-list">
+                    <div className="notification-empty">
+                        Inicia sesión para ver notificaciones
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Showing loading state
+    if (loading) {
+        return (
+            <div className="notification-dropdown">
+                <div className="notification-header">
+                    <h3 className="notification-title">Notificaciones</h3>
+                    <button className="notification-close-btn" onClick={onClose}>
+                        <span className="close-icon">×</span>
+                    </button>
+                </div>
+                <div className="notification-list">
+                    <div className="notification-empty">
+                        Cargando notificaciones...
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Show error if exists
+    if (error) {
+        return (
+            <div className="notification-dropdown">
+                <div className="notification-header">
+                    <h3 className="notification-title">Notificaciones</h3>
+                    <button className="notification-close-btn" onClick={onClose}>
+                        <span className="close-icon">×</span>
+                    </button>
+                </div>
+                <div className="notification-list">
+                    <div className="notification-empty">
+                        Error al cargar notificaciones: {error}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="notification-dropdown">
             {/* Header */}
             <div className="notification-header">
                 <h3 className="notification-title">Notificaciones</h3>
-                <button className="notification-close-btn">
+                <button className="notification-close-btn" onClick={onClose}>
                     <span className="close-icon">×</span>
                 </button>
             </div>
@@ -71,7 +153,7 @@ const NotificationDropdown = () => {
                 ) : (
                     notifications.map((notificacion, index) => (
                         <div
-                            key={index}
+                            key={notificacion.notificacion_id || index}
                             onClick={() => manejarClickNotificacion(notificacion)}
                             className={`notification-item ${
                                 notificacion.estado === 'no_leida' ? 'notification-unread' : ''
@@ -88,6 +170,18 @@ const NotificationDropdown = () => {
                                         <span className="notification-dot"></span>
                                     )}
                                     <span className="external-link-icon">🔗</span>
+                                    {notificacion.notificacion_id && (
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                eliminarNotificacion(notificacion.notificacion_id!);
+                                            }}
+                                            className="delete-notification-btn"
+                                            title="Eliminar notificación"
+                                        >
+                                            ×
+                                        </button>
+                                    )}
                                 </div>
                             </div>
 
@@ -96,9 +190,9 @@ const NotificationDropdown = () => {
                             </p>
 
                             <div className="notification-meta">
-                                        <span className="notification-date">
-                                            {formatearFecha(notificacion.fecha)}
-                                        </span>
+                                    <span className="notification-date">
+                                        {formatearFecha(notificacion.fecha)}
+                                    </span>
                             </div>
                         </div>
                     ))
@@ -108,8 +202,12 @@ const NotificationDropdown = () => {
             {/* Footer */}
             {notifications.length > 0 && (
                 <div className="notification-footer">
-                    <button className="mark-all-read-btn">
-                        Marcar todas como leídas
+                    <button
+                        className="mark-all-read-btn"
+                        onClick={marcarTodasComoLeidas}
+                        disabled={isMarkingAllAsRead}
+                    >
+                        {isMarkingAllAsRead ? 'Marcando...' : 'Marcar todas como leídas'}
                     </button>
                 </div>
             )}

@@ -5,6 +5,7 @@ import '@css/NavBarStyle.css';
 import {useUser} from "@context/UserContext.tsx";
 import {useAdmin} from "@context/AdminContext.tsx";
 import NotificationDropdown from '@components/Notification.tsx';
+import notificationApi from "@api/notificationApi.ts";
 
 interface NavLink {
     label: string;
@@ -98,6 +99,7 @@ const NavBar: React.FC<NavBarProps> = ({
     const [superAdminStatus, setSuperAdminStatus] = useState(false);
     const [adminStatus, setAdminStatus] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const [notificationCount, setNotificationCount] = useState(0);
 
     // Force component to re-render when client changes
     const [clientBalance, setClientBalance] = useState(0);
@@ -112,6 +114,22 @@ const NavBar: React.FC<NavBarProps> = ({
         setMobileMenuOpen(false);
         setDropdownOpen(false);
     }, [location]);
+
+    // Fetch notification count
+    useEffect(() => {
+        const fetchNotificationCount = async () => {
+            if (user) {
+                try {
+                    const count = await notificationApi.countUnreadNotificationsByUserId(user.usuarioid);
+                    setNotificationCount(count);
+                } catch (error) {
+                    console.error("Error fetching notification count:", error);
+                }
+            }
+        };
+
+        fetchNotificationCount();
+    }, [user]);
 
     // Efecto para manejar el scroll a la sección después de la navegación
     useEffect(() => {
@@ -265,7 +283,7 @@ const NavBar: React.FC<NavBarProps> = ({
                             </button>
 
                             {/* Notification Bell */}
-                            <NotificationBell count={3}/>
+                            <NotificationBell count={notificationCount}/>
 
                             <div className="navbar-user-dropdown" ref={dropdownRef}>
                                 <div

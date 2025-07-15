@@ -1,5 +1,6 @@
 import {PrismaClient} from '@prisma/client';
 
+
 const prisma = new PrismaClient();
 
 export const notificationService = {
@@ -20,8 +21,6 @@ export const notificationService = {
         } catch (error) {
             console.error('Error creating notification:', error);
             throw new Error('Error creating notification');
-        } finally {
-            await prisma.$disconnect();
         }
     },
 
@@ -34,8 +33,28 @@ export const notificationService = {
         } catch (error) {
             console.error('Error fetching notifications:', error);
             throw new Error('Error fetching notifications');
-        } finally {
-            await prisma.$disconnect();
         }
     },
-};
+
+    async deleteNotificationById(notificationId: number) {
+        try {
+            return await prisma.notificaciones.delete({
+                where: {notificacion_id: notificationId},
+            });
+        } catch (error) {
+            console.error('Error deleting notification:', error);
+            throw new Error('Error deleting notification');
+        }
+    },
+
+    async countUnreadNotificationsByUserId(usuarioid: number) {
+        try {
+            return await prisma.notificaciones.count({
+                where: {usuarioid}
+            });
+        } catch (error) {
+            console.error('Error fetching count notifications:', error);
+            throw new Error('Error fetching count notifications');
+        }
+    }
+}

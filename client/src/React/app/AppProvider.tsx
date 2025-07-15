@@ -16,6 +16,7 @@ import {AdminStaticsProvider} from "@context/AdminStaticsContext.tsx";
 import {CuponProvider} from '@context/CuponContext';
 import {TiempoDeSesionProvider} from '@context/TiempoDeSesionContext.tsx';
 import {SuspendidosProvider} from '@context/SuspendidosContext.tsx';
+import {NotificationProvider} from "@context/NotificationContext.tsx";
 
 interface AppProviderProps {
     children: ReactNode;
@@ -40,7 +41,9 @@ export const AppProvider = ({children}: AppProviderProps) => {
                                                                 <AdminStaticsProvider>
                                                                     <CuponProvider>
                                                                         <TiempoDeSesionProvider>
+                                                                            <NotificationProvider>
                                                                             {children}
+                                                                            </NotificationProvider>
                                                                         </TiempoDeSesionProvider>
                                                                     </CuponProvider>
                                                                 </AdminStaticsProvider>
