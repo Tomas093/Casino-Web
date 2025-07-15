@@ -67,6 +67,33 @@ const notificationApi = {
                 throw error;
             }
         }
+    },
+
+    markAllNotificationsAsRead: async (usuarioid: number): Promise<void> => {
+        try {
+            await axios.put(`${API_URL}/mark-all-read/${usuarioid}`);
+        } catch (error: any) {
+            console.error(`Error al marcar notificaciones como leídas para el usuario ${usuarioid}:`, error);
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error al marcar notificaciones como leídas');
+            } else {
+                throw error;
+            }
+        }
+    },
+
+    updateNotification: async (notificacion_id: number, estado: string): Promise<NotificationData> => {
+        try {
+            const response = await axios.put(`${API_URL}/update/${notificacion_id}`, {estado});
+            return response.data;
+        } catch (error: any) {
+            console.error(`Error al actualizar Notificacion con ID ${notificacion_id}:`, error);
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error al actualizar Notificacion');
+            } else {
+                throw error;
+            }
+        }
     }
 }
 

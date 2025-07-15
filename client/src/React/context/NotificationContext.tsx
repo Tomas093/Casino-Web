@@ -1,7 +1,6 @@
 import React, {createContext, ReactNode, useContext, useState} from 'react';
 import notificationApi, {NotificationData} from '../api/notificationApi';
 
-// Define the context interface
 interface NotificationContextType {
     notifications: NotificationData[];
     loading: boolean;
@@ -10,23 +9,21 @@ interface NotificationContextType {
     createNotification: (notification: NotificationData) => Promise<void>;
     deleteNotification: (id: number) => Promise<void>;
     countUnreadNotificationsByUserId: (usuarioid: number) => Promise<number>;
+    markAllNotificationsAsRead?: (usuarioid: number) => Promise<void>;
+    updateNotificationStatus?: (notificationId: number, estado: string) => Promise<void>;
 }
 
-// Create the context
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
-// Props for the context provider
 interface NotificationProviderProps {
     children: ReactNode;
 }
 
-// Context provider component
 export const NotificationProvider: React.FC<NotificationProviderProps> = ({children}) => {
     const [notifications, setNotifications] = useState<NotificationData[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    // Fetch notifications for a user
     const fetchUserNotifications = async (userId: number): Promise<void> => {
         setLoading(true);
         setError(null);
@@ -41,7 +38,6 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({child
         }
     };
 
-    // Create a new notification
     const createNotification = async (notification: NotificationData): Promise<void> => {
         setLoading(true);
         setError(null);
@@ -57,7 +53,6 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({child
         }
     };
 
-    // Delete a notification
     const deleteNotification = async (id: number): Promise<void> => {
         setLoading(true);
         setError(null);
@@ -74,7 +69,6 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({child
         }
     };
 
-    // Count unread notifications for a user
     const countUnreadNotificationsByUserId = async (usuarioid: number): Promise<number> => {
         setLoading(true);
         setError(null);
@@ -90,6 +84,36 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({child
         }
     };
 
+    const markAllNotificationsAsRead = async (usuarioid: number): Promise<void> => {
+        setLoading(true);
+        setError(null);
+        try {
+            await notificationApi.markAllNotificationsAsRead(usuarioid);
+            await fetchUserNotifications(usuarioid);
+        } catch (err: any) {
+            setError(err.message || 'Error al marcar todas las notificaciones como leídas');
+            console.error('Error al marcar todas las notificaciones como leídas:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const updateNotificationStatus = async (notificationId: number, estado: string): Promise<void> => {
+        setLoading(true);
+        setError(null);
+        try {
+            const updatedNotification = await notificationApi.updateNotification(notificationId, estado);
+            setNotifications(prev => prev.map(notification =>
+                notification.notificacion_id === notificationId ? updatedNotification : notification));
+        } catch (err: any) {
+            setError(err.message || 'Error al actualizar el estado de la notificación');
+            console.error('Error al actualizar el estado de la notificación:', err);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <NotificationContext.Provider value={{
             notifications,
@@ -98,14 +122,15 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({child
             fetchUserNotifications,
             createNotification,
             deleteNotification,
-            countUnreadNotificationsByUserId
+            countUnreadNotificationsByUserId,
+            markAllNotificationsAsRead,
+            updateNotificationStatus
         }}>
             {children}
         </NotificationContext.Provider>
     );
 };
 
-// Custom hook to use the context
 export const useNotificationContext = (): NotificationContextType => {
     const context = useContext(NotificationContext);
     if (context === undefined) {

@@ -59,4 +59,30 @@ router.get('/count/:usuarioid', async (req, res) => {
     }
 });
 
+router.put('/update/:notificationId', async (req, res) => {
+    const {notificationId} = req.params;
+    const {estado} = req.body;
+
+    try {
+        const updatedNotification = await notificationService.updateNotificationStatus(parseInt(notificationId), estado);
+        res.status(200).json(updatedNotification);
+    } catch (error: any) {
+        console.error("Error al actualizar notificación:", error);
+        res.status(error.statusCode || 500).json({error: error.message || 'Error al actualizar la notificación'});
+    }
+});
+
+router.put('/mark-all-read/:usuarioid', async (req, res) => {
+    const {usuarioid} = req.params;
+
+    try {
+        const updatedNotifications = await notificationService.markAllNotificationsAsRead(parseInt(usuarioid));
+        res.status(200).json(updatedNotifications);
+    } catch (error: any) {
+        console.error("Error al marcar todas las notificaciones como leídas:", error);
+        res.status(error.statusCode || 500).json({error: error.message || 'Error al marcar las notificaciones como leídas'});
+    }
+});
+
+
 export default router

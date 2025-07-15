@@ -2,6 +2,7 @@ import '@css/NotificationStyle.css';
 import React, {useEffect, useState} from 'react';
 import {useNotificationContext} from '../context/NotificationContext';
 import {useAuth} from '@context/AuthContext';
+import notificationApi from "@api/notificationApi.ts";
 
 interface NotificationDropdownProps {
     userId?: number;
@@ -21,10 +22,8 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({userId, onCl
     const [isMarkingAllAsRead, setIsMarkingAllAsRead] = useState(false);
     const [hasAttemptedFetch, setHasAttemptedFetch] = useState(false);
 
-    // Use the userId from props if provided, otherwise use the current user's ID
     const effectiveUserId = userId || user?.usuarioid;
 
-    // Only fetch notifications when we have a valid user ID and haven't already tried
     useEffect(() => {
         if (effectiveUserId && !hasAttemptedFetch) {
             setHasAttemptedFetch(true);
@@ -48,22 +47,14 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({userId, onCl
     };
 
     const marcarTodasComoLeidas = async (): Promise<void> => {
-        setIsMarkingAllAsRead(true);
+        if (!effectiveUserId) return;
+
         try {
-            const notificacionesNoLeidas = notifications.filter(n => n.estado === 'no_leida');
-
-            for (const notificacion of notificacionesNoLeidas) {
-                if (notificacion.notificacion_id) {
-                    console.log(`Marcando como leída: ${notificacion.notificacion_id}`);
-                }
-            }
-
-            // Only refetch if we have a valid user ID
-            if (effectiveUserId) {
-                await fetchUserNotifications(effectiveUserId);
-            }
+            setIsMarkingAllAsRead(true);
+            await notificationApi.markAllNotificationsAsRead(effectiveUserId);
+            await fetchUserNotifications(effectiveUserId);
         } catch (error) {
-            console.error('Error al marcar todas como leídas:', error);
+            console.error('Error al marcar notificaciones como leídas:', error);
         } finally {
             setIsMarkingAllAsRead(false);
         }
