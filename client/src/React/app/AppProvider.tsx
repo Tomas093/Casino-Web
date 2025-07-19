@@ -42,7 +42,7 @@ export const AppProvider = ({children}: AppProviderProps) => {
                                                                     <CuponProvider>
                                                                         <TiempoDeSesionProvider>
                                                                             <NotificationProvider>
-                                                                            {children}
+                                                                                {children}
                                                                             </NotificationProvider>
                                                                         </TiempoDeSesionProvider>
                                                                     </CuponProvider>
