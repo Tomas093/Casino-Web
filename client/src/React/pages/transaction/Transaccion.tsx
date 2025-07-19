@@ -381,6 +381,17 @@ const Transaccion: React.FC = () => {
         setIsCouponValidated(false);
     };
 
+    const handleMontoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setMonto(e.target.value);
+        // Si hay un cupón presente, invalidarlo cuando cambie el monto
+        if (couponId.trim() && coupon) {
+            setIsCouponValidated(false);
+            setCoupon(null);
+            setBenefitAmount(0);
+            setCouponError('');
+        }
+    };
+
     useEffect(() => {
         if (coupon && monto) {
             const montoNum = parseInt(monto) || 0;
@@ -639,7 +650,7 @@ const Transaccion: React.FC = () => {
                                         type="number"
                                         id="monto"
                                         value={monto}
-                                        onChange={(e) => setMonto(e.target.value)}
+                                        onChange={handleMontoChange}
                                         placeholder="0"
                                         min="10"
                                         step="1"
@@ -704,6 +715,10 @@ const Transaccion: React.FC = () => {
                                                 Depósito total: ${parseInt(monto) + benefitAmount}
                                             </p>
                                         </div>
+                                    )}
+                                    {couponId.trim() && !coupon && !validatingCoupon && !isCouponValidated && (
+                                        <p className="coupon-revalidate">Por favor, vuelva a validar el cupón después de
+                                            cambiar el monto</p>
                                     )}
                                 </div>
                             )}

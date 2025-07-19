@@ -68,7 +68,7 @@ export const TransactionProvider = ({children}: TransactionProviderProps) => {
             return await transactionApi.getTotalRevenue();
         } catch (error) {
             console.error('Error al obtener ingresos totales:', error);
-            return { gananciasNetas: 0 };
+            return {gananciasNetas: 0};
         } finally {
             setIsLoading(false);
         }
@@ -84,7 +84,7 @@ export const TransactionProvider = ({children}: TransactionProviderProps) => {
         } finally {
             setIsLoading(false);
         }
-    } , []);
+    }, []);
 
     const contextValue: TransactionContextType = {
         isLoading,

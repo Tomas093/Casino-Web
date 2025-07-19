@@ -7,7 +7,7 @@ type CustomThemeCreatorProps = {
     onCancel: () => void;
 };
 
-const CustomThemeCreator = ({ onSaveTheme, onCancel }: CustomThemeCreatorProps) => {
+const CustomThemeCreator = ({onSaveTheme, onCancel}: CustomThemeCreatorProps) => {
     const [themeName, setThemeName] = useState('Mi tema personalizado');
     const [symbols, setSymbols] = useState<string[]>([
         '🍒', '🍋', '🍊', '🍇', '🍉', '🔔', '💎', '⭐'

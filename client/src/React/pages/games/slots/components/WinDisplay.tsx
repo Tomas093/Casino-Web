@@ -6,7 +6,7 @@ type WinDisplayProps = {
     winningLines: WinningLineType[];
 };
 
-const WinDisplay = ({ winAmount, winningLines }: WinDisplayProps) => {
+const WinDisplay = ({winAmount, winningLines}: WinDisplayProps) => {
     const [isAnimating, setIsAnimating] = useState(false);
 
     // Animar cuando hay una ganancia

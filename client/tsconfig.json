@@ -11,7 +11,11 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
@@ -23,16 +27,37 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "paths": {
-        "@/*": ["./src/*"],
-        "@context/*": ["./src/React/context/*"],
-        "@css/*": ["./src/css/*"],
-        "@components/*": ["./src/React/components/*"],
-        "@assets/*": ["./src/assets/*"],
-        "@api/*": ["./src/React/api/*"],
-        "@games/*": ["./src/React/games/*"],
-        "@pages/*": ["./src/React/pages/*"],
+      "@/*": [
+        "./src/*"
+      ],
+      "@context/*": [
+        "./src/React/context/*"
+      ],
+      "@css/*": [
+        "./src/css/*"
+      ],
+      "@components/*": [
+        "./src/React/components/*"
+      ],
+      "@assets/*": [
+        "./src/assets/*"
+      ],
+      "@api/*": [
+        "./src/React/api/*"
+      ],
+      "@games/*": [
+        "./src/React/games/*"
+      ],
+      "@pages/*": [
+        "./src/React/pages/*"
+      ]
     }
   },
-  "include": ["src", "vite.config.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src",
+    "vite.config.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

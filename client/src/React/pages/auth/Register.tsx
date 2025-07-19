@@ -112,7 +112,6 @@ const Register: React.FC = () => {
                                 ...formData,
                                 edad: formatDate(formData.birthdate)
                             };
-                            delete dataToSend.birthdate;
 
                             const response = await fetch('http://localhost:3001/auth/register', {
                                 method: 'POST',

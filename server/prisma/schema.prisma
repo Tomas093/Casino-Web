@@ -132,6 +132,7 @@ model usuario {
   amistad_amistad_usuario1_idTousuario                        amistad[]            @relation("amistad_usuario1_idTousuario")
   amistad_amistad_usuario2_idTousuario                        amistad[]            @relation("amistad_usuario2_idTousuario")
   cliente                                                     cliente?
+  notificaciones                                              notificaciones[]
   solicitudesamistad_solicitudesamistad_id_receptorTousuario  solicitudesamistad[] @relation("solicitudesamistad_id_receptorTousuario")
   solicitudesamistad_solicitudesamistad_id_remitenteTousuario solicitudesamistad[] @relation("solicitudesamistad_id_remitenteTousuario")
   suspendidos                                                 suspendidos[]
@@ -200,4 +201,20 @@ model tiempodesesion {
   inicio           DateTime  @default(now()) @db.Timestamptz(6)
   fin              DateTime? @db.Timestamptz(6)
   usuario          usuario   @relation(fields: [user_id], references: [usuarioid], onDelete: Cascade, map: "tiempodejuego_user_id_fkey")
+}
+
+model notificaciones {
+  notificacion_id Int          @id @default(autoincrement())
+  titulo          String       @db.VarChar(255)
+  contenido       String
+  usuarioid       Int
+  destino         String       @db.VarChar(255)
+  fecha           DateTime?    @default(now()) @db.Timestamptz(6)
+  estado          estado_enum? @default(pendiente)
+  usuario         usuario      @relation(fields: [usuarioid], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
+}
+
+enum estado_enum {
+  pendiente
+  leida
 }

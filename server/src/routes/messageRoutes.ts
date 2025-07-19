@@ -18,7 +18,7 @@ router.get('/:ticketId', (req: Request, res: Response, next: NextFunction) => {
     (async () => {
         const ticketId = parseInt(req.params.ticketId, 10);
         if (isNaN(ticketId)) {
-            return res.status(400).json({ error: 'Invalid ticket ID' });
+            return res.status(400).json({error: 'Invalid ticket ID'});
         }
 
         try {
@@ -34,7 +34,7 @@ router.put('/edit/:messageId', (req: Request, res: Response, next: NextFunction)
     (async () => {
         const messageId = parseInt(req.params.messageId, 10);
         if (isNaN(messageId)) {
-            return res.status(400).json({ error: 'Invalid message ID' });
+            return res.status(400).json({error: 'Invalid message ID'});
         }
 
         try {

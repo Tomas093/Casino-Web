@@ -22,7 +22,7 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
-const ImageUpload: React.FC<Props> = ({ userId, onImageUploaded }) => {
+const ImageUpload: React.FC<Props> = ({userId, onImageUploaded}) => {
     const [imagen, setImagen] = useState<File | null>(null);
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [isUploading, setIsUploading] = useState(false);
@@ -67,8 +67,8 @@ const ImageUpload: React.FC<Props> = ({ userId, onImageUploaded }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="form-group" style={{ marginBottom: '1rem' }}>
-                <label style={{ display: 'block', marginBottom: '0.5rem' }}>Imagen de perfil</label>
+            <div className="form-group" style={{marginBottom: '1rem'}}>
+                <label style={{display: 'block', marginBottom: '0.5rem'}}>Imagen de perfil</label>
                 <Button
                     component="label"
                     variant="contained"
@@ -87,7 +87,7 @@ const ImageUpload: React.FC<Props> = ({ userId, onImageUploaded }) => {
                         fontSize: '1rem',
                     }}
                 >
-                    <CloudUploadIcon sx={{ verticalAlign: 'middle', fontSize: '1.2rem', marginRight: '8px' }} />
+                    <CloudUploadIcon sx={{verticalAlign: 'middle', fontSize: '1.2rem', marginRight: '8px'}}/>
                     Seleccionar imagen
                     <VisuallyHiddenInput
                         type="file"
@@ -102,9 +102,9 @@ const ImageUpload: React.FC<Props> = ({ userId, onImageUploaded }) => {
             </button>
 
             {imageUrl && !onImageUploaded && (
-                <div style={{ marginTop: '1rem' }}>
+                <div style={{marginTop: '1rem'}}>
                     <p>Imagen subida:</p>
-                    <img src={`http://localhost:3001${imageUrl}`} alt="Imagen de perfil" width="200" />
+                    <img src={`http://localhost:3001${imageUrl}`} alt="Imagen de perfil" width="200"/>
                 </div>
             )}
         </form>

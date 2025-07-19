@@ -1,4 +1,5 @@
 import React, {FormEvent, useState} from 'react';
+import {CredentialResponse, GoogleLogin} from "@react-oauth/google";
 
 // Tipos de campos soportados
 type FieldType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select' | 'date';
@@ -25,7 +26,11 @@ interface FormProps {
     termsText?: React.ReactNode;
     onSubmit: (formData: Record<string, string>) => void;
     errorMessage?: string;
-    footerText?: React.ReactNode; // Optional footer text
+    footerText?: React.ReactNode;
+    showGoogleButton?: boolean;
+    onGoogleSuccess?: (credentialResponse: CredentialResponse) => void;
+    onGoogleError?: () => void;
+    googleButtonText?: string;
 }
 
 const Form: React.FC<FormProps> = ({
@@ -35,7 +40,10 @@ const Form: React.FC<FormProps> = ({
                                        submitButtonText = "Crear Cuenta",
                                        termsText,
                                        onSubmit,
-                                       footerText
+                                       footerText,
+                                       showGoogleButton = false,
+                                       onGoogleSuccess,
+                                       onGoogleError,
                                    }) => {
     // Estado del formulario dinámico
     const [formData, setFormData] = useState<Record<string, string>>(() => {
@@ -59,58 +67,103 @@ const Form: React.FC<FormProps> = ({
         onSubmit(formData);
     };
 
+    // Handlers for Google OAuth with fallbacks
+    const handleGoogleSuccess = (response: CredentialResponse) => {
+        if (onGoogleSuccess) {
+            onGoogleSuccess(response);
+        }
+    };
+
+    const handleGoogleError = () => {
+        if (onGoogleError) {
+            onGoogleError();
+        } else {
+            console.error("Google login failed");
+        }
+    };
+
     return (
-        <div className="register-container">
-            {title && <h1>{title}</h1>}
-            {subtitle && <h2>{subtitle}</h2>}
-            <form id="register-form" onSubmit={handleSubmit}>
-                {fields.map((field, index) => (
-                    <label key={index}>
-                        {field.type === 'textarea' ? (
-                            <textarea
-                                name={field.name}
-                                className="input-field"
-                                placeholder={field.placeholder}
-                                required={field.required}
-                                minLength={field.minLength}
-                                maxLength={field.maxLength}
-                                value={formData[field.name]}
-                                onChange={handleChange}
+        <div className="login-page">
+            <div className="container">
+                {title && <h1 className="login-title">{title}</h1>}
+                {subtitle && <h2 className="login-subtitle">{subtitle}</h2>}
+
+                {/* Botón de Google */}
+                {showGoogleButton && (
+                    <>
+                        <div className="google-button-container">
+                            <GoogleLogin
+                                onSuccess={handleGoogleSuccess}
+                                onError={handleGoogleError}
+                                text="continue_with"
+                                shape="circle"
+                                logo_alignment="center"
+                                width={1000}
                             />
-                        ) : field.type === 'select' ? (
-                            <select
-                                name={field.name}
-                                className="input-field"
-                                required={field.required}
-                                value={formData[field.name]}
-                                onChange={handleChange}
-                            >
-                                <option value="" disabled>{field.placeholder}</option>
-                                {field.options?.map((option, idx) => (
-                                    <option key={idx} value={option}>{option}</option>
-                                ))}
-                            </select>
-                        ) : (
-                            <input
-                                type={field.type}
-                                name={field.name}
-                                className="input-field"
-                                placeholder={field.placeholder}
-                                required={field.required}
-                                minLength={field.minLength}
-                                maxLength={field.maxLength}
-                                min={field.min}
-                                max={field.max}
-                                value={formData[field.name]}
-                                onChange={handleChange}
-                            />
-                        )}
-                    </label>
-                ))}
-                <button type="submit" className="form-button">{submitButtonText}</button>
-            </form>
-            {termsText && <p className="terms">{termsText}</p>}
-            {footerText && <div className="form-footer">{footerText}</div>}
+                        </div>
+                        <div className="divider">
+                            <span>O ingresa con email</span>
+                        </div>
+                    </>
+                )}
+
+                {/* Formulario tradicional */}
+                <form className="login-form" onSubmit={handleSubmit}>
+                    {fields.map((field, index) => (
+                        <div key={index} className="form-group">
+                            {field.type === 'textarea' ? (
+                                <textarea
+                                    name={field.name}
+                                    className="form-control"
+                                    placeholder={field.placeholder}
+                                    required={field.required}
+                                    minLength={field.minLength}
+                                    maxLength={field.maxLength}
+                                    value={formData[field.name]}
+                                    onChange={handleChange}
+                                />
+                            ) : field.type === 'select' ? (
+                                <select
+                                    name={field.name}
+                                    className="form-control"
+                                    required={field.required}
+                                    value={formData[field.name]}
+                                    onChange={handleChange}
+                                >
+                                    <option value="" disabled>{field.placeholder}</option>
+                                    {field.options?.map((option, idx) => (
+                                        <option key={idx} value={option}>{option}</option>
+                                    ))}
+                                </select>
+                            ) : (
+                                <input
+                                    type={field.type}
+                                    name={field.name}
+                                    className="form-control"
+                                    placeholder={field.placeholder}
+                                    required={field.required}
+                                    minLength={field.minLength}
+                                    maxLength={field.maxLength}
+                                    min={field.min}
+                                    max={field.max}
+                                    value={formData[field.name]}
+                                    onChange={handleChange}
+                                />
+                            )}
+                        </div>
+                    ))}
+
+                    <button type="submit" className="submit-button">
+                        {submitButtonText}
+                    </button>
+                </form>
+
+                {/* Términos y condiciones */}
+                {termsText && <div className="terms">{termsText}</div>}
+
+                {/* Footer */}
+                {footerText && <div className="form-footer">{footerText}</div>}
+            </div>
         </div>
     );
 };

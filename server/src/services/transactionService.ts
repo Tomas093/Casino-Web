@@ -56,7 +56,7 @@ const transformTransactions = (
 export const transactionService = {
     // Crear un nuevo ingreso
     createIngreso: async (data: TransactionData) => {
-        const {usuarioid, fecha, metodo, monto,cuponid} = data;
+        const {usuarioid, fecha, metodo, monto, cuponid} = data;
 
         if (monto <= 0) {
             throw new Error('El monto debe ser mayor a cero');

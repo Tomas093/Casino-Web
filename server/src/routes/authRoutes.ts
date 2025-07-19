@@ -78,4 +78,39 @@ router.get('/email/:email', async (req: Request, res: Response) => {
     }
 });
 
+// Agregar este endpoint a tu authRoutes.ts
+
+router.post('/google-login', (req: Request, res: Response) => {
+    (async () => {
+        try {
+            const {email} = req.body;
+
+            // Buscar usuario por email
+            const usuario = await authService.getUserByemail(email);
+
+            if (!usuario) {
+                return res.status(404).json({
+                    message: 'No existe una cuenta asociada a este email'
+                });
+            }
+
+            // Convertir BigInt a string para la sesión
+            const usuarioForSession = convertBigIntToString(usuario);
+
+            // Guardar en sesión (con BigInt convertido)
+            req.session.usuario = usuarioForSession;
+
+            res.status(200).json({
+                message: 'Inicio de sesión con Google exitoso',
+                usuario: usuarioForSession
+            });
+        } catch (error: any) {
+            console.error("Error al iniciar sesión con Google:", error);
+            res.status(401).json({
+                message: error.message || 'Error al iniciar sesión con Google'
+            });
+        }
+    })();
+});
+
 export default router;

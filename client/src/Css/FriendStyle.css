@@ -349,6 +349,7 @@
     transition: var(--transition);
     background-color: var(--black);
     color: var(--text-light);
+    margin: 10px;
 }
 
 .search-input:focus {
@@ -454,7 +455,7 @@
 
 .friend-card-content {
     flex: 1;
-    min-width: 0;
+    min-width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -486,9 +487,10 @@
 }
 
 .friend-card-actions {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 12px;
     gap: 8px;
 }
 
@@ -513,7 +515,10 @@
 
 /* Additional styles for cards to improve appearance */
 .friend-card {
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
 }
 
 /* Enhance card interactions */

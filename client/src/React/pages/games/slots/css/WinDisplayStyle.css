@@ -21,17 +21,22 @@
     background-size: 400% 400%;
     animation: megaWinGradient 2s ease infinite, megaWinPulse 1s ease-in-out infinite alternate;
     border: 5px solid #FFD700;
-    box-shadow:
-            0 0 30px rgba(255, 215, 0, 0.8),
-            0 0 60px rgba(255, 215, 0, 0.6),
-            0 0 90px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8),
+    0 0 60px rgba(255, 215, 0, 0.6),
+    0 0 90px rgba(255, 215, 0, 0.4);
     transform: translate(-50%, -50%) scale(1.2);
 }
 
 @keyframes megaWinGradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 @keyframes megaWinPulse {
@@ -51,10 +56,9 @@
     font-size: 3rem;
     font-weight: 900;
     color: #FFD700;
-    text-shadow:
-            0 0 10px #FFD700,
-            0 0 20px #FFD700,
-            0 0 30px #FFD700;
+    text-shadow: 0 0 10px #FFD700,
+    0 0 20px #FFD700,
+    0 0 30px #FFD700;
     animation: megaTextGlow 1s ease-in-out infinite alternate;
     letter-spacing: 3px;
     text-transform: uppercase;
@@ -71,23 +75,25 @@
 
 @keyframes megaTextGlow {
     from {
-        text-shadow:
-                0 0 10px #FFD700,
-                0 0 20px #FFD700,
-                0 0 30px #FFD700;
+        text-shadow: 0 0 10px #FFD700,
+        0 0 20px #FFD700,
+        0 0 30px #FFD700;
     }
     to {
-        text-shadow:
-                0 0 15px #FFD700,
-                0 0 30px #FFD700,
-                0 0 45px #FFD700,
-                0 0 60px #FFD700;
+        text-shadow: 0 0 15px #FFD700,
+        0 0 30px #FFD700,
+        0 0 45px #FFD700,
+        0 0 60px #FFD700;
     }
 }
 
 @keyframes fiveLineFlash {
-    from { opacity: 0.8; }
-    to { opacity: 1; }
+    from {
+        opacity: 0.8;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .win-title {
@@ -168,10 +174,21 @@
     display: inline-block;
 }
 
-.celebration-icon:nth-child(2) { animation-delay: 0.2s; }
-.celebration-icon:nth-child(3) { animation-delay: 0.4s; }
-.celebration-icon:nth-child(4) { animation-delay: 0.6s; }
-.celebration-icon:nth-child(5) { animation-delay: 0.8s; }
+.celebration-icon:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.celebration-icon:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.celebration-icon:nth-child(4) {
+    animation-delay: 0.6s;
+}
+
+.celebration-icon:nth-child(5) {
+    animation-delay: 0.8s;
+}
 
 @keyframes celebrationBounce {
     0%, 20%, 50%, 80%, 100% {
@@ -244,8 +261,12 @@
 }
 
 @keyframes borderGlow {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
 }
 
 /* Responsive design */

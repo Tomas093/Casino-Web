@@ -63,9 +63,8 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background-image:
-            linear-gradient(to right, var(--gold-primary) 1px, transparent 1px),
-            linear-gradient(to bottom, var(--gold-primary) 1px, transparent 1px);
+    background-image: linear-gradient(to right, var(--gold-primary) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--gold-primary) 1px, transparent 1px);
     background-size: 50px 50px;
     opacity: 0.05;
 }
@@ -104,7 +103,7 @@
     color: #d4af37;
 }
 
-    .gb-controls {
+.gb-controls {
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -616,13 +615,14 @@
 .gb-deposit-button:hover {
     background-color: #ffca2c;
 }
+
 /* Estilos adicionales para el GameBackground */
 
 /* Actualización para el dropdown del usuario - Salida lateral */
 .gb-dropdown-side {
     position: absolute;
     left: 100%; /* Posición al lado derecho del contenedor */
-    top: 0;     /* Alineado con la parte superior */
+    top: 0; /* Alineado con la parte superior */
     width: 180px; /* Ancho fijo para el menú lateral */
     background-color: #2a2a3a;
     border-radius: 0.5rem;

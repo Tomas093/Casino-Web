@@ -29,11 +29,11 @@ const gameImages: { [key: number]: string; default: string } = {
     default: '/images/default-game.png'
 };
 
-const HistoryItem: React.FC<HistoryItemProps> = ({ image, imageAlt, transactions }) => {
+const HistoryItem: React.FC<HistoryItemProps> = ({image, imageAlt, transactions}) => {
     return (
         <div className="history-item">
             <div className="thumbnail-container">
-                <img src={image} alt={imageAlt} className="game-thumbnail" />
+                <img src={image} alt={imageAlt} className="game-thumbnail"/>
             </div>
             <div className="transaction-list">
                 {transactions.length > 0 ? (
@@ -58,8 +58,8 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ image, imageAlt, transactions
 };
 
 const HistoryItems: React.FC = () => {
-    const { userHistory, loading, error, getUserHistory } = useHistory();
-    const { user } = useAuth();
+    const {userHistory, loading, error, getUserHistory} = useHistory();
+    const {user} = useAuth();
 
     useEffect(() => {
         if (user?.usuarioid) {

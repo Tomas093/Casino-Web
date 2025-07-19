@@ -53,7 +53,7 @@ const transactionApi = {
             return response.data;
         } catch (error) {
             console.error('Error al obtener ingresos totales:', error);
-            return { gananciasNetas: 0 };
+            return {gananciasNetas: 0};
         }
     },
 

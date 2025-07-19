@@ -426,11 +426,12 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({
                         fontSize: 22,
                     }}
                 >
-                    Suspend User
+                    Suspender
+                    Usuario: {suspendUserTarget ? `${suspendUserTarget.nombre} ${suspendUserTarget.apellido}` : ''}
                 </DialogTitle>
                 <DialogContent sx={{backgroundColor: '#121212'}}>
                     <TextField
-                        label="Reason"
+                        label="Razon"
                         value={suspendReason}
                         onChange={e => setSuspendReason(e.target.value)}
                         fullWidth
@@ -444,7 +445,7 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({
                         }}
                     />
                     <TextField
-                        label="End Date (optional)"
+                        label="Fecha de Fin (opcional)"
                         type="datetime-local"
                         value={suspendEndDate}
                         onChange={e => setSuspendEndDate(e.target.value)}

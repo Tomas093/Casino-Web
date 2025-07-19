@@ -20,7 +20,6 @@ interface GameCardProps {
 }
 
 
-
 const GameCard: React.FC<GameCardProps> = ({title, image, page}) => {
     return (
         <div className="game-card hover-card">
