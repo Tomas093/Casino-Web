@@ -30,6 +30,7 @@ import AboutUs from "../pages/legal/AboutUs.tsx";
 import Legal from "../pages/legal/Legal.tsx";
 import LimitMonitor from "@components/LimitMonitor.tsx";
 import Notification from "@components/Notification.tsx";
+import BlackjackGame from "../pages/games/blackJack/page/BjPage.tsx";
 
 
 function App() {
@@ -48,6 +49,8 @@ function App() {
                     <Route path="/aboutus" element={<AboutUs/>}/>
                     <Route path="/legal" element={<Legal/>}/>
                     <Route path={"/notification"} element={<Notification/>}/>
+                    <Route path={"/bj"} element={<BlackjackGame/>}/>
+
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
                     <Route element={<ProtectedRoute/>}>

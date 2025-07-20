@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor imports for consistency; adjust import order and spacing across multiple components">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor login and registration components; enhance CSS class structure for better customization and maintainability">
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/game/BlackJackGame.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/BJ-Game.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/LoginStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LoginStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/RegisterStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/RegisterStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/auth/Register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/auth/Register.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/vite.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/roulette/RouletteGame.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/roulette/RouletteGame.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,9 +27,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="CSS File" />
         <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
-        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -64,7 +64,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Tomas093/Casino-Web.git&quot;,
-    &quot;accountId&quot;: &quot;96b38a8a-c17f-4a0e-9f99-e5bdad680b60&quot;
+    &quot;accountId&quot;: &quot;aeb8d57a-9bda-4d87-a562-02ae3e64d914&quot;
   },
   &quot;recentNewPullRequestHead&quot;: {
     &quot;server&quot;: {
@@ -93,6 +93,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Node.js.BlackJackGame.ts.executor": "Run",
     "Node.js.leaderboardApi.ts.executor": "Run",
     "Node.js.leaderboardService.ts.executor": "Run",
     "RunOnceActivity.OpenDatabaseViewOnStart": "true",
@@ -134,7 +135,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-WS-243.26053.12" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-WS-251.25410.117" />
       </set>
     </attachedChunks>
   </component>
@@ -255,14 +256,8 @@
       <workItem from="1749214161210" duration="29000" />
       <workItem from="1749473178116" duration="316000" />
       <workItem from="1749473546338" duration="9887000" />
-    </task>
-    <task id="LOCAL-00033" summary="Refactor imports for consistency; update component structure and styles across multiple files y agrego que se actualice al toque (Era problema del Local Storage)">
-      <option name="closed" value="true" />
-      <created>1746099769634</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1746099769634</updated>
+      <workItem from="1752940194611" duration="3948000" />
+      <workItem from="1753039794824" duration="1799000" />
     </task>
     <task id="LOCAL-00034" summary="Add authentication middleware; implement user and admin verification with JWT">
       <option name="closed" value="true" />
@@ -648,7 +643,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748627305828</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="Refactor login and registration components; enhance CSS class structure for better customization and maintainability">
+      <option name="closed" value="true" />
+      <created>1752933692000</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1752933692002</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -681,7 +684,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Refactor ticket management components; update status and priority handling, add filters for user roles" />
     <MESSAGE value="Subo UN MONTON DE ABMS" />
     <MESSAGE value="Add coupon validation and transaction handling; integrate coupon benefits in transaction process" />
     <MESSAGE value="Refactor leaderboard components; improve data handling and add debug logging" />
@@ -706,6 +708,7 @@
     <MESSAGE value="Refactor session management; integrate user suspension check and enhance API methods" />
     <MESSAGE value="Refactor imports for consistency; adjust import order and spacing across multiple components" />
     <MESSAGE value="Refactor workspace configuration; update HTML title and favicon for consistency" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor workspace configuration; update HTML title and favicon for consistency" />
+    <MESSAGE value="Refactor login and registration components; enhance CSS class structure for better customization and maintainability" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor login and registration components; enhance CSS class structure for better customization and maintainability" />
   </component>
 </project>
