@@ -24,6 +24,7 @@ import cuponRoutes from "./routes/cuponRoutes";
 import tiempodesesionRoutes from "./routes/tiempodesesionRoutes";
 import suspendidoRoutes from "./routes/suspendidosRoutes";
 import notificationRoutes from "./routes/notificationRoutes";
+import lobbyRoutes from "./routes/lobbyRoutes";
 
 const app = express();
 const server = http.createServer(app);
@@ -107,6 +108,7 @@ app.use('/cupon', cuponRoutes);
 app.use('/tiempodesesion', tiempodesesionRoutes);
 app.use('/suspendidos', suspendidoRoutes);
 app.use('/notification', notificationRoutes);
+app.use('/lobby', lobbyRoutes);
 
 // Iniciar el servidor
 const PORT = process.env.PORT || 3001;

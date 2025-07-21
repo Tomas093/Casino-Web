@@ -30,7 +30,8 @@ import AboutUs from "../pages/legal/AboutUs.tsx";
 import Legal from "../pages/legal/Legal.tsx";
 import LimitMonitor from "@components/LimitMonitor.tsx";
 import Notification from "@components/Notification.tsx";
-import BlackjackGame from "../pages/games/blackJack/page/BjPage.tsx";
+import BlackjackGame from "../pages/games/blackJack/page/game/BjPage.tsx";
+import BjLobby from "../pages/games/blackJack/page/lobby/BjLobby.tsx";
 
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
                         <Route path="/support" element={<SupportPage/>}/>
                         <Route path="/slots" element={<Slots/>}/>
                         <Route path="/tickets" element={<TicketsView/>}/>
+                        <Route path="/BlackJackLobby" element={<BjLobby/>}/>
                     </Route>
 
                     {/* rutas Solo para admins */}

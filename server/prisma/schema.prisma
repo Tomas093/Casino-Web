@@ -25,19 +25,22 @@ model amistad {
 }
 
 model cliente {
-  clienteid       Int              @id @default(autoincrement())
-  balance         BigInt?
-  influencer      Boolean?
-  usuarioid       Int              @unique
-  usuario         usuario          @relation(fields: [usuarioid], references: [usuarioid], onDelete: Cascade)
-  egreso          egreso[]
-  ingreso         ingreso[]
-  jugada          jugada[]
-  limitehorario   limitehorario?
-  limitemonetario limitemonetario?
-  partida         partida[]
-  pausa           pausa?
-  ticket          ticket[]
+  clienteid                                             Int                @id @default(autoincrement())
+  balance                                               BigInt?
+  influencer                                            Boolean?
+  usuarioid                                             Int                @unique
+  black_jack_lobby_black_jack_lobby_client1_idTocliente black_jack_lobby[] @relation("black_jack_lobby_client1_idTocliente")
+  black_jack_lobby_black_jack_lobby_client2_idTocliente black_jack_lobby[] @relation("black_jack_lobby_client2_idTocliente")
+  black_jack_lobby_black_jack_lobby_client3_idTocliente black_jack_lobby[] @relation("black_jack_lobby_client3_idTocliente")
+  usuario                                               usuario            @relation(fields: [usuarioid], references: [usuarioid], onDelete: Cascade)
+  egreso                                                egreso[]
+  ingreso                                               ingreso[]
+  jugada                                                jugada[]
+  limitehorario                                         limitehorario?
+  limitemonetario                                       limitemonetario?
+  partida                                               partida[]
+  pausa                                                 pausa?
+  ticket                                                ticket[]
 }
 
 model egreso {
@@ -212,6 +215,16 @@ model notificaciones {
   fecha           DateTime?    @default(now()) @db.Timestamptz(6)
   estado          estado_enum? @default(pendiente)
   usuario         usuario      @relation(fields: [usuarioid], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model black_jack_lobby {
+  lobby_id                                     Int      @id
+  client1_id                                   Int?
+  client2_id                                   Int?
+  client3_id                                   Int?
+  cliente_black_jack_lobby_client1_idTocliente cliente? @relation("black_jack_lobby_client1_idTocliente", fields: [client1_id], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  cliente_black_jack_lobby_client2_idTocliente cliente? @relation("black_jack_lobby_client2_idTocliente", fields: [client2_id], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
+  cliente_black_jack_lobby_client3_idTocliente cliente? @relation("black_jack_lobby_client3_idTocliente", fields: [client3_id], references: [clienteid], onDelete: NoAction, onUpdate: NoAction)
 }
 
 enum estado_enum {

@@ -18,6 +18,7 @@ import {TiempoDeSesionProvider} from '@context/TiempoDeSesionContext.tsx';
 import {SuspendidosProvider} from '@context/SuspendidosContext.tsx';
 import {NotificationProvider} from "@context/NotificationContext.tsx";
 import {SocketProvider} from "@/sockets/SocketContext.tsx";
+import {LobbyProvider} from "@context/LobbyContext.tsx";
 
 interface AppProviderProps {
     children: ReactNode;
@@ -44,7 +45,9 @@ export const AppProvider = ({children}: AppProviderProps) => {
                                                                         <CuponProvider>
                                                                             <TiempoDeSesionProvider>
                                                                                 <NotificationProvider>
-                                                                                    {children}
+                                                                                    <LobbyProvider>
+                                                                                        {children}
+                                                                                    </LobbyProvider>
                                                                                 </NotificationProvider>
                                                                             </TiempoDeSesionProvider>
                                                                         </CuponProvider>

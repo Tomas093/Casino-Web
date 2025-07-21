@@ -68,7 +68,8 @@ const GameBackground: React.FC<GameBackgroundProps> = ({
                                                                    icon: "gb-icon-roulette"
                                                                },
                                                                {label: "Slots", id: "slots", icon: "gb-icon-slots"},
-                                                               {label: "Mines", id: "mines", icon: "gb-icon-poker"}
+                                                               {label: "Mines", id: "mines", icon: "gb-icon-poker"},
+                                                               {label: "Blackjack", id: "BlackJackLobby", icon: "fa-solid fa-clone"},
                                                            ],
                                                            footerLinks = [
                                                                {label: "Contacto", href: "/legal"},
