@@ -3,11 +3,26 @@ import './BjLobbyStyle.css';
 import Footer from '@components/Footer';
 import NavBar from "@components/NavBar.tsx";
 import {useLobbyContext} from '@context/LobbyContext.tsx';
-import lobbyApi, {Lobby} from '@api/lobbyApi.ts';
+import lobbyApi from '@api/lobbyApi.ts';
+import {useNavigate} from 'react-router-dom';
+import userApi from "@api/userApi.ts";
 
-// This interface combines static room data with dynamic data from the API
+// Fetch cliente by usuarioId and return clienteid
+const getClienteIdByUsuarioId = async (usuarioId: string): Promise<string> => {
+    try {
+        const client = await userApi.getClientByUserId(usuarioId);
+        if (!client || !client.clienteid) {
+            throw new Error(`Cliente not found for usuarioId: ${usuarioId}`);
+        }
+        return client.clienteid.toString();
+    } catch (error) {
+        console.error("Error fetching client by usuarioId:", error);
+        throw error;
+    }
+};
+
 interface RoomData {
-    id: number; // Using numeric ID to match the API's lobby_id
+    id: number;
     name: string;
     description: string;
     players: number;
@@ -17,10 +32,9 @@ interface RoomData {
     status: 'active' | 'vip' | 'premium' | 'exclusive';
 }
 
-// Base template for rooms. The ID should correspond to lobby_id from the database.
 const roomTemplates: Omit<RoomData, 'players'>[] = [
     {
-        id: 1, // Corresponds to lobby_id 1
+        id: 1,
         name: 'Sala Clásica',
         description: 'La experiencia tradicional de ruleta europea con las mejores probabilidades.',
         minBet: '$5',
@@ -29,7 +43,7 @@ const roomTemplates: Omit<RoomData, 'players'>[] = [
         status: 'active'
     },
     {
-        id: 2, // Corresponds to lobby_id 2
+        id: 2,
         name: 'Sala VIP',
         description: 'Mesa exclusiva para jugadores premium con límites elevados.',
         minBet: '$50',
@@ -38,7 +52,7 @@ const roomTemplates: Omit<RoomData, 'players'>[] = [
         status: 'vip'
     },
     {
-        id: 3, // Corresponds to lobby_id 3
+        id: 3,
         name: 'Ruleta Rápida',
         description: 'Partidas aceleradas cada 30 segundos para máxima adrenalina.',
         minBet: '$10',
@@ -48,11 +62,13 @@ const roomTemplates: Omit<RoomData, 'players'>[] = [
     },
 ];
 
-
 const BjLobby: React.FC = () => {
     const [selectedRoom, setSelectedRoom] = useState<number | null>(null);
     const [rooms, setRooms] = useState<RoomData[]>([]);
+    const [onlinePlayers, setOnlinePlayers] = useState<number>(0);
+    const [dailyPrizes, setDailyPrizes] = useState<string>('$0');
     const {isLoading} = useLobbyContext();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchLobbies = async () => {
@@ -61,30 +77,57 @@ const BjLobby: React.FC = () => {
                     roomTemplates.map(template => lobbyApi.getPlayerCount(template.id))
                 );
 
-                const updatedRooms = roomTemplates.map((template, index) => {
-                    return {
-                        ...template,
-                        players: playerCounts[index].count,
-                    };
-                });
+                const updatedRooms = roomTemplates.map((template, index) => ({
+                    ...template,
+                    players: playerCounts[index].count,
+                }));
                 setRooms(updatedRooms);
             } catch (error) {
                 console.error("Failed to fetch lobby data:", error);
-                // Fallback to templates with 0 players if API fails
                 setRooms(roomTemplates.map(t => ({...t, players: 0})));
             }
         };
 
         fetchLobbies();
-        const interval = setInterval(fetchLobbies, 5000); // Refresh every 5 seconds
+        const interval = setInterval(fetchLobbies, 5000);
 
-        return () => clearInterval(interval); // Cleanup on component unmount
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+        const randomizeStats = () => {
+            setOnlinePlayers(Math.floor(Math.random() * 500) + 100);
+            setDailyPrizes(`$${(Math.random() * 5 + 1).toFixed(1)}M`);
+        };
+
+        randomizeStats();
+        const interval = setInterval(randomizeStats, 5000);
+
+        return () => clearInterval(interval);
     }, []);
 
     const handleRoomSelect = (roomId: number) => {
         setSelectedRoom(roomId);
-        // Logic to join the room will be added later
-        console.log(`Selected room ID: ${roomId}`);
+    };
+
+    const handleJoinRoom = async (roomId: number) => {
+        try {
+            const user = localStorage.getItem("user");
+            let usuarioid;
+            if (user) {
+                const userObj = JSON.parse(user);
+                usuarioid = userObj.usuarioid;
+            }
+            if (!usuarioid) {
+                alert("You must be logged in to join a room.");
+                return;
+            }
+            const clientId = await getClienteIdByUsuarioId(usuarioid);
+            await lobbyApi.joinLobby(roomId, clientId);
+            navigate(`/BlackJack/${roomId}`);
+        } catch (error) {
+            console.error("Failed to join room:", error);
+        }
     };
 
     const getStatusColor = (status: string) => {
@@ -145,9 +188,9 @@ const BjLobby: React.FC = () => {
                                 <button
                                     className="join-button"
                                     disabled={room.players >= 3}
-                                    onClick={(e) => {
+                                    onClick={async (e) => {
                                         e.stopPropagation();
-                                        handleRoomSelect(room.id);
+                                        await handleJoinRoom(room.id);
                                     }}
                                 >
                                     {room.players >= 3 ? 'Mesa Llena' : 'Unirse a la Mesa'}
@@ -160,11 +203,11 @@ const BjLobby: React.FC = () => {
                 <section className="stats-bar">
                     <div className="stats-grid">
                         <div className="stat-item">
-                            <div className="stat-number">154</div>
+                            <div className="stat-number">{onlinePlayers}</div>
                             <div className="stat-label">Jugadores Online</div>
                         </div>
                         <div className="stat-item">
-                            <div className="stat-number">$2.4M</div>
+                            <div className="stat-number">{dailyPrizes}</div>
                             <div className="stat-label">Premios Hoy</div>
                         </div>
                         <div className="stat-item">

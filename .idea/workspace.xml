@@ -5,26 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Fix socket import path in SocketContext">
-      <change afterPath="$PROJECT_DIR$/client/src/React/api/lobbyApi.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/context/LobbyContext.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/lobby/BjLobby.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/lobby/BjLobbyStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/routes/lobbyRoutes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/services/lobbyService.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/GameBackground.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/GameBackground.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/BjPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BjPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/roulette/RouletteGame.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/roulette/RouletteGame.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/api/userApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/userApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/context/UserContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/UserContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/lobby/BjLobby.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/lobby/BjLobby.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/userRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/userRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/userService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/userService.ts" afterDir="false" />
     </list>
     <list id="723fdd9d-8453-40b8-be11-5744f5afbe58" name="Changes by Eliseos" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -273,6 +259,7 @@
       <workItem from="1752940194611" duration="3948000" />
       <workItem from="1753039794824" duration="12776000" />
       <workItem from="1753095416472" duration="2338000" />
+      <workItem from="1753098030450" duration="3116000" />
     </task>
     <task id="LOCAL-00037" summary="Add friend management features; implement APIs for getting friends, searching users, and deleting friends">
       <option name="closed" value="true" />
