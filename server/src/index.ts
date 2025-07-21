@@ -26,6 +26,8 @@ import suspendidoRoutes from "./routes/suspendidosRoutes";
 import notificationRoutes from "./routes/notificationRoutes";
 import lobbyRoutes from "./routes/lobbyRoutes";
 
+import {setupMesaHandlers} from '../src/sockets/MesaHandler';
+
 const app = express();
 const server = http.createServer(app);
 
@@ -37,7 +39,10 @@ const io = new SocketIOServer(server, {
     }
 });
 
-// Manejo de eventos WebSocket
+// Custom lobby socket handlers
+setupMesaHandlers(io);
+
+// Manejo de eventos WebSocket básicos
 io.on('connection', (socket) => {
     console.log(`🔌 Cliente conectado: ${socket.id}`);
 
