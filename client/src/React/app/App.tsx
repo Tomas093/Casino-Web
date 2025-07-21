@@ -30,9 +30,9 @@ import AboutUs from "../pages/legal/AboutUs.tsx";
 import Legal from "../pages/legal/Legal.tsx";
 import LimitMonitor from "@components/LimitMonitor.tsx";
 import Notification from "@components/Notification.tsx";
-import BlackjackGame from "../pages/games/blackJack/page/game/BjPage.tsx";
 import BjLobby from "../pages/games/blackJack/page/lobby/BjLobby.tsx";
-
+import BlackjackTable from "../pages/games/blackJack/page/game/BlackJackTable.tsx";
+import EnhancedBlackjack from "../pages/games/blackJack/page/game/BjPage.tsx";
 
 function App() {
     return (

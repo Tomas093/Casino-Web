@@ -4,10 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Anda el entrar al lobby">
-      <change afterPath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" afterDir="false" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Implement custom socket handlers for lobby management; add join and disconnect functionality">
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTableStyle.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
+    </list>
+    <list id="f5eeda07-02d7-44e3-8290-11b843a3b9f1" name="Changes by Eliseos" comment="">
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BjPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BjPage.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,9 +28,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -73,6 +78,16 @@
     &quot;repository&quot;: &quot;Casino-Web&quot;
   }
 }</component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/client/src/React/app/App.tsx">
+      <ranges>
+        <range start1="32" end1="33" start2="32" end2="32" changelist="cdb26be2-1423-4281-ac00-dcdc40514f7f" />
+        <range start1="34" end1="35" start2="33" end2="34" changelist="cdb26be2-1423-4281-ac00-dcdc40514f7f" />
+        <range start1="52" end1="53" start2="51" end2="51" changelist="f5eeda07-02d7-44e3-8290-11b843a3b9f1" />
+        <range start1="74" end1="74" start2="72" end2="75" changelist="f5eeda07-02d7-44e3-8290-11b843a3b9f1" />
+      </ranges>
+    </file>
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -255,15 +270,8 @@
       <workItem from="1752940194611" duration="3948000" />
       <workItem from="1753039794824" duration="12776000" />
       <workItem from="1753095416472" duration="2338000" />
-      <workItem from="1753098030450" duration="5525000" />
-    </task>
-    <task id="LOCAL-00038" summary="Subo Friends Andando">
-      <option name="closed" value="true" />
-      <created>1746210095408</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1746210095408</updated>
+      <workItem from="1753098030450" duration="10354000" />
+      <workItem from="1753133338240" duration="1116000" />
     </task>
     <task id="LOCAL-00039" summary="Add friends leaderboard feature; implement API, context, and UI for displaying friends' rankings">
       <option name="closed" value="true" />
@@ -649,7 +657,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753101523328</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="Implement custom socket handlers for lobby management; add join and disconnect functionality">
+      <option name="closed" value="true" />
+      <created>1753104926476</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1753104926476</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -682,7 +698,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Add auto spin functionality and enhance game controls; improve visual feedback for winning lines" />
     <MESSAGE value="Implement infinite carousel for game selection; enhance navigation and visual elements" />
     <MESSAGE value="Refactor footer components; update paths and enhance game navigation with infinite scroll effect" />
     <MESSAGE value="Add tiempo de juego functionality; implement API, context, and UI for tracking user playtime" />
@@ -707,6 +722,7 @@
     <MESSAGE value="Agrego un intento de sockts y cambie algo mas que no me acuerdo" />
     <MESSAGE value="Fix socket import path in SocketContext" />
     <MESSAGE value="Anda el entrar al lobby" />
-    <option name="LAST_COMMIT_MESSAGE" value="Anda el entrar al lobby" />
+    <MESSAGE value="Implement custom socket handlers for lobby management; add join and disconnect functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement custom socket handlers for lobby management; add join and disconnect functionality" />
   </component>
 </project>
