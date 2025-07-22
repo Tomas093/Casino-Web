@@ -4,35 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="cambiado logica de edad">
-      <change afterPath="$PROJECT_DIR$/client/src/Css/NotificationStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/Css/blackJackLobby.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/api/lobbyApi.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/api/notificationApi.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/components/Notification.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/context/LobbyContext.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/context/NotificationContext.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/game/BlackJackGame.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BjPage.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/lobby/BjLobby.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/lobby/BjLobbyStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/routes/lobbyRoutes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/routes/notificationRoutes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/services/lobbyService.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/minesweeper/MineSweeperEnchanced.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/minesweeper/MineSweeperEnchanced.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/services/playService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/playService.ts" afterDir="false" />
-    </list>
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="cambiado logica de edad" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -280,23 +252,7 @@
       <workItem from="1752924277678" duration="404000" />
       <workItem from="1752930832399" duration="4398000" />
       <workItem from="1753047547993" duration="332000" />
-      <workItem from="1753050790878" duration="30433000" />
-    </task>
-    <task id="LOCAL-00034" summary="Add authentication middleware; implement user and admin verification with JWT">
-      <option name="closed" value="true" />
-      <created>1746099801522</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1746099801522</updated>
-    </task>
-    <task id="LOCAL-00035" summary="Refactor leaderboard API and service; update endpoints for game winners, highest bets, returns, and accumulated winnings">
-      <option name="closed" value="true" />
-      <created>1746107809888</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1746107809888</updated>
+      <workItem from="1753050790878" duration="30939000" />
     </task>
     <task id="LOCAL-00036" summary="Add friend request feature; implement API, context, and UI for managing friend requests">
       <option name="closed" value="true" />
@@ -674,7 +630,23 @@
       <option name="project" value="LOCAL" />
       <updated>1749485443199</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="cambiado logica de edad">
+      <option name="closed" value="true" />
+      <created>1753146393864</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1753146393870</updated>
+    </task>
+    <task id="LOCAL-00084" summary="cambiado logica de edad">
+      <option name="closed" value="true" />
+      <created>1753146407649</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1753146407649</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
