@@ -4,15 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Implement custom socket handlers for lobby management; add join and disconnect functionality">
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTableStyle.css" afterDir="false" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="VANCE CON LOS TURNOOS DE LOS JUGADORES PERO CON FALLAS DIGAMOS">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/lobbyService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/lobbyService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" afterDir="false" />
     </list>
-    <list id="f5eeda07-02d7-44e3-8290-11b843a3b9f1" name="Changes by Eliseos" comment="">
+    <list id="f5eeda07-02d7-44e3-8290-11b843a3b9f1" name="Changes by Eliseos" comment="Changes by Eliseos">
       <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BjPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BjPage.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,16 +77,6 @@
     &quot;repository&quot;: &quot;Casino-Web&quot;
   }
 }</component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/client/src/React/app/App.tsx">
-      <ranges>
-        <range start1="32" end1="33" start2="32" end2="32" changelist="cdb26be2-1423-4281-ac00-dcdc40514f7f" />
-        <range start1="34" end1="35" start2="33" end2="34" changelist="cdb26be2-1423-4281-ac00-dcdc40514f7f" />
-        <range start1="52" end1="53" start2="51" end2="51" changelist="f5eeda07-02d7-44e3-8290-11b843a3b9f1" />
-        <range start1="74" end1="74" start2="72" end2="75" changelist="f5eeda07-02d7-44e3-8290-11b843a3b9f1" />
-      </ranges>
-    </file>
-  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -271,23 +260,8 @@
       <workItem from="1753039794824" duration="12776000" />
       <workItem from="1753095416472" duration="2338000" />
       <workItem from="1753098030450" duration="10354000" />
-      <workItem from="1753133338240" duration="1116000" />
-    </task>
-    <task id="LOCAL-00039" summary="Add friends leaderboard feature; implement API, context, and UI for displaying friends' rankings">
-      <option name="closed" value="true" />
-      <created>1746296652739</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1746296652739</updated>
-    </task>
-    <task id="LOCAL-00040" summary="Add friends leaderboard feature; update UI components and refactor Home page">
-      <option name="closed" value="true" />
-      <created>1746308558615</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1746308558615</updated>
+      <workItem from="1753133338240" duration="6150000" />
+      <workItem from="1753141358253" duration="3804000" />
     </task>
     <task id="LOCAL-00041" summary="Add ticket management feature; implement API, context, and UI for ticket handling">
       <option name="closed" value="true" />
@@ -665,7 +639,23 @@
       <option name="project" value="LOCAL" />
       <updated>1753104926476</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="SEMI AVANCE">
+      <option name="closed" value="true" />
+      <created>1753134722415</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1753134722417</updated>
+    </task>
+    <task id="LOCAL-00089" summary="Changes by Eliseos">
+      <option name="closed" value="true" />
+      <created>1753134736998</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1753134736998</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -698,9 +688,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Implement infinite carousel for game selection; enhance navigation and visual elements" />
-    <MESSAGE value="Refactor footer components; update paths and enhance game navigation with infinite scroll effect" />
-    <MESSAGE value="Add tiempo de juego functionality; implement API, context, and UI for tracking user playtime" />
     <MESSAGE value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for session tracking and user suspension management" />
     <MESSAGE value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for user suspension management and add user management table component" />
     <MESSAGE value="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in LimitPage" />
@@ -723,6 +710,9 @@
     <MESSAGE value="Fix socket import path in SocketContext" />
     <MESSAGE value="Anda el entrar al lobby" />
     <MESSAGE value="Implement custom socket handlers for lobby management; add join and disconnect functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement custom socket handlers for lobby management; add join and disconnect functionality" />
+    <MESSAGE value="SEMI AVANCE" />
+    <MESSAGE value="Changes by Eliseos" />
+    <MESSAGE value="VANCE CON LOS TURNOOS DE LOS JUGADORES PERO CON FALLAS DIGAMOS" />
+    <option name="LAST_COMMIT_MESSAGE" value="VANCE CON LOS TURNOOS DE LOS JUGADORES PERO CON FALLAS DIGAMOS" />
   </component>
 </project>

@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './BlackJackTableStyle.css';
 import Footer from '@components/Footer';
 import NavBar from "@components/NavBar.tsx";
 import {useNavigate, useParams} from 'react-router-dom';
 import {io, Socket} from 'socket.io-client';
+import Message from '@components/Error/Message';
 
 interface Card {
     suit: string;
@@ -16,6 +17,8 @@ interface PlayerHand {
     total: number;
     bet: number;
     isActive: boolean;
+    playerId: number | null;
+    playerName: string;
 }
 
 interface GameState {
@@ -23,15 +26,26 @@ interface GameState {
     dealerTotal: number;
     players: PlayerHand[];
     currentPlayer: number;
-    gamePhase: 'betting' | 'dealing' | 'playing' | 'finished';
+    gamePhase: 'waiting' | 'betting' | 'dealing' | 'playing' | 'finished';
     selectedChip: number;
 }
 
 const chipValues = [1, 10, 50, 100, 500, 1000];
+const socketRef = {current: null as Socket | null};
 
-const socket: Socket = io('http://localhost:3001'); // Adjust if needed
+// Initialize socket only once with debug options
+if (!socketRef.current) {
+    console.log('Creating new socket connection');
+    socketRef.current = io('http://localhost:3001', {
+        reconnection: true,
+        reconnectionAttempts: 5,
+        timeout: 10000,
+        transports: ['websocket', 'polling']
+    });
+}
 
 const BlackjackTable: React.FC = () => {
+    const socket = socketRef.current!;
     const [gameState, setGameState] = useState<GameState>({
         dealerHand: [
             {suit: '♠', value: 'K', numericValue: 10},
@@ -39,63 +53,287 @@ const BlackjackTable: React.FC = () => {
         ],
         dealerTotal: 10,
         players: [
-            {
-                cards: [
-                    {suit: '♥', value: 'A', numericValue: 11},
-                    {suit: '♦', value: '9', numericValue: 9}
-                ],
-                total: 20,
-                bet: 25,
-                isActive: true
-            },
-            {
-                cards: [
-                    {suit: '♣', value: 'J', numericValue: 10},
-                    {suit: '♠', value: '6', numericValue: 6}
-                ],
-                total: 16,
-                bet: 50,
-                isActive: false
-            },
-            {
-                cards: [
-                    {suit: '♥', value: '8', numericValue: 8},
-                    {suit: '♦', value: '3', numericValue: 3}
-                ],
-                total: 11,
-                bet: 100,
-                isActive: false
-            }
+            {cards: [], total: 0, bet: 0, isActive: false, playerId: null, playerName: "Empty Seat"},
+            {cards: [], total: 0, bet: 0, isActive: false, playerId: null, playerName: "Empty Seat"},
+            {cards: [], total: 0, bet: 0, isActive: false, playerId: null, playerName: "Empty Seat"}
         ],
-        currentPlayer: 0,
-        gamePhase: 'playing',
+        currentPlayer: -1,
+        gamePhase: 'waiting',
         selectedChip: 25
     });
 
+    const [localPlayerId, setLocalPlayerId] = useState<number | null>(null);
+    const [localPlayerPosition, setLocalPlayerPosition] = useState<number | null>(null);
+    const [username, setUsername] = useState<string>("");
+    const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
+    const [lastEmittedEvent, setLastEmittedEvent] = useState<{ event: string, data: any, time: number } | null>(null);
+    const [lastClickedSpot, setLastClickedSpot] = useState<{ position: number, time: number } | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const navigate = useNavigate();
     const {roomId} = useParams();
+    const initializedRef = useRef(false);
 
-    useEffect(() => {
-        // Join lobby on mount
-        const user = localStorage.getItem("user");
-        const usuarioid: number | null = user ? JSON.parse(user).usuarioid : null;
+    // Debug function to safely emit socket events
+    const safeEmit = (event: string, data: any) => {
+        console.log(`Emitting ${event}:`, data);
+        setLastEmittedEvent({event, data, time: Date.now()});
 
-        if (roomId && usuarioid) {
-            socket.emit('joinLobby', {lobbyId: Number(roomId), clientId: usuarioid});
+        if (!socket.connected) {
+            console.warn('Socket not connected! Attempting to reconnect...');
+            socket.connect();
         }
 
-        socket.on('lobbyUpdate', () => {
-            // Optional: handle lobby updates
-        });
+        try {
+            socket.emit(event, data);
+        } catch (error) {
+            console.error(`Error emitting ${event}:`, error);
+            setErrorMessage(`Failed to send ${event} action. Please try again.`);
+        }
+    };
 
-        // Cleanup on unmount
-        return () => {
-            if (roomId && usuarioid) {
-                socket.emit('leaveLobby', {lobbyId: Number(roomId), clientId: usuarioid});
+    const handleLeaveSeat = () => {
+        if (localPlayerPosition !== null && gameState.gamePhase === 'waiting') {
+            console.log("🪑 Leaving seat at position", localPlayerPosition);
+
+            safeEmit('leaveSeat', {
+                lobbyId: Number(roomId),
+                position: localPlayerPosition,
+                clientId: localPlayerId
+            });
+        }
+    };
+
+    useEffect(() => {
+        console.log('BlackjackTable component mounted');
+
+        // Get local user info
+        const user = localStorage.getItem("user");
+        if (!user) {
+            console.error('No user found in localStorage');
+            setErrorMessage("You must be logged in to play");
+            setTimeout(() => navigate('/BlackJackLobby'), 2000);
+            return;
+        }
+
+        try {
+            const userData = JSON.parse(user);
+            const userId = userData.usuarioid;
+            const userName = userData.username || "Player";
+
+            console.log('User data loaded:', {userId, userName});
+
+            if (!userId || !roomId) {
+                console.error('Invalid user ID or room ID', {userId, roomId});
+                setErrorMessage("Invalid user ID or room ID");
+                setTimeout(() => navigate('/BlackJackLobby'), 2000);
+                return;
             }
-            socket.disconnect();
-        };
-    }, [roomId]);
+
+            setLocalPlayerId(userId);
+            setUsername(userName);
+
+            // Debug socket state
+            console.log('Socket state:', {
+                id: socket.id,
+                connected: socket.connected,
+                disconnected: socket.disconnected
+            });
+
+            // Avoid duplicate event listeners
+            if (!initializedRef.current) {
+                initializedRef.current = true;
+
+                console.log('Setting up socket event listeners');
+
+                socket.on('connect', () => {
+                    console.log('🟢 Connected to server:', socket.id);
+                    setIsConnected(true);
+
+                    // Re-join room after reconnection
+                    safeEmit('joinLobby', {
+                        lobbyId: Number(roomId),
+                        clientId: userId,
+                        playerName: userName
+                    });
+
+                    // Request current game state
+                    safeEmit('requestGameState', {
+                        lobbyId: Number(roomId)
+                    });
+                });
+
+                socket.on('disconnect', (reason) => {
+                    console.log('🔴 Disconnected from server. Reason:', reason);
+                    setIsConnected(false);
+                    setErrorMessage(`Disconnected from server: ${reason}. Reconnecting...`);
+                });
+
+                socket.on('connect_error', (error) => {
+                    console.error('❌ Socket connection error:', error);
+                    setErrorMessage(`Connection error: ${error.message}`);
+                });
+
+                socket.on('error', (error) => {
+                    console.error('❌ Socket error:', error);
+                    setErrorMessage(`Socket error: ${error.message || 'Unknown error'}`);
+                });
+
+                socket.on('joinError', (error) => {
+                    console.error('❌ Failed to join lobby:', error);
+                    setErrorMessage(`Error joining game: ${error.message || 'Unknown error'}`);
+                });
+
+                // Debug any server response
+                socket.onAny((event, ...args) => {
+                    console.log(`📥 Server event: ${event}`, args);
+                });
+
+                socket.on('gameStateUpdate', (updatedGameState) => {
+                    console.log('🎮 Received game state update:', updatedGameState);
+                    setGameState(updatedGameState);
+
+                    // Find local player's position in the updated game state
+                    const position = updatedGameState.players.findIndex((p: PlayerHand) => p.playerId === userId);
+                    console.log('Local player position:', position, 'userId:', userId);
+                    setLocalPlayerPosition(position >= 0 ? position : null);
+                });
+
+                socket.on('playerJoined', ({playerId, playerName, position}) => {
+                    console.log('👤 Player joined event:', {playerId, playerName, position});
+
+                    setGameState(prev => {
+                        const updatedPlayers = [...prev.players];
+                        updatedPlayers[position] = {
+                            ...updatedPlayers[position],
+                            playerId,
+                            playerName,
+                            isActive: true,
+                        };
+                        return {...prev, players: updatedPlayers};
+                    });
+
+                    if (playerId === userId) {
+                        console.log('This is local player joining at position:', position);
+                        setLocalPlayerPosition(position);
+                    }
+                });
+
+                socket.on('sitDownResponse', (response) => {
+                    console.log('🪑 sitDown response:', response);
+                    if (response.error) {
+                        console.error('Error sitting down:', response.error);
+                        setErrorMessage(`Error sitting down: ${response.error}`);
+                    }
+                });
+
+                socket.on('leaveSeatResponse', (response) => {
+                    console.log('🪑 leaveSeat response:', response);
+                    if (response.error) {
+                        console.error('Error leaving seat:', response.error);
+                        setErrorMessage(`Error leaving seat: ${response.error}`);
+                    } else if (response.success) {
+                        setLocalPlayerPosition(null);
+                    }
+                });
+
+                socket.on('gamePhaseChanged', ({phase}) => {
+                    console.log('🔄 Game phase changed:', phase);
+                    setGameState(prev => ({...prev, gamePhase: phase}));
+                });
+
+                socket.on('actionError', ({message}) => {
+                    console.error('❌ Action error:', message);
+                    setErrorMessage(message);
+                });
+
+                socket.on('betError', ({message}) => {
+                    console.error('❌ Betting error:', message);
+                    setErrorMessage(message);
+                });
+            }
+
+            if (!socket.connected) {
+                console.log('Socket not connected, connecting now...');
+                socket.connect();
+            }
+
+            // Join lobby and request current state
+            safeEmit('joinLobby', {
+                lobbyId: Number(roomId),
+                clientId: userId,
+                playerName: userName
+            });
+
+            safeEmit('requestGameState', {
+                lobbyId: Number(roomId)
+            });
+
+            return () => {
+                console.log('Component unmounting, leaving lobby');
+                safeEmit('leaveLobby', {
+                    lobbyId: Number(roomId),
+                    clientId: userId
+                });
+            };
+        } catch (error) {
+            console.error('Error in useEffect:', error);
+            setErrorMessage("An error occurred while setting up the game.");
+            setTimeout(() => navigate('/BlackJackLobby'), 2000);
+        }
+    }, [roomId, navigate]);
+
+    const handleBettingSpotClick = (playerIndex: number) => {
+        console.log("👆 Click on position:", playerIndex);
+        console.log("Game phase:", gameState.gamePhase);
+        console.log("Is seat empty:", gameState.players[playerIndex].playerId === null);
+        console.log("Local player ID:", localPlayerId);
+        console.log("Username:", username);
+        console.log("Room ID:", roomId);
+
+        if (!isConnected) {
+            console.warn("⚠️ Not connected to server");
+            setErrorMessage("Not connected to the server. Please wait for reconnection.");
+            return;
+        }
+
+        // Handle double-click to leave seat (if it's your seat)
+        if (gameState.gamePhase === 'waiting' &&
+            gameState.players[playerIndex].playerId === localPlayerId) {
+            const now = Date.now();
+            if (lastClickedSpot &&
+                lastClickedSpot.position === playerIndex &&
+                now - lastClickedSpot.time < 500) { // 500ms threshold for double-click
+                handleLeaveSeat();
+                setLastClickedSpot(null);
+                return;
+            }
+            setLastClickedSpot({position: playerIndex, time: now});
+            return;
+        }
+
+        // Only allow sitting at empty seats
+        if (gameState.gamePhase === 'waiting' && gameState.players[playerIndex].playerId === null) {
+            console.log("🪑 Attempting to sit down at position", playerIndex);
+
+            const sitDownData = {
+                lobbyId: Number(roomId),
+                position: playerIndex,
+                clientId: localPlayerId,
+                playerName: username
+            };
+
+            safeEmit('sitDown', sitDownData);
+        }
+
+        // Only allow betting on your own position
+        if (gameState.gamePhase === 'betting' && playerIndex === localPlayerPosition) {
+            safeEmit('placeBet', {
+                lobbyId: Number(roomId),
+                position: playerIndex,
+                amount: gameState.selectedChip
+            });
+        }
+    };
 
     const handleChipSelect = (value: number) => {
         setGameState(prev => ({
@@ -104,91 +342,41 @@ const BlackjackTable: React.FC = () => {
         }));
     };
 
-    const handleBettingSpotClick = (playerIndex: number) => {
-        if (gameState.gamePhase === 'betting') {
-            setGameState(prev => ({
-                ...prev,
-                players: prev.players.map((player, index) =>
-                    index === playerIndex
-                        ? {...player, bet: player.bet + prev.selectedChip}
-                        : player
-                )
-            }));
-        } else {
-            setGameState(prev => ({
-                ...prev,
-                currentPlayer: playerIndex,
-                players: prev.players.map((player, index) => ({
-                    ...player,
-                    isActive: index === playerIndex
-                }))
-            }));
-        }
-    };
-
     const handleHit = () => {
-        if (gameState.gamePhase === 'playing') {
-            const suits = ['♠', '♥', '♦', '♣'];
-            const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-            const randomSuit = suits[Math.floor(Math.random() * suits.length)];
-            const randomValue = values[Math.floor(Math.random() * values.length)];
-
-            let numericValue = 0;
-            if (randomValue === 'A') numericValue = 11;
-            else if (['J', 'Q', 'K'].includes(randomValue)) numericValue = 10;
-            else numericValue = parseInt(randomValue);
-
-            const newCard: Card = {
-                suit: randomSuit,
-                value: randomValue,
-                numericValue
-            };
-
-            setGameState(prev => ({
-                ...prev,
-                players: prev.players.map((player, index) =>
-                    index === prev.currentPlayer
-                        ? {
-                            ...player,
-                            cards: [...player.cards, newCard],
-                            total: player.total + numericValue
-                        }
-                        : player
-                )
-            }));
+        if (gameState.gamePhase === 'playing' && gameState.currentPlayer === localPlayerPosition) {
+            safeEmit('playerAction', {
+                lobbyId: Number(roomId),
+                action: 'hit',
+                position: localPlayerPosition
+            });
         }
     };
 
     const handleStand = () => {
-        const nextPlayer = gameState.currentPlayer + 1;
-        if (nextPlayer < gameState.players.length) {
-            setGameState(prev => ({
-                ...prev,
-                currentPlayer: nextPlayer,
-                players: prev.players.map((player, index) => ({
-                    ...player,
-                    isActive: index === nextPlayer
-                }))
-            }));
-        } else {
-            setGameState(prev => ({
-                ...prev,
-                gamePhase: 'finished',
-                players: prev.players.map(player => ({...player, isActive: false}))
-            }));
+        if (gameState.gamePhase === 'playing' && gameState.currentPlayer === localPlayerPosition) {
+            safeEmit('playerAction', {
+                lobbyId: Number(roomId),
+                action: 'stand',
+                position: localPlayerPosition
+            });
         }
     };
 
     const handleDouble = () => {
-        setGameState(prev => ({
-            ...prev,
-            players: prev.players.map((player, index) =>
-                index === prev.currentPlayer
-                    ? {...player, bet: player.bet * 2}
-                    : player
-            )
-        }));
-        handleHit();
+        if (gameState.gamePhase === 'playing' &&
+            gameState.currentPlayer === localPlayerPosition &&
+            gameState.players[localPlayerPosition!].cards.length === 2) {
+            safeEmit('playerAction', {
+                lobbyId: Number(roomId),
+                action: 'double',
+                position: localPlayerPosition
+            });
+        }
+    };
+
+    const handleLeaveTable = () => {
+        safeEmit('leaveLobby', {lobbyId: Number(roomId), clientId: localPlayerId});
+        navigate('/BlackJackLobby');
     };
 
     const getCardColor = (suit: string) => {
@@ -199,28 +387,59 @@ const BlackjackTable: React.FC = () => {
         return `$${amount}`;
     };
 
-    // Salir button handler
-    const handleLeaveTable = () => {
-        console.log('roomId:', roomId); // Log roomId for debugging
-        const user = localStorage.getItem("user");
-        const usuarioid: number | null = user ? JSON.parse(user).usuarioid : null;
-        console.log(usuarioid)
+    const canTakeAction = gameState.gamePhase === 'playing' &&
+        gameState.currentPlayer === localPlayerPosition;
 
-        if (!usuarioid || !roomId) {
-            alert("You must be logged in and have a valid room to leave the table.");
-            return;
-        }
-        socket.emit('leaveLobby', {lobbyId: Number(roomId), clientId: usuarioid});
-        navigate('/BlackJackLobby');
+    const clearErrorMessage = () => {
+        setErrorMessage(null);
     };
 
     return (
         <>
             <NavBar/>
             <div className="blackjack-container">
+                {errorMessage && (
+                    <div className="error-message-container">
+                        <Message
+                            message={errorMessage}
+                            type="error"
+                            onClose={clearErrorMessage}
+                        />
+                    </div>
+                )}
+
+                {!isConnected && (
+                    <div className="connection-status" style={{
+                        backgroundColor: 'rgba(255,0,0,0.7)',
+                        padding: '10px',
+                        color: 'white',
+                        textAlign: 'center',
+                        fontWeight: 'bold'
+                    }}>
+                        Reconnecting to server...
+                    </div>
+                )}
+
+                {lastEmittedEvent && (
+                    <div className="debug-info" style={{
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        color: 'lime',
+                        padding: '5px',
+                        fontSize: '10px',
+                        position: 'fixed',
+                        bottom: '10px',
+                        left: '10px',
+                        maxWidth: '300px',
+                        zIndex: 1000
+                    }}>
+                        Last event: {lastEmittedEvent.event}<br/>
+                        Time: {new Date(lastEmittedEvent.time).toLocaleTimeString()}
+                    </div>
+                )}
+
                 <div className="blackjack-table">
                     <div className="table-felt">
-                        {/* Área del Dealer */}
+                        {/* Dealer Area */}
                         <div className="dealer-area">
                             <div className="dealer-label">Dealer</div>
                             <div className="dealer-cards">
@@ -239,24 +458,67 @@ const BlackjackTable: React.FC = () => {
                             </div>
                         </div>
 
-                        {/* Centro de la mesa */}
+                        {/* Table Center */}
                         <div className="table-center">
                             <div className="table-logo">BLACKJACK</div>
                             <div className="table-rules">
-                                Dealer debe plantarse en 17<br/>
-                                Blackjack paga 3:2
+                                Dealer must stand on 17<br/>
+                                Blackjack pays 3:2
+                            </div>
+                            <div className="game-status">
+                                {gameState.gamePhase === 'waiting' && "Waiting for players..."}
+                                {gameState.gamePhase === 'betting' && "Place your bets"}
+                                {gameState.gamePhase === 'dealing' && "Dealing cards..."}
+                                {gameState.gamePhase === 'playing' && `${gameState.players[gameState.currentPlayer]?.playerName}'s turn`}
+                                {gameState.gamePhase === 'finished' && "Round complete"}
                             </div>
                         </div>
 
-                        {/* Posiciones de apuesta */}
+                        {/* Betting Spots */}
                         <div className="betting-spots">
                             {gameState.players.map((player, index) => (
                                 <div
                                     key={index}
-                                    className={`betting-spot${player.isActive ? ' active' : ''}${index === 1 ? ' middle-spot' : ''}`}
+                                    className={`betting-spot
+                                                          ${player.isActive ? ' active' : ''}
+                                                          ${index === localPlayerPosition ? ' local-player' : ''}
+                                                          ${index === 1 ? ' middle-spot' : ''}
+                                                          ${player.playerId === null ? ' empty-seat' : ''}
+                                                          ${gameState.currentPlayer === index ? ' current-turn' : ''}`}
                                     onClick={() => handleBettingSpotClick(index)}
                                 >
-                                    <div className="spot-label">Jugador {index + 1}</div>
+                                    <div className="spot-label">
+                                        {player.playerId === null
+                                            ? "Empty Seat"
+                                            : (player.playerId === localPlayerId
+                                                ? "You"
+                                                : player.playerName)}
+                                    </div>
+
+                                    {/* Leave Seat button */}
+                                    {player.playerId === localPlayerId && gameState.gamePhase === 'waiting' && (
+                                        <button
+                                            className="leave-seat-btn"
+                                            onClick={(e) => {
+                                                e.stopPropagation(); // Prevent triggering the betting spot click
+                                                handleLeaveSeat();
+                                            }}
+                                            style={{
+                                                position: 'absolute',
+                                                top: '5px',
+                                                right: '5px',
+                                                backgroundColor: '#ff4444',
+                                                color: 'white',
+                                                border: 'none',
+                                                borderRadius: '4px',
+                                                padding: '3px 6px',
+                                                fontSize: '10px',
+                                                cursor: 'pointer'
+                                            }}
+                                        >
+                                            Leave Seat
+                                        </button>
+                                    )}
 
                                     {player.bet > 0 && (
                                         <div className="bet-amount">
@@ -276,61 +538,67 @@ const BlackjackTable: React.FC = () => {
                                         ))}
                                     </div>
 
-                                    <div className="player-total">
-                                        Total: {player.total}
-                                        {player.total === 21 && player.cards.length === 2 && (
-                                            <span style={{color: '#ffd700', marginLeft: '5px'}}>♠ BLACKJACK!</span>
-                                        )}
-                                        {player.total > 21 && (
-                                            <span style={{color: '#ff4444', marginLeft: '5px'}}>BUST!</span>
-                                        )}
-                                    </div>
+                                    {player.cards.length > 0 && (
+                                        <div className="player-total">
+                                            Total: {player.total}
+                                            {player.total === 21 && player.cards.length === 2 && (
+                                                <span style={{color: '#ffd700', marginLeft: '5px'}}>♠ BLACKJACK!</span>
+                                            )}
+                                            {player.total > 21 && (
+                                                <span style={{color: '#ff4444', marginLeft: '5px'}}>BUST!</span>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             ))}
                         </div>
 
-                        {/* Botones de acción */}
+                        {/* Action Buttons */}
                         <div className="action-buttons">
                             <button
                                 className="action-btn"
                                 onClick={handleHit}
-                                disabled={gameState.gamePhase !== 'playing' || gameState.players[gameState.currentPlayer]?.total >= 21}
+                                disabled={!canTakeAction ||
+                                    gameState.players[localPlayerPosition!]?.total >= 21}
                             >
-                                Pedir
+                                Hit
                             </button>
                             <button
                                 className="action-btn"
                                 onClick={handleStand}
-                                disabled={gameState.gamePhase !== 'playing'}
+                                disabled={!canTakeAction}
                             >
-                                Plantarse
+                                Stand
                             </button>
                             <button
                                 className="action-btn"
                                 onClick={handleDouble}
                                 disabled={
-                                    gameState.gamePhase !== 'playing' ||
-                                    gameState.players[gameState.currentPlayer]?.cards.length !== 2
+                                    !canTakeAction ||
+                                    gameState.players[localPlayerPosition!]?.cards.length !== 2
                                 }
                             >
-                                Doblar
+                                Double
                             </button>
                             <button
                                 className="action-btn leave-btn"
                                 onClick={handleLeaveTable}
                             >
-                                Salir
+                                Leave Table
                             </button>
                         </div>
                     </div>
                 </div>
-                {/* Fichas */}
+
+                {/* Chips Area */}
                 <div className="chips-area">
                     {chipValues.map(value => (
                         <div
                             key={value}
-                            className={`chip chip-${value} ${gameState.selectedChip === value ? 'selected' : ''}`}
-                            onClick={() => handleChipSelect(value)}
+                            className={`chip chip-${value}
+                                                    ${gameState.selectedChip === value ? 'selected' : ''}
+                                                    ${gameState.gamePhase !== 'betting' || localPlayerPosition === null ? 'disabled' : ''}`}
+                            onClick={() => gameState.gamePhase === 'betting' && handleChipSelect(value)}
                         >
                             ${value}
                         </div>
@@ -338,7 +606,6 @@ const BlackjackTable: React.FC = () => {
                 </div>
             </div>
 
-            {/* Footer posicionado fuera del contenedor de blackjack */}
             <div className="footer-container">
                 <Footer/>
             </div>
