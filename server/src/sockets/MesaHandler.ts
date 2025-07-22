@@ -128,7 +128,7 @@ const startBettingPhaseWithTimer = (io: Server, lobbyId: number) => {
 
     // Set to waiting phase
     game.gameState.gamePhase = 'waiting';
-    io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', { phase: 'waiting' });
+    io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'waiting'});
     io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
 
     // Clear previous waiting timer
@@ -142,7 +142,7 @@ const startBettingPhaseWithTimer = (io: Server, lobbyId: number) => {
         if (seatedPlayers.length > 0) {
             // Move to betting phase
             game.gameState.gamePhase = 'betting';
-            io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', { phase: 'betting' });
+            io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'betting'});
             io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
 
             // Clear previous betting timer
@@ -154,7 +154,7 @@ const startBettingPhaseWithTimer = (io: Server, lobbyId: number) => {
             game.timers.betting = setTimeout(() => {
                 // Move to dealing phase
                 game.gameState.gamePhase = 'dealing';
-                io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', { phase: 'dealing' });
+                io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'dealing'});
                 io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
 
                 // Call your dealing logic here
@@ -228,6 +228,16 @@ export const setupMesaHandlers = (io: Server, lobbyService: LobbyService) => {
                     // Broadcast updated game state
                     io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
                 }
+            }
+        });
+
+        // Add this inside io.on('connection', (socket: Socket) => { ... })
+        socket.on('updateSelectedChip', ({lobbyId, position, selectedChip}) => {
+            if (!activeGames.has(lobbyId)) return;
+            const game = activeGames.get(lobbyId)!;
+            if (position >= 0 && position < game.gameState.players.length) {
+                game.gameState.selectedChip = selectedChip;
+                io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
             }
         });
 

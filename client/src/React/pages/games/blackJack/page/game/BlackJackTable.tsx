@@ -307,6 +307,11 @@ const BlackjackTable: React.FC = () => {
             ...prev,
             selectedChip: value
         }));
+        safeEmit('updateSelectedChip', {
+            lobbyId: Number(roomId),
+            position: localPlayerPosition,
+            selectedChip: value
+        });
     };
 
     const handleHit = () => {
