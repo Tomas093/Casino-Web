@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
                     <ul>
                         <li><a href="/slots">Slots</a></li>
                         <li><a href="/ruleta">Ruleta</a></li>
-                        <li><a href="/blackjack">Blackjack</a></li>
+                        <li><a href="/BlackJackLobby">Blackjack</a></li>
                         <li><a href="/mines">Mines</a></li>
                     </ul>
                 </div>

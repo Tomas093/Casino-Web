@@ -1,550 +1,590 @@
-import React, {useState} from 'react';
-import {v4 as uuidv4} from 'uuid';
-import './BlackJackTableStyle.css'
-
-// Importar las imágenes de fichas (en un proyecto real estas serían importadas desde assets)
-const chipImages = {
-    '1': '/api/placeholder/50/50',
-    '10': '/api/placeholder/50/50',
-    '50': '/api/placeholder/50/50',
-    '100': '/api/placeholder/50/50',
-    '500': '/api/placeholder/50/50',
-    '1000': '/api/placeholder/50/50'
-};
-
-// ==================== TIPOS Y CLASES DEL BLACKJACK ====================
-type Suit = 'hearts' | 'diamonds' | 'clubs' | 'spades';
-type Rank = 'A' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | 'J' | 'Q' | 'K';
+import React, {useState, useEffect, useRef} from 'react';
+import './BlackJackTableStyle.css';
+import Footer from '@components/Footer';
+import NavBar from "@components/NavBar.tsx";
+import {useNavigate, useParams} from 'react-router-dom';
+import {io, Socket} from 'socket.io-client';
+import Message from '@components/Error/Message';
+import {useLobbyContext} from '@context/LobbyContext';
+import oneChip from '@assets/ficha1.png';
+import tenChip from '@assets/ficha10.png';
+import fiftyChip from '@assets/ficha50.png';
+import oneHundredChip from '@assets/ficha100.png';
+import fiveHundredChip from '@assets/ficha500.png';
+import oneThousandChip from '@assets/ficha1000.png';
 
 interface Card {
-    id: string;
-    suit: Suit;
-    rank: Rank;
-    value: number;
-    hidden: boolean;
+    suit: string;
+    value: string;
+    numericValue: number;
 }
 
-interface Player {
-    id: string;
-    name: string;
-    hand: Card[];
-    status: 'waiting' | 'playing' | 'standing' | 'busted' | 'blackjack' | 'doubled';
+interface PlayerHand {
+    cards: Card[];
+    total: number;
     bet: number;
-}
-
-interface GameResult {
-    playerId: string;
+    isActive: boolean;
+    playerId: number | null;
     playerName: string;
-    result: 'win' | 'lose' | 'push' | 'blackjack';
-    playerValue: number;
-    dealerValue: number;
-    winnings: number;
 }
 
-// ==================== CLASE MAZO ====================
-class Deck {
-    private cards: Card[];
+interface GameState {
+    dealerHand: Card[];
+    dealerTotal: number;
+    players: PlayerHand[];
+    currentPlayer: number;
+    gamePhase: 'waiting' | 'betting' | 'dealing' | 'playing' | 'finished';
+    selectedChip: number;
+}
 
-    constructor() {
-        this.cards = [];
-        this.initialize();
-    }
+const chipImages: Record<number, string> = {
+    1: oneChip,
+    10: tenChip,
+    50: fiftyChip,
+    100: oneHundredChip,
+    500: fiveHundredChip,
+    1000: oneThousandChip,
+};
 
-    private initialize(): void {
-        const suits: Suit[] = ['hearts', 'diamonds', 'clubs', 'spades'];
-        const ranks: Rank[] = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+const chipValues = [1, 10, 50, 100, 500, 1000];
+const socketRef = {current: null as Socket | null};
 
-        for (const suit of suits) {
-            for (const rank of ranks) {
-                let value: number;
-                if (rank === 'A') {
-                    value = 11;
-                } else if (['J', 'Q', 'K'].includes(rank)) {
-                    value = 10;
-                } else {
-                    value = parseInt(rank);
-                }
+if (!socketRef.current) {
+    socketRef.current = io('http://localhost:3001', {
+        reconnection: true,
+        reconnectionAttempts: 5,
+        timeout: 10000,
+        transports: ['websocket', 'polling']
+    });
+}
 
-                this.cards.push({
-                    id: uuidv4(),
-                    suit,
-                    rank,
-                    value,
-                    hidden: false
+const BlackjackTable: React.FC = () => {
+    const socket = socketRef.current!;
+    const [gameState, setGameState] = useState<GameState>({
+        dealerHand: [
+            {suit: '♠', value: 'K', numericValue: 10},
+            {suit: '', value: '?', numericValue: 0}
+        ],
+        dealerTotal: 10,
+        players: [
+            {cards: [], total: 0, bet: 0, isActive: false, playerId: null, playerName: "Empty Seat"},
+            {cards: [], total: 0, bet: 0, isActive: false, playerId: null, playerName: "Empty Seat"},
+            {cards: [], total: 0, bet: 0, isActive: false, playerId: null, playerName: "Empty Seat"}
+        ],
+        currentPlayer: -1,
+        gamePhase: 'waiting',
+        selectedChip: 25
+    });
+
+    const [localPlayerId, setLocalPlayerId] = useState<number | null>(null);
+    const [localPlayerPosition, setLocalPlayerPosition] = useState<number | null>(null);
+    const [username, setUsername] = useState<string>("");
+    const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
+    const [lastEmittedEvent, setLastEmittedEvent] = useState<{ event: string, data: any, time: number } | null>(null);
+    const [lastClickedSpot, setLastClickedSpot] = useState<{ position: number, time: number } | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [timeRemaining, setTimeRemaining] = useState<number>(30);
+    const navigate = useNavigate();
+    const {roomId} = useParams();
+    const initializedRef = useRef(false);
+    const {leaveLobby} = useLobbyContext();
+
+    const safeEmit = (event: string, data: any) => {
+        setLastEmittedEvent({event, data, time: Date.now()});
+        if (!socket.connected) {
+            socket.connect();
+        }
+        try {
+            socket.emit(event, data);
+        } catch (error) {
+            setErrorMessage(`Failed to send ${event} action. Please try again.`);
+        }
+    };
+
+    const handleLeaveSeat = () => {
+        if (localPlayerPosition !== null && gameState.gamePhase === 'waiting') {
+            safeEmit('leaveSeat', {
+                lobbyId: Number(roomId),
+                position: localPlayerPosition,
+                clientId: localPlayerId ?? undefined
+            });
+        }
+    };
+
+    useEffect(() => {
+        const user = localStorage.getItem("user");
+        if (!user) {
+            setErrorMessage("You must be logged in to play");
+            setTimeout(() => navigate('/BlackJackLobby'), 2000);
+            return;
+        }
+
+        try {
+            const userData = JSON.parse(user);
+            const userId = userData.usuarioid;
+            const userName = userData.username || "Player";
+
+            if (!userId || !roomId) {
+                setErrorMessage("Invalid user ID or room ID");
+                setTimeout(() => navigate('/BlackJackLobby'), 2000);
+                return;
+            }
+
+            setLocalPlayerId(userId);
+            setUsername(userName);
+
+            if (!initializedRef.current) {
+                initializedRef.current = true;
+
+                socket.on('connect', () => {
+                    setIsConnected(true);
+                    safeEmit('joinLobby', {
+                        lobbyId: Number(roomId),
+                        clientId: userId,
+                        playerName: userName
+                    });
+                    safeEmit('requestGameState', {
+                        lobbyId: Number(roomId)
+                    });
+                });
+
+                socket.on('disconnect', (reason) => {
+                    setIsConnected(false);
+                    setErrorMessage(`Disconnected from server: ${reason}. Reconnecting...`);
+                });
+
+                socket.on('connect_error', (error) => {
+                    setErrorMessage(`Connection error: ${error.message}`);
+                });
+
+                socket.on('error', (error) => {
+                    setErrorMessage(`Socket error: ${error.message || 'Unknown error'}`);
+                });
+
+                socket.on('joinError', (error) => {
+                    setErrorMessage(`Error joining game: ${error.message || 'Unknown error'}`);
+                });
+
+                socket.on('gameStateUpdate', (updatedGameState) => {
+                    setGameState(updatedGameState);
+                    const position = updatedGameState.players.findIndex((p: PlayerHand) => p.playerId === userId);
+                    setLocalPlayerPosition(position >= 0 ? position : null);
+                });
+
+                socket.on('playerJoined', ({playerId, playerName, position}) => {
+                    setGameState(prev => {
+                        const updatedPlayers = [...prev.players];
+                        updatedPlayers[position] = {
+                            ...updatedPlayers[position],
+                            playerId,
+                            playerName,
+                            isActive: true,
+                        };
+                        return {...prev, players: updatedPlayers};
+                    });
+                    if (playerId === userId) {
+                        setLocalPlayerPosition(position);
+                    }
+                });
+
+                socket.on('sitDownResponse', (response) => {
+                    if (response.error) {
+                        setErrorMessage(`Error sitting down: ${response.error}`);
+                    }
+                });
+
+                socket.on('leaveSeatResponse', (response) => {
+                    if (response.error) {
+                        setErrorMessage(`Error leaving seat: ${response.error}`);
+                    } else if (response.success) {
+                        setLocalPlayerPosition(null);
+                    }
+                });
+
+                socket.on('gamePhaseChanged', ({phase}) => {
+                    setGameState(prev => ({...prev, gamePhase: phase}));
+                });
+
+                socket.on('actionError', ({message}) => {
+                    setErrorMessage(message);
+                });
+
+                socket.on('betError', ({message}) => {
+                    setErrorMessage(message);
                 });
             }
-        }
-        this.shuffle();
-    }
 
-    private shuffle(): void {
-        for (let i = this.cards.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
-        }
-    }
-
-    public dealCard(): Card | null {
-        if (this.cards.length === 0) {
-            this.initialize();
-        }
-        return this.cards.pop() || null;
-    }
-}
-
-// ==================== COMPONENTE PRINCIPAL ====================
-const EnhancedBlackjack: React.FC = () => {
-    // Estados del juego
-    const [deck] = useState(() => new Deck());
-    const [player, setPlayer] = useState<Player>({
-        id: uuidv4(),
-        name: 'Jugador 1',
-        hand: [],
-        status: 'waiting',
-        bet: 0
-    });
-    const [dealer, setDealer] = useState<Card[]>([]);
-    const [gamePhase, setGamePhase] = useState<'betting' | 'dealing' | 'playing' | 'finished'>('betting');
-    const [selectedChip, setSelectedChip] = useState('25');
-    const [balance, setBalance] = useState(1000);
-    const [result, setResult] = useState<GameResult | null>(null);
-    const [showNotification, setShowNotification] = useState(false);
-
-    const chipValues = ['1', '10', '25', '50', '100', '500'];
-
-    // ==================== FUNCIONES DE UTILIDAD ====================
-    const calculateHandValue = (hand: Card[]): number => {
-        let value = 0;
-        let aceCount = 0;
-
-        for (const card of hand) {
-            if (!card.hidden) {
-                value += card.value;
-                if (card.rank === 'A') {
-                    aceCount++;
-                }
+            if (!socket.connected) {
+                socket.connect();
             }
+
+            safeEmit('joinLobby', {
+                lobbyId: Number(roomId),
+                clientId: userId,
+                playerName: userName
+            });
+
+            safeEmit('requestGameState', {
+                lobbyId: Number(roomId)
+            });
+
+            return () => {
+                safeEmit('leaveLobby', {
+                    lobbyId: Number(roomId),
+                    clientId: userId
+                });
+            };
+        } catch (error) {
+            setErrorMessage("An error occurred while setting up the game.");
+            setTimeout(() => navigate('/BlackJackLobby'), 2000);
+        }
+    }, [roomId, navigate]);
+
+    const handleBettingSpotClick = (playerIndex: number) => {
+        if (!isConnected) {
+            setErrorMessage("Not connected to the server. Please wait for reconnection.");
+            return;
         }
 
-        while (value > 21 && aceCount > 0) {
-            value -= 10;
-            aceCount--;
-        }
-
-        return value;
-    };
-
-    const getSuitSymbol = (suit: Suit): string => {
-        const symbols = {
-            hearts: '♥',
-            diamonds: '♦',
-            clubs: '♣',
-            spades: '♠'
-        };
-        return symbols[suit];
-    };
-
-    const getCardColor = (suit: Suit): string => {
-        return ['hearts', 'diamonds'].includes(suit) ? '#dc3545' : '#000';
-    };
-
-    // ==================== FUNCIONES DE APUESTA ====================
-    const handleBet = () => {
-        const chipValue = parseInt(selectedChip);
-        if (balance >= chipValue && gamePhase === 'betting') {
-            setPlayer(prev => ({
-                ...prev,
-                bet: prev.bet + chipValue
-            }));
-            setBalance(prev => prev - chipValue);
-        }
-    };
-
-    const clearBet = () => {
-        if (gamePhase === 'betting') {
-            setBalance(prev => prev + player.bet);
-            setPlayer(prev => ({
-                ...prev,
-                bet: 0
-            }));
-        }
-    };
-
-    // ==================== FUNCIONES DEL JUEGO ====================
-    const startGame = () => {
-        if (player.bet === 0) return;
-
-        setGamePhase('dealing');
-        setResult(null);
-
-        // Reiniciar manos
-        const newPlayerHand: Card[] = [];
-        const newDealerHand: Card[] = [];
-
-        // Repartir cartas iniciales
-        for (let i = 0; i < 2; i++) {
-            const playerCard = deck.dealCard();
-            const dealerCard = deck.dealCard();
-
-            if (playerCard) newPlayerHand.push(playerCard);
-            if (dealerCard) {
-                if (i === 1) dealerCard.hidden = true; // Segunda carta del dealer oculta
-                newDealerHand.push(dealerCard);
+        if (gameState.gamePhase === 'waiting' &&
+            gameState.players[playerIndex].playerId === localPlayerId) {
+            const now = Date.now();
+            if (lastClickedSpot &&
+                lastClickedSpot.position === playerIndex &&
+                now - lastClickedSpot.time < 500) {
+                handleLeaveSeat();
+                setLastClickedSpot(null);
+                return;
             }
+            setLastClickedSpot({position: playerIndex, time: now});
+            return;
         }
 
-        setPlayer(prev => ({
-            ...prev,
-            hand: newPlayerHand,
-            status: 'playing'
-        }));
-        setDealer(newDealerHand);
-
-        // Verificar blackjack natural
-        const playerValue = calculateHandValue(newPlayerHand);
-        if (playerValue === 21) {
-            setPlayer(prev => ({...prev, status: 'blackjack'}));
-            setTimeout(() => finishGame('blackjack'), 1000);
-        } else {
-            setGamePhase('playing');
+        if (gameState.gamePhase === 'waiting' && gameState.players[playerIndex].playerId === null) {
+            const sitDownData = {
+                lobbyId: Number(roomId),
+                position: playerIndex,
+                clientId: localPlayerId ?? undefined,
+                playerName: username
+            };
+            safeEmit('sitDown', sitDownData);
         }
-    };
 
-    const hit = () => {
-        if (gamePhase !== 'playing' || player.status !== 'playing') return;
-
-        const newCard = deck.dealCard();
-        if (!newCard) return;
-
-        const newHand = [...player.hand, newCard];
-        const newValue = calculateHandValue(newHand);
-
-        setPlayer(prev => ({
-            ...prev,
-            hand: newHand,
-            status: newValue > 21 ? 'busted' : newValue === 21 ? 'standing' : 'playing'
-        }));
-
-        if (newValue > 21) {
-            setTimeout(() => finishGame('busted'), 1000);
-        } else if (newValue === 21) {
-            setTimeout(() => stand(), 500);
+        if (gameState.gamePhase === 'betting' && playerIndex === localPlayerPosition) {
+            safeEmit('placeBet', {
+                lobbyId: Number(roomId),
+                position: playerIndex,
+                amount: gameState.selectedChip
+            });
         }
     };
 
-    const stand = () => {
-        if (gamePhase !== 'playing') return;
+    const handleChipSelect = (value: number) => {
+        setGameState(prev => ({
+            ...prev,
+            selectedChip: value
+        }));
+    };
 
-        setPlayer(prev => ({...prev, status: 'standing'}));
-        setGamePhase('finished');
+    const handleHit = () => {
+        if (gameState.gamePhase === 'playing' && gameState.currentPlayer === localPlayerPosition) {
+            safeEmit('playerAction', {
+                lobbyId: Number(roomId),
+                action: 'hit',
+                position: localPlayerPosition
+            });
+        }
+    };
 
-        // Revelar carta oculta del dealer
-        const revealedDealer = dealer.map(card => ({...card, hidden: false}));
-        setDealer(revealedDealer);
+    const handleStand = () => {
+        if (gameState.gamePhase === 'playing' && gameState.currentPlayer === localPlayerPosition) {
+            safeEmit('playerAction', {
+                lobbyId: Number(roomId),
+                action: 'stand',
+                position: localPlayerPosition
+            });
+        }
+    };
 
-        // Dealer juega
-        let dealerHand = [...revealedDealer];
-        let dealerValue = calculateHandValue(dealerHand);
+    // Define the ref at the top of your component
+    const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-        const dealerPlay = () => {
-            if (dealerValue < 17) {
-                const newCard = deck.dealCard();
-                if (newCard) {
-                    dealerHand = [...dealerHand, newCard];
-                    setDealer([...dealerHand]);
-                    dealerValue = calculateHandValue(dealerHand);
-                    setTimeout(dealerPlay, 1000);
-                }
-            } else {
-                setTimeout(() => finishGame('compare'), 1000);
+    // Then use this effect for the timer logic
+    useEffect(() => {
+        if (gameState.gamePhase === 'betting') {
+            setTimeRemaining(30);
+
+            // Clear any existing interval first
+            if (timerIntervalRef.current) {
+                clearInterval(timerIntervalRef.current);
+            }
+
+            // Set up new interval and store reference
+            timerIntervalRef.current = setInterval(() => {
+                setTimeRemaining(prevTime => {
+                    if (prevTime <= 1) {
+                        // Clear interval when time runs out
+                        if (timerIntervalRef.current) {
+                            clearInterval(timerIntervalRef.current);
+                            timerIntervalRef.current = null;
+                        }
+                        return 0;
+                    }
+                    return prevTime - 1;
+                });
+            }, 1000);
+        }
+
+        // Cleanup function
+        return () => {
+            if (timerIntervalRef.current) {
+                clearInterval(timerIntervalRef.current);
+                timerIntervalRef.current = null;
             }
         };
+    }, [gameState.gamePhase]);
 
-        setTimeout(dealerPlay, 1000);
-    };
-
-    const double = () => {
-        if (gamePhase !== 'playing' || player.hand.length !== 2 || balance < player.bet) return;
-
-        // Doblar apuesta
-        setBalance(prev => prev - player.bet);
-        setPlayer(prev => ({...prev, bet: prev.bet * 2, status: 'doubled'}));
-
-        // Tomar una carta más
-        const newCard = deck.dealCard();
-        if (!newCard) return;
-
-        const newHand = [...player.hand, newCard];
-        const newValue = calculateHandValue(newHand);
-
-        setPlayer(prev => ({
-            ...prev,
-            hand: newHand
-        }));
-
-        setTimeout(() => {
-            if (newValue > 21) {
-                finishGame('busted');
-            } else {
-                stand();
-            }
-        }, 1000);
-    };
-
-    const finishGame = (outcome: string) => {
-        const playerValue = calculateHandValue(player.hand);
-        const dealerValue = calculateHandValue(dealer.map(card => ({...card, hidden: false})));
-
-        let gameResult: 'win' | 'lose' | 'push' | 'blackjack';
-        let winnings = 0;
-
-        if (outcome === 'busted') {
-            gameResult = 'lose';
-            winnings = 0;
-        } else if (outcome === 'blackjack') {
-            const dealerBlackjack = dealer.length === 2 && dealerValue === 21;
-            if (dealerBlackjack) {
-                gameResult = 'push';
-                winnings = player.bet;
-            } else {
-                gameResult = 'blackjack';
-                winnings = player.bet + Math.floor(player.bet * 1.5); // Blackjack paga 3:2
-            }
-        } else if (outcome === 'compare') {
-            if (dealerValue > 21) {
-                gameResult = 'win';
-                winnings = player.bet * 2;
-            } else if (playerValue > dealerValue) {
-                gameResult = 'win';
-                winnings = player.bet * 2;
-            } else if (playerValue < dealerValue) {
-                gameResult = 'lose';
-                winnings = 0;
-            } else {
-                gameResult = 'push';
-                winnings = player.bet;
-            }
-        } else {
-            gameResult = 'lose';
-            winnings = 0;
+    const handleDouble = () => {
+        if (gameState.gamePhase === 'playing' &&
+            gameState.currentPlayer === localPlayerPosition &&
+            gameState.players[localPlayerPosition!].cards.length === 2) {
+            safeEmit('playerAction', {
+                lobbyId: Number(roomId),
+                action: 'double',
+                position: localPlayerPosition
+            });
         }
-
-        setBalance(prev => prev + winnings);
-
-        setResult({
-            playerId: player.id,
-            playerName: player.name,
-            result: gameResult,
-            playerValue,
-            dealerValue,
-            winnings
-        });
-
-        setShowNotification(true);
-        setTimeout(() => {
-            setShowNotification(false);
-            newRound();
-        }, 3000);
     };
 
-    const newRound = () => {
-        setPlayer(prev => ({
-            ...prev,
-            hand: [],
-            status: 'waiting',
-            bet: 0
-        }));
-        setDealer([]);
-        setGamePhase('betting');
-        setResult(null);
+    const handleLeaveTable = async () => {
+        try {
+            await leaveLobby(Number(roomId), localPlayerId?.toString() ?? '');
+            safeEmit('leaveLobby', {lobbyId: Number(roomId), clientId: localPlayerId ?? undefined});
+            navigate('/BlackJackLobby');
+        } catch (error) {
+            navigate('/BlackJackLobby');
+        }
     };
 
-    // ==================== COMPONENTE RESULTADO ====================
-    const ResultNotification = () => {
-        if (!showNotification || !result) return null;
-
-        const isWin = result.result === 'win' || result.result === 'blackjack';
-        const isPush = result.result === 'push';
-
-        return (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div
-                    className={`p-6 rounded-lg text-center ${isWin ? 'bg-green-600' : isPush ? 'bg-yellow-600' : 'bg-red-600'} text-white`}>
-                    <div className="text-4xl mb-4">
-                        {isWin ? '🏆' : isPush ? '🤝' : '😞'}
-                    </div>
-                    <h3 className="text-xl font-bold mb-2">
-                        {result.result === 'blackjack' ? '¡BLACKJACK!' :
-                            result.result === 'win' ? '¡GANASTE!' :
-                                result.result === 'push' ? 'EMPATE' : 'PERDISTE'}
-                    </h3>
-                    <p className="mb-2">
-                        Jugador: {result.playerValue} | Dealer: {result.dealerValue}
-                    </p>
-                    <p className="text-lg">
-                        {result.result === 'blackjack' ? `Ganaste $${result.winnings}` :
-                            result.result === 'win' ? `Ganaste $${result.winnings}` :
-                                result.result === 'push' ? `Recuperaste $${result.winnings}` :
-                                    `Perdiste $${player.bet}`}
-                    </p>
-                </div>
-            </div>
-        );
+    const getCardColor = (suit: string) => {
+        return ['♥', '♦'].includes(suit) ? '#dc3545' : '#000';
     };
 
-    // ==================== RENDER ====================
+    const formatCurrency = (amount: number) => {
+        return `$${amount}`;
+    };
+
+    const canTakeAction = gameState.gamePhase === 'playing' &&
+        gameState.currentPlayer === localPlayerPosition;
+
+    const clearErrorMessage = () => {
+        setErrorMessage(null);
+    };
+
     return (
-        <div className="min-h-screen bg-green-800 p-4">
-            {/* Header con balance */}
-            <div className="text-center mb-6">
-                <h1 className="text-4xl font-bold text-white mb-4">BLACKJACK</h1>
-                <div className="bg-yellow-500 text-black px-4 py-2 rounded-lg inline-block font-bold text-xl">
-                    Balance: ${balance}
-                </div>
-            </div>
+        <>
+            <NavBar/>
+            <div className="blackjack-container">
+                {errorMessage && (
+                    <div className="blackjack-error-message-container">
+                        <Message
+                            message={errorMessage}
+                            type="error"
+                            onClose={clearErrorMessage}
+                        />
+                    </div>
+                )}
 
-            {/* Área del Dealer */}
-            <div className="bg-green-700 rounded-lg p-6 mb-6">
-                <h2 className="text-white text-xl mb-4 text-center">Dealer</h2>
-                <div className="flex justify-center gap-2 mb-4">
-                    {dealer.map((card, index) => (
-                        <div
-                            key={card.id}
-                            className={`w-16 h-24 rounded border-2 border-white flex items-center justify-center text-sm font-bold ${
-                                card.hidden ? 'bg-blue-900 text-white' : 'bg-white'
-                            }`}
-                            style={card.hidden ? {} : {color: getCardColor(card.suit)}}
-                        >
-                            {card.hidden ? '?' : `${card.rank}${getSuitSymbol(card.suit)}`}
+                {!isConnected && (
+                    <div className="blackjack-connection-status" style={{
+                        backgroundColor: 'rgba(255,0,0,0.7)',
+                        padding: '10px',
+                        color: 'white',
+                        textAlign: 'center',
+                        fontWeight: 'bold'
+                    }}>
+                        Reconnecting to server...
+                    </div>
+                )}
+
+                <div className="blackjack-table">
+                    <div className="blackjack-table-felt">
+                        {/* Dealer Area */}
+                        <div className="blackjack-dealer-area">
+                            <div className="blackjack-dealer-label">Dealer</div>
+                            <div className="blackjack-dealer-cards">
+                                {gameState.dealerHand.map((card, index) => (
+                                    <div
+                                        key={index}
+                                        className={`blackjack-card ${card.value === '?' ? 'blackjack-back' : ''}`}
+                                        style={{color: card.value !== '?' ? getCardColor(card.suit) : '#ffd700'}}
+                                    >
+                                        {card.value === '?' ? '🂠' : `${card.value}${card.suit}`}
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="blackjack-dealer-total">
+                                Total: {gameState.dealerTotal}{gameState.dealerHand.some(card => card.value === '?') ? '+' : ''}
+                            </div>
                         </div>
-                    ))}
-                </div>
-                <div className="text-white text-center">
-                    Total: {gamePhase === 'betting' || gamePhase === 'dealing' ?
-                    (dealer.length > 0 ? calculateHandValue([dealer[0]]) + '+' : 0) :
-                    calculateHandValue(dealer)
-                }
-                </div>
-            </div>
 
-            {/* Área del Jugador */}
-            <div className="bg-blue-700 rounded-lg p-6 mb-6">
-                <h2 className="text-white text-xl mb-4 text-center">{player.name}</h2>
-                <div className="flex justify-center gap-2 mb-4">
-                    {player.hand.map((card) => (
-                        <div
-                            key={card.id}
-                            className="w-16 h-24 bg-white rounded border-2 border-gray-800 flex items-center justify-center text-sm font-bold"
-                            style={{color: getCardColor(card.suit)}}
-                        >
-                            {card.rank}{getSuitSymbol(card.suit)}
+                        <div className="blackjack-table-center">
+                            {gameState.gamePhase === 'waiting' || gameState.gamePhase === 'betting' ? (
+                                <div className="blackjack-timer">
+                                    <div className="blackjack-table-logo">BLACKJACK</div>
+                                    <div className="blackjack-table-rules">Dealer stands on 17 • Blackjack pays 3:2
+                                    </div>
+                                    {gameState.gamePhase === 'betting' && (
+                                        <div className="blackjack-countdown">
+                                            Place your bets: {timeRemaining}s
+                                        </div>
+                                    )}
+                                    {gameState.gamePhase === 'waiting' && (
+                                        <div className="blackjack-countdown">
+                                            Waiting for players to join...
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (
+                                <div className="blackjack-table-logo">BLACKJACK</div>
+                            )}
                         </div>
-                    ))}
-                </div>
-                <div className="text-white text-center mb-2">
-                    Total: {calculateHandValue(player.hand)}
-                    {calculateHandValue(player.hand) === 21 && player.hand.length === 2 && (
-                        <span className="text-yellow-300 ml-2">♠ BLACKJACK!</span>
-                    )}
-                    {calculateHandValue(player.hand) > 21 && (
-                        <span className="text-red-300 ml-2">BUST!</span>
-                    )}
-                </div>
-                <div className="text-white text-center">
-                    Apuesta: ${player.bet}
-                </div>
-            </div>
 
-            {/* Área de apuestas */}
-            {gamePhase === 'betting' && (
-                <div className="bg-gray-800 rounded-lg p-6 mb-6">
-                    <h3 className="text-white text-lg mb-4 text-center">Selecciona tu apuesta</h3>
+                        {/* Betting Spots */}
+                        <div className="blackjack-betting-spots">
+                            {gameState.players.map((player, index) => (
+                                <div
+                                    key={index}
+                                    className={`blackjack-betting-spot
+                                                                                                                              ${player.isActive ? 'blackjack-active' : ''}
+                                                                                                                              ${index === localPlayerPosition ? 'blackjack-local-player' : ''}
+                                                                                                                              ${index === 1 ? 'blackjack-middle-spot' : ''}
+                                                                                                                              ${player.playerId === null ? 'blackjack-empty-seat' : ''}
+                                                                                                                              ${gameState.currentPlayer === index ? 'blackjack-current-turn' : ''}`}
+                                    onClick={() => handleBettingSpotClick(index)}
+                                >
+                                    <div className="blackjack-spot-label">
+                                        {player.playerId === null
+                                            ? "Empty Seat"
+                                            : (player.playerId === localPlayerId
+                                                ? "You"
+                                                : player.playerName)}
+                                    </div>
 
-                    {/* Fichas */}
-                    <div className="flex justify-center gap-4 mb-6">
-                        {chipValues.map((value) => (
+                                    {/* Leave Seat button */}
+                                    {player.playerId === localPlayerId && gameState.gamePhase === 'waiting' && (
+                                        <button
+                                            className="blackjack-leave-seat-btn"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleLeaveSeat();
+                                            }}
+                                            style={{
+                                                position: 'absolute',
+                                                top: '5px',
+                                                right: '5px',
+                                                backgroundColor: '#ff4444',
+                                                color: 'white',
+                                                border: 'none',
+                                                borderRadius: '4px',
+                                                padding: '3px 6px',
+                                                fontSize: '10px',
+                                                cursor: 'pointer'
+                                            }}
+                                        >
+                                            Leave Seat
+                                        </button>
+                                    )}
+
+                                    {player.bet > 0 && (
+                                        <div className="blackjack-bet-amount">
+                                            {formatCurrency(player.bet)}
+                                        </div>
+                                    )}
+
+                                    <div className="blackjack-player-cards">
+                                        {player.cards.map((card, cardIndex) => (
+                                            <div
+                                                key={cardIndex}
+                                                className="blackjack-card"
+                                                style={{color: getCardColor(card.suit)}}
+                                            >
+                                                {card.value}{card.suit}
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {player.cards.length > 0 && (
+                                        <div className="blackjack-player-total">
+                                            Total: {player.total}
+                                            {player.total === 21 && player.cards.length === 2 && (
+                                                <span style={{color: '#ffd700', marginLeft: '5px'}}>♠ BLACKJACK!</span>
+                                            )}
+                                            {player.total > 21 && (
+                                                <span style={{color: '#ff4444', marginLeft: '5px'}}>BUST!</span>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="blackjack-action-buttons">
                             <button
-                                key={value}
-                                onClick={() => setSelectedChip(value)}
-                                className={`w-16 h-16 rounded-full border-4 font-bold text-sm ${
-                                    selectedChip === value
-                                        ? 'bg-yellow-400 border-yellow-200 text-black'
-                                        : 'bg-red-600 border-red-400 text-white'
-                                } hover:scale-110 transition-transform`}
+                                className="blackjack-action-btn"
+                                onClick={handleHit}
+                                disabled={!canTakeAction ||
+                                    gameState.players[localPlayerPosition!]?.total >= 21}
                             >
-                                ${value}
+                                Hit
                             </button>
-                        ))}
-                    </div>
-
-                    {/* Botones de apuesta */}
-                    <div className="flex justify-center gap-4">
-                        <button
-                            onClick={handleBet}
-                            disabled={balance < parseInt(selectedChip)}
-                            className="bg-green-600 hover:bg-green-700 disabled:bg-gray-500 text-white px-6 py-3 rounded-lg font-bold"
-                        >
-                            Apostar ${selectedChip}
-                        </button>
-                        <button
-                            onClick={clearBet}
-                            disabled={player.bet === 0}
-                            className="bg-red-600 hover:bg-red-700 disabled:bg-gray-500 text-white px-6 py-3 rounded-lg font-bold"
-                        >
-                            Limpiar Apuesta
-                        </button>
-                        <button
-                            onClick={startGame}
-                            disabled={player.bet === 0}
-                            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-500 text-white px-6 py-3 rounded-lg font-bold"
-                        >
-                            Repartir Cartas
-                        </button>
+                            <button
+                                className="blackjack-action-btn"
+                                onClick={handleStand}
+                                disabled={!canTakeAction}
+                            >
+                                Stand
+                            </button>
+                            <button
+                                className="blackjack-action-btn"
+                                onClick={handleDouble}
+                                disabled={
+                                    !canTakeAction ||
+                                    gameState.players[localPlayerPosition!]?.cards.length !== 2
+                                }
+                            >
+                                Double
+                            </button>
+                            <button
+                                className="blackjack-action-btn blackjack-leave-btn"
+                                onClick={handleLeaveTable}
+                            >
+                                Leave Table
+                            </button>
+                        </div>
                     </div>
                 </div>
-            )}
 
-            {/* Botones de juego */}
-            {gamePhase === 'playing' && player.status === 'playing' && (
-                <div className="flex justify-center gap-4 mb-6">
-                    <button
-                        onClick={hit}
-                        className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-bold text-lg"
-                    >
-                        Pedir
-                    </button>
-                    <button
-                        onClick={stand}
-                        className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-lg font-bold text-lg"
-                    >
-                        Plantarse
-                    </button>
-                    <button
-                        onClick={double}
-                        disabled={player.hand.length !== 2 || balance < player.bet}
-                        className="bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-500 text-white px-8 py-4 rounded-lg font-bold text-lg"
-                    >
-                        Doblar
-                    </button>
+                {/* Chips Area */}
+                <div className="blackjack-chips-area">
+                    {chipValues.map(value => (
+                        <div
+                            key={value}
+                            className={`blackjack-chip blackjack-chip-${value} ${gameState.selectedChip === value ? 'blackjack-selected' : ''} ${gameState.gamePhase !== 'betting' ? 'blackjack-disabled' : ''}`}
+                            onClick={() => gameState.gamePhase === 'betting' && handleChipSelect(value)}
+                        >
+                            <img src={chipImages[value]} alt={`Chip ${value}`}/>
+                        </div>
+                    ))}
                 </div>
-            )}
+            </div>
 
-            {/* Botón nueva ronda */}
-            {gamePhase === 'finished' && !showNotification && (
-                <div className="flex justify-center">
-                    <button
-                        onClick={newRound}
-                        className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-bold text-lg"
-                    >
-                        Nueva Ronda
-                    </button>
-                </div>
-            )}
-
-            {/* Notificación de resultado */}
-            <ResultNotification/>
-        </div>
+            <div className="blackjack-footer-container">
+                <Footer/>
+            </div>
+        </>
     );
 };
 
-export default EnhancedBlackjack;
+export default BlackjackTable;

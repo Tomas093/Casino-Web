@@ -1,44 +1,51 @@
-/* Prefija las clases genéricas con 'register-' para hacerlas específicas */
+/* Register Main container */
 .register-page {
-    width: 100%;
-    min-height: 100vh;
-}
-
-.body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #2466a8;
     padding: 20px 0;
     background-size: cover;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background-image: url("../assets/tabla-de-la-ruleta-35.png");
 }
 
-.register-container {
+.register-form-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    max-width: 600px; /* Aumentás el ancho máximo */
+    max-width: 600px;
     width: 100%;
-    margin: 40px auto; /* Espacio arriba y abajo */
-    padding: 3rem; /* Más espacio interno */
+    margin: 40px auto;
+    padding: 3rem;
     background-size: cover;
     border-radius: 20px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
     color: #fff;
-    background-color: rgba(0, 0, 0, 0.85); /* Un poco más visible */
-    min-height: 550px; /* ¡Clave! Le das una altura mínima más grande */
+    background-color: rgba(0, 0, 0, 0.85);
+    min-height: 550px;
     height: auto;
     overflow: visible;
-
 }
 
+/* Message container and warning icon */
+.register-message-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.register-warning-icon, .register-error-icon {
+    margin-right: 10px;
+    color: #ffd700;
+}
+
+/* Title and subtitle */
 .register-title {
-    color: #ff002f;
+    color: #ffd700;
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
@@ -58,56 +65,57 @@
     width: 100%;
 }
 
-.form-group {
-    margin-bottom: 1.2rem;
+.register-form .form-group {
+    margin-bottom: 0.8rem;
 }
 
-.form-control, .input-field {
+.register-input-field {
     width: 100%;
     padding: 12px 15px;
     font-size: 1rem;
     background-color: rgba(30, 30, 30, 0.8);
     border: 1px solid #444;
     border-radius: 40px;
-    margin-bottom: 1rem;
+    margin-bottom: 0.6rem;
     color: #fff;
     transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
 }
 
-.form-control:focus, .input-field:focus {
+.register-input-field:focus {
     border-color: #ffd700;
     box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.3);
     outline: none;
 }
 
-.form-control::placeholder, .input-field::placeholder {
+.register-input-field::placeholder {
     color: #aaa;
 }
 
-.terms-container, .terms {
-    margin: 1.5rem 0;
+.register-terms-container {
+    margin: 1rem 0;
     font-size: 0.9rem;
     color: #ccc;
     line-height: 1.4;
     text-align: center;
 }
 
-.terms-container strong, .terms strong {
+.register-terms-container strong {
     color: #ffd700;
 }
 
-.no-link {
+.register-terms-link {
     text-decoration: none;
     color: #28a745;
     transition: color 0.3s;
 }
 
-.no-link:hover {
+.register-terms-link:hover {
     color: #ffd700;
     text-decoration: none;
 }
 
-.submit-button, .btn {
+.register-submit-button {
     width: 100%;
     padding: 14px;
     background: linear-gradient(135deg, #ffd700, #ff8c00);
@@ -119,22 +127,49 @@
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
     box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 
-.submit-button:hover, .btn:hover {
+.register-submit-button:hover {
     transform: scale(1.05);
     box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
     background: linear-gradient(135deg, #ffdd33, #ffa333);
 }
 
-.submit-button:active, .btn:active {
+.register-submit-button:active {
     transform: scale(0.98);
 }
 
-/* Estilos responsivos */
+.register-footer-text {
+    display: block;
+    margin-top: 0.8rem;
+    text-align: center;
+    color: #ccc;
+    font-size: 1rem;
+}
+
+.register-login-link {
+    color: #ffd700;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-weight: bold;
+}
+
+.register-login-link:hover {
+    color: #28a745;
+}
+
+/* Form footer para registro */
+.register-form-container .form-footer {
+    margin-top: 1rem;
+    text-align: center;
+    color: #ccc;
+    font-size: 1rem;
+}
+
+/* Responsive styles */
 @media (max-width: 576px) {
-    .container {
+    .register-form-container {
         padding: 1.5rem;
         margin: 1rem;
         max-width: 100%;
@@ -145,32 +180,31 @@
     }
 }
 
-/* Estilos específicos para campos con errores */
-.form-control.error, .input-field.error {
+/* Error styles */
+.register-input-field.error {
     border-color: #dc3545;
     box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.3);
 }
 
-.error-message {
+.register-error-message {
     color: #dc3545;
     font-size: 0.85rem;
     margin-top: 0.3rem;
     margin-bottom: 0.5rem;
 }
 
-/* Añadir un efecto de hover sutil para campos */
-.form-control:hover, .input-field:hover {
+.register-input-field:hover {
     border-color: #ffd700;
 }
 
-/* Estilo para checkbox de términos si se necesita */
-input[type="checkbox"] {
+/* Checkbox styles */
+.register-checkbox {
     accent-color: #ffd700;
     margin-right: 8px;
 }
 
-/* Animación suave de aparición */
-@keyframes fadeIn {
+/* Animation */
+@keyframes registerFadeIn {
     from {
         opacity: 0;
         transform: translateY(20px);
@@ -181,6 +215,6 @@ input[type="checkbox"] {
     }
 }
 
-.container {
-    animation: fadeIn 0.8s ease-out;
+.register-form-container {
+    animation: registerFadeIn 0.8s ease-out;
 }

@@ -106,15 +106,11 @@ export const foodTheme: SymbolsThemeType = {
 };
 
 
-
-
-
-
 // Tema de Argentina
 export const argentinaTheme: SymbolsThemeType = {
     name: "Argentina",
     symbols: [
-        <ReactCountryFlag countryCode="AR" svg title="Argentina" />, // Bandera (0)
+        <ReactCountryFlag countryCode="AR" svg title="Argentina"/>, // Bandera (0)
         "🥩", // Asado (1)
         "🍷", // Vino (2)
         "⚽", // Fútbol (3)
@@ -129,13 +125,13 @@ export const argentinaTheme: SymbolsThemeType = {
 export const countriesTheme: SymbolsThemeType = {
     name: "Países",
     symbols: [
-        <ReactCountryFlag countryCode="AR" svg title="Argentina" />, // Argentina (0)
-        <ReactCountryFlag countryCode="FR" svg title="Francia" />, // Francia (2)
-        <ReactCountryFlag countryCode="AR" svg title="Estados Unidos" />, // Estados Unidos (2)
-        <ReactCountryFlag countryCode="ES" svg title="España" />, // España (3)
-        <ReactCountryFlag countryCode="DE" svg title="Alemania" />, // Alemania (4)
-        <ReactCountryFlag countryCode="IT" svg title="Italia" />, // Italia (5)
-        <ReactCountryFlag countryCode="JP" svg title="Japón" />, // Japón (6)
-        <ReactCountryFlag countryCode="BR" svg title="Brasil" /> // Brasil (7)
+        <ReactCountryFlag countryCode="AR" svg title="Argentina"/>, // Argentina (0)
+        <ReactCountryFlag countryCode="FR" svg title="Francia"/>, // Francia (2)
+        <ReactCountryFlag countryCode="AR" svg title="Estados Unidos"/>, // Estados Unidos (2)
+        <ReactCountryFlag countryCode="ES" svg title="España"/>, // España (3)
+        <ReactCountryFlag countryCode="DE" svg title="Alemania"/>, // Alemania (4)
+        <ReactCountryFlag countryCode="IT" svg title="Italia"/>, // Italia (5)
+        <ReactCountryFlag countryCode="JP" svg title="Japón"/>, // Japón (6)
+        <ReactCountryFlag countryCode="BR" svg title="Brasil"/> // Brasil (7)
     ]
 }

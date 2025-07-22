@@ -31,6 +31,16 @@ interface FormProps {
     onGoogleSuccess?: (credentialResponse: CredentialResponse) => void;
     onGoogleError?: () => void;
     googleButtonText?: string;
+    // Nuevas props para clases CSS customizables
+    className?: string;
+    titleClassName?: string;
+    subtitleClassName?: string;
+    formClassName?: string;
+    inputClassName?: string;
+    buttonClassName?: string;
+    termsClassName?: string;
+    containerClassName?: string;
+    pageClassName?: string;
 }
 
 const Form: React.FC<FormProps> = ({
@@ -44,6 +54,14 @@ const Form: React.FC<FormProps> = ({
                                        showGoogleButton = false,
                                        onGoogleSuccess,
                                        onGoogleError,
+                                       className = "container",
+                                       titleClassName = "login-title",
+                                       subtitleClassName = "login-subtitle",
+                                       formClassName = "login-form",
+                                       inputClassName = "form-control",
+                                       buttonClassName = "submit-button",
+                                       termsClassName = "terms",
+                                       containerClassName = "container",
                                    }) => {
     // Estado del formulario dinámico
     const [formData, setFormData] = useState<Record<string, string>>(() => {
@@ -83,87 +101,85 @@ const Form: React.FC<FormProps> = ({
     };
 
     return (
-        <div className="login-page">
-            <div className="container">
-                {title && <h1 className="login-title">{title}</h1>}
-                {subtitle && <h2 className="login-subtitle">{subtitle}</h2>}
+        <div className={className || containerClassName}>
+            {title && <h1 className={titleClassName}>{title}</h1>}
+            {subtitle && <h2 className={subtitleClassName}>{subtitle}</h2>}
 
-                {/* Botón de Google */}
-                {showGoogleButton && (
-                    <>
-                        <div className="google-button-container">
-                            <GoogleLogin
-                                onSuccess={handleGoogleSuccess}
-                                onError={handleGoogleError}
-                                text="continue_with"
-                                shape="circle"
-                                logo_alignment="center"
-                                width={1000}
+            {/* Botón de Google */}
+            {showGoogleButton && (
+                <>
+                    <div className="google-button-container">
+                        <GoogleLogin
+                            onSuccess={handleGoogleSuccess}
+                            onError={handleGoogleError}
+                            text="continue_with"
+                            shape="circle"
+                            logo_alignment="center"
+                            width={1000}
+                        />
+                    </div>
+                    <div className="divider">
+                        <span>O ingresa con email</span>
+                    </div>
+                </>
+            )}
+
+            {/* Formulario tradicional */}
+            <form className={formClassName} onSubmit={handleSubmit}>
+                {fields.map((field, index) => (
+                    <div key={index} className="form-group">
+                        {field.type === 'textarea' ? (
+                            <textarea
+                                name={field.name}
+                                className={inputClassName}
+                                placeholder={field.placeholder}
+                                required={field.required}
+                                minLength={field.minLength}
+                                maxLength={field.maxLength}
+                                value={formData[field.name]}
+                                onChange={handleChange}
                             />
-                        </div>
-                        <div className="divider">
-                            <span>O ingresa con email</span>
-                        </div>
-                    </>
-                )}
+                        ) : field.type === 'select' ? (
+                            <select
+                                name={field.name}
+                                className={inputClassName}
+                                required={field.required}
+                                value={formData[field.name]}
+                                onChange={handleChange}
+                            >
+                                <option value="" disabled>{field.placeholder}</option>
+                                {field.options?.map((option, idx) => (
+                                    <option key={idx} value={option}>{option}</option>
+                                ))}
+                            </select>
+                        ) : (
+                            <input
+                                type={field.type}
+                                name={field.name}
+                                className={inputClassName}
+                                placeholder={field.placeholder}
+                                required={field.required}
+                                minLength={field.minLength}
+                                maxLength={field.maxLength}
+                                min={field.min}
+                                max={field.max}
+                                value={formData[field.name]}
+                                onChange={handleChange}
+                            />
+                        )}
+                    </div>
+                ))}
 
-                {/* Formulario tradicional */}
-                <form className="login-form" onSubmit={handleSubmit}>
-                    {fields.map((field, index) => (
-                        <div key={index} className="form-group">
-                            {field.type === 'textarea' ? (
-                                <textarea
-                                    name={field.name}
-                                    className="form-control"
-                                    placeholder={field.placeholder}
-                                    required={field.required}
-                                    minLength={field.minLength}
-                                    maxLength={field.maxLength}
-                                    value={formData[field.name]}
-                                    onChange={handleChange}
-                                />
-                            ) : field.type === 'select' ? (
-                                <select
-                                    name={field.name}
-                                    className="form-control"
-                                    required={field.required}
-                                    value={formData[field.name]}
-                                    onChange={handleChange}
-                                >
-                                    <option value="" disabled>{field.placeholder}</option>
-                                    {field.options?.map((option, idx) => (
-                                        <option key={idx} value={option}>{option}</option>
-                                    ))}
-                                </select>
-                            ) : (
-                                <input
-                                    type={field.type}
-                                    name={field.name}
-                                    className="form-control"
-                                    placeholder={field.placeholder}
-                                    required={field.required}
-                                    minLength={field.minLength}
-                                    maxLength={field.maxLength}
-                                    min={field.min}
-                                    max={field.max}
-                                    value={formData[field.name]}
-                                    onChange={handleChange}
-                                />
-                            )}
-                        </div>
-                    ))}
+                <button type="submit" className={buttonClassName}>
+                    {submitButtonText}
+                </button>
+            </form>
 
-                    <button type="submit" className="submit-button">
-                        {submitButtonText}
-                    </button>
-                </form>
+            {/* Términos y condiciones */}
+            {termsText && <div className={termsClassName}>{termsText}</div>}
 
-                {/* Términos y condiciones */}
-                {termsText && <div className="terms">{termsText}</div>}
-
-                {/* Footer */}
-                {footerText && <div className="form-footer">{footerText}</div>}
-            </div>
+            {/* Footer */}
+            {footerText && <div className="form-footer">{footerText}</div>}
         </div>
     );
 };
