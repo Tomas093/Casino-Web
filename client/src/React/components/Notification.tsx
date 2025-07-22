@@ -1,5 +1,5 @@
 import '@css/NotificationStyle.css';
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNotificationContext} from '../context/NotificationContext';
 import {useAuth} from '@context/AuthContext';
 import notificationApi from "@api/notificationApi.ts";
@@ -24,7 +24,6 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({userId, onCl
     const [isMarkingAllAsRead, setIsMarkingAllAsRead] = useState(false);
     const [hasAttemptedFetch, setHasAttemptedFetch] = useState(false);
     const [isVisible, setIsVisible] = useState(isOpen); // Estado interno para controlar visibilidad
-    const dropdownRef = useRef<HTMLDivElement>(null);
 
     const effectiveUserId = userId || user?.usuarioid;
     const navigate = useNavigate();
