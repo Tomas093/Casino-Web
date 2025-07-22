@@ -346,59 +346,66 @@ body {
     cursor: not-allowed;
 }
 
+/* CHIP AREA IMPROVED */
 .blackjack-chips-area {
     position: absolute;
     bottom: 0%;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 15px;
+    gap: 12px;
     justify-content: center;
+    z-index: 20;
 }
 
 .blackjack-chip {
-    width: 90px;
-    height: 90px;
+    width: 85px;
+    height: 85px;
     border-radius: 50%;
-    border: 4px solid #ffd700;
+    border: 3px solid #ffd700;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     position: relative;
-    color: transparent;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #fff;
+    font-size: 1rem;
+    opacity: 1;
+    overflow: hidden;
 }
 
-.blackjack-chip.blackjack-chip-1 {
-    background-image: url('@assets/ficha1.png');
+.blackjack-chip img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
 }
 
-.blackjack-chip.blackjack-chip-10 {
-    background-image: url('@assets/ficha10.png');
-}
-
-.blackjack-chip.blackjack-chip-50 {
-    background-image: url('@assets/ficha50.png');
-}
-
-.blackjack-chip.blackjack-chip-100 {
-    background-image: url('@assets/ficha100.png');
-}
-
-.blackjack-chip.blackjack-chip-500 {
-    background-image: url('@assets/ficha500.png');
-}
-
-.blackjack-chip.blackjack-chip-1000 {
-    background-image: url('@assets/ficha1000.png');
+.blackjack-chip .chip-value {
+    position: relative;
+    z-index: 2;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffd700;
+    text-shadow: 0 1px 2px #000;
+    pointer-events: none;
 }
 
 .blackjack-chip:hover {
-    transform: translateY(-3px) scale(1.1);
+    transform: scale(1.08);
     box-shadow: 0 6px 18px rgba(255, 215, 0, 0.4);
+    border-color: #ffed4e;
 }
 
 .blackjack-chip.blackjack-selected {

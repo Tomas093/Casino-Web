@@ -6,6 +6,12 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {io, Socket} from 'socket.io-client';
 import Message from '@components/Error/Message';
 import {useLobbyContext} from '@context/LobbyContext';
+import oneChip from '@assets/ficha1.png';
+import tenChip from '@assets/ficha10.png';
+import fiftyChip from '@assets/ficha50.png';
+import oneHundredChip from '@assets/ficha100.png';
+import fiveHundredChip from '@assets/ficha500.png';
+import oneThousandChip from '@assets/ficha1000.png';
 
 interface Card {
     suit: string;
@@ -30,6 +36,15 @@ interface GameState {
     gamePhase: 'waiting' | 'betting' | 'dealing' | 'playing' | 'finished';
     selectedChip: number;
 }
+
+const chipImages: Record<number, string> = {
+    1: oneChip,
+    10: tenChip,
+    50: fiftyChip,
+    100: oneHundredChip,
+    500: fiveHundredChip,
+    1000: oneThousandChip,
+};
 
 const chipValues = [1, 10, 50, 100, 500, 1000];
 const socketRef = {current: null as Socket | null};
@@ -396,11 +411,11 @@ const BlackjackTable: React.FC = () => {
                                 <div
                                     key={index}
                                     className={`blackjack-betting-spot
-                                                                                                                  ${player.isActive ? 'blackjack-active' : ''}
-                                                                                                                  ${index === localPlayerPosition ? 'blackjack-local-player' : ''}
-                                                                                                                  ${index === 1 ? 'blackjack-middle-spot' : ''}
-                                                                                                                  ${player.playerId === null ? 'blackjack-empty-seat' : ''}
-                                                                                                                  ${gameState.currentPlayer === index ? 'blackjack-current-turn' : ''}`}
+                                                                                                                              ${player.isActive ? 'blackjack-active' : ''}
+                                                                                                                              ${index === localPlayerPosition ? 'blackjack-local-player' : ''}
+                                                                                                                              ${index === 1 ? 'blackjack-middle-spot' : ''}
+                                                                                                                              ${player.playerId === null ? 'blackjack-empty-seat' : ''}
+                                                                                                                              ${gameState.currentPlayer === index ? 'blackjack-current-turn' : ''}`}
                                     onClick={() => handleBettingSpotClick(index)}
                                 >
                                     <div className="blackjack-spot-label">
@@ -511,12 +526,10 @@ const BlackjackTable: React.FC = () => {
                     {chipValues.map(value => (
                         <div
                             key={value}
-                            className={`blackjack-chip blackjack-chip-${value}
-                                                                                                                ${gameState.selectedChip === value ? 'blackjack-selected' : ''}
-                                                                                                                ${gameState.gamePhase !== 'betting' || localPlayerPosition === null ? 'blackjack-disabled' : ''}`}
+                            className={`blackjack-chip blackjack-chip-${value} ${gameState.selectedChip === value ? 'blackjack-selected' : ''} ${gameState.gamePhase !== 'betting' ? 'blackjack-disabled' : ''}`}
                             onClick={() => gameState.gamePhase === 'betting' && handleChipSelect(value)}
                         >
-                            ${value}
+                            <img src={chipImages[value]} alt={`Chip ${value}`}/>
                         </div>
                     ))}
                 </div>
