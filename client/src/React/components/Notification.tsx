@@ -1,5 +1,5 @@
 import '@css/NotificationStyle.css';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {useNotificationContext} from '../context/NotificationContext';
 import {useAuth} from '@context/AuthContext';
 import notificationApi from "@api/notificationApi.ts";
@@ -8,9 +8,10 @@ import {useNavigate} from 'react-router-dom';
 interface NotificationDropdownProps {
     userId?: number;
     onClose?: () => void;
+    isOpen?: boolean; // Nueva prop para controlar visibilidad
 }
 
-const NotificationDropdown: React.FC<NotificationDropdownProps> = ({userId, onClose}) => {
+const NotificationDropdown: React.FC<NotificationDropdownProps> = ({userId, onClose, isOpen = true}) => {
     const {user} = useAuth();
     const {
         notifications,
@@ -22,6 +23,8 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({userId, onCl
 
     const [isMarkingAllAsRead, setIsMarkingAllAsRead] = useState(false);
     const [hasAttemptedFetch, setHasAttemptedFetch] = useState(false);
+    const [isVisible, setIsVisible] = useState(isOpen); // Estado interno para controlar visibilidad
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     const effectiveUserId = userId || user?.usuarioid;
     const navigate = useNavigate();
@@ -83,20 +86,51 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({userId, onCl
         }
     };
 
-    // Función para cerrar el dropdown
-    const handleClose = () => {
+    // Función para cerrar el dropdown - SIN DOBLE CLICK
+    const handleClose = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
         if (onClose) {
             onClose();
+        } else {
+            setIsVisible(false);
         }
     };
+
+    // Efecto para sincronizar con prop isOpen
+    useEffect(() => {
+        setIsVisible(isOpen);
+    }, [isOpen]);
+
+    // Si no es visible, no renderizar nada
+    if (!isVisible) {
+        return null;
+    }
 
     if (!effectiveUserId) {
         return (
             <div className="notif-dropdown">
                 <div className="notif-header">
                     <h3 className="notif-title">Notificaciones</h3>
-                    <button className="notif-close-btn" onClick={handleClose} aria-label="Cerrar notificaciones">
-                        <span className="notif-close-icon">×</span>
+                    <button
+                        className="notif-close-btn"
+                        onClick={handleClose}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onMouseUp={(e) => e.stopPropagation()}
+                        aria-label="Cerrar notificaciones"
+                        type="button"
+                    >
+                        <span
+                            className="notif-close-icon"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                e.nativeEvent.stopImmediatePropagation();
+                            }}
+                        >
+                            ×
+                        </span>
                     </button>
                 </div>
                 <div className="notif-list">
@@ -113,8 +147,24 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({userId, onCl
             <div className="notif-dropdown">
                 <div className="notif-header">
                     <h3 className="notif-title">Notificaciones</h3>
-                    <button className="notif-close-btn" onClick={handleClose} aria-label="Cerrar notificaciones">
-                        <span className="notif-close-icon">×</span>
+                    <button
+                        className="notif-close-btn"
+                        onClick={handleClose}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onMouseUp={(e) => e.stopPropagation()}
+                        aria-label="Cerrar notificaciones"
+                        type="button"
+                    >
+                        <span
+                            className="notif-close-icon"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                e.nativeEvent.stopImmediatePropagation();
+                            }}
+                        >
+                            ×
+                        </span>
                     </button>
                 </div>
                 <div className="notif-list">
@@ -131,8 +181,24 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({userId, onCl
             <div className="notif-dropdown">
                 <div className="notif-header">
                     <h3 className="notif-title">Notificaciones</h3>
-                    <button className="notif-close-btn" onClick={handleClose} aria-label="Cerrar notificaciones">
-                        <span className="notif-close-icon">×</span>
+                    <button
+                        className="notif-close-btn"
+                        onClick={handleClose}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onMouseUp={(e) => e.stopPropagation()}
+                        aria-label="Cerrar notificaciones"
+                        type="button"
+                    >
+                        <span
+                            className="notif-close-icon"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                e.nativeEvent.stopImmediatePropagation();
+                            }}
+                        >
+                            ×
+                        </span>
                     </button>
                 </div>
                 <div className="notif-list">
@@ -153,7 +219,12 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({userId, onCl
                 <h3 className="notif-title">
                     Notificaciones {unreadCount > 0 && `(${unreadCount})`}
                 </h3>
-                <button className="notif-close-btn" onClick={handleClose} aria-label="Cerrar notificaciones">
+                <button
+                    className="notif-close-btn"
+                    onClick={handleClose}
+                    aria-label="Cerrar notificaciones"
+                    type="button"
+                >
                     <span className="notif-close-icon">×</span>
                 </button>
             </div>
@@ -193,6 +264,7 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({userId, onCl
                                             className="notif-delete-btn"
                                             title="Eliminar notificación"
                                             aria-label="Eliminar notificación"
+                                            type="button"
                                         >
                                             ×
                                         </button>
@@ -217,6 +289,7 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({userId, onCl
                         className="notif-mark-all-btn"
                         onClick={marcarTodasComoLeidas}
                         disabled={isMarkingAllAsRead}
+                        type="button"
                     >
                         {isMarkingAllAsRead ? 'Marcando...' : `Marcar todas como leídas (${unreadCount})`}
                     </button>
