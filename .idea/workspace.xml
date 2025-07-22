@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Arreglo resteo del valor de las chips">
-      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/cards/defaultcards/back.png" afterDir="false" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Estilo Completamente Listo">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" afterDir="false" />
     </list>
     <list id="f5eeda07-02d7-44e3-8290-11b843a3b9f1" name="Changes by Eliseos" comment="Changes by Eliseos" />
@@ -263,15 +261,7 @@
       <workItem from="1753141358253" duration="3997000" />
       <workItem from="1753145445182" duration="3478000" />
       <workItem from="1753186874385" duration="11016000" />
-      <workItem from="1753217200115" duration="5504000" />
-    </task>
-    <task id="LOCAL-00055" summary="Refactor ticket management components; update status and priority handling, add filters for user roles">
-      <option name="closed" value="true" />
-      <created>1746814668634</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1746814668635</updated>
+      <workItem from="1753217200115" duration="6564000" />
     </task>
     <task id="LOCAL-00056" summary="Subo UN MONTON DE ABMS">
       <option name="closed" value="true" />
@@ -657,7 +647,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753221447565</updated>
     </task>
-    <option name="localTasksCounter" value="104" />
+    <task id="LOCAL-00104" summary="Estilo Completamente Listo">
+      <option name="closed" value="true" />
+      <created>1753223111174</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1753223111174</updated>
+    </task>
+    <option name="localTasksCounter" value="105" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -690,7 +688,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Refactor imports for consistency; adjust import order and spacing across multiple components" />
     <MESSAGE value="Refactor workspace configuration; update HTML title and favicon for consistency" />
     <MESSAGE value="Refactor login and registration components; enhance CSS class structure for better customization and maintainability" />
     <MESSAGE value="Cambios en la ruleta para que no llore, ademas de la logica del bj hecha" />
@@ -715,6 +712,7 @@
     <MESSAGE value="Cambios Menor de turnos" />
     <MESSAGE value="Cmabio Con Cartas De imagenes" />
     <MESSAGE value="Arreglo resteo del valor de las chips" />
-    <option name="LAST_COMMIT_MESSAGE" value="Arreglo resteo del valor de las chips" />
+    <MESSAGE value="Estilo Completamente Listo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Estilo Completamente Listo" />
   </component>
 </project>

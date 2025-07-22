@@ -1,6 +1,8 @@
 import {Server, Socket} from 'socket.io';
 import {LobbyService} from '../services/lobbyService';
 
+const socketSeatMap = new Map<string, {lobbyId: number, position: number, clientId: number}>();
+
 // Card and Game State types
 interface Card {
     suit: string;
@@ -225,6 +227,13 @@ export const setupMesaHandlers = (io: Server, lobbyService: LobbyService) => {
                         playerName: "Empty Seat"
                     };
 
+                    // Check if all seats are empty and reset if so
+                    const allSeatsEmpty = game.gameState.players.every(p => p.playerId === null);
+                    if (allSeatsEmpty) {
+                        console.log(`[DEBUG] All seats empty, resetting lobby ${lobbyId}`);
+                        resetGame(io, lobbyId);
+                    }
+
                     // Broadcast updated game state
                     io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
                 }
@@ -445,10 +454,37 @@ export const setupMesaHandlers = (io: Server, lobbyService: LobbyService) => {
             }
         });
 
-        // Disconnect handling
         socket.on('disconnect', () => {
             console.log(`Client disconnected: ${socket.id}`);
-            // Actual disconnect handling would be more complex in a full implementation
+            const seatInfo = socketSeatMap.get(socket.id);
+            if (seatInfo) {
+                const {lobbyId, position, clientId} = seatInfo;
+                if (activeGames.has(lobbyId)) {
+                    const game = activeGames.get(lobbyId)!;
+                    if (
+                        position >= 0 &&
+                        position < game.gameState.players.length &&
+                        game.gameState.players[position].playerId === clientId
+                    ) {
+                        game.gameState.players[position] = {
+                            cards: [],
+                            total: 0,
+                            bet: 0,
+                            isActive: false,
+                            playerId: null,
+                            playerName: "Empty Seat"
+                        };
+                        // Check if all seats are empty and reset if so
+                        const allSeatsEmpty = game.gameState.players.every(p => p.playerId === null);
+                        if (allSeatsEmpty) {
+                            console.log(`[DEBUG] All seats empty, resetting lobby ${lobbyId}`);
+                            resetGame(io, lobbyId);
+                        }
+                        io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+                    }
+                }
+                socketSeatMap.delete(socket.id);
+            }
         });
     });
 };
@@ -513,7 +549,7 @@ const startDealingPhase = (io: Server, lobbyId: number) => {
     // Deal second card to dealer (face down)
     const dealerCard2 = deck.pop();
     if (dealerCard2) {
-        game.gameState.dealerHand.push({ suit: '', value: '?', numericValue: 0 }); // placeholder for back image
+        game.gameState.dealerHand.push({suit: '', value: '?', numericValue: 0}); // placeholder for back image
         (game as any).hiddenDealerCard = dealerCard2; // store real card to reveal later
     }
 
