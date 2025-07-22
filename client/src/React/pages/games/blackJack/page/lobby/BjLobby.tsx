@@ -1,25 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import './BjLobbyStyle.css';
+import './BjLobbyStyle.css'; // Fixed the import path
 import Footer from '@components/Footer';
 import NavBar from "@components/NavBar.tsx";
 import {useLobbyContext} from '@context/LobbyContext.tsx';
 import lobbyApi from '@api/lobbyApi.ts';
 import {useNavigate} from 'react-router-dom';
-import userApi from "@api/userApi.ts";
+// Removed userApi import as it's no longer needed
 
-// Fetch cliente by usuarioId and return clienteid
-const getClienteIdByUsuarioId = async (usuarioId: string): Promise<string> => {
-    try {
-        const client = await userApi.getClientByUserId(usuarioId);
-        if (!client || !client.clienteid) {
-            throw new Error(`Cliente not found for usuarioId: ${usuarioId}`);
-        }
-        return client.clienteid.toString();
-    } catch (error) {
-        console.error("Error fetching client by usuarioId:", error);
-        throw error;
-    }
-};
+// Removed getClienteIdByUsuarioId function - backend will handle conversion
 
 interface RoomData {
     id: number;
@@ -122,8 +110,9 @@ const BjLobby: React.FC = () => {
                 alert("You must be logged in to join a room.");
                 return;
             }
-            const clientId = await getClienteIdByUsuarioId(usuarioid);
-            await lobbyApi.joinLobby(roomId, clientId);
+
+            // Send userId directly - let backend handle conversion to clientId
+            await lobbyApi.joinLobby(roomId, usuarioid);
             navigate(`/BlackJack/${roomId}`);
         } catch (error) {
             console.error("Failed to join room:", error);

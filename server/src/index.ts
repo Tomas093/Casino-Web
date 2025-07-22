@@ -25,8 +25,9 @@ import tiempodesesionRoutes from "./routes/tiempodesesionRoutes";
 import suspendidoRoutes from "./routes/suspendidosRoutes";
 import notificationRoutes from "./routes/notificationRoutes";
 import lobbyRoutes from "./routes/lobbyRoutes";
-
-import {setupMesaHandlers} from '../src/sockets/MesaHandler';
+import {setupMesaHandlers} from './sockets/MesaHandler';
+// ADD THIS IMPORT - This is what's missing!
+import {LobbyService} from './services/lobbyService';
 
 const app = express();
 const server = http.createServer(app);
@@ -39,8 +40,11 @@ const io = new SocketIOServer(server, {
     }
 });
 
-// Custom lobby socket handlers
-setupMesaHandlers(io);
+// Create a lobbyService instance (now this will work because we imported LobbyService)
+const lobbyService = new LobbyService();
+
+// Pass both arguments to the setupMesaHandlers function
+setupMesaHandlers(io, lobbyService);
 
 // Manejo de eventos WebSocket básicos
 io.on('connection', (socket) => {

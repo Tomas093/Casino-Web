@@ -1,5 +1,5 @@
-import React, { useState} from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React, {useState} from 'react';
+import {v4 as uuidv4} from 'uuid';
 import './BlackJackTableStyle.css'
 
 // Importar las imágenes de fichas (en un proyecto real estas serían importadas desde assets)
@@ -203,7 +203,7 @@ const EnhancedBlackjack: React.FC = () => {
         // Verificar blackjack natural
         const playerValue = calculateHandValue(newPlayerHand);
         if (playerValue === 21) {
-            setPlayer(prev => ({ ...prev, status: 'blackjack' }));
+            setPlayer(prev => ({...prev, status: 'blackjack'}));
             setTimeout(() => finishGame('blackjack'), 1000);
         } else {
             setGamePhase('playing');
@@ -235,11 +235,11 @@ const EnhancedBlackjack: React.FC = () => {
     const stand = () => {
         if (gamePhase !== 'playing') return;
 
-        setPlayer(prev => ({ ...prev, status: 'standing' }));
+        setPlayer(prev => ({...prev, status: 'standing'}));
         setGamePhase('finished');
 
         // Revelar carta oculta del dealer
-        const revealedDealer = dealer.map(card => ({ ...card, hidden: false }));
+        const revealedDealer = dealer.map(card => ({...card, hidden: false}));
         setDealer(revealedDealer);
 
         // Dealer juega
@@ -268,7 +268,7 @@ const EnhancedBlackjack: React.FC = () => {
 
         // Doblar apuesta
         setBalance(prev => prev - player.bet);
-        setPlayer(prev => ({ ...prev, bet: prev.bet * 2, status: 'doubled' }));
+        setPlayer(prev => ({...prev, bet: prev.bet * 2, status: 'doubled'}));
 
         // Tomar una carta más
         const newCard = deck.dealCard();
@@ -293,7 +293,7 @@ const EnhancedBlackjack: React.FC = () => {
 
     const finishGame = (outcome: string) => {
         const playerValue = calculateHandValue(player.hand);
-        const dealerValue = calculateHandValue(dealer.map(card => ({ ...card, hidden: false })));
+        const dealerValue = calculateHandValue(dealer.map(card => ({...card, hidden: false})));
 
         let gameResult: 'win' | 'lose' | 'push' | 'blackjack';
         let winnings = 0;
@@ -368,7 +368,8 @@ const EnhancedBlackjack: React.FC = () => {
 
         return (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className={`p-6 rounded-lg text-center ${isWin ? 'bg-green-600' : isPush ? 'bg-yellow-600' : 'bg-red-600'} text-white`}>
+                <div
+                    className={`p-6 rounded-lg text-center ${isWin ? 'bg-green-600' : isPush ? 'bg-yellow-600' : 'bg-red-600'} text-white`}>
                     <div className="text-4xl mb-4">
                         {isWin ? '🏆' : isPush ? '🤝' : '😞'}
                     </div>
@@ -412,7 +413,7 @@ const EnhancedBlackjack: React.FC = () => {
                             className={`w-16 h-24 rounded border-2 border-white flex items-center justify-center text-sm font-bold ${
                                 card.hidden ? 'bg-blue-900 text-white' : 'bg-white'
                             }`}
-                            style={card.hidden ? {} : { color: getCardColor(card.suit) }}
+                            style={card.hidden ? {} : {color: getCardColor(card.suit)}}
                         >
                             {card.hidden ? '?' : `${card.rank}${getSuitSymbol(card.suit)}`}
                         </div>
@@ -434,7 +435,7 @@ const EnhancedBlackjack: React.FC = () => {
                         <div
                             key={card.id}
                             className="w-16 h-24 bg-white rounded border-2 border-gray-800 flex items-center justify-center text-sm font-bold"
-                            style={{ color: getCardColor(card.suit) }}
+                            style={{color: getCardColor(card.suit)}}
                         >
                             {card.rank}{getSuitSymbol(card.suit)}
                         </div>
@@ -541,7 +542,7 @@ const EnhancedBlackjack: React.FC = () => {
             )}
 
             {/* Notificación de resultado */}
-            <ResultNotification />
+            <ResultNotification/>
         </div>
     );
 };
