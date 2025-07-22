@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Remove Notification dropdown styles and refactor Notification component for improved usability">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor Notification component: remove unused dropdownRef import">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/NotificationStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/NotificationStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/Notification.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Notification.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTableStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTableStyle.css" afterDir="false" />
     </list>
     <list id="f5eeda07-02d7-44e3-8290-11b843a3b9f1" name="Changes by Eliseos" comment="Changes by Eliseos">
       <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
@@ -262,23 +262,7 @@
       <workItem from="1753133338240" duration="6150000" />
       <workItem from="1753141358253" duration="3997000" />
       <workItem from="1753145445182" duration="3478000" />
-      <workItem from="1753186874385" duration="1844000" />
-    </task>
-    <task id="LOCAL-00046" summary="Implement chat feature; add message API, context, and UI for ticket messaging">
-      <option name="closed" value="true" />
-      <created>1746392497852</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1746392497852</updated>
-    </task>
-    <task id="LOCAL-00047" summary="Implement chat feature; add message API, context, and UI for ticket messaging">
-      <option name="closed" value="true" />
-      <created>1746406833992</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1746406833992</updated>
+      <workItem from="1753186874385" duration="6031000" />
     </task>
     <task id="LOCAL-00048" summary="Enhance support ticket functionality; implement automatic priority assignment and user data initialization">
       <option name="closed" value="true" />
@@ -656,7 +640,23 @@
       <option name="project" value="LOCAL" />
       <updated>1753148966941</updated>
     </task>
-    <option name="localTasksCounter" value="95" />
+    <task id="LOCAL-00095" summary="Notificaciones Terminadas">
+      <option name="closed" value="true" />
+      <created>1753189359327</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1753189359327</updated>
+    </task>
+    <task id="LOCAL-00096" summary="Refactor Notification component: remove unused dropdownRef import">
+      <option name="closed" value="true" />
+      <created>1753189528472</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1753189528472</updated>
+    </task>
+    <option name="localTasksCounter" value="97" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -689,8 +689,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Refactor date handling in game components; adjust timestamps to account for timezone offset and update limit values in authService" />
-    <MESSAGE value="Update workspace.xml and styles; rename currency symbol class for Minesweeper and adjust task entries" />
     <MESSAGE value="Update workspace.xml and leaderboardService.ts; adjust task entries and add user stats retrieval for leaderboard" />
     <MESSAGE value="Refactor game components; add InsufficientBalanceNotification and enhance theme options" />
     <MESSAGE value="Update paytable multipliers for improved game balance; refactor workspace.xml for task management" />
@@ -714,6 +712,8 @@
     <MESSAGE value="Implement leave lobby functionality in BlackJackTable; enhance error handling and navigation" />
     <MESSAGE value="Add notification dropdown styles and refactor Notification component for improved usability" />
     <MESSAGE value="Remove Notification dropdown styles and refactor Notification component for improved usability" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove Notification dropdown styles and refactor Notification component for improved usability" />
+    <MESSAGE value="Notificaciones Terminadas" />
+    <MESSAGE value="Refactor Notification component: remove unused dropdownRef import" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor Notification component: remove unused dropdownRef import" />
   </component>
 </project>
