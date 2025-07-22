@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="PIPI CUCU, ANDA TODO LA LGOICA QUE NO ES DEL BLACKJACKs">
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" afterDir="false" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Implement leave lobby functionality in BlackJackTable; enhance error handling and navigation">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Css/NotificationStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/NotificationStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/components/Notification.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Notification.tsx" afterDir="false" />
     </list>
     <list id="f5eeda07-02d7-44e3-8290-11b843a3b9f1" name="Changes by Eliseos" comment="Changes by Eliseos">
       <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
@@ -259,15 +261,7 @@
       <workItem from="1753098030450" duration="10354000" />
       <workItem from="1753133338240" duration="6150000" />
       <workItem from="1753141358253" duration="3997000" />
-      <workItem from="1753145445182" duration="339000" />
-    </task>
-    <task id="LOCAL-00043" summary="Refactor ticket view styles and update filtering functionality; enhance UI components for better usability">
-      <option name="closed" value="true" />
-      <created>1746361975915</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1746361975915</updated>
+      <workItem from="1753145445182" duration="2323000" />
     </task>
     <task id="LOCAL-00044" summary="Add priority indicators to ticket view; enhance filtering UI with visual cues for priority levels">
       <option name="closed" value="true" />
@@ -653,7 +647,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753145468389</updated>
     </task>
-    <option name="localTasksCounter" value="92" />
+    <task id="LOCAL-00092" summary="Implement leave lobby functionality in BlackJackTable; enhance error handling and navigation">
+      <option name="closed" value="true" />
+      <created>1753145859138</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1753145859138</updated>
+    </task>
+    <option name="localTasksCounter" value="93" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -686,7 +688,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in LimitPage" />
     <MESSAGE value="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component" />
     <MESSAGE value="Refactor task entries in workspace.xml; remove closed tasks and update localTasksCounter in SupportPage.tsx for consistent priority casing" />
     <MESSAGE value="Refactor date handling in game components; adjust timestamps to account for timezone offset and update limit values in authService" />
@@ -711,6 +712,7 @@
     <MESSAGE value="VANCE CON LOS TURNOOS DE LOS JUGADORES PERO CON FALLAS DIGAMOS" />
     <MESSAGE value="PIPI CUCU, ANDA TODO LA LGOICA QUE NO ES DEL BLACKJACK" />
     <MESSAGE value="PIPI CUCU, ANDA TODO LA LGOICA QUE NO ES DEL BLACKJACKs" />
-    <option name="LAST_COMMIT_MESSAGE" value="PIPI CUCU, ANDA TODO LA LGOICA QUE NO ES DEL BLACKJACKs" />
+    <MESSAGE value="Implement leave lobby functionality in BlackJackTable; enhance error handling and navigation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement leave lobby functionality in BlackJackTable; enhance error handling and navigation" />
   </component>
 </project>
