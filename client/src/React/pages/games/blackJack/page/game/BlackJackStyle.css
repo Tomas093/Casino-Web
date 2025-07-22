@@ -1,0 +1,465 @@
+/* Línea decorativa del dealer */
+.dealer-line {
+    position: absolute;
+    top: 18%;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #ffd700, transparent);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* Marcas de posición en el semicírculo */
+.position-markers {
+
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 200px;
+    pointer-events: none;
+}
+
+.position-markers::before {
+
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    right: 15%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f2d0f 100%);
+    min-height: 100vh;
+    color: #ffffff;
+    overflow-x: hidden; /* Solo oculta overflow horizontal */
+    overflow-y: auto; /* Permite scroll vertical */
+
+}
+
+.blackjack-container {
+    min-height: 100vh; /* Cambiado de height: 100vh a min-height: 100vh */
+    background: radial-gradient(ellipse at center, #1a4d1a 0%, #0d1f0d 70%, #000000 100%);
+    display: flex;
+    flex-direction: column; /* Añadido para estructura vertical */
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding-bottom: 80px; /* Añadido espacio para el footer */
+}
+
+.blackjack-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+            radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+
+}
+
+.blackjack-table {
+
+    width: 98vw;
+    max-width: 1400px;
+    height: 76vh;
+    max-height: 700px;
+    position: relative;
+    background-image: url("@assets/MaderaMesaBJ.webp");
+    border-radius: 0 0 100% 100%;
+    border: 8px solid #8b4513;
+    border-top: none;
+    box-shadow:
+            0 0 50px rgba(0, 0, 0, 0.8),
+            inset 0 0 30px rgba(255, 215, 0, 0.1),
+            0 20px 40px rgba(0, 0, 0, 0.5);
+    transform: perspective(800px) rotateX(15deg);
+    margin-bottom: 40px; /* Añadido margen inferior */
+}
+
+.table-felt {
+
+    position: absolute;
+    top: 0;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    background-image: url("@assets/telaMesaBJ.webp");
+
+    border-radius: 0 0 100% 100%;
+    overflow: hidden;
+    background-size: cover;
+
+}
+
+.table-felt::before {
+
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+            repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 215, 0, 0.02) 2px,
+                    rgba(255, 215, 0, 0.02) 4px
+            );
+}
+
+.dealer-area {
+
+    position: absolute;
+    top: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dealer-label {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    color: #000;
+    padding: 10px 22px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 1.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+    margin-bottom: 15px;
+}
+
+.dealer-cards {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+
+}
+
+.card {
+    width: 45px;
+    height: 65px;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    box-shadow:
+            0 4px 8px rgba(0, 0, 0, 0.3),
+            0 0 10px rgba(255, 215, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #333;
+    font-size: 0.8rem;
+    position: relative;
+    transform: perspective(300px) rotateX(5deg);
+    transition: all 0.3s ease;
+}
+
+.card.back {
+    background:
+            linear-gradient(135deg, #8b0000, #a00000),
+            repeating-linear-gradient(
+                    45deg,
+                    #8b0000,
+                    #8b0000 5px,
+                    #a00000 5px,
+                    #a00000 10px
+            );
+    color: #ffd700;
+}
+
+.card:hover {
+    transform: perspective(300px) rotateX(0deg) translateY(-5px);
+    box-shadow:
+            0 8px 16px rgba(0, 0, 0, 0.4),
+            0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.dealer-total {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.betting-spots {
+    position: absolute;
+    bottom: 22%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 215px;
+    justify-content: center;
+    width: 100%;
+    max-width: 900px;
+}
+
+.betting-spot.middle-spot {
+    top: 75px; /* Moves the middle spot lower */
+}
+
+.betting-spot {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    border: 3px solid #ffd700;
+    border-radius: 50%;
+    background:
+            radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.1), transparent 70%),
+            linear-gradient(145deg, #1a4d1a, #0f3d0f);
+    box-shadow:
+            inset 0 0 20px rgba(255, 215, 0, 0.2),
+            0 5px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.betting-spot:hover {
+    border-color: #ffed4e;
+    box-shadow:
+            inset 0 0 30px rgba(255, 215, 0, 0.3),
+            0 0 30px rgba(255, 215, 0, 0.4),
+            0 8px 20px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
+}
+
+.betting-spot.active {
+    border-color: #ffed4e;
+    background:
+            radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.2), transparent 70%),
+            linear-gradient(145deg, #228b22, #1a4d1a);
+    box-shadow:
+            inset 0 0 30px rgba(255, 215, 0, 0.3),
+            0 0 40px rgba(255, 215, 0, 0.5);
+}
+
+.spot-label {
+    font-size: 0.8rem;
+    color: #ffd700;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.player-cards {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+
+.player-total {
+    position: absolute;
+    bottom: -65px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffd700;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 3px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+}
+
+.bet-amount {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    color: #000;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    box-shadow: 0 3px 10px rgba(255, 215, 0, 0.4);
+}
+
+.table-center {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.table-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.table-rules {
+    font-size: 0.9rem;
+    color: #c0c0c0;
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+.action-buttons {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.action-btn {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #ffd700, #228b22);
+    border: none;
+    border-radius: 8px;
+    color: #000;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(255, 215, 0, 0.4);
+}
+
+.action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.chips-area {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.chip {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 4px solid #ffd700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: relative;
+    color: transparent; /* Oculta el texto */
+
+}
+
+.chip.chip-1 { background-image: url('@assets/ficha1.png');}
+.chip.chip-10 { background-image: url('@assets/ficha10.png');}
+.chip.chip-50 { background-image: url('@assets/ficha50.png');}
+.chip.chip-100 { background-image: url('@assets/ficha100.png');}
+.chip.chip-500 { background-image: url('@assets/ficha500.png');}
+.chip.chip-1000 { background-image: url('@assets/ficha1000.png');}
+
+
+.chip:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 6px 18px rgba(255, 215, 0, 0.4);
+}
+
+.chip.selected {
+    border-color: #ffed4e;
+    box-shadow:
+            0 0 20px rgba(255, 215, 0, 0.6),
+            0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* Estilos para el footer fuera de la mesa */
+.footer-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    margin-top: 60px; /* Espacio adicional entre la mesa y el footer */
+}
+
+@media (max-width: 768px) {
+    .blackjack-container {
+        padding-bottom: 40px;
+    }
+
+    .blackjack-table {
+        width: 95vw;
+        height: 75vh;
+        margin-bottom: 20px;
+    }
+
+    .betting-spots {
+        gap: 20px;
+    }
+
+    .betting-spot {
+        width: 80px;
+        height: 80px;
+    }
+
+    .table-logo {
+        font-size: 1.5rem;
+    }
+
+    .action-buttons,
+    .chips-area {
+        position: relative;
+        bottom: auto;
+        right: auto;
+        left: auto;
+        margin: 20px auto;
+        justify-content: center;
+    }
+
+    .footer-container {
+        margin-top: 40px;
+    }
+}

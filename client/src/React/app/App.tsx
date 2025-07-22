@@ -29,12 +29,16 @@ import PrivacyPolicy from "../pages/legal/PrivacyPolicy.tsx";
 import AboutUs from "../pages/legal/AboutUs.tsx";
 import Legal from "../pages/legal/Legal.tsx";
 import LimitMonitor from "@components/LimitMonitor.tsx";
+import Notification from "@components/Notification.tsx";
+import BjLobby from "../pages/games/blackJack/page/lobby/BjLobby.tsx";
+import BlackjackTable from "../pages/games/blackJack/page/game/BlackJackTable.tsx";
+import EnhancedBlackjack from "../pages/games/blackJack/page/game/BjPage.tsx";
 
 function App() {
     return (
         <BrowserRouter>
             <AppProvider>
-                <LimitMonitor />
+                <LimitMonitor/>
 
                 <Routes>
                     {/* Rutas públicas */}
@@ -45,6 +49,8 @@ function App() {
                     <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
                     <Route path="/aboutus" element={<AboutUs/>}/>
                     <Route path="/legal" element={<Legal/>}/>
+                    <Route path={"/notification"} element={<Notification/>}/>
+
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
                     <Route element={<ProtectedRoute/>}>
@@ -64,6 +70,10 @@ function App() {
                         <Route path="/support" element={<SupportPage/>}/>
                         <Route path="/slots" element={<Slots/>}/>
                         <Route path="/tickets" element={<TicketsView/>}/>
+                        <Route path="/BlackJackLobby" element={<BjLobby/>}/>
+                        <Route path={"/bj"} element={<EnhancedBlackjack/>}/>
+                        <Route path="/blackjack/:roomId" element={<BlackjackTable/>}/>
+
                     </Route>
 
                     {/* rutas Solo para admins */}

@@ -4,23 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Refactor imports for consistency; adjust import order and spacing across multiple components">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="cambiado logica de edad">
+      <change afterPath="$PROJECT_DIR$/client/src/Css/NotificationStyle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/Css/blackJackLobby.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/api/lobbyApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/api/notificationApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/components/Notification.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/context/LobbyContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/context/NotificationContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/game/BlackJackGame.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BjPage.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackStyle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/lobby/BjLobby.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/lobby/BjLobbyStyle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/routes/lobbyRoutes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/routes/notificationRoutes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/services/lobbyService.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/adminApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/adminApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/authApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/authApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/userApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/userApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/admin/UserManagementTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/admin/UserManagementTable.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/AdminContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/AdminContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/AuthContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/admin/AdminManagment.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/Slots.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/Slots.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/GameControls.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/GameControls.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/ProfilePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/ProfilePage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/adminRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/adminRoutes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/services/userService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/userService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/minesweeper/MineSweeperEnchanced.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/minesweeper/MineSweeperEnchanced.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/playService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/playService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +120,7 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;Eliseo&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Eliseos/Faculty/Segundo Año/MiniBar&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Eliseos/Faculty/Tercer Año/LaboratorioDefV5&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -263,15 +274,13 @@
       <workItem from="1749169599046" duration="614000" />
       <workItem from="1749214161210" duration="29000" />
       <workItem from="1749473178116" duration="316000" />
-      <workItem from="1749473546338" duration="9887000" />
-    </task>
-    <task id="LOCAL-00033" summary="Refactor imports for consistency; update component structure and styles across multiple files y agrego que se actualice al toque (Era problema del Local Storage)">
-      <option name="closed" value="true" />
-      <created>1746099769634</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1746099769634</updated>
+      <workItem from="1749473546338" duration="10960000" />
+      <workItem from="1749560138126" duration="3211000" />
+      <workItem from="1749674993790" duration="38000" />
+      <workItem from="1752924277678" duration="404000" />
+      <workItem from="1752930832399" duration="4398000" />
+      <workItem from="1753047547993" duration="332000" />
+      <workItem from="1753050790878" duration="30433000" />
     </task>
     <task id="LOCAL-00034" summary="Add authentication middleware; implement user and admin verification with JWT">
       <option name="closed" value="true" />
@@ -657,7 +666,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748627305828</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="cambiado logica de edad">
+      <option name="closed" value="true" />
+      <created>1749485443198</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1749485443199</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -690,7 +707,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Refactor ticket management components; update status and priority handling, add filters for user roles" />
     <MESSAGE value="Subo UN MONTON DE ABMS" />
     <MESSAGE value="Add coupon validation and transaction handling; integrate coupon benefits in transaction process" />
     <MESSAGE value="Refactor leaderboard components; improve data handling and add debug logging" />
@@ -715,6 +731,7 @@
     <MESSAGE value="Refactor session management; integrate user suspension check and enhance API methods" />
     <MESSAGE value="Refactor imports for consistency; adjust import order and spacing across multiple components" />
     <MESSAGE value="Refactor workspace configuration; update HTML title and favicon for consistency" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor workspace configuration; update HTML title and favicon for consistency" />
+    <MESSAGE value="cambiado logica de edad" />
+    <option name="LAST_COMMIT_MESSAGE" value="cambiado logica de edad" />
   </component>
 </project>
