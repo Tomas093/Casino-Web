@@ -182,7 +182,7 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({userId, onCl
                                         <span className="notif-dot" title="No leída"></span>
                                     )}
                                     {notificacion.destino && (
-                                        <span className="notif-external-link-icon" title="Ir al destino">🔗</span>
+                                        <span className="notif-external-link-icon" title="Ir al destino"></span>
                                     )}
                                     {notificacion.notificacion_id && (
                                         <button

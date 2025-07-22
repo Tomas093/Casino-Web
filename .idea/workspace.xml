@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Implement leave lobby functionality in BlackJackTable; enhance error handling and navigation">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add notification dropdown styles and refactor Notification component for improved usability">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/Css/NotificationStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/NotificationStyle.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/components/Notification.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Notification.tsx" afterDir="false" />
@@ -261,15 +261,7 @@
       <workItem from="1753098030450" duration="10354000" />
       <workItem from="1753133338240" duration="6150000" />
       <workItem from="1753141358253" duration="3997000" />
-      <workItem from="1753145445182" duration="2323000" />
-    </task>
-    <task id="LOCAL-00044" summary="Add priority indicators to ticket view; enhance filtering UI with visual cues for priority levels">
-      <option name="closed" value="true" />
-      <created>1746362059726</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1746362059726</updated>
+      <workItem from="1753145445182" duration="3337000" />
     </task>
     <task id="LOCAL-00045" summary="Refactor ticket view styles; update class names for improved clarity and consistency">
       <option name="closed" value="true" />
@@ -655,7 +647,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753145859138</updated>
     </task>
-    <option name="localTasksCounter" value="93" />
+    <task id="LOCAL-00093" summary="Add notification dropdown styles and refactor Notification component for improved usability">
+      <option name="closed" value="true" />
+      <created>1753147979913</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1753147979913</updated>
+    </task>
+    <option name="localTasksCounter" value="94" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -688,7 +688,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component" />
     <MESSAGE value="Refactor task entries in workspace.xml; remove closed tasks and update localTasksCounter in SupportPage.tsx for consistent priority casing" />
     <MESSAGE value="Refactor date handling in game components; adjust timestamps to account for timezone offset and update limit values in authService" />
     <MESSAGE value="Update workspace.xml and styles; rename currency symbol class for Minesweeper and adjust task entries" />
@@ -713,6 +712,7 @@
     <MESSAGE value="PIPI CUCU, ANDA TODO LA LGOICA QUE NO ES DEL BLACKJACK" />
     <MESSAGE value="PIPI CUCU, ANDA TODO LA LGOICA QUE NO ES DEL BLACKJACKs" />
     <MESSAGE value="Implement leave lobby functionality in BlackJackTable; enhance error handling and navigation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement leave lobby functionality in BlackJackTable; enhance error handling and navigation" />
+    <MESSAGE value="Add notification dropdown styles and refactor Notification component for improved usability" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add notification dropdown styles and refactor Notification component for improved usability" />
   </component>
 </project>
