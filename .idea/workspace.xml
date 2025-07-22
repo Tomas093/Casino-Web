@@ -4,88 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Add notification dropdown styles and refactor Notification component for improved usability">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="conflictos arreglados del client en teoria">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/AdminManagmentStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/AdminManagmentStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/Error404Style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/Error404Style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/FooterStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/FooterStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/FriendStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/FriendStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/GameBackgroundStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/GameBackgroundStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/HomeStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/HomeStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/LandingPageStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LandingPageStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/LeaderboardStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LeaderboardStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/LegalStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LegalStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/LoginStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/LoginStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/MinesweeperStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/MinesweeperStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/NavBarStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/NavBarStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/NewStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/NewStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/PieChartStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/PieChartStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/PrivacyPolicyStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/PrivacyPolicyStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/ProfileStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/ProfileStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/RegisterStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/RegisterStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/SideBarStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/SideBarStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/SidebarExtraStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/SidebarExtraStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/SupportStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/SupportStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/Terminos.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/Terminos.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Css/TransaccionStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Css/TransaccionStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/animations/AnimatedCounter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/animations/AnimatedCounter.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/authApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/authApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/faqApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/faqApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/friendRequestApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/friendRequestApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/leaderboardApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/leaderboardApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/notificationApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/notificationApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/playApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/playApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/api/transactionApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/api/transactionApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/AppProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/Error/Message.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Error/Message.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/GameBackground.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/GameBackground.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/HistoryItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/HistoryItems.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/ImageUpload.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/ImageUpload.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/NavBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/NavBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/Notification.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Notification.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/PieChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/PieChart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/SideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/SideBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/admin/FAQManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/admin/FAQManager.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/admin/UserManagementTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/admin/UserManagementTable.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/support/FAQAccordion.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/support/FAQAccordion.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/support/StatusIndicator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/support/StatusIndicator.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/AuthContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/FAQContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/FAQContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/GameContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/GameContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/HistoryContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/HistoryContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/PlayContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/PlayContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/SuspendidosContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/SuspendidosContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/context/TransactionContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/context/TransactionContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/auth/Login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/auth/Register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/auth/Register.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/deletes/DeleteSpecificAccount.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/deletes/DeleteSpecificAccount.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/deletes/DeleteUser.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/deletes/DeleteUser.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTableStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/roulette/RouletteGame.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/roulette/RouletteGame.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/CustomThemeCreator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/CustomThemeCreator.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/SlotMachine.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/SlotMachine.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/WinDisplay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/slots/components/WinDisplay.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/home/Home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/legal/AboutUs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/AboutUs.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/legal/Legal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/Legal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/legal/PrivacyPolicy.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/PrivacyPolicy.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/legal/Terminos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/legal/Terminos.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/FriendsPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/FriendsPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/HistoryPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/HistoryPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/ProfilePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/ProfilePage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/StatisticsPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/StatisticsPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/support/SupportPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/support/SupportPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/tickets/Ticket.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/tickets/Ticket.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/transaction/Transaccion.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/transaction/Transaccion.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/routes/AdminRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/routes/AdminRoutes.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/routes/ProtectedRoute.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/routes/ProtectedRoute.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/routes/SuperAdminRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/routes/SuperAdminRoutes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/adminRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/adminRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/adminStaticsRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/adminStaticsRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/authRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/authRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/faqRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/faqRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/historyRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/historyRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/leaderboardRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/leaderboardRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/messageRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/messageRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/suspendidosRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/suspendidosRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/uploads.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/uploads.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/userRoutes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/userRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/leaderboardService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/leaderboardService.ts" afterDir="false" />
     </list>
     <list id="f5eeda07-02d7-44e3-8290-11b843a3b9f1" name="Changes by Eliseos" comment="Changes by Eliseos" />
     <option name="SHOW_DIALOG" value="false" />
@@ -338,14 +269,6 @@
       <workItem from="1753133338240" duration="6150000" />
       <workItem from="1753141358253" duration="3997000" />
       <workItem from="1753145445182" duration="3337000" />
-    </task>
-    <task id="LOCAL-00045" summary="Refactor ticket view styles; update class names for improved clarity and consistency">
-      <option name="closed" value="true" />
-      <created>1746362888913</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1746362888913</updated>
     </task>
     <task id="LOCAL-00046" summary="Implement chat feature; add message API, context, and UI for ticket messaging">
       <option name="closed" value="true" />
@@ -731,7 +654,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753147979913</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <task id="LOCAL-00094" summary="conflictos arreglados del client en teoria">
+      <option name="closed" value="true" />
+      <created>1753206663129</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1753206663130</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -764,7 +695,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Refactor task entries in workspace.xml; remove closed tasks and update localTasksCounter in SupportPage.tsx for consistent priority casing" />
     <MESSAGE value="Refactor date handling in game components; adjust timestamps to account for timezone offset and update limit values in authService" />
     <MESSAGE value="Update workspace.xml and styles; rename currency symbol class for Minesweeper and adjust task entries" />
     <MESSAGE value="Update workspace.xml and leaderboardService.ts; adjust task entries and add user stats retrieval for leaderboard" />
@@ -789,6 +719,7 @@
     <MESSAGE value="PIPI CUCU, ANDA TODO LA LGOICA QUE NO ES DEL BLACKJACKs" />
     <MESSAGE value="Implement leave lobby functionality in BlackJackTable; enhance error handling and navigation" />
     <MESSAGE value="Add notification dropdown styles and refactor Notification component for improved usability" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add notification dropdown styles and refactor Notification component for improved usability" />
+    <MESSAGE value="conflictos arreglados del client en teoria" />
+    <option name="LAST_COMMIT_MESSAGE" value="conflictos arreglados del client en teoria" />
   </component>
 </project>

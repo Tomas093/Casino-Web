@@ -33,7 +33,7 @@ router.get('/check-admin', async (req: Request, res: Response): Promise<void> =>
     const usuario = req.session.usuario;
 
     if (!usuario) {
-        res.status(401).json({ message: 'No hay sesión de usuario' });
+        res.status(401).json({message: 'No hay sesión de usuario'});
         return;
     }
 
@@ -58,7 +58,7 @@ router.get('/check-superadmin', async (req: Request, res: Response): Promise<voi
     const usuario = req.session.usuario;
 
     if (!usuario) {
-        res.status(401).json({ message: 'No hay sesión de usuario' });
+        res.status(401).json({message: 'No hay sesión de usuario'});
         return;
     }
 

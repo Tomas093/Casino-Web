@@ -74,14 +74,14 @@ router.put('/:suspendidosId', async (req: Request, res: Response) => {
 });
 
 router.delete('/user/:userId', async (req: Request, res: Response) => {
-    const { userId } = req.params;
+    const {userId} = req.params;
 
     try {
         await suspendidosService.deletesuspendidos(parseInt(userId));
         res.status(204).send();
     } catch (error: any) {
         if (error.message === 'Suspendido not found') {
-            res.status(404).json({ error: 'Suspendido not found' });
+            res.status(404).json({error: 'Suspendido not found'});
         } else {
             console.error("Error al eliminar suspendido:", error);
             res.status(error.statusCode || 500).json({error: error.message || 'Error al eliminar el suspendido'});
@@ -109,7 +109,7 @@ router.delete('/:suspendidosId', async (req: Request, res: Response) => {
         res.status(204).send();
     } catch (error: any) {
         if (error.message === 'Suspendido not found') {
-            res.status(404).json({ error: 'Suspendido not found' });
+            res.status(404).json({error: 'Suspendido not found'});
         } else {
             console.error("Error al eliminar suspendido:", error);
             res.status(error.statusCode || 500).json({error: error.message || 'Error al eliminar el suspendido'});
@@ -118,7 +118,6 @@ router.delete('/:suspendidosId', async (req: Request, res: Response) => {
 });
 
 export default router;
-
 
 
 

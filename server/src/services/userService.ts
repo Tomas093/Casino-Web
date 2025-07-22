@@ -11,6 +11,7 @@ interface UserUpdateData {
     balance?: number;
     influencer?: boolean;
 }
+
 // Función auxiliar para validar y convertir fechas
 const validateAndConvertDate = (dateInput: Date | string | null): Date | null => {
     if (!dateInput) return null;
@@ -61,8 +62,8 @@ export const userService = {
     // Obtener un usuario por ID
     getUserById: async (userId: number) => {
         const usuario = await prisma.usuario.findUnique({
-            where: { usuarioid: userId },
-            include: { cliente: true }
+            where: {usuarioid: userId},
+            include: {cliente: true}
         });
 
         if (!usuario) {
@@ -118,17 +119,17 @@ export const userService = {
             return count;
         } catch (error) {
             console.error('Error al contar usuarios:', error);
-            throw { message: 'Error al contar usuarios', statusCode: 500 };
+            throw {message: 'Error al contar usuarios', statusCode: 500};
         }
     },
 
     // Actualizar un usuario
     updateUser: async (userId: number, userData: UserUpdateData) => {
-        const { nombre, apellido, email, edad, dni, balance, influencer } = userData;
+        const {nombre, apellido, email, edad, dni, balance, influencer} = userData;
 
         // Verificar si el usuario existe
         const usuario = await prisma.usuario.findUnique({
-            where: { usuarioid: userId }
+            where: {usuarioid: userId}
         });
 
         if (!usuario) {
@@ -143,11 +144,11 @@ export const userService = {
             const existingUser = await prisma.usuario.findFirst({
                 where: {
                     AND: [
-                        { NOT: { usuarioid: userId } },
+                        {NOT: {usuarioid: userId}},
                         {
                             OR: [
-                                { email },
-                                { dni }
+                                {email},
+                                {dni}
                             ]
                         }
                     ]
@@ -161,7 +162,7 @@ export const userService = {
 
         // Actualizar usuario
         const usuarioActualizado = await prisma.usuario.update({
-            where: { usuarioid: userId },
+            where: {usuarioid: userId},
             data: {
                 nombre,
                 apellido,
@@ -174,10 +175,10 @@ export const userService = {
         // Actualizar cliente si se proporcionan datos
         if (balance !== undefined || influencer !== undefined) {
             await prisma.cliente.update({
-                where: { usuarioid: userId },
+                where: {usuarioid: userId},
                 data: {
-                    ...(balance !== undefined && { balance: Number(balance) }),
-                    ...(influencer !== undefined && { influencer })
+                    ...(balance !== undefined && {balance: Number(balance)}),
+                    ...(influencer !== undefined && {influencer})
                 }
             });
         }
@@ -192,7 +193,7 @@ export const userService = {
     deleteUser: async (userId: number) => {
         // Verificar si el usuario existe
         const usuario = await prisma.usuario.findUnique({
-            where: { usuarioid: userId }
+            where: {usuarioid: userId}
         });
 
         if (!usuario) {
@@ -201,10 +202,21 @@ export const userService = {
 
         // Eliminar usuario (las relaciones deberían eliminarse en cascada si está bien definido en Prisma)
         await prisma.usuario.delete({
-            where: { usuarioid: userId }
+            where: {usuarioid: userId}
         });
 
         return true;
-    }
+    },
 
+    findClienteByUsuarioId: async (usuarioid: number) => {
+        const cliente = await prisma.cliente.findUnique({
+            where: {usuarioid}
+        });
+
+        if (!cliente) {
+            throw new Error(`Cliente no encontrado para el usuario ID: ${usuarioid}`);
+        }
+
+        return cliente;
+    }
 };
