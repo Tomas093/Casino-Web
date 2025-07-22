@@ -441,19 +441,28 @@ const BlackjackTable: React.FC = () => {
                         <div className="blackjack-dealer-area">
                             <div className="blackjack-dealer-label">Dealer</div>
                             <div className="blackjack-dealer-cards">
-                                {gameState.dealerHand.map((card, index) => (
-                                    <div
-                                        key={index}
-                                        className={`blackjack-card ${card.value === '?' ? 'blackjack-back' : ''}`}
-                                        style={{color: card.value !== '?' ? getCardColor(card.suit) : '#ffd700'}}
-                                    >
-                                        <img
-                                            src={getCardImage(card)}
-                                            alt={`${card.value}${card.suit}`}
-                                            style={{width: '100%', height: '100%', objectFit: 'contain'}}
-                                        />
-                                    </div>
-                                ))}
+                                {gameState.dealerHand.map((card, index) => {
+                                    // Show back image for dealer's second card during dealing/playing
+                                    const isHoleCard = index === 1 && card.value === '?'
+                                        && (gameState.gamePhase === 'dealing' || gameState.gamePhase === 'playing');
+                                    const cardImgSrc = isHoleCard
+                                        ? '/src/React/pages/games/blackJack/cards/defaultcards/back.png' // your back image path
+                                        : getCardImage(card);
+
+                                    return (
+                                        <div
+                                            key={index}
+                                            className={`blackjack-card ${isHoleCard ? 'blackjack-back' : ''}`}
+                                            style={{color: !isHoleCard ? getCardColor(card.suit) : '#ffd700'}}
+                                        >
+                                            <img
+                                                src={cardImgSrc}
+                                                alt={isHoleCard ? 'Back' : `${card.value}${card.suit}`}
+                                                style={{width: '100%', height: '100%', objectFit: 'contain'}}
+                                            />
+                                        </div>
+                                    );
+                                })}
                             </div>
                             <div className="blackjack-dealer-total">
                                 Total: {gameState.dealerTotal}{gameState.dealerHand.some(card => card.value === '?') ? '+' : ''}

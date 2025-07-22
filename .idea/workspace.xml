@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Cmabio Con Cartas De imagenes" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Arreglo resteo del valor de las chips">
+      <change afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/cards/defaultcards/back.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" afterDir="false" />
+    </list>
     <list id="f5eeda07-02d7-44e3-8290-11b843a3b9f1" name="Changes by Eliseos" comment="Changes by Eliseos" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,30 +89,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Node.js.BlackJackGame.ts.executor&quot;: &quot;Run&quot;,
-    &quot;Node.js.leaderboardApi.ts.executor&quot;: &quot;Run&quot;,
-    &quot;Node.js.leaderboardService.ts.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Tomas&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Eliseos/Faculty/Segundo Año/MiniBar&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Node.js.BlackJackGame.ts.executor": "Run",
+    "Node.js.leaderboardApi.ts.executor": "Run",
+    "Node.js.leaderboardService.ts.executor": "Run",
+    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Tomas",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/Casino-Web/client/src/React/pages/games/blackJack/cards/defaultcards",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editing.templates",
+    "ts.external.directory.path": "C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games\blackJack\cards\defaultcards" />
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server" />
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server\src" />
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\casinoweb\client\src\assets" />
@@ -257,15 +263,7 @@
       <workItem from="1753141358253" duration="3997000" />
       <workItem from="1753145445182" duration="3478000" />
       <workItem from="1753186874385" duration="11016000" />
-      <workItem from="1753217200115" duration="3868000" />
-    </task>
-    <task id="LOCAL-00054" summary="Refactor NavBar component; add admin status check and improve code formatting">
-      <option name="closed" value="true" />
-      <created>1746812374223</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1746812374223</updated>
+      <workItem from="1753217200115" duration="5504000" />
     </task>
     <task id="LOCAL-00055" summary="Refactor ticket management components; update status and priority handling, add filters for user roles">
       <option name="closed" value="true" />
@@ -651,7 +649,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753220946417</updated>
     </task>
-    <option name="localTasksCounter" value="103" />
+    <task id="LOCAL-00103" summary="Arreglo resteo del valor de las chips">
+      <option name="closed" value="true" />
+      <created>1753221447565</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1753221447565</updated>
+    </task>
+    <option name="localTasksCounter" value="104" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -684,7 +690,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Refactor session management; integrate user suspension check and enhance API methods" />
     <MESSAGE value="Refactor imports for consistency; adjust import order and spacing across multiple components" />
     <MESSAGE value="Refactor workspace configuration; update HTML title and favicon for consistency" />
     <MESSAGE value="Refactor login and registration components; enhance CSS class structure for better customization and maintainability" />
@@ -709,6 +714,7 @@
     <MESSAGE value="CON TIMER" />
     <MESSAGE value="Cambios Menor de turnos" />
     <MESSAGE value="Cmabio Con Cartas De imagenes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cmabio Con Cartas De imagenes" />
+    <MESSAGE value="Arreglo resteo del valor de las chips" />
+    <option name="LAST_COMMIT_MESSAGE" value="Arreglo resteo del valor de las chips" />
   </component>
 </project>

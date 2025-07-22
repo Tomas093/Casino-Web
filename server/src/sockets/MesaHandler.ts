@@ -510,11 +510,11 @@ const startDealingPhase = (io: Server, lobbyId: number) => {
         }
     });
 
-    // Deal second card to dealer (face down - will be represented differently to clients)
+    // Deal second card to dealer (face down)
     const dealerCard2 = deck.pop();
     if (dealerCard2) {
-        game.gameState.dealerHand.push(dealerCard2);
-        console.log(`[DEBUG] Dealt hole card to dealer`);
+        game.gameState.dealerHand.push({ suit: '', value: '?', numericValue: 0 }); // placeholder for back image
+        (game as any).hiddenDealerCard = dealerCard2; // store real card to reveal later
     }
 
     // Update game state with dealt cards
@@ -681,6 +681,15 @@ const playDealerHand = (io: Server, lobbyId: number) => {
     console.log(`[DEBUG] Starting dealer play`);
 
     // Reveal dealer's hole card
+    const hiddenCard = (game as any).hiddenDealerCard;
+    if (
+        hiddenCard &&
+        game.gameState.dealerHand.length > 1 &&
+        game.gameState.dealerHand[1].value === '?'
+    ) {
+        game.gameState.dealerHand[1] = hiddenCard;
+        delete (game as any).hiddenDealerCard;
+    }
     game.gameState.dealerTotal = calculateHandTotal(game.gameState.dealerHand);
     console.log(`[DEBUG] Dealer reveals hole card, total: ${game.gameState.dealerTotal}`);
 

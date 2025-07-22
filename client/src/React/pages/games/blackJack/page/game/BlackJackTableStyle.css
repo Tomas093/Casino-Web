@@ -147,9 +147,6 @@ body {
 .blackjack-card {
     width: 68px;
     height: 98px;
-    background: linear-gradient(145deg, #ffffff, #f0f0f0);
-    border-radius: 6px;
-    border: 1px solid #ddd;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3),
     0 0 10px rgba(255, 215, 0, 0.2);
     display: flex;
@@ -164,14 +161,9 @@ body {
 }
 
 .blackjack-card.blackjack-back {
-    background: linear-gradient(135deg, #8b0000, #a00000),
-    repeating-linear-gradient(
-            45deg,
-            #8b0000,
-            #8b0000 5px,
-            #a00000 5px,
-            #a00000 10px
-    );
+    background: url('/src/React/pages/games/blackJack/cards/defaultcards/back.png') center center no-repeat;
+    background-size: cover;
+    background-color: transparent;
     color: #ffd700;
 }
 
