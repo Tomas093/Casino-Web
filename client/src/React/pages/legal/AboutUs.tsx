@@ -1,8 +1,10 @@
 import React from 'react';
 import '@css/AboutUs.css';
-import { Users, Trophy, Shield, Clock, ChevronRight } from 'lucide-react';
+import {ChevronRight, Clock, Shield, Trophy, Users} from 'lucide-react';
+import {useNavigate} from 'react-router-dom';
 
 const AboutUs: React.FC = () => {
+    const navigate = useNavigate();
     return (
         <div className="australis-about-container">
             <div className="australis-hero-section">
@@ -43,7 +45,8 @@ const AboutUs: React.FC = () => {
                                 Con más de una década de experiencia en la industria, nos hemos consolidado como
                                 líderes en el mercado de entretenimiento digital. Desde nuestros inicios en 2013,
                                 hemos evolucionado constantemente, integrando las últimas innovaciones tecnológicas
-                                y ampliando nuestra oferta de juegos para satisfacer incluso a los jugadores más exigentes.
+                                y ampliando nuestra oferta de juegos para satisfacer incluso a los jugadores más
+                                exigentes.
                             </p>
                             <p>
                                 Nuestro compromiso con la excelencia nos ha permitido expandirnos y establecernos como
@@ -69,31 +72,35 @@ const AboutUs: React.FC = () => {
                     <div className="australis-values-grid">
                         <div className="australis-value-card">
                             <div className="australis-icon-container">
-                                <Shield className="australis-icon" size={36} />
+                                <Shield className="australis-icon" size={36}/>
                             </div>
                             <h3>Seguridad</h3>
-                            <p>Implementamos los más avanzados protocolos de encriptación y medidas de seguridad para proteger la información y transacciones de nuestros usuarios.</p>
+                            <p>Implementamos los más avanzados protocolos de encriptación y medidas de seguridad para
+                                proteger la información y transacciones de nuestros usuarios.</p>
                         </div>
                         <div className="australis-value-card">
                             <div className="australis-icon-container">
-                                <Trophy className="australis-icon" size={36} />
+                                <Trophy className="australis-icon" size={36}/>
                             </div>
                             <h3>Excelencia</h3>
-                            <p>Buscamos la perfección en cada detalle, desde la interfaz de usuario hasta nuestro servicio de atención al cliente, para ofrecer una experiencia excepcional.</p>
+                            <p>Buscamos la perfección en cada detalle, desde la interfaz de usuario hasta nuestro
+                                servicio de atención al cliente, para ofrecer una experiencia excepcional.</p>
                         </div>
                         <div className="australis-value-card">
                             <div className="australis-icon-container">
-                                <Users className="australis-icon" size={36} />
+                                <Users className="australis-icon" size={36}/>
                             </div>
                             <h3>Comunidad</h3>
-                            <p>Valoramos a cada miembro de nuestra comunidad y trabajamos constantemente para crear un ambiente acogedor, justo y entretenido para todos.</p>
+                            <p>Valoramos a cada miembro de nuestra comunidad y trabajamos constantemente para crear un
+                                ambiente acogedor, justo y entretenido para todos.</p>
                         </div>
                         <div className="australis-value-card">
                             <div className="australis-icon-container">
-                                <Clock className="australis-icon" size={36} />
+                                <Clock className="australis-icon" size={36}/>
                             </div>
                             <h3>Disponibilidad</h3>
-                            <p>Ofrecemos una plataforma operativa las 24 horas del día, con un equipo de soporte siempre disponible para asistir a nuestros usuarios en cualquier momento.</p>
+                            <p>Ofrecemos una plataforma operativa las 24 horas del día, con un equipo de soporte siempre
+                                disponible para asistir a nuestros usuarios en cualquier momento.</p>
                         </div>
                     </div>
                 </div>
@@ -114,19 +121,23 @@ const AboutUs: React.FC = () => {
                     <div className="australis-departments">
                         <div className="australis-department">
                             <h3>Desarrollo Tecnológico</h3>
-                            <p>Especialistas en tecnologías de vanguardia que garantizan una plataforma fluida y de alto rendimiento.</p>
+                            <p>Especialistas en tecnologías de vanguardia que garantizan una plataforma fluida y de alto
+                                rendimiento.</p>
                         </div>
                         <div className="australis-department">
                             <h3>Seguridad Digital</h3>
-                            <p>Expertos en ciberseguridad dedicados a mantener la integridad y confidencialidad de nuestros sistemas.</p>
+                            <p>Expertos en ciberseguridad dedicados a mantener la integridad y confidencialidad de
+                                nuestros sistemas.</p>
                         </div>
                         <div className="australis-department">
                             <h3>Atención al Cliente</h3>
-                            <p>Profesionales capacitados para brindar asistencia personalizada y resolver cualquier inquietud de forma eficiente.</p>
+                            <p>Profesionales capacitados para brindar asistencia personalizada y resolver cualquier
+                                inquietud de forma eficiente.</p>
                         </div>
                         <div className="australis-department">
                             <h3>Diseño de Experiencia</h3>
-                            <p>Creativos que trabajan para hacer cada interacción con nuestra plataforma intuitiva y agradable.</p>
+                            <p>Creativos que trabajan para hacer cada interacción con nuestra plataforma intuitiva y
+                                agradable.</p>
                         </div>
                     </div>
                 </div>
@@ -137,8 +148,11 @@ const AboutUs: React.FC = () => {
                 <div className="australis-cta-content">
                     <h2>Únete a la Experiencia Australis</h2>
                     <p>Descubre por qué miles de jugadores confían en nosotros para vivir emociones inolvidables.</p>
-                    <button className="australis-cta-button">
-                        Comenzar Ahora <ChevronRight size={20} className="australis-button-icon" />
+                    <button
+                        className="australis-cta-button"
+                        onClick={() => navigate('/login')}
+                    >
+                        Comenzar Ahora <ChevronRight size={20} className="australis-button-icon"/>
                     </button>
                 </div>
             </div>

@@ -144,19 +144,52 @@
     animation-timing-function: ease-in-out;
 }
 
-.error404-dice-1 { top: 10%; left: 10%; }
-.error404-dice-2 { top: 20%; right: 15%; }
-.error404-dice-3 { bottom: 15%; left: 15%; }
-.error404-dice-4 { bottom: 25%; right: 10%; }
-.error404-dice-5 { top: 40%; left: 5%; }
-.error404-dice-6 { top: 60%; right: 5%; }
+.error404-dice-1 {
+    top: 10%;
+    left: 10%;
+}
+
+.error404-dice-2 {
+    top: 20%;
+    right: 15%;
+}
+
+.error404-dice-3 {
+    bottom: 15%;
+    left: 15%;
+}
+
+.error404-dice-4 {
+    bottom: 25%;
+    right: 10%;
+}
+
+.error404-dice-5 {
+    top: 40%;
+    left: 5%;
+}
+
+.error404-dice-6 {
+    top: 60%;
+    right: 5%;
+}
 
 @keyframes error404-float {
-    0% { transform: translate(0, 0) rotate(0deg); }
-    25% { transform: translate(10px, 15px) rotate(90deg); }
-    50% { transform: translate(0, 30px) rotate(180deg); }
-    75% { transform: translate(-10px, 15px) rotate(270deg); }
-    100% { transform: translate(0, 0) rotate(360deg); }
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(10px, 15px) rotate(90deg);
+    }
+    50% {
+        transform: translate(0, 30px) rotate(180deg);
+    }
+    75% {
+        transform: translate(-10px, 15px) rotate(270deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(360deg);
+    }
 }
 
 .error404-casino-chip {
@@ -226,42 +259,42 @@
     bottom: 10%;
     right: 10%;
     background: conic-gradient(
-        var(--red) 0deg 10deg,
-        var(--black) 10deg 20deg,
-        var(--red) 20deg 30deg,
-        var(--black) 30deg 40deg,
-        var(--red) 40deg 50deg,
-        var(--black) 50deg 60deg,
-        var(--red) 60deg 70deg,
-        var(--black) 70deg 80deg,
-        var(--red) 80deg 90deg,
-        var(--black) 90deg 100deg,
-        var(--red) 100deg 110deg,
-        var(--black) 110deg 120deg,
-        var(--red) 120deg 130deg,
-        var(--black) 130deg 140deg,
-        var(--red) 140deg 150deg,
-        var(--black) 150deg 160deg,
-        var(--red) 160deg 170deg,
-        var(--black) 170deg 180deg,
-        var(--red) 180deg 190deg,
-        var(--black) 190deg 200deg,
-        var(--red) 200deg 210deg,
-        var(--black) 210deg 220deg,
-        var(--red) 220deg 230deg,
-        var(--black) 230deg 240deg,
-        var(--red) 240deg 250deg,
-        var(--black) 250deg 260deg,
-        var(--red) 260deg 270deg,
-        var(--black) 270deg 280deg,
-        var(--red) 280deg 290deg,
-        var(--black) 290deg 300deg,
-        var(--red) 300deg 310deg,
-        var(--black) 310deg 320deg,
-        var(--red) 320deg 330deg,
-        var(--black) 330deg 340deg,
-        var(--red) 340deg 350deg,
-        var(--black) 350deg 360deg
+            var(--red) 0deg 10deg,
+            var(--black) 10deg 20deg,
+            var(--red) 20deg 30deg,
+            var(--black) 30deg 40deg,
+            var(--red) 40deg 50deg,
+            var(--black) 50deg 60deg,
+            var(--red) 60deg 70deg,
+            var(--black) 70deg 80deg,
+            var(--red) 80deg 90deg,
+            var(--black) 90deg 100deg,
+            var(--red) 100deg 110deg,
+            var(--black) 110deg 120deg,
+            var(--red) 120deg 130deg,
+            var(--black) 130deg 140deg,
+            var(--red) 140deg 150deg,
+            var(--black) 150deg 160deg,
+            var(--red) 160deg 170deg,
+            var(--black) 170deg 180deg,
+            var(--red) 180deg 190deg,
+            var(--black) 190deg 200deg,
+            var(--red) 200deg 210deg,
+            var(--black) 210deg 220deg,
+            var(--red) 220deg 230deg,
+            var(--black) 230deg 240deg,
+            var(--red) 240deg 250deg,
+            var(--black) 250deg 260deg,
+            var(--red) 260deg 270deg,
+            var(--black) 270deg 280deg,
+            var(--red) 280deg 290deg,
+            var(--black) 290deg 300deg,
+            var(--red) 300deg 310deg,
+            var(--black) 310deg 320deg,
+            var(--red) 320deg 330deg,
+            var(--black) 330deg 340deg,
+            var(--red) 340deg 350deg,
+            var(--black) 350deg 360deg
     );
     opacity: 0.8;
     animation: error404-spin 20s linear infinite;
@@ -284,19 +317,35 @@
 }
 
 @keyframes error404-pulse {
-    0% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-    100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.2); }
+    0% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
 }
 
 @keyframes error404-spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes error404-winPulse {
-    0% { text-shadow: 0 0 10px rgba(26, 158, 92, 0.5); }
-    50% { text-shadow: 0 0 30px rgba(26, 158, 92, 1), 0 0 50px rgba(26, 158, 92, 0.8); }
-    100% { text-shadow: 0 0 10px rgba(26, 158, 92, 0.5); }
+    0% {
+        text-shadow: 0 0 10px rgba(26, 158, 92, 0.5);
+    }
+    50% {
+        text-shadow: 0 0 30px rgba(26, 158, 92, 1), 0 0 50px rgba(26, 158, 92, 0.8);
+    }
+    100% {
+        text-shadow: 0 0 10px rgba(26, 158, 92, 0.5);
+    }
 }
 
 /* Slot Machine Styles */

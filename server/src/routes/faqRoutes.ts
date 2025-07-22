@@ -1,4 +1,4 @@
-import {Router, Request, Response} from "express";
+import {Request, Response, Router} from "express";
 import {faqService} from "../services/faqService";
 
 const router = Router();
@@ -18,7 +18,7 @@ router.get('/category/:category', async (req: Request, res: Response) => {
 
 router.put('/edit/:id', async (req: Request, res: Response) => {
     const {id} = req.params;
-    const {pregunta, respuesta,categoria} = req.body;
+    const {pregunta, respuesta, categoria} = req.body;
 
     try {
         const updatedFAQ = await faqService.updateFAQ(Number(id), {
@@ -83,7 +83,6 @@ router.post('/create', async (req: Request, res: Response) => {
         res.status(error.statusCode || 500).json({error: error.message || 'Error al crear la FAQ'});
     }
 });
-
 
 
 export default router;

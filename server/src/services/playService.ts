@@ -18,7 +18,7 @@ interface UserPlayData {
     apuesta: number;
 }
 
-// Funciones auxiliares privadas
+
 const findClienteById = async (clienteid: number) => {
     const cliente = await prisma.cliente.findUnique({
         where: {clienteid}

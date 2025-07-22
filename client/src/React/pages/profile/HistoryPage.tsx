@@ -15,8 +15,8 @@ interface Transaction {
 
 const HistoryPage: React.FC = () => {
     const [filter, setFilter] = useState('all');
-    const { userHistory, loading, error, getUserHistory } = useHistory();
-    const { user } = useAuth();
+    const {userHistory, loading, error, getUserHistory} = useHistory();
+    const {user} = useAuth();
 
     useEffect(() => {
         if (user?.usuarioid) {
@@ -66,7 +66,7 @@ const HistoryPage: React.FC = () => {
     if (loading) {
         return (
             <div className="container">
-                <Sidebar />
+                <Sidebar/>
                 <main className="main-content">
                     <div className="history-loading">Cargando historial...</div>
                 </main>
@@ -77,7 +77,7 @@ const HistoryPage: React.FC = () => {
     if (error) {
         return (
             <div className="container">
-                <Sidebar />
+                <Sidebar/>
                 <main className="main-content">
                     <div className="history-error">Error: {error}</div>
                 </main>
@@ -87,7 +87,7 @@ const HistoryPage: React.FC = () => {
 
     return (
         <div className="container">
-            <Sidebar />
+            <Sidebar/>
 
             <main className="main-content">
                 <header className="content-header">
@@ -121,7 +121,7 @@ const HistoryPage: React.FC = () => {
                                 <h2 className="game-title">{item.name}</h2>
                                 <div className="history-item">
                                     <div className="thumbnail-container">
-                                        <img src={item.image} alt={item.name} className="game-thumbnail" />
+                                        <img src={item.image} alt={item.name} className="game-thumbnail"/>
                                     </div>
                                     <div className="transaction-list">
                                         {item.filteredTransactions.length > 0 ? (

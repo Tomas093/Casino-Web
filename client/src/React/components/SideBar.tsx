@@ -44,7 +44,7 @@ const Sidebar: React.FC = () => {
     const serverBaseUrl = 'http://localhost:3001';
 
     // Imagen por defecto en caso de error o si no hay imagen
-    const defaultImage = '/path/to/default-avatar.jpg';
+    const defaultImage = '/uploads/imagen-1749558601224.webp';
 
     // Actualizar la imagen cuando cambie user, client o la imagen del usuario
     useEffect(() => {

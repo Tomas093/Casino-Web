@@ -35,8 +35,8 @@ const suspendidoApi = {
         return response.data;
     },
 
-    deleteSuspendido: async (suspendidosId: number) => {
-        await axios.delete(`${API_URL}/${suspendidosId}`);
+    deleteSuspendido: async (userId: number) => {
+        await axios.delete(`${API_URL}/user/${userId}`);
     },
 
     isUserSuspended: async (userId: number) => {

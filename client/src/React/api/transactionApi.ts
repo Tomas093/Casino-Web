@@ -26,7 +26,7 @@ const transactionApi = {
 
     createEgreso: async (transactionData: TransactionData) => {
         try {
-            const response = await axios.post(`${API_URL}/retiro`, transactionData);
+            const response = await axios.post(`${API_URL}/egreso`, transactionData);
             return response.data;
         } catch (error: any) {
             if (error.response) {
@@ -53,7 +53,7 @@ const transactionApi = {
             return response.data;
         } catch (error) {
             console.error('Error al obtener ingresos totales:', error);
-            return { gananciasNetas: 0 };
+            return {gananciasNetas: 0};
         }
     },
 

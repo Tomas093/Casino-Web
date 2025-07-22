@@ -236,22 +236,22 @@ export const leaderboardService = {
 
             const friends = await prisma.amistad.findMany({
                 where: {
-                    OR: [{ usuario1_id: userId }, { usuario2_id: userId }]
+                    OR: [{usuario1_id: userId}, {usuario2_id: userId}]
                 },
                 include: {
                     usuario_amistad_usuario1_idTousuario: {
-                        select: { cliente: { include: { jugada: true, usuario: true } } }
+                        select: {cliente: {include: {jugada: true, usuario: true}}}
                     },
                     usuario_amistad_usuario2_idTousuario: {
-                        select: { cliente: { include: { jugada: true, usuario: true } } }
+                        select: {cliente: {include: {jugada: true, usuario: true}}}
                     }
                 }
             });
 
             // Get user's own client and jugadas
             const userClient = await prisma.cliente.findUnique({
-                where: { usuarioid: userId },
-                include: { jugada: true, usuario: true }
+                where: {usuarioid: userId},
+                include: {jugada: true, usuario: true}
             });
 
             const friendClients = friends.flatMap(friend => {

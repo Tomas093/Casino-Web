@@ -11,14 +11,13 @@ import NavBar from "@components/NavBar.tsx";
 import {useUser} from "@context/UserContext.tsx";
 import {useAuth} from "@context/AuthContext.tsx";
 import LeaderBoard from "@components/LeaderBoard";
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 interface GameCardProps {
     title: string;
     image: string;
     page: string;
 }
-
 
 
 const GameCard: React.FC<GameCardProps> = ({title, image, page}) => {
@@ -90,7 +89,7 @@ const HomeDef = () => {
     // Clean games array - only unique items
     const games = [
         {id: 1, title: "Ruleta VIP", image: ruletaImg, page: "/roulette"},
-        {id: 2, title: "BlackJack", image: blackjackImg, page: "/blackjack"},
+        {id: 2, title: "BlackJack", image: blackjackImg, page: "/BlackJackLobby"},
         {id: 3, title: "Slots", image: slotImg, page: "/slots"},
         {id: 4, title: "Dados", image: dadosImg, page: "/dados"},
         {id: 5, title: "Mines", image: minesImg, page: "/mines"}

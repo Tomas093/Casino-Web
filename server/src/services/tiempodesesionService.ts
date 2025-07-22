@@ -1,4 +1,5 @@
 import {PrismaClient} from '@prisma/client';
+import {suspendidosService} from './suspendiosService';
 
 const prisma = new PrismaClient();
 
@@ -31,7 +32,6 @@ const getOverlappingDurationMinutes = (
     fin: Date,
     rangeStart: Date,
     rangeEnd: Date
-
 ): number => {
     const overlapStart = new Date(Math.max(inicio.getTime(), rangeStart.getTime()));
     const overlapEnd = new Date(Math.min(fin.getTime(), rangeEnd.getTime()));
@@ -186,6 +186,13 @@ export const tiempodesesionService = {
             throw new Error('Tiempo de juego no encontrado');
         }
 
+        // Check if the user is suspended
+        const isSuspended = await suspendidosService.isUseridSuspendido(tiempodesesion.user_id);
+        if (isSuspended) {
+            return {status: 'suspended'};
+        }
+
+        // Update session end time
         return prisma.tiempodesesion.update({
             where: {tiempodesesionid},
             data: {

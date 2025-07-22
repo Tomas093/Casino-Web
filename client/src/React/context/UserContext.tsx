@@ -19,6 +19,7 @@ interface UserContextType {
     deleteUser: (userId: string) => Promise<void>;
     getAllUsers: () => Promise<any>;
     getUserCount: () => Promise<any>;
+    getClientByUserId?: (userId: string) => Promise<Client | null>;
 }
 
 // Props para UserProvider
@@ -140,6 +141,19 @@ export const UserProvider = ({children}: UserProviderProps) => {
         }
     }, []);
 
+    const getClientByUserId = useCallback(async (userId: string) => {
+        try {
+            setIsLoading(true);
+            const response = await userApi.getClientByUserId(userId);
+            return response;
+        } catch (error) {
+            console.error(`Error al obtener cliente por usuario ID ${userId}:`, error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
     const contextValue: UserContextType = {
         client,
         isLoading,
@@ -147,7 +161,8 @@ export const UserProvider = ({children}: UserProviderProps) => {
         editUser,
         deleteUser,
         getAllUsers,
-        getUserCount
+        getUserCount,
+        getClientByUserId
     };
 
     return (

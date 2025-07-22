@@ -14,6 +14,7 @@
     --transition: all 0.3s ease;
 }
 
+
 /* Container for the entire cupons manager */
 .cupones-container {
     display: flex;
@@ -108,8 +109,12 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Table styles */
@@ -277,7 +282,22 @@ td:nth-child(2) {
 
 /* Button styles */
 .save-button-admin {
-    background-color: #2e7d32 !important;
+    background-color: #8e24aa !important; /* Violet */
+    color: white !important;
+    font-weight: 400 !important;
+    text-transform: none !important;
+    box-shadow: 0 2px 8px rgba(142, 36, 170, 0.3) !important;
+    transition: all 0.2s ease !important;
+}
+
+.save-button-admin:hover {
+    background-color: #6d1b7b !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(142, 36, 170, 0.4) !important;
+}
+
+.cancel-button-admin {
+    background-color: #2e7d32 !important; /* Green */
     color: white !important;
     font-weight: 400 !important;
     text-transform: none !important;
@@ -285,25 +305,10 @@ td:nth-child(2) {
     transition: all 0.2s ease !important;
 }
 
-.save-button-admin:hover {
+.cancel-button-admin:hover {
     background-color: #1b5e20 !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(46, 125, 50, 0.4) !important;
-}
-
-.cancel-button-admin {
-    background-color: #757575 !important;
-    color: white !important;
-    font-weight: 400 !important;
-    text-transform: none !important;
-    box-shadow: 0 2px 8px rgba(117, 117, 117, 0.3) !important;
-    transition: all 0.2s ease !important;
-}
-
-.cancel-button-admin:hover {
-    background-color: #616161 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(117, 117, 117, 0.4) !important;
 }
 
 /* Delete confirmation */
@@ -435,8 +440,14 @@ td:nth-child(2) {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .message-success {

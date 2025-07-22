@@ -11,7 +11,7 @@ const router = Router();
 // Usar la ruta específica para los uploads
 const uploadsDir = path.join(__dirname, '..', 'uploads');
 if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
+    fs.mkdirSync(uploadsDir, {recursive: true});
 }
 
 const storage = multer.diskStorage({
@@ -25,13 +25,13 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage });
+const upload = multer({storage});
 
 router.post('/:userId', upload.single('imagen'), async (req: Request, res: Response): Promise<void> => {
     const userId = parseInt(req.params.userId);
 
     if (!req.file) {
-        res.status(400).json({ message: 'No se subió ninguna imagen' });
+        res.status(400).json({message: 'No se subió ninguna imagen'});
         return;
     }
 
@@ -41,8 +41,8 @@ router.post('/:userId', upload.single('imagen'), async (req: Request, res: Respo
 
 
         await prisma.usuario.update({
-            where: { usuarioid: userId },
-            data: { img: imagePath } // Guardar la ruta como string, sin convertir a Buffer
+            where: {usuarioid: userId},
+            data: {img: imagePath} // Guardar la ruta como string, sin convertir a Buffer
         });
 
         console.log(`Imagen subida para el usuario ${userId}: ${req.file.filename}`);

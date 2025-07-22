@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import React, {useState} from 'react';
+import {ChevronDown} from 'lucide-react';
 
 interface FAQItem {
     question: string;
@@ -10,7 +10,7 @@ interface FAQAccordionProps {
     items: FAQItem[];
 }
 
-const FAQAccordion: React.FC<FAQAccordionProps> = ({ items }) => {
+const FAQAccordion: React.FC<FAQAccordionProps> = ({items}) => {
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
     const toggleAccordion = (index: number) => {
@@ -26,7 +26,7 @@ const FAQAccordion: React.FC<FAQAccordionProps> = ({ items }) => {
                         onClick={() => toggleAccordion(index)}
                     >
                         {item.question}
-                        <ChevronDown className="chevron" size={20} />
+                        <ChevronDown className="chevron" size={20}/>
                     </div>
                     <div className={`faq-answer ${activeIndex === index ? 'show' : ''}`}>
                         <p>{item.answer}</p>

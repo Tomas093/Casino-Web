@@ -44,7 +44,7 @@ const FAQManager: React.FC = () => {
 
     const faqContext = useFaq();
 
-    const categories = ["Cuenta","Pagos","Juegos","Tecnico","Otros"];
+    const categories = ["Cuenta", "Pagos", "Juegos", "Tecnico", "Otros"];
 
     const faqFields = [
         {

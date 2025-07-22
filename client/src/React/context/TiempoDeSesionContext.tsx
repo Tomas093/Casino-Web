@@ -1,5 +1,6 @@
 import {createContext, ReactNode, useCallback, useContext, useEffect, useState} from 'react';
 import tiempodesesionApi, {TiempoDeSesionData} from '@api/tiempodesesionApi.ts';
+import {useAuth} from './AuthContext'; // <-- Import useAuth
 
 // Types for returned data
 interface tiempodesesionRecord {
@@ -44,14 +45,20 @@ export const TiempoDeSesionProvider = ({children}: { children: ReactNode }) => {
     const [tiempodesesionSemanal, settiempodesesionSemanal] = useState<tiempodesesionStats | null>(null);
     const [tiempodesesionMensual, settiempodesesionMensual] = useState<tiempodesesionStats | null>(null);
 
+    const {logout} = useAuth(); // <-- Move useAuth here
+
     // Memoized makeHeartbeat to avoid re-creating on each render
     const makeHeartbeat = useCallback(async (tiempodesesionId: number) => {
         try {
-            await tiempodesesionApi.makeHeartbeat(tiempodesesionId);
+            const data = await tiempodesesionApi.makeHeartbeat(tiempodesesionId);
+            if (data.status === 'suspended') {
+                await logout();
+                window.location.href = '/login';
+            }
         } catch (err: any) {
             setError(err.message || 'Error al actualizar tiempo de sesión');
         }
-    }, []);
+    }, [logout]);
 
     // Make heartbeat every 10 seconds
     useEffect(() => {

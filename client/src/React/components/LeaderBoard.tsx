@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useAuth} from '@context/AuthContext';
-import {useLeaderboard, TimeFrame} from '@context/LeaderboardContext';
+import {TimeFrame, useLeaderboard} from '@context/LeaderboardContext';
 import '@css/LeaderboardStyle.css';
 import {useUser} from "@context/UserContext.tsx";
 

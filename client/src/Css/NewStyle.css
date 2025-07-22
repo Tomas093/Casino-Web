@@ -5,12 +5,14 @@
     padding: 0;
 
 }
+
 .roulette-background {
     background-image: url('@assets/rouleta7.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 80% center;
 }
+
 .roulette-table-container {
     /* Paleta de colores sofisticada */
     --red: #b8151f;
@@ -284,23 +286,10 @@
 }
 
 
-
-
-
 /*CHIP*/
 .roulette-chips-list li p {
     display: none;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 /*ROULETTE TABLE CELLS*/
@@ -367,11 +356,9 @@
 }
 
 
-
 .zero-item:first-child {
     border-bottom: 1px solid var(--gold);
 }
-
 
 
 /* Estilos para columnas */
@@ -411,13 +398,6 @@
 }
 
 
-
-
-
-
-
-
-
 /*ROULETTE WHEEL*/
 .roulette-wheel-plate {
     width: 350px;
@@ -428,10 +408,12 @@
     width: 350px;
     height: 350px;
 }
+
 .roulette-wheel-container * {
     margin: 0;
     box-sizing: border-box;
 }
+
 .roulette-wheel-container {
     --spinningAnimationSpeed: 30s;
     --spinningSpeed: 9s;
@@ -443,11 +425,6 @@
     font-family: Helvetica, sans-serif;
     line-height: 1.15;
 }
-
-
-
-
-
 
 
 /*ROULETTE WHELL NUMBERS*/
@@ -468,7 +445,7 @@
     text-align: center;
     position: absolute;
     top: 0;
-    left: calc(50% - (32px/2));
+    left: calc(50% - (32px / 2));
     transform-origin: 50% 100%;
     background-color: transparent;
     border-left: 16px solid transparent;
@@ -527,8 +504,7 @@
 .roulette-wheel-bet-number[data-bet="29"],
 .roulette-wheel-bet-number[data-bet="31"],
 .roulette-wheel-bet-number[data-bet="33"],
-.roulette-wheel-bet-number[data-bet="35"]
-{
+.roulette-wheel-bet-number[data-bet="35"] {
     border-top-color: var(--black-base);
 }
 
@@ -730,11 +706,6 @@
         opacity: 1;
     }
 }
-
-
-
-
-
 
 
 /*BOTONES RULETA*/

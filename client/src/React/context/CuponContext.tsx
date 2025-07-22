@@ -1,14 +1,5 @@
 import {createContext, ReactNode, useCallback, useContext, useState} from 'react';
-import cuponApi from '@api/cuponApi';
-
-interface CuponData {
-    beneficio: number;
-    fechainicio: string;
-    fechafin: string;
-    cantidadusos: number;
-    mincarga: number;
-    maxcarga: number;
-}
+import cuponApi, {CuponData} from '@api/cuponApi';
 
 interface CuponContextType {
     isLoading: boolean;
@@ -17,6 +8,7 @@ interface CuponContextType {
     createCupon: (cuponData: CuponData) => Promise<any>;
     deleteCupon: (cuponId: string) => Promise<any>;
     updateCupon: (cuponId: string, cuponData: CuponData) => Promise<any>;
+    updateCouponUsage: (cuponId: string) => Promise<any>;
 }
 
 interface CuponProviderProps {
@@ -31,7 +23,7 @@ export const CuponProvider = ({children}: CuponProviderProps) => {
     const getCuponById = useCallback(async (userId: string) => {
         setIsLoading(true);
         try {
-            return await cuponApi.getCuponById(userId);
+            return await cuponApi.getCuponsById(userId);
         } catch (error) {
             console.error('Error al obtener cupón:', error);
             throw error;
@@ -58,6 +50,18 @@ export const CuponProvider = ({children}: CuponProviderProps) => {
             return await cuponApi.createCupon(cuponData);
         } catch (error) {
             console.error('Error al crear cupón:', error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    const updateCouponUsage = useCallback(async (cuponId: string) => {
+        setIsLoading(true);
+        try {
+            return await cuponApi.updateCouponUsage(cuponId);
+        } catch (error) {
+            console.error('Error al actualizar uso del cupón:', error);
             throw error;
         } finally {
             setIsLoading(false);
@@ -96,6 +100,7 @@ export const CuponProvider = ({children}: CuponProviderProps) => {
             createCupon: addCupon,
             deleteCupon: removeCupon,
             updateCupon: modifyCupon,
+            updateCouponUsage: updateCouponUsage
         }}>
             {children}
         </CuponContext.Provider>

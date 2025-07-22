@@ -1,7 +1,8 @@
-import React, { FormEvent, useState } from 'react';
+import React, {FormEvent, useState} from 'react';
+import {CredentialResponse, GoogleLogin} from "@react-oauth/google";
 
 // Tipos de campos soportados
-type FieldType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select';
+type FieldType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select' | 'date';
 
 // Configuración de cada campo
 interface FieldConfig {
@@ -25,16 +26,43 @@ interface FormProps {
     termsText?: React.ReactNode;
     onSubmit: (formData: Record<string, string>) => void;
     errorMessage?: string;
+    footerText?: React.ReactNode;
+    showGoogleButton?: boolean;
+    onGoogleSuccess?: (credentialResponse: CredentialResponse) => void;
+    onGoogleError?: () => void;
+    googleButtonText?: string;
+    // Nuevas props para clases CSS customizables
+    className?: string;
+    titleClassName?: string;
+    subtitleClassName?: string;
+    formClassName?: string;
+    inputClassName?: string;
+    buttonClassName?: string;
+    termsClassName?: string;
+    containerClassName?: string;
+    pageClassName?: string;
 }
 
 const Form: React.FC<FormProps> = ({
-    title = "Australis",
-    subtitle = "Crea tu cuenta",
-    fields,
-    submitButtonText = "Crear Cuenta",
-    termsText,
-    onSubmit
-}) => {
+                                       title = "Australis",
+                                       subtitle = "Crea tu cuenta",
+                                       fields,
+                                       submitButtonText = "Crear Cuenta",
+                                       termsText,
+                                       onSubmit,
+                                       footerText,
+                                       showGoogleButton = false,
+                                       onGoogleSuccess,
+                                       onGoogleError,
+                                       className = "container",
+                                       titleClassName = "login-title",
+                                       subtitleClassName = "login-subtitle",
+                                       formClassName = "login-form",
+                                       inputClassName = "form-control",
+                                       buttonClassName = "submit-button",
+                                       termsClassName = "terms",
+                                       containerClassName = "container",
+                                   }) => {
     // Estado del formulario dinámico
     const [formData, setFormData] = useState<Record<string, string>>(() => {
         const initialState: Record<string, string> = {};
@@ -45,7 +73,7 @@ const Form: React.FC<FormProps> = ({
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setFormData(prevState => ({
             ...prevState,
             [name]: value
@@ -57,17 +85,53 @@ const Form: React.FC<FormProps> = ({
         onSubmit(formData);
     };
 
+    // Handlers for Google OAuth with fallbacks
+    const handleGoogleSuccess = (response: CredentialResponse) => {
+        if (onGoogleSuccess) {
+            onGoogleSuccess(response);
+        }
+    };
+
+    const handleGoogleError = () => {
+        if (onGoogleError) {
+            onGoogleError();
+        } else {
+            console.error("Google login failed");
+        }
+    };
+
     return (
-        <div className="register-container">
-            {title && <h1>{title}</h1>}
-            {subtitle && <h2>{subtitle}</h2>}
-            <form id="register-form" onSubmit={handleSubmit}>
+        <div className={className || containerClassName}>
+            {title && <h1 className={titleClassName}>{title}</h1>}
+            {subtitle && <h2 className={subtitleClassName}>{subtitle}</h2>}
+
+            {/* Botón de Google */}
+            {showGoogleButton && (
+                <>
+                    <div className="google-button-container">
+                        <GoogleLogin
+                            onSuccess={handleGoogleSuccess}
+                            onError={handleGoogleError}
+                            text="continue_with"
+                            shape="circle"
+                            logo_alignment="center"
+                            width={1000}
+                        />
+                    </div>
+                    <div className="divider">
+                        <span>O ingresa con email</span>
+                    </div>
+                </>
+            )}
+
+            {/* Formulario tradicional */}
+            <form className={formClassName} onSubmit={handleSubmit}>
                 {fields.map((field, index) => (
-                    <label key={index}>
+                    <div key={index} className="form-group">
                         {field.type === 'textarea' ? (
                             <textarea
                                 name={field.name}
-                                className="input-field"
+                                className={inputClassName}
                                 placeholder={field.placeholder}
                                 required={field.required}
                                 minLength={field.minLength}
@@ -78,7 +142,7 @@ const Form: React.FC<FormProps> = ({
                         ) : field.type === 'select' ? (
                             <select
                                 name={field.name}
-                                className="input-field"
+                                className={inputClassName}
                                 required={field.required}
                                 value={formData[field.name]}
                                 onChange={handleChange}
@@ -92,7 +156,7 @@ const Form: React.FC<FormProps> = ({
                             <input
                                 type={field.type}
                                 name={field.name}
-                                className="input-field"
+                                className={inputClassName}
                                 placeholder={field.placeholder}
                                 required={field.required}
                                 minLength={field.minLength}
@@ -103,14 +167,21 @@ const Form: React.FC<FormProps> = ({
                                 onChange={handleChange}
                             />
                         )}
-                    </label>
+                    </div>
                 ))}
-                <button type="submit" className="form-button">{submitButtonText}</button>
+
+                <button type="submit" className={buttonClassName}>
+                    {submitButtonText}
+                </button>
             </form>
-            {termsText && <p className="terms">{termsText}</p>}
+
+            {/* Términos y condiciones */}
+            {termsText && <div className={termsClassName}>{termsText}</div>}
+
+            {/* Footer */}
+            {footerText && <div className="form-footer">{footerText}</div>}
         </div>
     );
 };
 
 export default Form;
-

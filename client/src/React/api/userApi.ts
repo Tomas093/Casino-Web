@@ -6,7 +6,7 @@ export interface EditUserData {
     nombre: string;
     apellido: string;
     email: string;
-    edad: number;
+    edad: Date | string; // Puede ser una fecha ISO o un objeto Date
     dni: string;
     balance: number;
     influencer: boolean;
@@ -81,6 +81,21 @@ const userApi = {
             return response.data;
         } catch (error) {
             console.error('Error al obtener usuarios:', error);
+            throw error;
+        }
+    },
+
+    getClientByUserId: async (userId: string) => {
+        try {
+            const response = await axios.get(`${API_URL}/client/${userId}`);
+            return response.data;
+        } catch (error: any) {
+            console.error(`Error al obtener cliente por usuario ID ${userId}:`, error.response?.status || error.message);
+
+            if (error.response && error.response.status === 404) {
+                throw new Error(`Cliente con usuario ID ${userId} no encontrado`);
+            }
+
             throw error;
         }
     }

@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
-import {Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TextField} from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import LockIcon from "@mui/icons-material/Lock";
-import {useSuspendidos} from '@context/SupendidosContext.tsx';
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import {useSuspendidos} from '@context/SuspendidosContext.tsx';
 import Message from '../Error/Message';
 
 interface User {
@@ -13,7 +14,7 @@ interface User {
     nombre: string;
     apellido: string;
     email: string;
-    edad: string;
+    edad: Date | string | null; // Allow for null/string values
     dni: string;
     img?: string;
     cliente: {
@@ -26,7 +27,7 @@ interface EditUserForm {
     nombre: string;
     apellido: string;
     email: string;
-    edad: string;
+    edad: Date | null;
     dni: string;
     balance: string;
     influencer: boolean;
@@ -45,6 +46,89 @@ interface UserManagementTableProps {
     defaultImage: string;
 }
 
+// Función mejorada para calcular la edad
+const calculateAge = (birthDate: Date | string | null): number | null => {
+    if (!birthDate) return null;
+
+    try {
+        const birth = new Date(birthDate);
+
+        // Verificar que la fecha sea válida
+        if (isNaN(birth.getTime())) {
+            console.warn('Fecha de nacimiento inválida:', birthDate);
+            return null;
+        }
+
+        const today = new Date();
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+
+        // Ajustar si aún no ha cumplido años este año
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+
+        // Verificar que la edad sea razonable (entre 0 y 150 años)
+        if (age < 0 || age > 150) {
+            console.warn('Edad calculada fuera de rango:', age, 'para fecha:', birthDate);
+            return null;
+        }
+
+        return age;
+    } catch (error) {
+        console.error('Error calculando edad:', error, 'para fecha:', birthDate);
+        return null;
+    }
+};
+
+// Función mejorada para mostrar la edad en la tabla
+const renderAge = (user: User, isEditing: boolean, editForm: EditUserForm, setEditForm: Function) => {
+    if (isEditing) {
+        // Calcular la fecha máxima permitida (18 años atrás desde hoy)
+        const maxDate = new Date();
+        maxDate.setFullYear(maxDate.getFullYear() - 18);
+        const maxDateString = maxDate.toISOString().split('T')[0];
+
+        return (
+            <input
+                value={formatDateForInput(editForm.edad)}
+                onChange={(e) => {
+                    const dateValue = e.target.value ? new Date(e.target.value) : null;
+                    setEditForm({
+                        ...editForm,
+                        edad: dateValue
+                    });
+                }}
+                className="edit-input"
+                type="date"
+                max={maxDateString} // Máximo 18 años atrás
+                title="El usuario debe ser mayor de 18 años"
+            />
+        );
+    }
+
+    const age = calculateAge(user.edad);
+
+    if (age === null) {
+        return <span className="no-data">Sin fecha</span>;
+    }
+
+    return <span>{age} años</span>;
+};
+
+// Helper function to safely convert date for editing
+const formatDateForInput = (date: Date | null): string => {
+    if (!date) return '';
+
+    try {
+        if (isNaN(date.getTime())) return '';
+        return date.toISOString().slice(0, 10);
+    } catch (error) {
+        console.warn('Error formatting date for input:', error);
+        return '';
+    }
+};
+
 const UserManagementTable: React.FC<UserManagementTableProps> = ({
                                                                      realUsers,
                                                                      editingUserId,
@@ -57,7 +141,22 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({
                                                                      serverBaseUrl,
                                                                      defaultImage
                                                                  }) => {
-    const {create: suspendUser, loading: suspending} = useSuspendidos();
+    const {create: suspendUser, remove: removeSuspension, isUserSuspended, loading: suspending} = useSuspendidos();
+
+    // Suspension status state
+    const [suspendedUsers, setSuspendedUsers] = useState<{ [key: number]: boolean }>({});
+
+    useEffect(() => {
+        const checkSuspensions = async () => {
+            const statuses: { [key: number]: boolean } = {};
+            for (const user of realUsers) {
+                statuses[user.usuarioid] = await isUserSuspended(user.usuarioid);
+            }
+            setSuspendedUsers(statuses);
+        };
+        checkSuspensions();
+        // eslint-disable-next-line
+    }, [realUsers]);
 
     // Dialog state
     const [openDialog, setOpenDialog] = useState(false);
@@ -96,9 +195,24 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({
             setMessage('Usuario suspendido correctamente.');
             setMessageType('success');
             setShowMessage(true);
+            setSuspendedUsers(prev => ({...prev, [suspendUserTarget.usuarioid]: true}));
             handleCloseDialog();
         } catch (error) {
             setMessage('Ocurrió un error al suspender el usuario.');
+            setMessageType('error');
+            setShowMessage(true);
+        }
+    };
+
+    const handleRemoveSuspension = async (userId: number) => {
+        try {
+            await removeSuspension(userId);
+            setMessage('Suspensión eliminada correctamente.');
+            setMessageType('success');
+            setShowMessage(true);
+            setSuspendedUsers(prev => ({...prev, [userId]: false}));
+        } catch (error) {
+            setMessage('Ocurrió un error al quitar la suspensión.');
             setMessageType('error');
             setShowMessage(true);
         }
@@ -169,17 +283,11 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({
                                 )}
                             </td>
                             <td>
-                                {editingUserId === user.usuarioid ? (
-                                    <input
-                                        value={editUserForm.edad}
-                                        onChange={(e) => setEditUserForm({
-                                            ...editUserForm,
-                                            edad: e.target.value
-                                        })}
-                                        className="edit-input"
-                                    />
-                                ) : (
-                                    user.edad
+                                {renderAge(
+                                    user,
+                                    editingUserId === user.usuarioid,
+                                    editUserForm,
+                                    setEditUserForm
                                 )}
                             </td>
                             <td>
@@ -226,8 +334,8 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({
                                 ) : (
                                     <span
                                         className={`status-badge ${user.cliente?.influencer ? 'active' : 'inactive'}`}>
-                                                        {user.cliente?.influencer ? 'Sí' : 'No'}
-                                                    </span>
+                                        {user.cliente?.influencer ? 'Sí' : 'No'}
+                                    </span>
                                 )}
                             </td>
                             <td>
@@ -274,13 +382,19 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({
                                                 <DeleteIcon fontSize="inherit" className="icon-large"/>
                                             </IconButton>
                                             <IconButton
-                                                aria-label="Suspender"
-                                                color="warning"
-                                                onClick={() => handleOpenSuspendDialog(user)}
+                                                aria-label={suspendedUsers[user.usuarioid] ? "Quitar suspensión" : "Suspender"}
+                                                color={suspendedUsers[user.usuarioid] ? "success" : "warning"}
+                                                onClick={async () => {
+                                                    if (suspendedUsers[user.usuarioid]) {
+                                                        await handleRemoveSuspension(user.usuarioid);
+                                                    } else {
+                                                        handleOpenSuspendDialog(user);
+                                                    }
+                                                }}
                                                 disabled={suspending}
                                                 style={{marginLeft: 4}}
                                             >
-                                                <LockIcon/>
+                                                {suspendedUsers[user.usuarioid] ? <LockIcon/> : <LockOpenIcon/>}
                                             </IconButton>
                                         </>
                                     )}
@@ -312,11 +426,12 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({
                         fontSize: 22,
                     }}
                 >
-                    Suspend User
+                    Suspender
+                    Usuario: {suspendUserTarget ? `${suspendUserTarget.nombre} ${suspendUserTarget.apellido}` : ''}
                 </DialogTitle>
                 <DialogContent sx={{backgroundColor: '#121212'}}>
                     <TextField
-                        label="Reason"
+                        label="Razon"
                         value={suspendReason}
                         onChange={e => setSuspendReason(e.target.value)}
                         fullWidth
@@ -330,7 +445,7 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({
                         }}
                     />
                     <TextField
-                        label="End Date (optional)"
+                        label="Fecha de Fin (opcional)"
                         type="datetime-local"
                         value={suspendEndDate}
                         onChange={e => setSuspendEndDate(e.target.value)}

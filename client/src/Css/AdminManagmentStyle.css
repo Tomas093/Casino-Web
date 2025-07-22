@@ -246,7 +246,7 @@ input:focus, select:focus {
     background-color: var(--green-dark);
 }
 
-.admin-profile-img{
+.admin-profile-img {
     width: 50px; /* Cambiado de 40px a 32px */
     height: 50px; /* Cambiado de 40px a 32px */
     border-radius: 50%;
@@ -735,7 +735,6 @@ input:focus, select:focus {
 }
 
 
-
 .view-button {
     background-color: rgba(26, 158, 92, 0.1);
     color: var(--green);
@@ -947,7 +946,7 @@ input:focus, select:focus {
     }
 }
 
-@media (max-width:.980px) {
+@media (max-width: .980px) {
     .sidebar {
         width: 80px;
     }

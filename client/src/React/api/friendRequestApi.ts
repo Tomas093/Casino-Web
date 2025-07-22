@@ -21,7 +21,7 @@ const friendRequestApi = {
 
     deleteFriend: async (id_remitente: number, id_receptor: number) => {
         try {
-            const response = await axios.post(`${API_URL}/delete`, { id_remitente, id_receptor });
+            const response = await axios.post(`${API_URL}/delete`, {id_remitente, id_receptor});
             return response.data;
         } catch (error: any) {
             if (error.response) {
@@ -47,7 +47,7 @@ const friendRequestApi = {
 
     sendFriendRequest: async (id_remitente: number, id_receptor: number) => {
         try {
-            const response = await axios.post(`${API_URL}/send`, { id_remitente, id_receptor });
+            const response = await axios.post(`${API_URL}/send`, {id_remitente, id_receptor});
             return response.data;
         } catch (error: any) {
             if (error.response) {
@@ -60,7 +60,7 @@ const friendRequestApi = {
 
     acceptFriendRequest: async (id_remitente: number, id_receptor: number) => {
         try {
-            const response = await axios.post(`${API_URL}/accept`, { id_remitente, id_receptor });
+            const response = await axios.post(`${API_URL}/accept`, {id_remitente, id_receptor});
             return response.data;
         } catch (error: any) {
             if (error.response) {
@@ -73,7 +73,7 @@ const friendRequestApi = {
 
     rejectFriendRequest: async (id_remitente: number, id_receptor: number) => {
         try {
-            const response = await axios.post(`${API_URL}/reject`, { id_remitente, id_receptor });
+            const response = await axios.post(`${API_URL}/reject`, {id_remitente, id_receptor});
             return response.data;
         } catch (error: any) {
             if (error.response) {
@@ -86,7 +86,7 @@ const friendRequestApi = {
 
     cancelFriendRequest: async (id_remitente: number, id_receptor: number) => {
         try {
-            const response = await axios.post(`${API_URL}/cancel`, { id_remitente, id_receptor });
+            const response = await axios.post(`${API_URL}/cancel`, {id_remitente, id_receptor});
             return response.data;
         } catch (error: any) {
             if (error.response) {

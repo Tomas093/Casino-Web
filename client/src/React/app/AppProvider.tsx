@@ -15,7 +15,10 @@ import {FAQProvider} from "@context/FAQContext.tsx";
 import {AdminStaticsProvider} from "@context/AdminStaticsContext.tsx";
 import {CuponProvider} from '@context/CuponContext';
 import {TiempoDeSesionProvider} from '@context/TiempoDeSesionContext.tsx';
-import {SuspendidosProvider} from '@context/SupendidosContext.tsx';
+import {SuspendidosProvider} from '@context/SuspendidosContext.tsx';
+import {NotificationProvider} from "@context/NotificationContext.tsx";
+import {SocketProvider} from "@/sockets/SocketContext.tsx";
+import {LobbyProvider} from "@context/LobbyContext.tsx";
 
 interface AppProviderProps {
     children: ReactNode;
@@ -23,40 +26,46 @@ interface AppProviderProps {
 
 export const AppProvider = ({children}: AppProviderProps) => {
     return (
-        <AuthProvider>
-            <UserProvider>
-                <AdminProvider>
-                    <TransactionProvider>
-                        <PlayProvider>
-                            <HistoryProvider>
-                                <GameProvider>
-                                    <LeaderboardProvider>
-                                        <LimitProvider>
-                                            <FriendRequestProvider>
-                                                <TicketProvider>
-                                                    <MessageProvider>
-                                                        <FAQProvider>
-                                                            <AdminStaticsProvider>
-                                                                <CuponProvider>
-                                                                    <TiempoDeSesionProvider>
-                                                                        <SuspendidosProvider>
-                                                                            {children}
-                                                                        </SuspendidosProvider>
-                                                                    </TiempoDeSesionProvider>
-                                                                </CuponProvider>
-                                                            </AdminStaticsProvider>
-                                                        </FAQProvider>
-                                                    </MessageProvider>
-                                                </TicketProvider>
-                                            </FriendRequestProvider>
-                                        </LimitProvider>
-                                    </LeaderboardProvider>
-                                </GameProvider>
-                            </HistoryProvider>
-                        </PlayProvider>
-                    </TransactionProvider>
-                </AdminProvider>
-            </UserProvider>
-        </AuthProvider>
+        <SocketProvider>
+            <SuspendidosProvider>
+                <AuthProvider>
+                    <UserProvider>
+                        <AdminProvider>
+                            <TransactionProvider>
+                                <PlayProvider>
+                                    <HistoryProvider>
+                                        <GameProvider>
+                                            <LeaderboardProvider>
+                                                <LimitProvider>
+                                                    <FriendRequestProvider>
+                                                        <TicketProvider>
+                                                            <MessageProvider>
+                                                                <FAQProvider>
+                                                                    <AdminStaticsProvider>
+                                                                        <CuponProvider>
+                                                                            <TiempoDeSesionProvider>
+                                                                                <NotificationProvider>
+                                                                                    <LobbyProvider>
+                                                                                        {children}
+                                                                                    </LobbyProvider>
+                                                                                </NotificationProvider>
+                                                                            </TiempoDeSesionProvider>
+                                                                        </CuponProvider>
+                                                                    </AdminStaticsProvider>
+                                                                </FAQProvider>
+                                                            </MessageProvider>
+                                                        </TicketProvider>
+                                                    </FriendRequestProvider>
+                                                </LimitProvider>
+                                            </LeaderboardProvider>
+                                        </GameProvider>
+                                    </HistoryProvider>
+                                </PlayProvider>
+                            </TransactionProvider>
+                        </AdminProvider>
+                    </UserProvider>
+                </AuthProvider>
+            </SuspendidosProvider>
+        </SocketProvider>
     );
 };

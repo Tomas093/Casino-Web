@@ -7,7 +7,7 @@ interface User {
     nombre: string;
     apellido: string;
     email: string;
-    edad: string;
+    edad: Date;
     dni: string;
     img?: string;
 }
@@ -16,7 +16,8 @@ interface User {
 interface AuthContextType {
     user: User | null;
     isLoading: boolean;
-    login: (email: string, password: string) => Promise<any>;
+    login: (email: string, password: string | null) => Promise<any>;
+    loginWithGoogle: (email: string) => Promise<any>;
     logout: () => Promise<void>;
     register: (userData: RegisterData) => Promise<any>;
     updateProfileImage: (imageUrl: string) => void;
@@ -33,23 +34,22 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 // Provider del contexto
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+export const AuthProvider = ({children}: AuthProviderProps) => {
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     // Actualizar imagen de perfil (en local)
     const updateProfileImage = (imageUrl: string) => {
         if (user) {
-            const updatedUser = { ...user, img: imageUrl };
+            const updatedUser = {...user, img: imageUrl};
             setUser(updatedUser);
             localStorage.setItem('user', JSON.stringify(updatedUser));
         }
     };
 
-
     const updateUserData = (userData: Partial<User>) => {
         if (user) {
-            const updatedUser = { ...user, ...userData };
+            const updatedUser = {...user, ...userData};
             setUser(updatedUser);
             localStorage.setItem('user', JSON.stringify(updatedUser));
         }
@@ -77,23 +77,46 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         checkSession();
     }, []);
 
-    // Iniciar sesión
-    const login = async (email: string, password: string) => {
+    const login = async (email: string, password: string | null) => {
         try {
             setIsLoading(true);
-            const response = await authApi.login({ email, password });
 
-            if (response && response.usuario) {
-                setUser(response.usuario);
-                localStorage.setItem('user', JSON.stringify(response.usuario));
-                return true;
+            if (password === null) {
+                // Login con Google - USAR EL ENDPOINT ESPECÍFICO
+                const response = await authApi.googleLogin(email);
+
+                if (response && response.usuario) {
+                    setUser(response.usuario);
+                    localStorage.setItem('user', JSON.stringify(response.usuario));
+                    return true;
+                }
+                return false;
+            } else {
+                // Login normal con contraseña
+                const response = await authApi.login({email, password});
+
+                if (response && response.usuario) {
+                    setUser(response.usuario);
+                    localStorage.setItem('user', JSON.stringify(response.usuario));
+                    return true;
+                }
+                return false;
             }
-            return false;
         } catch (error) {
             console.error('Error al iniciar sesión:', error);
             throw error;
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    // Iniciar sesión con Google - Updated to use the login function
+    const loginWithGoogle = async (email: string) => {
+        try {
+            return await login(email, null);
+        } catch (error) {
+            console.error('Error al iniciar sesión con Google:', error);
+            throw error;
         }
     };
 
@@ -103,8 +126,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             await authApi.logout();
             setUser(null);
             localStorage.removeItem('user');
+            localStorage.removeItem('timepodesesionid');
         } catch (error) {
             console.error('Error al cerrar sesión:', error);
+            localStorage.removeItem('timepodesesionid');
             setUser(null);
             localStorage.removeItem('user');
         }
@@ -136,6 +161,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         user,
         isLoading,
         login,
+        loginWithGoogle,
         logout,
         register,
         updateProfileImage,

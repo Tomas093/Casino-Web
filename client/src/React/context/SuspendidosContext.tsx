@@ -1,5 +1,5 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import suspendidoApi, { SuspendidosData } from '../api/suspendidoApi';
+import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
+import suspendidoApi, {SuspendidosData} from '../api/suspendidoApi';
 
 interface SuspendidosContextType {
     suspendidos: SuspendidosData[];
@@ -21,7 +21,7 @@ export const useSuspendidos = () => {
     return context;
 };
 
-export const SuspendidosProvider = ({ children }: { children: ReactNode }) => {
+export const SuspendidosProvider = ({children}: { children: ReactNode }) => {
     const [suspendidos, setSuspendidos] = useState<SuspendidosData[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -105,7 +105,17 @@ export const SuspendidosProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     return (
-        <SuspendidosContext.Provider value={{ suspendidos,getSuspendidosByUserId ,loading, error, fetchAll, create, update, remove, isUserSuspended }}>
+        <SuspendidosContext.Provider value={{
+            suspendidos,
+            getSuspendidosByUserId,
+            loading,
+            error,
+            fetchAll,
+            create,
+            update,
+            remove,
+            isUserSuspended
+        }}>
             {children}
         </SuspendidosContext.Provider>
     );

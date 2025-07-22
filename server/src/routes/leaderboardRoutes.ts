@@ -81,11 +81,15 @@ function flattenUserData(data: any[]): any[] {
 
 // Helper to parse time frame parameter
 const getTimeframe = (timeframe: string): 'day' | 'month' | 'year' | 'all' => {
-    switch(timeframe) {
-        case 'day': return 'day';
-        case 'month': return 'month';
-        case 'year': return 'year';
-        default: return 'all';
+    switch (timeframe) {
+        case 'day':
+            return 'day';
+        case 'month':
+            return 'month';
+        case 'year':
+            return 'year';
+        default:
+            return 'all';
     }
 };
 
@@ -97,7 +101,7 @@ const convertTimeframe = (timeframe: 'day' | 'month' | 'year' | 'all'): 'day' | 
 // Get top winners by game type
 router.get('/game-winners/:gameType', async (req: Request, res: Response) => {
     try {
-        const { gameType } = req.params;
+        const {gameType} = req.params;
         const timeframe = getTimeframe(req.query.timeframe as string);
         const limit = parseInt(req.query.limit as string) || 10;
 
@@ -118,7 +122,7 @@ router.get('/game-winners/:gameType', async (req: Request, res: Response) => {
         res.status(200).json(serializeBigInt(gameWinners));
     } catch (error) {
         console.error('Error getting top winners by game type:', error);
-        res.status(500).json({ message: 'Error getting top winners by game type' });
+        res.status(500).json({message: 'Error getting top winners by game type'});
     }
 });
 
@@ -139,7 +143,7 @@ router.get('/highest-bets', async (req: Request, res: Response) => {
         res.status(200).json(serializeBigInt(flattenedData));
     } catch (error) {
         console.error('Error getting highest bets:', error);
-        res.status(500).json({ message: 'Error getting highest bets' });
+        res.status(500).json({message: 'Error getting highest bets'});
     }
 });
 
@@ -160,7 +164,7 @@ router.get('/highest-returns', async (req: Request, res: Response) => {
         res.status(200).json(serializeBigInt(flattenedData));
     } catch (error) {
         console.error('Error getting highest returns:', error);
-        res.status(500).json({ message: 'Error getting highest returns' });
+        res.status(500).json({message: 'Error getting highest returns'});
     }
 });
 
@@ -181,7 +185,7 @@ router.get('/accumulated-winnings', async (req: Request, res: Response) => {
         res.status(200).json(serializeBigInt(flattenedData));
     } catch (error) {
         console.error('Error getting accumulated winnings:', error);
-        res.status(500).json({ message: 'Error getting accumulated winnings' });
+        res.status(500).json({message: 'Error getting accumulated winnings'});
     }
 });
 
@@ -202,7 +206,7 @@ router.get('/win-percentage', async (req: Request, res: Response) => {
         res.status(200).json(serializeBigInt(flattenedData));
     } catch (error) {
         console.error('Error getting win percentage:', error);
-        res.status(500).json({ message: 'Error getting win percentage' });
+        res.status(500).json({message: 'Error getting win percentage'});
     }
 });
 
@@ -223,14 +227,14 @@ router.get('/most-played', async (req: Request, res: Response) => {
         res.status(200).json(serializeBigInt(flattenedData));
     } catch (error) {
         console.error('Error getting most played:', error);
-        res.status(500).json({ message: 'Error getting most played' });
+        res.status(500).json({message: 'Error getting most played'});
     }
 });
 
 // Get friends leaderboard
 router.get('/friends/:userId', async (req: Request, res: Response) => {
     try {
-        const { userId } = req.params;
+        const {userId} = req.params;
         const timeframe = getTimeframe(req.query.timeframe as string);
         const limit = parseInt(req.query.limit as string) || 10;
 
@@ -243,7 +247,7 @@ router.get('/friends/:userId', async (req: Request, res: Response) => {
         res.status(200).json(serializeBigInt(friendsLeaderboard));
     } catch (error) {
         console.error('Error fetching friends leaderboard:', error);
-        res.status(500).json({ message: 'Error fetching friends leaderboard' });
+        res.status(500).json({message: 'Error fetching friends leaderboard'});
     }
 });
 
@@ -281,7 +285,7 @@ router.get('/all', async (req: Request, res: Response) => {
                     })
                 ]);
 
-                return { highestBets, mostPlayed, highestReturns, accumulatedWinnings, winPercentages };
+                return {highestBets, mostPlayed, highestReturns, accumulatedWinnings, winPercentages};
             } catch (error) {
                 console.error('Error fetching leaderboard data:', error);
                 return {
@@ -308,7 +312,7 @@ router.get('/all', async (req: Request, res: Response) => {
         res.status(200).json(serializeBigInt(allLeaderboards));
     } catch (error) {
         console.error('Error getting all leaderboards:', error);
-        res.status(500).json({ message: 'Error getting all leaderboards' });
+        res.status(500).json({message: 'Error getting all leaderboards'});
     }
 });
 

@@ -5,9 +5,9 @@ import {useAuth} from '@context/AuthContext.tsx';
 import {useUser} from '@context/UserContext.tsx'
 
 const DeleteSpecificAccount: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
+    const {id} = useParams<{ id: string }>();
     const navigate = useNavigate();
-    const {isLoading } = useAuth();
+    const {isLoading} = useAuth();
     const {deleteUser} = useUser()
 
     useEffect(() => {

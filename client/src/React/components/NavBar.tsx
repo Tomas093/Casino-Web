@@ -4,6 +4,8 @@ import {useAuth} from '@context/AuthContext';
 import '@css/NavBarStyle.css';
 import {useUser} from "@context/UserContext.tsx";
 import {useAdmin} from "@context/AdminContext.tsx";
+import NotificationDropdown from '@components/Notification.tsx';
+import notificationApi from "@api/notificationApi.ts";
 
 interface NavLink {
     label: string;
@@ -26,6 +28,54 @@ interface NavBarProps {
     homeSectionId?: string; // ID de la sección de juegos en Home para scroll
     targetSection?: string; // Nueva prop para especificar la sección destino
 }
+
+interface NotificationProps {
+    count?: number;
+    refreshCount?: () => void;
+}
+
+const NotificationBell: React.FC<NotificationProps> = ({count = 0, refreshCount}) => {
+    const [notificationsOpen, setNotificationsOpen] = useState(false);
+    const notificationRef = useRef<HTMLDivElement>(null);
+
+
+    // Close notifications when clicking outside and refresh count
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+                setNotificationsOpen(false);
+                // Refresh count when closing as notifications may have been read
+                if (refreshCount) {
+                    refreshCount();
+                }
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [refreshCount]);
+
+    const toggleNotifications = () => {
+        setNotificationsOpen(prev => !prev);
+    };
+
+    return (
+        <div className="navbar-notification-container" ref={notificationRef}>
+            <div className="navbar-notification-bell" onClick={toggleNotifications}>
+                <span className="bell-icon">🔔</span>
+                {count > 0 && <span className="notification-count">{count}</span>}
+            </div>
+
+            {notificationsOpen && (
+                <div className="navbar-notification-dropdown">
+                    <NotificationDropdown/>
+                </div>
+            )}
+        </div>
+    );
+};
 
 const NavBar: React.FC<NavBarProps> = ({
                                            navLinks = [
@@ -55,6 +105,7 @@ const NavBar: React.FC<NavBarProps> = ({
     const [superAdminStatus, setSuperAdminStatus] = useState(false);
     const [adminStatus, setAdminStatus] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const [notificationCount, setNotificationCount] = useState(0);
 
     // Force component to re-render when client changes
     const [clientBalance, setClientBalance] = useState(0);
@@ -69,6 +120,41 @@ const NavBar: React.FC<NavBarProps> = ({
         setMobileMenuOpen(false);
         setDropdownOpen(false);
     }, [location]);
+
+    // Fetch notification count with polling
+    useEffect(() => {
+        const fetchNotificationCount = async () => {
+            if (user) {
+                try {
+                    const count = await notificationApi.countUnreadNotificationsByUserId(user.usuarioid);
+                    setNotificationCount(count);
+                } catch (error) {
+                    console.error("Error fetching notification count:", error);
+                }
+            }
+        };
+
+        // Initial fetch
+        fetchNotificationCount();
+
+        // Set up polling interval (check every 30 seconds)
+        const intervalId = setInterval(fetchNotificationCount, 30000);
+
+        // Clean up interval on component unmount
+        return () => clearInterval(intervalId);
+    }, [user]);
+
+    // Function to refresh notification count
+    const refreshNotificationCount = async () => {
+        if (user) {
+            try {
+                const count = await notificationApi.countUnreadNotificationsByUserId(user.usuarioid);
+                setNotificationCount(count);
+            } catch (error) {
+                console.error("Error refreshing notification count:", error);
+            }
+        }
+    };
 
     // Efecto para manejar el scroll a la sección después de la navegación
     useEffect(() => {
@@ -182,8 +268,8 @@ const NavBar: React.FC<NavBarProps> = ({
                     className={`navbar-hamburger ${mobileMenuOpen ? 'open' : ''}`}
                     onClick={toggleMobileMenu}
                     aria-label="Abrir menú"
-                    aria-expanded={mobileMenuOpen}
-                >
+                    aria-expanded={mobileMenuOpen}>
+
                     <span className="navbar-bar"></span>
                     <span className="navbar-bar"></span>
                     <span className="navbar-bar"></span>
@@ -220,6 +306,13 @@ const NavBar: React.FC<NavBarProps> = ({
                             >
                                 {playButtonLabel}
                             </button>
+
+                            {/* Notification Bell with refresh function */}
+                            <NotificationBell
+                                count={notificationCount}
+                                refreshCount={refreshNotificationCount}
+                            />
+
                             <div className="navbar-user-dropdown" ref={dropdownRef}>
                                 <div
                                     className="navbar-user-info"

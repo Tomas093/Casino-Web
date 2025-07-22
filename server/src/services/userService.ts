@@ -6,30 +6,80 @@ interface UserUpdateData {
     nombre: string;
     apellido: string;
     email: string;
-    edad: number;
+    edad: Date;
     dni: string;
     balance?: number;
     influencer?: boolean;
 }
 
+// Función auxiliar para validar y convertir fechas
+const validateAndConvertDate = (dateInput: Date | string | null): Date | null => {
+    if (!dateInput) return null;
+
+    try {
+        const date = new Date(dateInput);
+
+        // Verificar que la fecha sea válida
+        if (isNaN(date.getTime())) {
+            console.warn('Fecha inválida recibida:', dateInput);
+            return null;
+        }
+
+        // Verificar que la fecha no sea futura
+        if (date > new Date()) {
+            console.warn('Fecha de nacimiento en el futuro:', dateInput);
+            throw new Error('La fecha de nacimiento no puede ser en el futuro');
+        }
+
+        // Verificar que el usuario tenga al menos 18 años
+        const minDate = new Date();
+        minDate.setFullYear(minDate.getFullYear() - 18);
+
+        if (date > minDate) {
+            throw new Error('El usuario debe ser mayor de 18 años');
+        }
+
+        // Verificar que la fecha sea razonable (no más de 150 años)
+        const maxAge = new Date();
+        maxAge.setFullYear(maxAge.getFullYear() - 150);
+
+        if (date < maxAge) {
+            console.warn('Fecha de nacimiento muy antigua:', dateInput);
+            throw new Error('La fecha de nacimiento es demasiado antigua');
+        }
+
+        return date;
+    } catch (error) {
+        if (error instanceof Error) {
+            throw error; // Re-lanzar errores específicos
+        }
+        console.error('Error procesando fecha:', error);
+        throw new Error('Error al procesar la fecha de nacimiento');
+    }
+};
+
 export const userService = {
     // Obtener un usuario por ID
     getUserById: async (userId: number) => {
         const usuario = await prisma.usuario.findUnique({
-            where: { usuarioid: userId },
-            include: { cliente: true }
+            where: {usuarioid: userId},
+            include: {cliente: true}
         });
 
         if (!usuario) {
             throw new Error('Usuario no encontrado');
         }
 
-        return usuario;
+        // Asegurar que la fecha se retorne correctamente
+        return {
+            ...usuario,
+            edad: usuario.edad ? new Date(usuario.edad).toISOString() : null
+        };
     },
 
     // Obtener todos los usuarios (no administradores)
     getAllUsers: async () => {
-        return prisma.usuario.findMany({
+        const users = await prisma.usuario.findMany({
             where: {
                 administrador: null
             },
@@ -50,9 +100,15 @@ export const userService = {
                 }
             }
         });
+
+        // Procesar las fechas antes de retornar
+        return users.map(user => ({
+            ...user,
+            edad: user.edad ? new Date(user.edad).toISOString() : null
+        }));
     },
 
-    // En server/src/services/userService.ts
+    // Contar usuarios
     async getUserCount(): Promise<number> {
         try {
             const count = await prisma.usuario.count({
@@ -63,33 +119,36 @@ export const userService = {
             return count;
         } catch (error) {
             console.error('Error al contar usuarios:', error);
-            throw { message: 'Error al contar usuarios', statusCode: 500 };
+            throw {message: 'Error al contar usuarios', statusCode: 500};
         }
     },
 
     // Actualizar un usuario
     updateUser: async (userId: number, userData: UserUpdateData) => {
-        const { nombre, apellido, email, edad, dni, balance, influencer } = userData;
+        const {nombre, apellido, email, edad, dni, balance, influencer} = userData;
 
         // Verificar si el usuario existe
         const usuario = await prisma.usuario.findUnique({
-            where: { usuarioid: userId }
+            where: {usuarioid: userId}
         });
 
         if (!usuario) {
             throw new Error('Usuario no encontrado');
         }
 
+        // Validar y convertir la fecha
+        const fechaValidada = validateAndConvertDate(edad);
+
         // Verificar si el email o DNI ya están en uso por otro usuario
         if (email !== usuario.email || dni !== usuario.dni) {
             const existingUser = await prisma.usuario.findFirst({
                 where: {
                     AND: [
-                        { NOT: { usuarioid: userId } },
+                        {NOT: {usuarioid: userId}},
                         {
                             OR: [
-                                { email },
-                                { dni }
+                                {email},
+                                {dni}
                             ]
                         }
                     ]
@@ -103,12 +162,12 @@ export const userService = {
 
         // Actualizar usuario
         const usuarioActualizado = await prisma.usuario.update({
-            where: { usuarioid: userId },
+            where: {usuarioid: userId},
             data: {
                 nombre,
                 apellido,
                 email,
-                edad: edad.toString(),
+                edad: fechaValidada, // Usar la fecha validada
                 dni
             }
         });
@@ -116,22 +175,25 @@ export const userService = {
         // Actualizar cliente si se proporcionan datos
         if (balance !== undefined || influencer !== undefined) {
             await prisma.cliente.update({
-                where: { usuarioid: userId },
+                where: {usuarioid: userId},
                 data: {
-                    ...(balance !== undefined && { balance }),
-                    ...(influencer !== undefined && { influencer })
+                    ...(balance !== undefined && {balance: Number(balance)}),
+                    ...(influencer !== undefined && {influencer})
                 }
             });
         }
 
-        return usuarioActualizado;
+        return {
+            ...usuarioActualizado,
+            edad: usuarioActualizado.edad ? usuarioActualizado.edad.toISOString() : null
+        };
     },
 
     // Eliminar un usuario
     deleteUser: async (userId: number) => {
         // Verificar si el usuario existe
         const usuario = await prisma.usuario.findUnique({
-            where: { usuarioid: userId }
+            where: {usuarioid: userId}
         });
 
         if (!usuario) {
@@ -140,12 +202,21 @@ export const userService = {
 
         // Eliminar usuario (las relaciones deberían eliminarse en cascada si está bien definido en Prisma)
         await prisma.usuario.delete({
-            where: { usuarioid: userId }
+            where: {usuarioid: userId}
         });
 
         return true;
     },
 
+    findClienteByUsuarioId: async (usuarioid: number) => {
+        const cliente = await prisma.cliente.findUnique({
+            where: {usuarioid}
+        });
 
-    
+        if (!cliente) {
+            throw new Error(`Cliente no encontrado para el usuario ID: ${usuarioid}`);
+        }
+
+        return cliente;
+    }
 };

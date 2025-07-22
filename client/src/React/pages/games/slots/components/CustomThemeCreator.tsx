@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { SymbolsThemeType } from '../types';
+import {useState} from 'react';
+import {SymbolsThemeType} from '../types';
 import './CustomThemeCreator.css';
 
 type CustomThemeCreatorProps = {
@@ -7,7 +7,7 @@ type CustomThemeCreatorProps = {
     onCancel: () => void;
 };
 
-const CustomThemeCreator = ({ onSaveTheme, onCancel }: CustomThemeCreatorProps) => {
+const CustomThemeCreator = ({onSaveTheme, onCancel}: CustomThemeCreatorProps) => {
     const [themeName, setThemeName] = useState('Mi tema personalizado');
     const [symbols, setSymbols] = useState<string[]>([
         '🍒', '🍋', '🍊', '🍇', '🍉', '🔔', '💎', '⭐'
