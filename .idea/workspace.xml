@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="cambiado logica de edad" />
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="login">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="Eliseo" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -83,27 +85,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Node.js.leaderboardApi.ts.executor&quot;: &quot;Run&quot;,
-    &quot;Node.js.leaderboardService.ts.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Eliseo&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Eliseos/Faculty/Tercer Año/LaboratorioDefV5&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Eliseos\\Faculty\\Tercer Año\\LaboratorioDefV5\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Node.js.leaderboardApi.ts.executor": "Run",
+    "Node.js.leaderboardService.ts.executor": "Run",
+    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Tomas",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Eliseos/Faculty/Segundo Año/MiniBar",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editing.templates",
+    "ts.external.directory.path": "C:\\Users\\Eliseos\\Faculty\\Tercer Año\\LaboratorioDefV5\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server" />
@@ -234,25 +236,88 @@
       <workItem from="1747689202672" duration="42000" />
       <workItem from="1747748103916" duration="841000" />
       <workItem from="1747750068506" duration="920000" />
-      <workItem from="1748349818282" duration="1971000" />
-      <workItem from="1748620933851" duration="4621000" />
-      <workItem from="1748627503239" duration="185000" />
-      <workItem from="1748730119747" duration="84000" />
-      <workItem from="1748810608848" duration="7442000" />
-      <workItem from="1748866252355" duration="139000" />
-      <workItem from="1748961514692" duration="2083000" />
-      <workItem from="1748966431679" duration="105000" />
-      <workItem from="1749136219153" duration="133000" />
-      <workItem from="1749169599046" duration="614000" />
-      <workItem from="1749214161210" duration="29000" />
-      <workItem from="1749473178116" duration="316000" />
-      <workItem from="1749473546338" duration="10960000" />
-      <workItem from="1749560138126" duration="3211000" />
-      <workItem from="1749674993790" duration="38000" />
-      <workItem from="1752924277678" duration="404000" />
-      <workItem from="1752930832399" duration="4398000" />
-      <workItem from="1753047547993" duration="332000" />
-      <workItem from="1753050790878" duration="30939000" />
+      <workItem from="1748372125161" duration="54000" />
+      <workItem from="1748523450168" duration="217000" />
+    </task>
+    <task id="LOCAL-00026" summary="A">
+      <option name="closed" value="true" />
+      <created>1744506637675</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1744506637675</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Refactor project structure; rename files and update import paths for improved organization and clarity">
+      <option name="closed" value="true" />
+      <created>1744652353465</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1744652353465</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Refactor project structure; rename files and update import paths for improved organization and clarity">
+      <option name="closed" value="true" />
+      <created>1744657734552</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1744657734552</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Add user count and transaction statistics endpoints; integrate payment methods chart in admin dashboard">
+      <option name="closed" value="true" />
+      <created>1744679270910</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1744679270910</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Add game and history APIs; implement context providers for game and history management">
+      <option name="closed" value="true" />
+      <created>1744728604967</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1744728604967</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Add game and history APIs; implement context providers for game and history management">
+      <option name="closed" value="true" />
+      <created>1745887794832</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1745887794832</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Refactor LandingPage and styles; update game card components and footer links">
+      <option name="closed" value="true" />
+      <created>1745927549345</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1745927549345</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Refactor imports for consistency; update component structure and styles across multiple files y agrego que se actualice al toque (Era problema del Local Storage)">
+      <option name="closed" value="true" />
+      <created>1746099769634</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1746099769634</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Add authentication middleware; implement user and admin verification with JWT">
+      <option name="closed" value="true" />
+      <created>1746099801522</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1746099801522</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Refactor leaderboard API and service; update endpoints for game winners, highest bets, returns, and accumulated winnings">
+      <option name="closed" value="true" />
+      <created>1746107809888</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1746107809888</updated>
     </task>
     <task id="LOCAL-00036" summary="Add friend request feature; implement API, context, and UI for managing friend requests">
       <option name="closed" value="true" />
@@ -558,95 +623,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747748951729</updated>
     </task>
-    <task id="LOCAL-00074" summary="Refactor game components; add InsufficientBalanceNotification and enhance theme options">
+    <task id="LOCAL-00074" summary="login">
       <option name="closed" value="true" />
-      <created>1748607853373</created>
+      <created>1748354561024</created>
       <option name="number" value="00074" />
       <option name="presentableId" value="LOCAL-00074" />
       <option name="project" value="LOCAL" />
-      <updated>1748607853373</updated>
+      <updated>1748354561024</updated>
     </task>
-    <task id="LOCAL-00075" summary="Update paytable multipliers for improved game balance; refactor workspace.xml for task management">
-      <option name="closed" value="true" />
-      <created>1748608209766</created>
-      <option name="number" value="00075" />
-      <option name="presentableId" value="LOCAL-00075" />
-      <option name="project" value="LOCAL" />
-      <updated>1748608209766</updated>
-    </task>
-    <task id="LOCAL-00076" summary="Enhance coupon validation and UI; add monetary limits display and refactor coupon handling logic">
-      <option name="closed" value="true" />
-      <created>1748610295468</created>
-      <option name="number" value="00076" />
-      <option name="presentableId" value="LOCAL-00076" />
-      <option name="project" value="LOCAL" />
-      <updated>1748610295468</updated>
-    </task>
-    <task id="LOCAL-00077" summary="Enhance coupon management; add cuponid field, update API methods, and improve validation logic">
-      <option name="closed" value="true" />
-      <created>1748619434615</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1748619434615</updated>
-    </task>
-    <task id="LOCAL-00078" summary="Refactor coupon management; update workspace configuration and enhance login form with footer text">
-      <option name="closed" value="true" />
-      <created>1748620564435</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1748620564435</updated>
-    </task>
-    <task id="LOCAL-00079" summary="Refactor session management; integrate user suspension check and enhance API methods">
-      <option name="closed" value="true" />
-      <created>1748624123683</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1748624123683</updated>
-    </task>
-    <task id="LOCAL-00080" summary="Refactor imports for consistency; adjust import order and spacing across multiple components">
-      <option name="closed" value="true" />
-      <created>1748626788891</created>
-      <option name="number" value="00080" />
-      <option name="presentableId" value="LOCAL-00080" />
-      <option name="project" value="LOCAL" />
-      <updated>1748626788891</updated>
-    </task>
-    <task id="LOCAL-00081" summary="Refactor workspace configuration; update HTML title and favicon for consistency">
-      <option name="closed" value="true" />
-      <created>1748627305828</created>
-      <option name="number" value="00081" />
-      <option name="presentableId" value="LOCAL-00081" />
-      <option name="project" value="LOCAL" />
-      <updated>1748627305828</updated>
-    </task>
-    <task id="LOCAL-00082" summary="cambiado logica de edad">
-      <option name="closed" value="true" />
-      <created>1749485443198</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1749485443199</updated>
-    </task>
-    <task id="LOCAL-00083" summary="cambiado logica de edad">
-      <option name="closed" value="true" />
-      <created>1753146393864</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1753146393870</updated>
-    </task>
-    <task id="LOCAL-00084" summary="cambiado logica de edad">
-      <option name="closed" value="true" />
-      <created>1753146407649</created>
-      <option name="number" value="00084" />
-      <option name="presentableId" value="LOCAL-00084" />
-      <option name="project" value="LOCAL" />
-      <updated>1753146407649</updated>
-    </task>
-    <option name="localTasksCounter" value="85" />
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -679,6 +664,14 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
+    <MESSAGE value="Implement chat feature; add message API, context, and UI for ticket messaging" />
+    <MESSAGE value="Enhance support ticket functionality; implement automatic priority assignment and user data initialization" />
+    <MESSAGE value="Implement FAQ functionality; add API, context, and UI for managing FAQs" />
+    <MESSAGE value="Refactor game functionality; rename 'funcionando' to 'estado' in game routes and service" />
+    <MESSAGE value="Subo con merge completo Creo" />
+    <MESSAGE value="Add Recent Activities component; integrate with admin management and style updates" />
+    <MESSAGE value="Refactor NavBar component; add admin status check and improve code formatting" />
+    <MESSAGE value="Refactor ticket management components; update status and priority handling, add filters for user roles" />
     <MESSAGE value="Subo UN MONTON DE ABMS" />
     <MESSAGE value="Add coupon validation and transaction handling; integrate coupon benefits in transaction process" />
     <MESSAGE value="Refactor leaderboard components; improve data handling and add debug logging" />
@@ -695,15 +688,7 @@
     <MESSAGE value="Refactor date handling in game components; adjust timestamps to account for timezone offset and update limit values in authService" />
     <MESSAGE value="Update workspace.xml and styles; rename currency symbol class for Minesweeper and adjust task entries" />
     <MESSAGE value="Update workspace.xml and leaderboardService.ts; adjust task entries and add user stats retrieval for leaderboard" />
-    <MESSAGE value="Refactor game components; add InsufficientBalanceNotification and enhance theme options" />
-    <MESSAGE value="Update paytable multipliers for improved game balance; refactor workspace.xml for task management" />
-    <MESSAGE value="Enhance coupon validation and UI; add monetary limits display and refactor coupon handling logic" />
-    <MESSAGE value="Enhance coupon management; add cuponid field, update API methods, and improve validation logic" />
-    <MESSAGE value="Refactor coupon management; update workspace configuration and enhance login form with footer text" />
-    <MESSAGE value="Refactor session management; integrate user suspension check and enhance API methods" />
-    <MESSAGE value="Refactor imports for consistency; adjust import order and spacing across multiple components" />
-    <MESSAGE value="Refactor workspace configuration; update HTML title and favicon for consistency" />
-    <MESSAGE value="cambiado logica de edad" />
-    <option name="LAST_COMMIT_MESSAGE" value="cambiado logica de edad" />
+    <MESSAGE value="login" />
+    <option name="LAST_COMMIT_MESSAGE" value="login" />
   </component>
 </project>
