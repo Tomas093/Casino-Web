@@ -366,8 +366,12 @@
 }
 
 @keyframes ellipsis {
-  from { width: 0; }
-  to { width: 1.2em; }
+  from {
+    width: 0;
+  }
+  to {
+    width: 1.2em;
+  }
 }
 
 .leaderboard__error {
@@ -382,7 +386,7 @@
     padding: 0.7rem;
     font-size: 0.85rem;
   }
-  
+
   .leaderboard__dropdown {
     min-width: 140px;
     font-size: 0.8rem;
@@ -392,12 +396,12 @@
   .leaderboard__order-btn {
     padding: 0.5rem 0.7rem;
   }
-  
+
   .leaderboard__avatar {
     width: 30px;
     height: 30px;
   }
-  
+
   .leaderboard__rank {
     font-size: 0.95rem;
   }
@@ -408,7 +412,7 @@
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .leaderboard__filters-compact {
     flex-wrap: wrap;
   }

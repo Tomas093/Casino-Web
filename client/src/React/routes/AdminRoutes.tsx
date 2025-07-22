@@ -5,8 +5,8 @@ import {useAuth} from '@context/AuthContext';
 import {useAdmin} from '@context/AdminContext.tsx'
 
 const AdminOnlyRoutes = () => {
-    const { isLoading } = useAuth();
-    const { isAdmin } = useAdmin()
+    const {isLoading} = useAuth();
+    const {isAdmin} = useAdmin()
     const [admin, setAdmin] = useState<boolean | null>(null);
 
     useEffect(() => {
@@ -18,9 +18,9 @@ const AdminOnlyRoutes = () => {
     }, [isAdmin]);
 
     if (isLoading || admin === null) return <div>Cargando...</div>;
-    if (!admin) return <Navigate to="/" replace />;
+    if (!admin) return <Navigate to="/" replace/>;
 
-    return <Outlet />;
+    return <Outlet/>;
 };
 
 export default AdminOnlyRoutes;

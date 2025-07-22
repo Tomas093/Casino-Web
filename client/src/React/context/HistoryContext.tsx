@@ -20,7 +20,7 @@ interface HistoryProviderProps {
 }
 
 
-export const HistoryProvider: React.FC<HistoryProviderProps> = ({ children }) => {
+export const HistoryProvider: React.FC<HistoryProviderProps> = ({children}) => {
   const [userHistory, setUserHistory] = useState<GameHistoryResponse | null>(null);
   const [fullHistory, setFullHistory] = useState<any | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -58,8 +58,6 @@ export const HistoryProvider: React.FC<HistoryProviderProps> = ({ children }) =>
       setLoading(false);
     }
   }, []);
-
-
 
 
   // Limpiar los datos del historial

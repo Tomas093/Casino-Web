@@ -1,127 +1,66 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/friendRequest';
+const API_URL = 'http://localhost:3001/faq';
 
-
-const friendRequestApi = {
-
-
-    getFriends: async (id_usuario: number) => {
+const faqApi = {
+    getAllFAQs: async () => {
         try {
-            const response = await axios.get(`${API_URL}/friends/${id_usuario}`);
+            const response = await axios.get(`${API_URL}/all`);
             return response.data;
-        } catch (error: any) {
-            if (error.response) {
-                throw new Error(error.response.data.error || 'Error al obtener amigos');
-            } else {
-                throw error;
-            }
+        } catch (error) {
+            console.error('Error al obtener las preguntas frecuentes:', error);
+            throw error;
         }
     },
 
-    deleteFriend: async (id_remitente: number, id_receptor: number) => {
+    createFAQ: async (faqData: { pregunta: string; respuesta: string, categoria: string }) => {
         try {
-            const response = await axios.post(`${API_URL}/delete`, { id_remitente, id_receptor });
+            const response = await axios.post(`${API_URL}/create`, faqData);
             return response.data;
-        } catch (error: any) {
-            if (error.response) {
-                throw new Error(error.response.data.error || 'Error al eliminar amigo');
-            } else {
-                throw error;
-            }
+        } catch (error) {
+            console.error('Error al crear la pregunta frecuente:', error);
+            throw error;
         }
     },
 
-    getUserSearch: async (id_usuario: number) => {
+    updateFAQ: async (faqId: string, faqData: { pregunta: string; respuesta: string, categoria: string }) => {
         try {
-            const response = await axios.get(`${API_URL}/getUsers/${id_usuario}`);
+            const response = await axios.put(`${API_URL}/edit/${faqId}`, faqData);
             return response.data;
-        } catch (error: any) {
-            if (error.response) {
-                throw new Error(error.response.data.error || 'Error al obtener usuarios');
-            } else {
-                throw error;
-            }
+        } catch (error) {
+            console.error('Error al actualizar la pregunta frecuente:', error);
+            throw error;
         }
     },
 
-    sendFriendRequest: async (id_remitente: number, id_receptor: number) => {
+    deleteFAQ: async (faqId: string) => {
         try {
-            const response = await axios.post(`${API_URL}/send`, { id_remitente, id_receptor });
+            const response = await axios.delete(`${API_URL}/delete/${faqId}`);
             return response.data;
-        } catch (error: any) {
-            if (error.response) {
-                throw new Error(error.response.data.error || 'Error al enviar solicitud de amistad');
-            } else {
-                throw error;
-            }
+        } catch (error) {
+            console.error('Error al eliminar la pregunta frecuente:', error);
+            throw error;
         }
     },
 
-    acceptFriendRequest: async (id_remitente: number, id_receptor: number) => {
+    getFAQsByCategory: async (category: string) => {
         try {
-            const response = await axios.post(`${API_URL}/accept`, { id_remitente, id_receptor });
+            const response = await axios.get(`${API_URL}/category/${category}`);
             return response.data;
-        } catch (error: any) {
-            if (error.response) {
-                throw new Error(error.response.data.error || 'Error al aceptar solicitud de amistad');
-            } else {
-                throw error;
-            }
+        } catch (error) {
+            console.error('Error al obtener las preguntas frecuentes por categoría:', error);
+            throw error;
         }
     },
 
-    rejectFriendRequest: async (id_remitente: number, id_receptor: number) => {
+    getFAQByQuestion: async (question: string) => {
         try {
-            const response = await axios.post(`${API_URL}/reject`, { id_remitente, id_receptor });
+            const response = await axios.get(`${API_URL}/question/${question}`);
             return response.data;
-        } catch (error: any) {
-            if (error.response) {
-                throw new Error(error.response.data.error || 'Error al rechazar solicitud de amistad');
-            } else {
-                throw error;
-            }
+        } catch (error) {
+            console.error('Error al obtener la pregunta frecuente por pregunta:', error);
+            throw error;
         }
-    },
-
-    cancelFriendRequest: async (id_remitente: number, id_receptor: number) => {
-        try {
-            const response = await axios.post(`${API_URL}/cancel`, { id_remitente, id_receptor });
-            return response.data;
-        } catch (error: any) {
-            if (error.response) {
-                throw new Error(error.response.data.error || 'Error al cancelar solicitud de amistad');
-            } else {
-                throw error;
-            }
-        }
-    },
-
-    getPendingFriendRequests: async (id_usuario: number) => {
-        try {
-            const response = await axios.get(`${API_URL}/pending/${id_usuario}`);
-            return response.data;
-        } catch (error: any) {
-            if (error.response) {
-                throw new Error(error.response.data.error || 'Error al obtener solicitudes de amistad pendientes');
-            } else {
-                throw error;
-            }
-        }
-    },
-
-    getSentFriendRequests: async (id_usuario: number) => {
-        try {
-            const response = await axios.get(`${API_URL}/sent/${id_usuario}`);
-            return response.data;
-        } catch (error: any) {
-            if (error.response) {
-                throw new Error(error.response.data.error || 'Error al obtener solicitudes de amistad enviadas');
-            } else {
-                throw error;
-            }
-        }
-    },
+    }
 }
-
-export default friendRequestApi;
+export default faqApi;

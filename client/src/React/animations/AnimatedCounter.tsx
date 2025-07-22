@@ -6,7 +6,7 @@ interface AnimatedCounterProps {
     prefix?: string;
 }
 
-const AnimatedCounter: React.FC<AnimatedCounterProps> = ({ end, duration = 3000, prefix = '' }) => {
+const AnimatedCounter: React.FC<AnimatedCounterProps> = ({end, duration = 3000, prefix = ''}) => {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
@@ -14,7 +14,7 @@ const AnimatedCounter: React.FC<AnimatedCounterProps> = ({ end, duration = 3000,
 
         const animate = (currentTime: number) => {
             const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, );
+            const progress = Math.min(elapsed / duration,);
             const value = Math.floor(progress * end);
 
             setCount(value);

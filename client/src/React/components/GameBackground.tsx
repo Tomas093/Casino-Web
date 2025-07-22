@@ -53,22 +53,28 @@ const GameBackground: React.FC<GameBackgroundProps> = ({
                                                            children,
                                                            currentGame = "Casino Game",
                                                            userName,
-                                                           onNavigate = () => {},
-                                                           onDeposit = () => {},
-                                                           onExit = () => {},
-                                                           onSettings = () => {},
+                                                           onNavigate = () => {
+                                                           },
+                                                           onDeposit = () => {
+                                                           },
+                                                           onExit = () => {
+                                                           },
 
                                                            // Valores por defecto para las nuevas props
                                                            gameLinks = [
-                                                               { label: "Ruleta", id: "roulette", icon: "gb-icon-roulette" },
-                                                               { label: "Slots", id: "slots", icon: "gb-icon-slots" },
-                                                               { label: "Mines", id: "mines", icon: "gb-icon-poker" }
+                                                               {
+                                                                   label: "Ruleta",
+                                                                   id: "roulette",
+                                                                   icon: "gb-icon-roulette"
+                                                               },
+                                                               {label: "Slots", id: "slots", icon: "gb-icon-slots"},
+                                                               {label: "Mines", id: "mines", icon: "gb-icon-poker"}
                                                            ],
                                                            footerLinks = [
-                                                               { label: "Contacto", href: "/legal" },
-                                                               { label: "Términos", href: "/terms" },
-                                                               { label: "Privacidad", href: "/privacy-policy" },
-                                                               { label: "Ayuda", href: "/help" }
+                                                               {label: "Contacto", href: "/legal"},
+                                                               {label: "Términos", href: "/terms"},
+                                                               {label: "Privacidad", href: "/privacy-policy"},
+                                                               {label: "Ayuda", href: "/support"}
                                                            ],
                                                            showBalance = true,
                                                            showProfile = true,
@@ -84,9 +90,9 @@ const GameBackground: React.FC<GameBackgroundProps> = ({
                                                            className = '',
                                                        }) => {
     const [sidebarCollapsed, setSidebarCollapsed] = useState(initialSidebarState === 'collapsed');
-    const { user, logout } = useAuth();
-    const { client } = useUser();
-    const { isSuperAdmin, isAdmin } = useAdmin();
+    const {user, logout} = useAuth();
+    const {client} = useUser();
+    const {isSuperAdmin, isAdmin} = useAdmin();
     const [clientBalance, setClientBalance] = useState(0);
     const [displayName, setDisplayName] = useState(userName || "Usuario");
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -103,9 +109,7 @@ const GameBackground: React.FC<GameBackgroundProps> = ({
 
     // Actualiza el nombre de usuario cuando cambia el usuario
     useEffect(() => {
-        if (user && !userName) {
-            setDisplayName(user.nombre);
-        } else if (userName) {
+        if (user) {
             setDisplayName(user.nombre);
         }
     }, [user, userName]);
@@ -227,9 +231,9 @@ const GameBackground: React.FC<GameBackgroundProps> = ({
                                         className="gb-user-avatar"
                                         style={
                                             user && user.img
-                                                ? { backgroundImage: `url(http://localhost:3001${user.img})` }
+                                                ? {backgroundImage: `url(http://localhost:3001${user.img})`}
                                                 : defaultUserAvatar
-                                                    ? { backgroundImage: `url(${defaultUserAvatar})` }
+                                                    ? {backgroundImage: `url(${defaultUserAvatar})`}
                                                     : undefined
                                         }
                                     ></div>

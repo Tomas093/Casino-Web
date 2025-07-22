@@ -62,14 +62,14 @@ const ProfilePage: React.FC = () => {
 
         // Actualizamos la imagen en el contexto de Auth y en localStorage
         // Pasamos solo la ruta relativa, tal como viene de la API
-        updateUserData({ img: imageUrl });
+        updateUserData({img: imageUrl});
 
         // Ahora ya no necesitamos recargar los datos del usuario porque
         // ya hemos actualizado todo manualmente
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setFormData((prevFormData) => ({
             ...prevFormData,
             [name]: name === 'edad' ? new Date(value).toISOString() : value,

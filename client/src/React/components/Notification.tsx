@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {useNotificationContext} from '../context/NotificationContext';
 import {useAuth} from '@context/AuthContext';
 import notificationApi from "@api/notificationApi.ts";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface NotificationDropdownProps {
     userId?: number;
@@ -41,6 +41,7 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({userId, onCl
         if (diffHours < 24) return `Hace ${diffHours}h`;
         return notifDate.toLocaleDateString();
     };
+
 
 
     // Inside the component:

@@ -18,8 +18,8 @@ interface GameStats {
 }
 
 const StatisticsPage: React.FC = () => {
-  const { fullHistory, loading, error, getAllUserHistory } = useHistory();
-  const { user } = useAuth();
+  const {fullHistory, loading, error, getAllUserHistory} = useHistory();
+  const {user} = useAuth();
   const [stats, setStats] = useState<GameStats[]>([]);
   const [totalStats, setTotalStats] = useState({
     totalJugadas: 0,
@@ -125,7 +125,7 @@ const StatisticsPage: React.FC = () => {
   if (loading) {
     return (
         <div className="container">
-          <Sidebar />
+          <Sidebar/>
           <main className="main-content">
             <div className="history-loading">Cargando estadísticas...</div>
           </main>
@@ -136,7 +136,7 @@ const StatisticsPage: React.FC = () => {
   if (error) {
     return (
         <div className="container">
-          <Sidebar />
+          <Sidebar/>
           <main className="main-content">
             <div className="history-error">Error: {error}</div>
           </main>
@@ -146,7 +146,7 @@ const StatisticsPage: React.FC = () => {
 
   return (
       <div className="container">
-        <Sidebar />
+        <Sidebar/>
         <main className="main-content">
           <header className="content-header">
             <h1>Estadísticas</h1>
@@ -163,7 +163,8 @@ const StatisticsPage: React.FC = () => {
                       <div className="stat-label">Total Jugadas</div>
                     </div>
                     <div className="stat-card">
-                      <div className={`stat-value ${totalStats.gananciaNeta >= 0 ? 'positive' : 'negative'}`}>
+                      <div
+                          className={`stat-value ${totalStats.gananciaNeta >= 0 ? 'positive' : 'negative'}`}>
                         {totalStats.gananciaNeta >= 0 ? '+' : ''}{totalStats.gananciaNeta.toFixed(2)} AC
                       </div>
                       <div className="stat-label">Ganancia Neta</div>
@@ -214,7 +215,8 @@ const StatisticsPage: React.FC = () => {
                         <div className="stats-row">
                           <div className="stat-item">
                             <span className="stat-label">Ganancia neta:</span>
-                            <span className={`stat-value ${gameStat.gananciaNeta >= 0 ? 'positive' : 'negative'}`}>
+                            <span
+                                className={`stat-value ${gameStat.gananciaNeta >= 0 ? 'positive' : 'negative'}`}>
                               {gameStat.gananciaNeta >= 0 ? '+' : ''}{gameStat.gananciaNeta.toFixed(2)} AC
                             </span>
                           </div>

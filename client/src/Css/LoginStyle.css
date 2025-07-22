@@ -124,6 +124,7 @@
 .login-page .submit-button:active, .login-page .btn:active {
     transform: scale(0.98);
 }
+
 .register-link {
     margin-top: 1rem;
     text-align: center;
@@ -166,10 +167,78 @@
 
 /* Animación suave de aparición */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .login-page .container {
     animation: fadeIn 0.8s ease-out;
+}
+
+/* Botón de Google */
+.google-button {
+    width: 100%;
+    padding: 14px 20px;
+    background-color: #fff;
+    color: #757575;
+    border: 1px solid #dadce0;
+    border-radius: 40px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.google-button:hover {
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.google-button:active {
+    transform: translateY(0);
+}
+
+/* Divisor */
+.divider {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+    gap: 1rem;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: #444;
+}
+
+.divider span {
+    color: #aaa;
+    font-size: 0.9rem;
+    padding: 0 1rem;
+    white-space: nowrap;
+}
+
+/* Responsive para el botón de Google */
+@media (max-width: 576px) {
+    .google-button {
+        font-size: 0.9rem;
+        padding: 12px 16px;
+    }
 }

@@ -4,8 +4,8 @@ import {useAuth} from '@context/AuthContext';
 import {useAdmin} from '@context//AdminContext.tsx'
 
 const SuperAdminOnlyRoutes = () => {
-    const { isLoading } = useAuth();
-    const { isSuperAdmin } = useAdmin()
+    const {isLoading} = useAuth();
+    const {isSuperAdmin} = useAdmin()
     const [superadmin, setSuperadmin] = useState<boolean | null>(null);
 
     useEffect(() => {
@@ -17,9 +17,9 @@ const SuperAdminOnlyRoutes = () => {
     }, [isSuperAdmin]);
 
     if (isLoading || superadmin === null) return <div>Cargando...</div>;
-    if (!superadmin) return <Navigate to="/" replace />;
+    if (!superadmin) return <Navigate to="/" replace/>;
 
-    return <Outlet />;
+    return <Outlet/>;
 };
 
 export default SuperAdminOnlyRoutes;

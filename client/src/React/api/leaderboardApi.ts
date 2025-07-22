@@ -110,7 +110,7 @@ const leaderboardApi = {
     getFriendsLeaderboard: async (userId: number, timeframe: TimeFrame = 'all', limit: number = 10) => {
         try {
             const response = await axios.get(`${API_URL}/friends/${userId}`, {
-                params: { timeframe, limit }
+                params: {timeframe, limit}
             });
             return response.data || [];
         } catch (error: any) {

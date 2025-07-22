@@ -1,585 +1,550 @@
-import React, {useState, useEffect, useRef} from 'react';
-import './BlackJackTableStyle.css';
-import Footer from '@components/Footer';
-import NavBar from "@components/NavBar.tsx";
-import {useNavigate, useParams} from 'react-router-dom';
-import {io, Socket} from 'socket.io-client';
+import React, {useState} from 'react';
+import {v4 as uuidv4} from 'uuid';
+import './BlackJackTableStyle.css'
+
+// Importar las imágenes de fichas (en un proyecto real estas serían importadas desde assets)
+const chipImages = {
+    '1': '/api/placeholder/50/50',
+    '10': '/api/placeholder/50/50',
+    '50': '/api/placeholder/50/50',
+    '100': '/api/placeholder/50/50',
+    '500': '/api/placeholder/50/50',
+    '1000': '/api/placeholder/50/50'
+};
+
+// ==================== TIPOS Y CLASES DEL BLACKJACK ====================
+type Suit = 'hearts' | 'diamonds' | 'clubs' | 'spades';
+type Rank = 'A' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | 'J' | 'Q' | 'K';
 
 interface Card {
-    suit: string;
-    value: string;
-    numericValue: number;
+    id: string;
+    suit: Suit;
+    rank: Rank;
+    value: number;
+    hidden: boolean;
 }
 
-interface PlayerHand {
-    cards: Card[];
-    total: number;
+interface Player {
+    id: string;
+    name: string;
+    hand: Card[];
+    status: 'waiting' | 'playing' | 'standing' | 'busted' | 'blackjack' | 'doubled';
     bet: number;
-    isActive: boolean;
-    playerId: number | null;
+}
+
+interface GameResult {
+    playerId: string;
     playerName: string;
+    result: 'win' | 'lose' | 'push' | 'blackjack';
+    playerValue: number;
+    dealerValue: number;
+    winnings: number;
 }
 
-interface GameState {
-    dealerHand: Card[];
-    dealerTotal: number;
-    players: PlayerHand[];
-    currentPlayer: number;
-    gamePhase: 'waiting' | 'betting' | 'dealing' | 'playing' | 'finished';
-    selectedChip: number;
+// ==================== CLASE MAZO ====================
+class Deck {
+    private cards: Card[];
+
+    constructor() {
+        this.cards = [];
+        this.initialize();
+    }
+
+    private initialize(): void {
+        const suits: Suit[] = ['hearts', 'diamonds', 'clubs', 'spades'];
+        const ranks: Rank[] = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+
+        for (const suit of suits) {
+            for (const rank of ranks) {
+                let value: number;
+                if (rank === 'A') {
+                    value = 11;
+                } else if (['J', 'Q', 'K'].includes(rank)) {
+                    value = 10;
+                } else {
+                    value = parseInt(rank);
+                }
+
+                this.cards.push({
+                    id: uuidv4(),
+                    suit,
+                    rank,
+                    value,
+                    hidden: false
+                });
+            }
+        }
+        this.shuffle();
+    }
+
+    private shuffle(): void {
+        for (let i = this.cards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
+        }
+    }
+
+    public dealCard(): Card | null {
+        if (this.cards.length === 0) {
+            this.initialize();
+        }
+        return this.cards.pop() || null;
+    }
 }
 
-const chipValues = [1, 10, 50, 100, 500, 1000];
-const socketRef = {current: null as Socket | null};
-
-// Initialize socket only once with debug options
-if (!socketRef.current) {
-    console.log('Creating new socket connection');
-    socketRef.current = io('http://localhost:3001', {
-        reconnection: true,
-        reconnectionAttempts: 5,
-        timeout: 10000,
-        transports: ['websocket', 'polling']
+// ==================== COMPONENTE PRINCIPAL ====================
+const EnhancedBlackjack: React.FC = () => {
+    // Estados del juego
+    const [deck] = useState(() => new Deck());
+    const [player, setPlayer] = useState<Player>({
+        id: uuidv4(),
+        name: 'Jugador 1',
+        hand: [],
+        status: 'waiting',
+        bet: 0
     });
-}
+    const [dealer, setDealer] = useState<Card[]>([]);
+    const [gamePhase, setGamePhase] = useState<'betting' | 'dealing' | 'playing' | 'finished'>('betting');
+    const [selectedChip, setSelectedChip] = useState('25');
+    const [balance, setBalance] = useState(1000);
+    const [result, setResult] = useState<GameResult | null>(null);
+    const [showNotification, setShowNotification] = useState(false);
 
-const BlackjackTable: React.FC = () => {
-    const socket = socketRef.current!;
-    const [gameState, setGameState] = useState<GameState>({
-        dealerHand: [
-            {suit: '♠', value: 'K', numericValue: 10},
-            {suit: '', value: '?', numericValue: 0}
-        ],
-        dealerTotal: 10,
-        players: [
-            {cards: [], total: 0, bet: 0, isActive: false, playerId: null, playerName: "Empty Seat"},
-            {cards: [], total: 0, bet: 0, isActive: false, playerId: null, playerName: "Empty Seat"},
-            {cards: [], total: 0, bet: 0, isActive: false, playerId: null, playerName: "Empty Seat"}
-        ],
-        currentPlayer: -1,
-        gamePhase: 'waiting',
-        selectedChip: 25
-    });
+    const chipValues = ['1', '10', '25', '50', '100', '500'];
 
-    const [localPlayerId, setLocalPlayerId] = useState<number | null>(null);
-    const [localPlayerPosition, setLocalPlayerPosition] = useState<number | null>(null);
-    const [username, setUsername] = useState<string>("");
-    const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
-    const [lastEmittedEvent, setLastEmittedEvent] = useState<{ event: string, data: any, time: number } | null>(null);
-    const [lastClickedSpot, setLastClickedSpot] = useState<{ position: number, time: number } | null>(null);
-    const navigate = useNavigate();
-    const {roomId} = useParams();
-    const initializedRef = useRef(false);
+    // ==================== FUNCIONES DE UTILIDAD ====================
+    const calculateHandValue = (hand: Card[]): number => {
+        let value = 0;
+        let aceCount = 0;
 
-    // Debug function to safely emit socket events
-    const safeEmit = (event: string, data: any) => {
-        console.log(`Emitting ${event}:`, data);
-        setLastEmittedEvent({event, data, time: Date.now()});
-
-        if (!socket.connected) {
-            console.warn('Socket not connected! Attempting to reconnect...');
-            socket.connect();
+        for (const card of hand) {
+            if (!card.hidden) {
+                value += card.value;
+                if (card.rank === 'A') {
+                    aceCount++;
+                }
+            }
         }
 
-        try {
-            socket.emit(event, data);
-        } catch (error) {
-            console.error(`Error emitting ${event}:`, error);
+        while (value > 21 && aceCount > 0) {
+            value -= 10;
+            aceCount--;
+        }
+
+        return value;
+    };
+
+    const getSuitSymbol = (suit: Suit): string => {
+        const symbols = {
+            hearts: '♥',
+            diamonds: '♦',
+            clubs: '♣',
+            spades: '♠'
+        };
+        return symbols[suit];
+    };
+
+    const getCardColor = (suit: Suit): string => {
+        return ['hearts', 'diamonds'].includes(suit) ? '#dc3545' : '#000';
+    };
+
+    // ==================== FUNCIONES DE APUESTA ====================
+    const handleBet = () => {
+        const chipValue = parseInt(selectedChip);
+        if (balance >= chipValue && gamePhase === 'betting') {
+            setPlayer(prev => ({
+                ...prev,
+                bet: prev.bet + chipValue
+            }));
+            setBalance(prev => prev - chipValue);
         }
     };
 
-    const handleLeaveSeat = () => {
-        if (localPlayerPosition !== null && gameState.gamePhase === 'waiting') {
-            console.log("🪑 Leaving seat at position", localPlayerPosition);
-
-            safeEmit('leaveSeat', {
-                lobbyId: Number(roomId),
-                position: localPlayerPosition,
-                clientId: localPlayerId
-            });
+    const clearBet = () => {
+        if (gamePhase === 'betting') {
+            setBalance(prev => prev + player.bet);
+            setPlayer(prev => ({
+                ...prev,
+                bet: 0
+            }));
         }
     };
 
-    useEffect(() => {
-        console.log('BlackjackTable component mounted');
+    // ==================== FUNCIONES DEL JUEGO ====================
+    const startGame = () => {
+        if (player.bet === 0) return;
 
-        // Get local user info
-        const user = localStorage.getItem("user");
-        if (!user) {
-            console.error('No user found in localStorage');
-            alert("You must be logged in to play");
-            navigate('/BlackJackLobby');
-            return;
-        }
+        setGamePhase('dealing');
+        setResult(null);
 
-        try {
-            const userData = JSON.parse(user);
-            const userId = userData.usuarioid;
-            const userName = userData.username || "Player";
+        // Reiniciar manos
+        const newPlayerHand: Card[] = [];
+        const newDealerHand: Card[] = [];
 
-            console.log('User data loaded:', {userId, userName});
+        // Repartir cartas iniciales
+        for (let i = 0; i < 2; i++) {
+            const playerCard = deck.dealCard();
+            const dealerCard = deck.dealCard();
 
-            if (!userId || !roomId) {
-                console.error('Invalid user ID or room ID', {userId, roomId});
-                alert("Invalid user ID or room ID");
-                navigate('/BlackJackLobby');
-                return;
+            if (playerCard) newPlayerHand.push(playerCard);
+            if (dealerCard) {
+                if (i === 1) dealerCard.hidden = true; // Segunda carta del dealer oculta
+                newDealerHand.push(dealerCard);
             }
-
-            setLocalPlayerId(userId);
-            setUsername(userName);
-
-            // Debug socket state
-            console.log('Socket state:', {
-                id: socket.id,
-                connected: socket.connected,
-                disconnected: socket.disconnected
-            });
-
-            // Avoid duplicate event listeners
-            if (!initializedRef.current) {
-                initializedRef.current = true;
-
-                console.log('Setting up socket event listeners');
-
-                socket.on('connect', () => {
-                    console.log('🟢 Connected to server:', socket.id);
-                    setIsConnected(true);
-
-                    // Re-join room after reconnection
-                    safeEmit('joinLobby', {
-                        lobbyId: Number(roomId),
-                        clientId: userId,
-                        playerName: userName
-                    });
-
-                    // Request current game state
-                    safeEmit('requestGameState', {
-                        lobbyId: Number(roomId)
-                    });
-                });
-
-                socket.on('disconnect', (reason) => {
-                    console.log('🔴 Disconnected from server. Reason:', reason);
-                    setIsConnected(false);
-                });
-
-                socket.on('connect_error', (error) => {
-                    console.error('❌ Socket connection error:', error);
-                });
-
-                socket.on('error', (error) => {
-                    console.error('❌ Socket error:', error);
-                });
-
-                socket.on('joinError', (error) => {
-                    console.error('❌ Failed to join lobby:', error);
-                    alert(`Error joining game: ${error.message || 'Unknown error'}`);
-                });
-
-                // Debug any server response
-                socket.onAny((event, ...args) => {
-                    console.log(`📥 Server event: ${event}`, args);
-                });
-
-                socket.on('gameStateUpdate', (updatedGameState) => {
-                    console.log('🎮 Received game state update:', updatedGameState);
-                    setGameState(updatedGameState);
-
-                    // Find local player's position in the updated game state
-                    const position = updatedGameState.players.findIndex((p: PlayerHand) => p.playerId === userId);
-                    console.log('Local player position:', position, 'userId:', userId);
-                    setLocalPlayerPosition(position >= 0 ? position : null);
-                });
-
-                socket.on('playerJoined', ({playerId, playerName, position}) => {
-                    console.log('👤 Player joined event:', {playerId, playerName, position});
-
-                    setGameState(prev => {
-                        const updatedPlayers = [...prev.players];
-                        updatedPlayers[position] = {
-                            ...updatedPlayers[position],
-                            playerId,
-                            playerName,
-                            isActive: true,
-                        };
-                        return {...prev, players: updatedPlayers};
-                    });
-
-                    if (playerId === userId) {
-                        console.log('This is local player joining at position:', position);
-                        setLocalPlayerPosition(position);
-                    }
-                });
-
-                socket.on('sitDownResponse', (response) => {
-                    console.log('🪑 sitDown response:', response);
-                    if (response.error) {
-                        console.error('Error sitting down:', response.error);
-                        alert(`Error sitting down: ${response.error}`);
-                    }
-                });
-
-                socket.on('leaveSeatResponse', (response) => {
-                    console.log('🪑 leaveSeat response:', response);
-                    if (response.error) {
-                        console.error('Error leaving seat:', response.error);
-                        alert(`Error leaving seat: ${response.error}`);
-                    } else if (response.success) {
-                        setLocalPlayerPosition(null);
-                    }
-                });
-
-                socket.on('gamePhaseChanged', ({phase}) => {
-                    console.log('🔄 Game phase changed:', phase);
-                    setGameState(prev => ({...prev, gamePhase: phase}));
-                });
-            }
-
-            if (!socket.connected) {
-                console.log('Socket not connected, connecting now...');
-                socket.connect();
-            }
-
-            // Join lobby and request current state
-            safeEmit('joinLobby', {
-                lobbyId: Number(roomId),
-                clientId: userId,
-                playerName: userName
-            });
-
-            safeEmit('requestGameState', {
-                lobbyId: Number(roomId)
-            });
-
-            return () => {
-                console.log('Component unmounting, leaving lobby');
-                safeEmit('leaveLobby', {
-                    lobbyId: Number(roomId),
-                    clientId: userId
-                });
-            };
-        } catch (error) {
-            console.error('Error in useEffect:', error);
-            alert("An error occurred while setting up the game.");
-            navigate('/BlackJackLobby');
-        }
-    }, [roomId, navigate]);
-
-    const handleBettingSpotClick = (playerIndex: number) => {
-        console.log("👆 Click on position:", playerIndex);
-        console.log("Game phase:", gameState.gamePhase);
-        console.log("Is seat empty:", gameState.players[playerIndex].playerId === null);
-        console.log("Local player ID:", localPlayerId);
-        console.log("Username:", username);
-        console.log("Room ID:", roomId);
-
-        if (!isConnected) {
-            console.warn("⚠️ Not connected to server");
-            alert("Not connected to the server. Please wait for reconnection.");
-            return;
         }
 
-        // Handle double-click to leave seat (if it's your seat)
-        if (gameState.gamePhase === 'waiting' &&
-            gameState.players[playerIndex].playerId === localPlayerId) {
-            const now = Date.now();
-            if (lastClickedSpot &&
-                lastClickedSpot.position === playerIndex &&
-                now - lastClickedSpot.time < 500) { // 500ms threshold for double-click
-                handleLeaveSeat();
-                setLastClickedSpot(null);
-                return;
-            }
-            setLastClickedSpot({position: playerIndex, time: now});
-            return;
-        }
-
-        // Only allow sitting at empty seats
-        if (gameState.gamePhase === 'waiting' && gameState.players[playerIndex].playerId === null) {
-            console.log("🪑 Attempting to sit down at position", playerIndex);
-
-            const sitDownData = {
-                lobbyId: Number(roomId),
-                position: playerIndex,
-                clientId: localPlayerId,
-                playerName: username
-            };
-
-            safeEmit('sitDown', sitDownData);
-        }
-
-        // Only allow betting on your own position
-        if (gameState.gamePhase === 'betting' && playerIndex === localPlayerPosition) {
-            safeEmit('placeBet', {
-                lobbyId: Number(roomId),
-                position: playerIndex,
-                amount: gameState.selectedChip
-            });
-        }
-    };
-
-    // Other handlers remain the same
-    const handleChipSelect = (value: number) => {
-        setGameState(prev => ({
+        setPlayer(prev => ({
             ...prev,
-            selectedChip: value
+            hand: newPlayerHand,
+            status: 'playing'
         }));
-    };
+        setDealer(newDealerHand);
 
-    const handleHit = () => {
-        if (gameState.gamePhase === 'playing' && gameState.currentPlayer === localPlayerPosition) {
-            safeEmit('playerAction', {
-                lobbyId: Number(roomId),
-                action: 'hit',
-                position: localPlayerPosition
-            });
+        // Verificar blackjack natural
+        const playerValue = calculateHandValue(newPlayerHand);
+        if (playerValue === 21) {
+            setPlayer(prev => ({...prev, status: 'blackjack'}));
+            setTimeout(() => finishGame('blackjack'), 1000);
+        } else {
+            setGamePhase('playing');
         }
     };
 
-    const handleStand = () => {
-        if (gameState.gamePhase === 'playing' && gameState.currentPlayer === localPlayerPosition) {
-            safeEmit('playerAction', {
-                lobbyId: Number(roomId),
-                action: 'stand',
-                position: localPlayerPosition
-            });
+    const hit = () => {
+        if (gamePhase !== 'playing' || player.status !== 'playing') return;
+
+        const newCard = deck.dealCard();
+        if (!newCard) return;
+
+        const newHand = [...player.hand, newCard];
+        const newValue = calculateHandValue(newHand);
+
+        setPlayer(prev => ({
+            ...prev,
+            hand: newHand,
+            status: newValue > 21 ? 'busted' : newValue === 21 ? 'standing' : 'playing'
+        }));
+
+        if (newValue > 21) {
+            setTimeout(() => finishGame('busted'), 1000);
+        } else if (newValue === 21) {
+            setTimeout(() => stand(), 500);
         }
     };
 
-    const handleDouble = () => {
-        if (gameState.gamePhase === 'playing' &&
-            gameState.currentPlayer === localPlayerPosition &&
-            gameState.players[localPlayerPosition!].cards.length === 2) {
-            safeEmit('playerAction', {
-                lobbyId: Number(roomId),
-                action: 'double',
-                position: localPlayerPosition
-            });
+    const stand = () => {
+        if (gamePhase !== 'playing') return;
+
+        setPlayer(prev => ({...prev, status: 'standing'}));
+        setGamePhase('finished');
+
+        // Revelar carta oculta del dealer
+        const revealedDealer = dealer.map(card => ({...card, hidden: false}));
+        setDealer(revealedDealer);
+
+        // Dealer juega
+        let dealerHand = [...revealedDealer];
+        let dealerValue = calculateHandValue(dealerHand);
+
+        const dealerPlay = () => {
+            if (dealerValue < 17) {
+                const newCard = deck.dealCard();
+                if (newCard) {
+                    dealerHand = [...dealerHand, newCard];
+                    setDealer([...dealerHand]);
+                    dealerValue = calculateHandValue(dealerHand);
+                    setTimeout(dealerPlay, 1000);
+                }
+            } else {
+                setTimeout(() => finishGame('compare'), 1000);
+            }
+        };
+
+        setTimeout(dealerPlay, 1000);
+    };
+
+    const double = () => {
+        if (gamePhase !== 'playing' || player.hand.length !== 2 || balance < player.bet) return;
+
+        // Doblar apuesta
+        setBalance(prev => prev - player.bet);
+        setPlayer(prev => ({...prev, bet: prev.bet * 2, status: 'doubled'}));
+
+        // Tomar una carta más
+        const newCard = deck.dealCard();
+        if (!newCard) return;
+
+        const newHand = [...player.hand, newCard];
+        const newValue = calculateHandValue(newHand);
+
+        setPlayer(prev => ({
+            ...prev,
+            hand: newHand
+        }));
+
+        setTimeout(() => {
+            if (newValue > 21) {
+                finishGame('busted');
+            } else {
+                stand();
+            }
+        }, 1000);
+    };
+
+    const finishGame = (outcome: string) => {
+        const playerValue = calculateHandValue(player.hand);
+        const dealerValue = calculateHandValue(dealer.map(card => ({...card, hidden: false})));
+
+        let gameResult: 'win' | 'lose' | 'push' | 'blackjack';
+        let winnings = 0;
+
+        if (outcome === 'busted') {
+            gameResult = 'lose';
+            winnings = 0;
+        } else if (outcome === 'blackjack') {
+            const dealerBlackjack = dealer.length === 2 && dealerValue === 21;
+            if (dealerBlackjack) {
+                gameResult = 'push';
+                winnings = player.bet;
+            } else {
+                gameResult = 'blackjack';
+                winnings = player.bet + Math.floor(player.bet * 1.5); // Blackjack paga 3:2
+            }
+        } else if (outcome === 'compare') {
+            if (dealerValue > 21) {
+                gameResult = 'win';
+                winnings = player.bet * 2;
+            } else if (playerValue > dealerValue) {
+                gameResult = 'win';
+                winnings = player.bet * 2;
+            } else if (playerValue < dealerValue) {
+                gameResult = 'lose';
+                winnings = 0;
+            } else {
+                gameResult = 'push';
+                winnings = player.bet;
+            }
+        } else {
+            gameResult = 'lose';
+            winnings = 0;
         }
+
+        setBalance(prev => prev + winnings);
+
+        setResult({
+            playerId: player.id,
+            playerName: player.name,
+            result: gameResult,
+            playerValue,
+            dealerValue,
+            winnings
+        });
+
+        setShowNotification(true);
+        setTimeout(() => {
+            setShowNotification(false);
+            newRound();
+        }, 3000);
     };
 
-    const handleLeaveTable = () => {
-        safeEmit('leaveLobby', {lobbyId: Number(roomId), clientId: localPlayerId});
-        navigate('/BlackJackLobby');
+    const newRound = () => {
+        setPlayer(prev => ({
+            ...prev,
+            hand: [],
+            status: 'waiting',
+            bet: 0
+        }));
+        setDealer([]);
+        setGamePhase('betting');
+        setResult(null);
     };
 
-    const getCardColor = (suit: string) => {
-        return ['♥', '♦'].includes(suit) ? '#dc3545' : '#000';
-    };
+    // ==================== COMPONENTE RESULTADO ====================
+    const ResultNotification = () => {
+        if (!showNotification || !result) return null;
 
-    const formatCurrency = (amount: number) => {
-        return `$${amount}`;
-    };
+        const isWin = result.result === 'win' || result.result === 'blackjack';
+        const isPush = result.result === 'push';
 
-    const canTakeAction = gameState.gamePhase === 'playing' &&
-        gameState.currentPlayer === localPlayerPosition;
-
-    return (
-        <>
-            <NavBar/>
-            <div className="blackjack-container">
-                {!isConnected && (
-                    <div className="connection-status" style={{
-                        backgroundColor: 'rgba(255,0,0,0.7)',
-                        padding: '10px',
-                        color: 'white',
-                        textAlign: 'center',
-                        fontWeight: 'bold'
-                    }}>
-                        Reconnecting to server...
+        return (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div
+                    className={`p-6 rounded-lg text-center ${isWin ? 'bg-green-600' : isPush ? 'bg-yellow-600' : 'bg-red-600'} text-white`}>
+                    <div className="text-4xl mb-4">
+                        {isWin ? '🏆' : isPush ? '🤝' : '😞'}
                     </div>
-                )}
-
-                {lastEmittedEvent && (
-                    <div className="debug-info" style={{
-                        backgroundColor: 'rgba(0,0,0,0.7)',
-                        color: 'lime',
-                        padding: '5px',
-                        fontSize: '10px',
-                        position: 'fixed',
-                        bottom: '10px',
-                        left: '10px',
-                        maxWidth: '300px',
-                        zIndex: 1000
-                    }}>
-                        Last event: {lastEmittedEvent.event}<br/>
-                        Time: {new Date(lastEmittedEvent.time).toLocaleTimeString()}
-                    </div>
-                )}
-
-                <div className="blackjack-table">
-                    <div className="table-felt">
-                        {/* Dealer Area */}
-                        <div className="dealer-area">
-                            <div className="dealer-label">Dealer</div>
-                            <div className="dealer-cards">
-                                {gameState.dealerHand.map((card, index) => (
-                                    <div
-                                        key={index}
-                                        className={`card ${card.value === '?' ? 'back' : ''}`}
-                                        style={{color: card.value !== '?' ? getCardColor(card.suit) : '#ffd700'}}
-                                    >
-                                        {card.value === '?' ? '🂠' : `${card.value}${card.suit}`}
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="dealer-total">
-                                Total: {gameState.dealerTotal}{gameState.dealerHand.some(card => card.value === '?') ? '+' : ''}
-                            </div>
-                        </div>
-
-                        {/* Table Center */}
-                        <div className="table-center">
-                            <div className="table-logo">BLACKJACK</div>
-                            <div className="table-rules">
-                                Dealer must stand on 17<br/>
-                                Blackjack pays 3:2
-                            </div>
-                            <div className="game-status">
-                                {gameState.gamePhase === 'waiting' && "Waiting for players..."}
-                                {gameState.gamePhase === 'betting' && "Place your bets"}
-                                {gameState.gamePhase === 'playing' && `${gameState.players[gameState.currentPlayer]?.playerName}'s turn`}
-                                {gameState.gamePhase === 'finished' && "Round complete"}
-                            </div>
-                        </div>
-
-                        {/* Betting Spots */}
-                        <div className="betting-spots">
-                            {gameState.players.map((player, index) => (
-                                <div
-                                    key={index}
-                                    className={`betting-spot
-                                              ${player.isActive ? ' active' : ''}
-                                              ${index === localPlayerPosition ? ' local-player' : ''}
-                                              ${index === 1 ? ' middle-spot' : ''}
-                                              ${player.playerId === null ? ' empty-seat' : ''}`}
-                                    onClick={() => handleBettingSpotClick(index)}
-                                >
-                                    <div className="spot-label">
-                                        {player.playerId === null
-                                            ? "Empty Seat"
-                                            : (player.playerId === localPlayerId
-                                                ? "You"
-                                                : player.playerName)}
-                                    </div>
-
-                                    {/* Leave Seat button */}
-                                    {player.playerId === localPlayerId && gameState.gamePhase === 'waiting' && (
-                                        <button
-                                            className="leave-seat-btn"
-                                            onClick={(e) => {
-                                                e.stopPropagation(); // Prevent triggering the betting spot click
-                                                handleLeaveSeat();
-                                            }}
-                                            style={{
-                                                position: 'absolute',
-                                                top: '5px',
-                                                right: '5px',
-                                                backgroundColor: '#ff4444',
-                                                color: 'white',
-                                                border: 'none',
-                                                borderRadius: '4px',
-                                                padding: '3px 6px',
-                                                fontSize: '10px',
-                                                cursor: 'pointer'
-                                            }}
-                                        >
-                                            Leave Seat
-                                        </button>
-                                    )}
-
-                                    {player.bet > 0 && (
-                                        <div className="bet-amount">
-                                            {formatCurrency(player.bet)}
-                                        </div>
-                                    )}
-
-                                    <div className="player-cards">
-                                        {player.cards.map((card, cardIndex) => (
-                                            <div
-                                                key={cardIndex}
-                                                className="card"
-                                                style={{color: getCardColor(card.suit)}}
-                                            >
-                                                {card.value}{card.suit}
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    {player.cards.length > 0 && (
-                                        <div className="player-total">
-                                            Total: {player.total}
-                                            {player.total === 21 && player.cards.length === 2 && (
-                                                <span style={{color: '#ffd700', marginLeft: '5px'}}>♠ BLACKJACK!</span>
-                                            )}
-                                            {player.total > 21 && (
-                                                <span style={{color: '#ff4444', marginLeft: '5px'}}>BUST!</span>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Action Buttons */}
-                        <div className="action-buttons">
-                            <button
-                                className="action-btn"
-                                onClick={handleHit}
-                                disabled={!canTakeAction ||
-                                    gameState.players[localPlayerPosition!]?.total >= 21}
-                            >
-                                Hit
-                            </button>
-                            <button
-                                className="action-btn"
-                                onClick={handleStand}
-                                disabled={!canTakeAction}
-                            >
-                                Stand
-                            </button>
-                            <button
-                                className="action-btn"
-                                onClick={handleDouble}
-                                disabled={
-                                    !canTakeAction ||
-                                    gameState.players[localPlayerPosition!]?.cards.length !== 2
-                                }
-                            >
-                                Double
-                            </button>
-                            <button
-                                className="action-btn leave-btn"
-                                onClick={handleLeaveTable}
-                            >
-                                Leave Table
-                            </button>
-                        </div>
-                    </div>
+                    <h3 className="text-xl font-bold mb-2">
+                        {result.result === 'blackjack' ? '¡BLACKJACK!' :
+                            result.result === 'win' ? '¡GANASTE!' :
+                                result.result === 'push' ? 'EMPATE' : 'PERDISTE'}
+                    </h3>
+                    <p className="mb-2">
+                        Jugador: {result.playerValue} | Dealer: {result.dealerValue}
+                    </p>
+                    <p className="text-lg">
+                        {result.result === 'blackjack' ? `Ganaste $${result.winnings}` :
+                            result.result === 'win' ? `Ganaste $${result.winnings}` :
+                                result.result === 'push' ? `Recuperaste $${result.winnings}` :
+                                    `Perdiste $${player.bet}`}
+                    </p>
                 </div>
+            </div>
+        );
+    };
 
-                {/* Chips Area */}
-                <div className="chips-area">
-                    {chipValues.map(value => (
+    // ==================== RENDER ====================
+    return (
+        <div className="min-h-screen bg-green-800 p-4">
+            {/* Header con balance */}
+            <div className="text-center mb-6">
+                <h1 className="text-4xl font-bold text-white mb-4">BLACKJACK</h1>
+                <div className="bg-yellow-500 text-black px-4 py-2 rounded-lg inline-block font-bold text-xl">
+                    Balance: ${balance}
+                </div>
+            </div>
+
+            {/* Área del Dealer */}
+            <div className="bg-green-700 rounded-lg p-6 mb-6">
+                <h2 className="text-white text-xl mb-4 text-center">Dealer</h2>
+                <div className="flex justify-center gap-2 mb-4">
+                    {dealer.map((card, index) => (
                         <div
-                            key={value}
-                            className={`chip chip-${value}
-                                        ${gameState.selectedChip === value ? 'selected' : ''}
-                                        ${gameState.gamePhase !== 'betting' || localPlayerPosition === null ? 'disabled' : ''}`}
-                            onClick={() => gameState.gamePhase === 'betting' && handleChipSelect(value)}
+                            key={card.id}
+                            className={`w-16 h-24 rounded border-2 border-white flex items-center justify-center text-sm font-bold ${
+                                card.hidden ? 'bg-blue-900 text-white' : 'bg-white'
+                            }`}
+                            style={card.hidden ? {} : {color: getCardColor(card.suit)}}
                         >
-                            ${value}
+                            {card.hidden ? '?' : `${card.rank}${getSuitSymbol(card.suit)}`}
                         </div>
                     ))}
                 </div>
+                <div className="text-white text-center">
+                    Total: {gamePhase === 'betting' || gamePhase === 'dealing' ?
+                    (dealer.length > 0 ? calculateHandValue([dealer[0]]) + '+' : 0) :
+                    calculateHandValue(dealer)
+                }
+                </div>
             </div>
 
-            <div className="footer-container">
-                <Footer/>
+            {/* Área del Jugador */}
+            <div className="bg-blue-700 rounded-lg p-6 mb-6">
+                <h2 className="text-white text-xl mb-4 text-center">{player.name}</h2>
+                <div className="flex justify-center gap-2 mb-4">
+                    {player.hand.map((card) => (
+                        <div
+                            key={card.id}
+                            className="w-16 h-24 bg-white rounded border-2 border-gray-800 flex items-center justify-center text-sm font-bold"
+                            style={{color: getCardColor(card.suit)}}
+                        >
+                            {card.rank}{getSuitSymbol(card.suit)}
+                        </div>
+                    ))}
+                </div>
+                <div className="text-white text-center mb-2">
+                    Total: {calculateHandValue(player.hand)}
+                    {calculateHandValue(player.hand) === 21 && player.hand.length === 2 && (
+                        <span className="text-yellow-300 ml-2">♠ BLACKJACK!</span>
+                    )}
+                    {calculateHandValue(player.hand) > 21 && (
+                        <span className="text-red-300 ml-2">BUST!</span>
+                    )}
+                </div>
+                <div className="text-white text-center">
+                    Apuesta: ${player.bet}
+                </div>
             </div>
-        </>
+
+            {/* Área de apuestas */}
+            {gamePhase === 'betting' && (
+                <div className="bg-gray-800 rounded-lg p-6 mb-6">
+                    <h3 className="text-white text-lg mb-4 text-center">Selecciona tu apuesta</h3>
+
+                    {/* Fichas */}
+                    <div className="flex justify-center gap-4 mb-6">
+                        {chipValues.map((value) => (
+                            <button
+                                key={value}
+                                onClick={() => setSelectedChip(value)}
+                                className={`w-16 h-16 rounded-full border-4 font-bold text-sm ${
+                                    selectedChip === value
+                                        ? 'bg-yellow-400 border-yellow-200 text-black'
+                                        : 'bg-red-600 border-red-400 text-white'
+                                } hover:scale-110 transition-transform`}
+                            >
+                                ${value}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Botones de apuesta */}
+                    <div className="flex justify-center gap-4">
+                        <button
+                            onClick={handleBet}
+                            disabled={balance < parseInt(selectedChip)}
+                            className="bg-green-600 hover:bg-green-700 disabled:bg-gray-500 text-white px-6 py-3 rounded-lg font-bold"
+                        >
+                            Apostar ${selectedChip}
+                        </button>
+                        <button
+                            onClick={clearBet}
+                            disabled={player.bet === 0}
+                            className="bg-red-600 hover:bg-red-700 disabled:bg-gray-500 text-white px-6 py-3 rounded-lg font-bold"
+                        >
+                            Limpiar Apuesta
+                        </button>
+                        <button
+                            onClick={startGame}
+                            disabled={player.bet === 0}
+                            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-500 text-white px-6 py-3 rounded-lg font-bold"
+                        >
+                            Repartir Cartas
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Botones de juego */}
+            {gamePhase === 'playing' && player.status === 'playing' && (
+                <div className="flex justify-center gap-4 mb-6">
+                    <button
+                        onClick={hit}
+                        className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-bold text-lg"
+                    >
+                        Pedir
+                    </button>
+                    <button
+                        onClick={stand}
+                        className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-lg font-bold text-lg"
+                    >
+                        Plantarse
+                    </button>
+                    <button
+                        onClick={double}
+                        disabled={player.hand.length !== 2 || balance < player.bet}
+                        className="bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-500 text-white px-8 py-4 rounded-lg font-bold text-lg"
+                    >
+                        Doblar
+                    </button>
+                </div>
+            )}
+
+            {/* Botón nueva ronda */}
+            {gamePhase === 'finished' && !showNotification && (
+                <div className="flex justify-center">
+                    <button
+                        onClick={newRound}
+                        className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-bold text-lg"
+                    >
+                        Nueva Ronda
+                    </button>
+                </div>
+            )}
+
+            {/* Notificación de resultado */}
+            <ResultNotification/>
+        </div>
     );
 };
 
-export default BlackjackTable;
+export default EnhancedBlackjack;

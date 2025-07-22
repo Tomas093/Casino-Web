@@ -277,6 +277,12 @@ const SupportPage: React.FC = () => {
                                         ]}
                                         submitButtonText={loading ? "Enviando..." : "Enviar Mensaje"}
                                         onSubmit={handleSubmit}
+                                        className="support-form-wrapper"
+                                        titleClassName="support-form-title"
+                                        subtitleClassName="support-form-subtitle"
+                                        formClassName="support-form"
+                                        inputClassName="support-form-control"
+                                        buttonClassName="btn"
                                     />
                                 )}
                                 {submissionError && <div className="error-message">{submissionError}</div>}

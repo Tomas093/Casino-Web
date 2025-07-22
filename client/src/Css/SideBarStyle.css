@@ -74,8 +74,12 @@
 }
 
 @keyframes spin {
-    from { transform: rotateY(0deg); }
-    to { transform: rotateY(360deg); }
+    from {
+        transform: rotateY(0deg);
+    }
+    to {
+        transform: rotateY(360deg);
+    }
 }
 
 /* Menú de navegación */
@@ -148,7 +152,7 @@
     .sidebar {
         width: 250px;
     }
-    
+
     .main-content {
         margin-left: 250px;
     }
@@ -195,7 +199,7 @@
         text-align: center;
         padding: 0.6rem 0.5rem;
     }
-    
+
     .main-content {
         margin-left: 0;
     }
@@ -206,4 +210,3 @@
         flex: 1 1 100%;
     }
 }
-
