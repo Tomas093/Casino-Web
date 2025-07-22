@@ -145,8 +145,8 @@ body {
 }
 
 .blackjack-card {
-    width: 45px;
-    height: 65px;
+    width: 68px;
+    height: 98px;
     background: linear-gradient(145deg, #ffffff, #f0f0f0);
     border-radius: 6px;
     border: 1px solid #ddd;

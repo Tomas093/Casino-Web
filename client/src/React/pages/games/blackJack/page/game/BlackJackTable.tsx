@@ -101,6 +101,29 @@ const BlackjackTable: React.FC = () => {
         }
     };
 
+    const suitMap: Record<string, string> = {
+        '♠': 'spades',
+        '♥': 'hearts',
+        '♦': 'diamonds',
+        '♣': 'clubs'
+    };
+
+    const valueMap: Record<string, string> = {
+        'A': 'ace',
+        'K': 'king',
+        'Q': 'queen',
+        'J': 'jack'
+    };
+
+    const getCardImage = (card: Card) => {
+        if (card.value === '?') {
+            return '/src/React/pages/games/blackJack/cards/defaultcards/back.png'; // Use your back image
+        }
+        const value = valueMap[card.value] || card.value; // 'ace', 'king', or '2', '10'
+        const suit = suitMap[card.suit]; // 'diamonds', 'spades', etc.
+        return `/src/React/pages/games/blackJack/cards/DefaultCards/${value}_of_${suit}.png`;
+    };
+
     const handleLeaveSeat = () => {
         if (localPlayerPosition !== null && gameState.gamePhase === 'waiting') {
             safeEmit('leaveSeat', {
@@ -419,7 +442,11 @@ const BlackjackTable: React.FC = () => {
                                         className={`blackjack-card ${card.value === '?' ? 'blackjack-back' : ''}`}
                                         style={{color: card.value !== '?' ? getCardColor(card.suit) : '#ffd700'}}
                                     >
-                                        {card.value === '?' ? '🂠' : `${card.value}${card.suit}`}
+                                        <img
+                                            src={getCardImage(card)}
+                                            alt={`${card.value}${card.suit}`}
+                                            style={{width: '100%', height: '100%', objectFit: 'contain'}}
+                                        />
                                     </div>
                                 ))}
                             </div>
@@ -509,7 +536,11 @@ const BlackjackTable: React.FC = () => {
                                                 className="blackjack-card"
                                                 style={{color: getCardColor(card.suit)}}
                                             >
-                                                {card.value}{card.suit}
+                                                <img
+                                                    src={getCardImage(card)}
+                                                    alt={`${card.value}${card.suit}`}
+                                                    style={{width: '100%', height: '100%', objectFit: 'contain'}}
+                                                />
                                             </div>
                                         ))}
                                     </div>
