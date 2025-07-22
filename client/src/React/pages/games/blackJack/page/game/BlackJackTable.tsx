@@ -5,7 +5,7 @@ import NavBar from "@components/NavBar.tsx";
 import {useNavigate, useParams} from 'react-router-dom';
 import {io, Socket} from 'socket.io-client';
 import Message from '@components/Error/Message';
-import { useLobbyContext } from '@context/LobbyContext';
+import {useLobbyContext} from '@context/LobbyContext';
 
 interface Card {
     suit: string;
@@ -35,7 +35,6 @@ const chipValues = [1, 10, 50, 100, 500, 1000];
 const socketRef = {current: null as Socket | null};
 
 if (!socketRef.current) {
-    console.log('Creating new socket connection');
     socketRef.current = io('http://localhost:3001', {
         reconnection: true,
         reconnectionAttempts: 5,
@@ -72,43 +71,33 @@ const BlackjackTable: React.FC = () => {
     const navigate = useNavigate();
     const {roomId} = useParams();
     const initializedRef = useRef(false);
-    const { leaveLobby } = useLobbyContext();
+    const {leaveLobby} = useLobbyContext();
 
     const safeEmit = (event: string, data: any) => {
-        console.log(`Emitting ${event}:`, data);
         setLastEmittedEvent({event, data, time: Date.now()});
-
         if (!socket.connected) {
-            console.warn('Socket not connected! Attempting to reconnect...');
             socket.connect();
         }
-
         try {
             socket.emit(event, data);
         } catch (error) {
-            console.error(`Error emitting ${event}:`, error);
             setErrorMessage(`Failed to send ${event} action. Please try again.`);
         }
     };
 
     const handleLeaveSeat = () => {
         if (localPlayerPosition !== null && gameState.gamePhase === 'waiting') {
-            console.log("🪑 Leaving seat at position", localPlayerPosition);
-
             safeEmit('leaveSeat', {
                 lobbyId: Number(roomId),
                 position: localPlayerPosition,
-                clientId: localPlayerId
+                clientId: localPlayerId ?? undefined
             });
         }
     };
 
     useEffect(() => {
-        console.log('BlackjackTable component mounted');
-
         const user = localStorage.getItem("user");
         if (!user) {
-            console.error('No user found in localStorage');
             setErrorMessage("You must be logged in to play");
             setTimeout(() => navigate('/BlackJackLobby'), 2000);
             return;
@@ -119,10 +108,7 @@ const BlackjackTable: React.FC = () => {
             const userId = userData.usuarioid;
             const userName = userData.username || "Player";
 
-            console.log('User data loaded:', {userId, userName});
-
             if (!userId || !roomId) {
-                console.error('Invalid user ID or room ID', {userId, roomId});
                 setErrorMessage("Invalid user ID or room ID");
                 setTimeout(() => navigate('/BlackJackLobby'), 2000);
                 return;
@@ -131,69 +117,45 @@ const BlackjackTable: React.FC = () => {
             setLocalPlayerId(userId);
             setUsername(userName);
 
-            console.log('Socket state:', {
-                id: socket.id,
-                connected: socket.connected,
-                disconnected: socket.disconnected
-            });
-
             if (!initializedRef.current) {
                 initializedRef.current = true;
 
-                console.log('Setting up socket event listeners');
-
                 socket.on('connect', () => {
-                    console.log('🟢 Connected to server:', socket.id);
                     setIsConnected(true);
-
                     safeEmit('joinLobby', {
                         lobbyId: Number(roomId),
                         clientId: userId,
                         playerName: userName
                     });
-
                     safeEmit('requestGameState', {
                         lobbyId: Number(roomId)
                     });
                 });
 
                 socket.on('disconnect', (reason) => {
-                    console.log('🔴 Disconnected from server. Reason:', reason);
                     setIsConnected(false);
                     setErrorMessage(`Disconnected from server: ${reason}. Reconnecting...`);
                 });
 
                 socket.on('connect_error', (error) => {
-                    console.error('❌ Socket connection error:', error);
                     setErrorMessage(`Connection error: ${error.message}`);
                 });
 
                 socket.on('error', (error) => {
-                    console.error('❌ Socket error:', error);
                     setErrorMessage(`Socket error: ${error.message || 'Unknown error'}`);
                 });
 
                 socket.on('joinError', (error) => {
-                    console.error('❌ Failed to join lobby:', error);
                     setErrorMessage(`Error joining game: ${error.message || 'Unknown error'}`);
                 });
 
-                socket.onAny((event, ...args) => {
-                    console.log(`📥 Server event: ${event}`, args);
-                });
-
                 socket.on('gameStateUpdate', (updatedGameState) => {
-                    console.log('🎮 Received game state update:', updatedGameState);
                     setGameState(updatedGameState);
-
                     const position = updatedGameState.players.findIndex((p: PlayerHand) => p.playerId === userId);
-                    console.log('Local player position:', position, 'userId:', userId);
                     setLocalPlayerPosition(position >= 0 ? position : null);
                 });
 
                 socket.on('playerJoined', ({playerId, playerName, position}) => {
-                    console.log('👤 Player joined event:', {playerId, playerName, position});
-
                     setGameState(prev => {
                         const updatedPlayers = [...prev.players];
                         updatedPlayers[position] = {
@@ -204,25 +166,19 @@ const BlackjackTable: React.FC = () => {
                         };
                         return {...prev, players: updatedPlayers};
                     });
-
                     if (playerId === userId) {
-                        console.log('This is local player joining at position:', position);
                         setLocalPlayerPosition(position);
                     }
                 });
 
                 socket.on('sitDownResponse', (response) => {
-                    console.log('🪑 sitDown response:', response);
                     if (response.error) {
-                        console.error('Error sitting down:', response.error);
                         setErrorMessage(`Error sitting down: ${response.error}`);
                     }
                 });
 
                 socket.on('leaveSeatResponse', (response) => {
-                    console.log('🪑 leaveSeat response:', response);
                     if (response.error) {
-                        console.error('Error leaving seat:', response.error);
                         setErrorMessage(`Error leaving seat: ${response.error}`);
                     } else if (response.success) {
                         setLocalPlayerPosition(null);
@@ -230,23 +186,19 @@ const BlackjackTable: React.FC = () => {
                 });
 
                 socket.on('gamePhaseChanged', ({phase}) => {
-                    console.log('🔄 Game phase changed:', phase);
                     setGameState(prev => ({...prev, gamePhase: phase}));
                 });
 
                 socket.on('actionError', ({message}) => {
-                    console.error('❌ Action error:', message);
                     setErrorMessage(message);
                 });
 
                 socket.on('betError', ({message}) => {
-                    console.error('❌ Betting error:', message);
                     setErrorMessage(message);
                 });
             }
 
             if (!socket.connected) {
-                console.log('Socket not connected, connecting now...');
                 socket.connect();
             }
 
@@ -261,29 +213,19 @@ const BlackjackTable: React.FC = () => {
             });
 
             return () => {
-                console.log('Component unmounting, leaving lobby');
                 safeEmit('leaveLobby', {
                     lobbyId: Number(roomId),
                     clientId: userId
                 });
             };
         } catch (error) {
-            console.error('Error in useEffect:', error);
             setErrorMessage("An error occurred while setting up the game.");
             setTimeout(() => navigate('/BlackJackLobby'), 2000);
         }
     }, [roomId, navigate]);
 
     const handleBettingSpotClick = (playerIndex: number) => {
-        console.log("👆 Click on position:", playerIndex);
-        console.log("Game phase:", gameState.gamePhase);
-        console.log("Is seat empty:", gameState.players[playerIndex].playerId === null);
-        console.log("Local player ID:", localPlayerId);
-        console.log("Username:", username);
-        console.log("Room ID:", roomId);
-
         if (!isConnected) {
-            console.warn("⚠️ Not connected to server");
             setErrorMessage("Not connected to the server. Please wait for reconnection.");
             return;
         }
@@ -303,15 +245,12 @@ const BlackjackTable: React.FC = () => {
         }
 
         if (gameState.gamePhase === 'waiting' && gameState.players[playerIndex].playerId === null) {
-            console.log("🪑 Attempting to sit down at position", playerIndex);
-
             const sitDownData = {
                 lobbyId: Number(roomId),
                 position: playerIndex,
-                clientId: localPlayerId,
+                clientId: localPlayerId ?? undefined,
                 playerName: username
             };
-
             safeEmit('sitDown', sitDownData);
         }
 
@@ -365,12 +304,10 @@ const BlackjackTable: React.FC = () => {
 
     const handleLeaveTable = async () => {
         try {
-            await leaveLobby(Number(roomId), localPlayerId);
-            safeEmit('leaveLobby', {lobbyId: Number(roomId), clientId: localPlayerId});
-
+            await leaveLobby(Number(roomId), localPlayerId ?? undefined);
+            safeEmit('leaveLobby', {lobbyId: Number(roomId), clientId: localPlayerId ?? undefined});
             navigate('/BlackJackLobby');
         } catch (error) {
-            console.error('Error leaving table:', error);
             navigate('/BlackJackLobby');
         }
     };
@@ -413,23 +350,6 @@ const BlackjackTable: React.FC = () => {
                         fontWeight: 'bold'
                     }}>
                         Reconnecting to server...
-                    </div>
-                )}
-
-                {lastEmittedEvent && (
-                    <div className="blackjack-debug-info" style={{
-                        backgroundColor: 'rgba(0,0,0,0.7)',
-                        color: 'lime',
-                        padding: '5px',
-                        fontSize: '10px',
-                        position: 'fixed',
-                        bottom: '10px',
-                        left: '10px',
-                        maxWidth: '300px',
-                        zIndex: 1000
-                    }}>
-                        Last event: {lastEmittedEvent.event}<br/>
-                        Time: {new Date(lastEmittedEvent.time).toLocaleTimeString()}
                     </div>
                 )}
 
@@ -476,11 +396,11 @@ const BlackjackTable: React.FC = () => {
                                 <div
                                     key={index}
                                     className={`blackjack-betting-spot
-                                                                                  ${player.isActive ? 'blackjack-active' : ''}
-                                                                                  ${index === localPlayerPosition ? 'blackjack-local-player' : ''}
-                                                                                  ${index === 1 ? 'blackjack-middle-spot' : ''}
-                                                                                  ${player.playerId === null ? 'blackjack-empty-seat' : ''}
-                                                                                  ${gameState.currentPlayer === index ? 'blackjack-current-turn' : ''}`}
+                                                                                                                  ${player.isActive ? 'blackjack-active' : ''}
+                                                                                                                  ${index === localPlayerPosition ? 'blackjack-local-player' : ''}
+                                                                                                                  ${index === 1 ? 'blackjack-middle-spot' : ''}
+                                                                                                                  ${player.playerId === null ? 'blackjack-empty-seat' : ''}
+                                                                                                                  ${gameState.currentPlayer === index ? 'blackjack-current-turn' : ''}`}
                                     onClick={() => handleBettingSpotClick(index)}
                                 >
                                     <div className="blackjack-spot-label">
@@ -592,8 +512,8 @@ const BlackjackTable: React.FC = () => {
                         <div
                             key={value}
                             className={`blackjack-chip blackjack-chip-${value}
-                                                                                ${gameState.selectedChip === value ? 'blackjack-selected' : ''}
-                                                                                ${gameState.gamePhase !== 'betting' || localPlayerPosition === null ? 'blackjack-disabled' : ''}`}
+                                                                                                                ${gameState.selectedChip === value ? 'blackjack-selected' : ''}
+                                                                                                                ${gameState.gamePhase !== 'betting' || localPlayerPosition === null ? 'blackjack-disabled' : ''}`}
                             onClick={() => gameState.gamePhase === 'betting' && handleChipSelect(value)}
                         >
                             ${value}
