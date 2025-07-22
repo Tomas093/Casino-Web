@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Con chips ARREGLADAS?">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="CON TIMER">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" afterDir="false" />
     </list>
     <list id="f5eeda07-02d7-44e3-8290-11b843a3b9f1" name="Changes by Eliseos" comment="Changes by Eliseos" />
     <option name="SHOW_DIALOG" value="false" />
@@ -261,14 +260,7 @@
       <workItem from="1753141358253" duration="3997000" />
       <workItem from="1753145445182" duration="3478000" />
       <workItem from="1753186874385" duration="11016000" />
-    </task>
-    <task id="LOCAL-00051" summary="Subo con merge completo Creo">
-      <option name="closed" value="true" />
-      <created>1746554032444</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1746554032445</updated>
+      <workItem from="1753217200115" duration="1401000" />
     </task>
     <task id="LOCAL-00052" summary="Add Recent Activities component; integrate with admin management and style updates">
       <option name="closed" value="true" />
@@ -654,7 +646,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753196004053</updated>
     </task>
-    <option name="localTasksCounter" value="100" />
+    <task id="LOCAL-00100" summary="CON TIMER">
+      <option name="closed" value="true" />
+      <created>1753205290855</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1753205290855</updated>
+    </task>
+    <option name="localTasksCounter" value="101" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -687,7 +687,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Enhance coupon validation and UI; add monetary limits display and refactor coupon handling logic" />
     <MESSAGE value="Enhance coupon management; add cuponid field, update API methods, and improve validation logic" />
     <MESSAGE value="Refactor coupon management; update workspace configuration and enhance login form with footer text" />
     <MESSAGE value="Refactor session management; integrate user suspension check and enhance API methods" />
@@ -712,6 +711,7 @@
     <MESSAGE value="Refactor BlackJackTable component: improve structure and update class names for consistency" />
     <MESSAGE value="Refactor BlackJackTable component: clean up code and improve readability" />
     <MESSAGE value="Con chips ARREGLADAS?" />
-    <option name="LAST_COMMIT_MESSAGE" value="Con chips ARREGLADAS?" />
+    <MESSAGE value="CON TIMER" />
+    <option name="LAST_COMMIT_MESSAGE" value="CON TIMER" />
   </component>
 </project>

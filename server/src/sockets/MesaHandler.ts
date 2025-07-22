@@ -121,45 +121,50 @@ const debugGameState = (lobbyId: number) => {
 };
 
 // --- FIXED: Start betting phase with waiting timer ---
+// server/src/sockets/MesaHandler.ts
 const startBettingPhaseWithTimer = (io: Server, lobbyId: number) => {
-    if (!activeGames.has(lobbyId)) return;
-    const game = activeGames.get(lobbyId)!;
+    const game = activeGames.get(lobbyId);
+    if (!game) return;
 
-    // Set phase to waiting and notify clients
+    // Set to waiting phase
     game.gameState.gamePhase = 'waiting';
-    io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'waiting'});
+    io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', { phase: 'waiting' });
     io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
 
-    console.log(`[DEBUG] Starting waiting phase timer for lobby ${lobbyId}`);
-
-    // Clear any previous timer
+    // Clear previous waiting timer
     if (game.timers.waiting) {
         clearTimeout(game.timers.waiting);
-        console.log(`[DEBUG] Cleared previous timer for lobby ${lobbyId}`);
     }
-
-    // Start timer (10 seconds for testing, change to 60000 for production)
+    // Start waiting timer (10 seconds for testing)
     game.timers.waiting = setTimeout(() => {
-        console.log(`[DEBUG] Timer expired for lobby ${lobbyId}, checking for players...`);
-
-        // Check for at least one seated player
         const seatedPlayers = game.gameState.players.filter(p => p.isActive && p.playerId !== null);
-        console.log(`[DEBUG] Found ${seatedPlayers.length} seated players:`, seatedPlayers.map(p => `${p.playerName} (ID: ${p.playerId})`));
 
         if (seatedPlayers.length > 0) {
-            console.log(`[DEBUG] Moving to betting phase for lobby ${lobbyId}`);
             // Move to betting phase
             game.gameState.gamePhase = 'betting';
-            io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'betting'});
+            io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', { phase: 'betting' });
             io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
+            // Clear previous betting timer
+            if (game.timers.betting) {
+                clearTimeout(game.timers.betting);
+            }
+
+            // Start betting timer (30 seconds)
+            game.timers.betting = setTimeout(() => {
+                // Move to dealing phase
+                game.gameState.gamePhase = 'dealing';
+                io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', { phase: 'dealing' });
+                io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
+                // Call your dealing logic here
+                startDealingPhase(io, lobbyId);
+            }, 30000);
         } else {
-            console.log(`[DEBUG] No seated players, repeating waiting phase for lobby ${lobbyId}`);
             // No players, repeat waiting phase
             startBettingPhaseWithTimer(io, lobbyId);
         }
-    }, 10000); // Change to 60000 for production
-
-    console.log(`[DEBUG] Timer set for lobby ${lobbyId}, will expire in 10 seconds`);
+    }, 10000); // 10 seconds for waiting
 };
 
 export const setupMesaHandlers = (io: Server, lobbyService: LobbyService) => {
@@ -378,17 +383,6 @@ export const setupMesaHandlers = (io: Server, lobbyService: LobbyService) => {
 
                 // Broadcast updated game state
                 io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
-
-                // Check if all active players have bet
-                const activePlayers = game.gameState.players.filter(p => p.isActive && p.playerId !== null);
-                const allBet = activePlayers.every(p => p.bet > 0);
-                console.log(`[DEBUG] Active players: ${activePlayers.length}, All bet: ${allBet}`);
-
-                if (allBet && activePlayers.length > 0) {
-                    console.log(`[DEBUG] All players have bet, starting dealing phase`);
-                    // Start dealing phase
-                    startDealingPhase(io, lobbyId);
-                }
 
             } catch (error: any) {
                 console.error(`Error placing bet: ${error.message}`);
