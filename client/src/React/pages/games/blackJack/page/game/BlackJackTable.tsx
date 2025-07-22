@@ -5,6 +5,7 @@ import NavBar from "@components/NavBar.tsx";
 import {useNavigate, useParams} from 'react-router-dom';
 import {io, Socket} from 'socket.io-client';
 import Message from '@components/Error/Message';
+import { useLobbyContext } from '@context/LobbyContext';
 
 interface Card {
     suit: string;
@@ -72,6 +73,7 @@ const BlackjackTable: React.FC = () => {
     const navigate = useNavigate();
     const {roomId} = useParams();
     const initializedRef = useRef(false);
+    const { leaveLobby } = useLobbyContext();
 
     // Debug function to safely emit socket events
     const safeEmit = (event: string, data: any) => {
@@ -374,9 +376,16 @@ const BlackjackTable: React.FC = () => {
         }
     };
 
-    const handleLeaveTable = () => {
-        safeEmit('leaveLobby', {lobbyId: Number(roomId), clientId: localPlayerId});
-        navigate('/BlackJackLobby');
+    const handleLeaveTable = async () => {
+        try {
+            await leaveLobby(Number(roomId), localPlayerId);
+            safeEmit('leaveLobby', {lobbyId: Number(roomId), clientId: localPlayerId});
+
+            navigate('/BlackJackLobby');
+        } catch (error) {
+            console.error('Error leaving table:', error);
+            navigate('/BlackJackLobby');
+        }
     };
 
     const getCardColor = (suit: string) => {
