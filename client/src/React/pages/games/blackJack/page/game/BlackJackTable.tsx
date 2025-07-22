@@ -83,6 +83,7 @@ const BlackjackTable: React.FC = () => {
     const [lastEmittedEvent, setLastEmittedEvent] = useState<{ event: string, data: any, time: number } | null>(null);
     const [lastClickedSpot, setLastClickedSpot] = useState<{ position: number, time: number } | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [timeRemaining, setTimeRemaining] = useState<number>(30);
     const navigate = useNavigate();
     const {roomId} = useParams();
     const initializedRef = useRef(false);
@@ -305,6 +306,44 @@ const BlackjackTable: React.FC = () => {
         }
     };
 
+    // Define the ref at the top of your component
+    const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+    // Then use this effect for the timer logic
+    useEffect(() => {
+        if (gameState.gamePhase === 'betting') {
+            setTimeRemaining(30);
+
+            // Clear any existing interval first
+            if (timerIntervalRef.current) {
+                clearInterval(timerIntervalRef.current);
+            }
+
+            // Set up new interval and store reference
+            timerIntervalRef.current = setInterval(() => {
+                setTimeRemaining(prevTime => {
+                    if (prevTime <= 1) {
+                        // Clear interval when time runs out
+                        if (timerIntervalRef.current) {
+                            clearInterval(timerIntervalRef.current);
+                            timerIntervalRef.current = null;
+                        }
+                        return 0;
+                    }
+                    return prevTime - 1;
+                });
+            }, 1000);
+        }
+
+        // Cleanup function
+        return () => {
+            if (timerIntervalRef.current) {
+                clearInterval(timerIntervalRef.current);
+                timerIntervalRef.current = null;
+            }
+        };
+    }, [gameState.gamePhase]);
+
     const handleDouble = () => {
         if (gameState.gamePhase === 'playing' &&
             gameState.currentPlayer === localPlayerPosition &&
@@ -319,7 +358,7 @@ const BlackjackTable: React.FC = () => {
 
     const handleLeaveTable = async () => {
         try {
-            await leaveLobby(Number(roomId), localPlayerId ?? undefined);
+            await leaveLobby(Number(roomId), localPlayerId?.toString() ?? '');
             safeEmit('leaveLobby', {lobbyId: Number(roomId), clientId: localPlayerId ?? undefined});
             navigate('/BlackJackLobby');
         } catch (error) {
@@ -389,20 +428,26 @@ const BlackjackTable: React.FC = () => {
                             </div>
                         </div>
 
-                        {/* Table Center */}
                         <div className="blackjack-table-center">
-                            <div className="blackjack-table-logo">BLACKJACK</div>
-                            <div className="blackjack-table-rules">
-                                Dealer must stand on 17<br/>
-                                Blackjack pays 3:2
-                            </div>
-                            <div className="blackjack-game-status">
-                                {gameState.gamePhase === 'waiting' && "Waiting for players..."}
-                                {gameState.gamePhase === 'betting' && "Place your bets"}
-                                {gameState.gamePhase === 'dealing' && "Dealing cards..."}
-                                {gameState.gamePhase === 'playing' && `${gameState.players[gameState.currentPlayer]?.playerName}'s turn`}
-                                {gameState.gamePhase === 'finished' && "Round complete"}
-                            </div>
+                            {gameState.gamePhase === 'waiting' || gameState.gamePhase === 'betting' ? (
+                                <div className="blackjack-timer">
+                                    <div className="blackjack-table-logo">BLACKJACK</div>
+                                    <div className="blackjack-table-rules">Dealer stands on 17 • Blackjack pays 3:2
+                                    </div>
+                                    {gameState.gamePhase === 'betting' && (
+                                        <div className="blackjack-countdown">
+                                            Place your bets: {timeRemaining}s
+                                        </div>
+                                    )}
+                                    {gameState.gamePhase === 'waiting' && (
+                                        <div className="blackjack-countdown">
+                                            Waiting for players to join...
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (
+                                <div className="blackjack-table-logo">BLACKJACK</div>
+                            )}
                         </div>
 
                         {/* Betting Spots */}

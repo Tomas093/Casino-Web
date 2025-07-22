@@ -32,7 +32,6 @@ import LimitMonitor from "@components/LimitMonitor.tsx";
 import Notification from "@components/Notification.tsx";
 import BjLobby from "../pages/games/blackJack/page/lobby/BjLobby.tsx";
 import BlackjackTable from "../pages/games/blackJack/page/game/BlackJackTable.tsx";
-import EnhancedBlackjack from "../pages/games/blackJack/page/game/BjPage.tsx";
 
 function App() {
     return (
@@ -50,7 +49,7 @@ function App() {
                     <Route path="/aboutus" element={<AboutUs/>}/>
                     <Route path="/legal" element={<Legal/>}/>
                     <Route path={"/notification"} element={<Notification/>}/>
-                    <Route path={"/bj"} element={<BlackjackGame/>}/>
+
 
 
                     {/* Rutas protegidas Solo (Usuarios/Clientes) */}
@@ -72,6 +71,8 @@ function App() {
                         <Route path="/slots" element={<Slots/>}/>
                         <Route path="/tickets" element={<TicketsView/>}/>
                         <Route path="/BlackJackLobby" element={<BjLobby/>}/>
+                        <Route path={"/BlackJack/:roomId"} element={<BlackjackTable/>}/>
+
                     </Route>
 
                     {/* rutas Solo para admins */}

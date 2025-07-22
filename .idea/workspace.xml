@@ -6,11 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Con chips ARREGLADAS?">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" afterDir="false" />
-    </list>
-    <list id="f5eeda07-02d7-44e3-8290-11b843a3b9f1" name="Changes by Eliseos" comment="Changes by Eliseos">
       <change beforePath="$PROJECT_DIR$/client/src/React/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/app/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" afterDir="false" />
     </list>
+    <list id="f5eeda07-02d7-44e3-8290-11b843a3b9f1" name="Changes by Eliseos" comment="Changes by Eliseos" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
