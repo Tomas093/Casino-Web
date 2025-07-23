@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Estilo Completamente Listo">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Arreglo Bug del dsiconnect">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" afterDir="false" />
     </list>
     <list id="f5eeda07-02d7-44e3-8290-11b843a3b9f1" name="Changes by Eliseos" comment="Changes by Eliseos" />
     <option name="SHOW_DIALOG" value="false" />
@@ -261,15 +260,7 @@
       <workItem from="1753141358253" duration="3997000" />
       <workItem from="1753145445182" duration="3478000" />
       <workItem from="1753186874385" duration="11016000" />
-      <workItem from="1753217200115" duration="6564000" />
-    </task>
-    <task id="LOCAL-00056" summary="Subo UN MONTON DE ABMS">
-      <option name="closed" value="true" />
-      <created>1746828963411</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1746828963412</updated>
+      <workItem from="1753217200115" duration="7814000" />
     </task>
     <task id="LOCAL-00057" summary="Add coupon validation and transaction handling; integrate coupon benefits in transaction process">
       <option name="closed" value="true" />
@@ -655,7 +646,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753223111174</updated>
     </task>
-    <option name="localTasksCounter" value="105" />
+    <task id="LOCAL-00105" summary="Arreglo Bug del dsiconnect">
+      <option name="closed" value="true" />
+      <created>1753224122367</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1753224122368</updated>
+    </task>
+    <option name="localTasksCounter" value="106" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -688,7 +687,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Refactor workspace configuration; update HTML title and favicon for consistency" />
     <MESSAGE value="Refactor login and registration components; enhance CSS class structure for better customization and maintainability" />
     <MESSAGE value="Cambios en la ruleta para que no llore, ademas de la logica del bj hecha" />
     <MESSAGE value="Agrego un intento de sockts y cambie algo mas que no me acuerdo" />
@@ -713,6 +711,7 @@
     <MESSAGE value="Cmabio Con Cartas De imagenes" />
     <MESSAGE value="Arreglo resteo del valor de las chips" />
     <MESSAGE value="Estilo Completamente Listo" />
-    <option name="LAST_COMMIT_MESSAGE" value="Estilo Completamente Listo" />
+    <MESSAGE value="Arreglo Bug del dsiconnect" />
+    <option name="LAST_COMMIT_MESSAGE" value="Arreglo Bug del dsiconnect" />
   </component>
 </project>
