@@ -12,6 +12,11 @@ import fiftyChip from '@assets/ficha50.png';
 import oneHundredChip from '@assets/ficha100.png';
 import fiveHundredChip from '@assets/ficha500.png';
 import oneThousandChip from '@assets/ficha1000.png';
+import { useAuth } from '@context/AuthContext.tsx';
+import { usePlay } from '@context/PlayContext.tsx';
+import { useUser } from '@context/UserContext';
+
+const BLACKJACK_GAME_ID = 1;
 
 interface Card {
     suit: string;
@@ -88,6 +93,9 @@ const BlackjackTable: React.FC = () => {
     const {roomId} = useParams();
     const initializedRef = useRef(false);
     const {leaveLobby} = useLobbyContext();
+    const { user } = useAuth();
+    const { createPlay } = usePlay();
+    const { getUserData } = useUser();
 
     const safeEmit = (event: string, data: any) => {
         setLastEmittedEvent({event, data, time: Date.now()});
@@ -99,6 +107,50 @@ const BlackjackTable: React.FC = () => {
         } catch (error) {
             setErrorMessage(`Failed to send ${event} action. Please try again.`);
         }
+    };
+
+    const suitMap: Record<string, string> = {
+        '♠': 'spades',
+        '♥': 'hearts',
+        '♦': 'diamonds',
+        '♣': 'clubs'
+    };
+
+    const valueMap: Record<string, string> = {
+        'A': 'ace',
+        'K': 'king',
+        'Q': 'queen',
+        'J': 'jack'
+    };
+
+    const registerPlay = async (betAmount: number, winAmount: number) => {
+        if (!user || !user.usuarioid) {
+            console.error('Usuario no autenticado para registrar jugada');
+            return;
+        }
+
+        try {
+            const playData = {
+                usuarioid: user.usuarioid,
+                juegoid: BLACKJACK_GAME_ID,
+                fecha: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(), // UTC -3
+                retorno: winAmount,
+                apuesta: betAmount
+            };
+            await createPlay(playData);
+            await getUserData(user.usuarioid.toString()); // actualizar balance
+        } catch (error) {
+            console.error('Error registrando jugada de blackjack:', error);
+        }
+    };
+
+    const getCardImage = (card: Card) => {
+        if (card.value === '?') {
+            return '/src/React/pages/games/blackJack/cards/defaultcards/back.png'; // Use your back image
+        }
+        const value = valueMap[card.value] || card.value; // 'ace', 'king', or '2', '10'
+        const suit = suitMap[card.suit]; // 'diamonds', 'spades', etc.
+        return `/src/React/pages/games/blackJack/cards/DefaultCards/${value}_of_${suit}.png`;
     };
 
     const handleLeaveSeat = () => {
@@ -284,6 +336,11 @@ const BlackjackTable: React.FC = () => {
             ...prev,
             selectedChip: value
         }));
+        safeEmit('updateSelectedChip', {
+            lobbyId: Number(roomId),
+            position: localPlayerPosition,
+            selectedChip: value
+        });
     };
 
     const handleHit = () => {
@@ -305,6 +362,30 @@ const BlackjackTable: React.FC = () => {
             });
         }
     };
+
+    useEffect(() => {
+        if (gameState.gamePhase === 'finished' && localPlayerPosition !== null) {
+            const player = gameState.players[localPlayerPosition];
+            const dealerTotal = gameState.dealerTotal;
+
+            const playerTotal = player.total;
+            const bet = player.bet;
+            let winAmount = 0;
+
+            if (playerTotal > 21) {
+                winAmount = 0; // perdió
+            } else if (dealerTotal > 21 || playerTotal > dealerTotal) {
+                winAmount = bet * 2; // ganó
+            } else if (playerTotal === dealerTotal) {
+                winAmount = bet; // empate
+            } else {
+                winAmount = 0; // perdió
+            }
+
+            registerPlay(bet, winAmount);
+        }
+    }, [gameState.gamePhase]);
+
 
     // Define the ref at the top of your component
     const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -413,15 +494,28 @@ const BlackjackTable: React.FC = () => {
                         <div className="blackjack-dealer-area">
                             <div className="blackjack-dealer-label">Dealer</div>
                             <div className="blackjack-dealer-cards">
-                                {gameState.dealerHand.map((card, index) => (
-                                    <div
-                                        key={index}
-                                        className={`blackjack-card ${card.value === '?' ? 'blackjack-back' : ''}`}
-                                        style={{color: card.value !== '?' ? getCardColor(card.suit) : '#ffd700'}}
-                                    >
-                                        {card.value === '?' ? '🂠' : `${card.value}${card.suit}`}
-                                    </div>
-                                ))}
+                                {gameState.dealerHand.map((card, index) => {
+                                    // Show back image for dealer's second card during dealing/playing
+                                    const isHoleCard = index === 1 && card.value === '?'
+                                        && (gameState.gamePhase === 'dealing' || gameState.gamePhase === 'playing');
+                                    const cardImgSrc = isHoleCard
+                                        ? '/src/React/pages/games/blackJack/cards/defaultcards/back.png' // your back image path
+                                        : getCardImage(card);
+
+                                    return (
+                                        <div
+                                            key={index}
+                                            className={`blackjack-card ${isHoleCard ? 'blackjack-back' : ''}`}
+                                            style={{color: !isHoleCard ? getCardColor(card.suit) : '#ffd700'}}
+                                        >
+                                            <img
+                                                src={cardImgSrc}
+                                                alt={isHoleCard ? 'Back' : `${card.value}${card.suit}`}
+                                                style={{width: '100%', height: '100%', objectFit: 'contain'}}
+                                            />
+                                        </div>
+                                    );
+                                })}
                             </div>
                             <div className="blackjack-dealer-total">
                                 Total: {gameState.dealerTotal}{gameState.dealerHand.some(card => card.value === '?') ? '+' : ''}
@@ -509,7 +603,11 @@ const BlackjackTable: React.FC = () => {
                                                 className="blackjack-card"
                                                 style={{color: getCardColor(card.suit)}}
                                             >
-                                                {card.value}{card.suit}
+                                                <img
+                                                    src={getCardImage(card)}
+                                                    alt={`${card.value}${card.suit}`}
+                                                    style={{width: '100%', height: '100%', objectFit: 'contain'}}
+                                                />
                                             </div>
                                         ))}
                                     </div>
