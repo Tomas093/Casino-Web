@@ -1,6 +1,8 @@
 import {Server, Socket} from 'socket.io';
 import {LobbyService} from '../services/lobbyService';
 
+const socketSeatMap = new Map<string, {lobbyId: number, position: number, clientId: number}>();
+
 // Card and Game State types
 interface Card {
     suit: string;
@@ -121,45 +123,50 @@ const debugGameState = (lobbyId: number) => {
 };
 
 // --- FIXED: Start betting phase with waiting timer ---
+// server/src/sockets/MesaHandler.ts
 const startBettingPhaseWithTimer = (io: Server, lobbyId: number) => {
-    if (!activeGames.has(lobbyId)) return;
-    const game = activeGames.get(lobbyId)!;
+    const game = activeGames.get(lobbyId);
+    if (!game) return;
 
-    // Set phase to waiting and notify clients
+    // Set to waiting phase
     game.gameState.gamePhase = 'waiting';
     io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'waiting'});
     io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
 
-    console.log(`[DEBUG] Starting waiting phase timer for lobby ${lobbyId}`);
-
-    // Clear any previous timer
+    // Clear previous waiting timer
     if (game.timers.waiting) {
         clearTimeout(game.timers.waiting);
-        console.log(`[DEBUG] Cleared previous timer for lobby ${lobbyId}`);
     }
-
-    // Start timer (10 seconds for testing, change to 60000 for production)
+    // Start waiting timer (10 seconds for testing)
     game.timers.waiting = setTimeout(() => {
-        console.log(`[DEBUG] Timer expired for lobby ${lobbyId}, checking for players...`);
-
-        // Check for at least one seated player
         const seatedPlayers = game.gameState.players.filter(p => p.isActive && p.playerId !== null);
-        console.log(`[DEBUG] Found ${seatedPlayers.length} seated players:`, seatedPlayers.map(p => `${p.playerName} (ID: ${p.playerId})`));
 
         if (seatedPlayers.length > 0) {
-            console.log(`[DEBUG] Moving to betting phase for lobby ${lobbyId}`);
             // Move to betting phase
             game.gameState.gamePhase = 'betting';
             io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'betting'});
             io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
+            // Clear previous betting timer
+            if (game.timers.betting) {
+                clearTimeout(game.timers.betting);
+            }
+
+            // Start betting timer (30 seconds)
+            game.timers.betting = setTimeout(() => {
+                // Move to dealing phase
+                game.gameState.gamePhase = 'dealing';
+                io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'dealing'});
+                io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
+                // Call your dealing logic here
+                startDealingPhase(io, lobbyId);
+            }, 30000);
         } else {
-            console.log(`[DEBUG] No seated players, repeating waiting phase for lobby ${lobbyId}`);
             // No players, repeat waiting phase
             startBettingPhaseWithTimer(io, lobbyId);
         }
-    }, 10000); // Change to 60000 for production
-
-    console.log(`[DEBUG] Timer set for lobby ${lobbyId}, will expire in 10 seconds`);
+    }, 10000); // 10 seconds for waiting
 };
 
 export const setupMesaHandlers = (io: Server, lobbyService: LobbyService) => {
@@ -220,9 +227,26 @@ export const setupMesaHandlers = (io: Server, lobbyService: LobbyService) => {
                         playerName: "Empty Seat"
                     };
 
+                    // Check if all seats are empty and reset if so
+                    const allSeatsEmpty = game.gameState.players.every(p => p.playerId === null);
+                    if (allSeatsEmpty) {
+                        console.log(`[DEBUG] All seats empty, resetting lobby ${lobbyId}`);
+                        resetGame(io, lobbyId);
+                    }
+
                     // Broadcast updated game state
                     io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
                 }
+            }
+        });
+
+        // Add this inside io.on('connection', (socket: Socket) => { ... })
+        socket.on('updateSelectedChip', ({lobbyId, position, selectedChip}) => {
+            if (!activeGames.has(lobbyId)) return;
+            const game = activeGames.get(lobbyId)!;
+            if (position >= 0 && position < game.gameState.players.length) {
+                game.gameState.selectedChip = selectedChip;
+                io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
             }
         });
 
@@ -379,17 +403,6 @@ export const setupMesaHandlers = (io: Server, lobbyService: LobbyService) => {
                 // Broadcast updated game state
                 io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
 
-                // Check if all active players have bet
-                const activePlayers = game.gameState.players.filter(p => p.isActive && p.playerId !== null);
-                const allBet = activePlayers.every(p => p.bet > 0);
-                console.log(`[DEBUG] Active players: ${activePlayers.length}, All bet: ${allBet}`);
-
-                if (allBet && activePlayers.length > 0) {
-                    console.log(`[DEBUG] All players have bet, starting dealing phase`);
-                    // Start dealing phase
-                    startDealingPhase(io, lobbyId);
-                }
-
             } catch (error: any) {
                 console.error(`Error placing bet: ${error.message}`);
                 socket.emit('betError', {message: error.message});
@@ -441,10 +454,37 @@ export const setupMesaHandlers = (io: Server, lobbyService: LobbyService) => {
             }
         });
 
-        // Disconnect handling
         socket.on('disconnect', () => {
             console.log(`Client disconnected: ${socket.id}`);
-            // Actual disconnect handling would be more complex in a full implementation
+            const seatInfo = socketSeatMap.get(socket.id);
+            if (seatInfo) {
+                const {lobbyId, position, clientId} = seatInfo;
+                if (activeGames.has(lobbyId)) {
+                    const game = activeGames.get(lobbyId)!;
+                    if (
+                        position >= 0 &&
+                        position < game.gameState.players.length &&
+                        game.gameState.players[position].playerId === clientId
+                    ) {
+                        game.gameState.players[position] = {
+                            cards: [],
+                            total: 0,
+                            bet: 0,
+                            isActive: false,
+                            playerId: null,
+                            playerName: "Empty Seat"
+                        };
+                        // Check if all seats are empty and reset if so
+                        const allSeatsEmpty = game.gameState.players.every(p => p.playerId === null);
+                        if (allSeatsEmpty) {
+                            console.log(`[DEBUG] All seats empty, resetting lobby ${lobbyId}`);
+                            resetGame(io, lobbyId);
+                        }
+                        io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+                    }
+                }
+                socketSeatMap.delete(socket.id);
+            }
         });
     });
 };
@@ -506,11 +546,11 @@ const startDealingPhase = (io: Server, lobbyId: number) => {
         }
     });
 
-    // Deal second card to dealer (face down - will be represented differently to clients)
+    // Deal second card to dealer (face down)
     const dealerCard2 = deck.pop();
     if (dealerCard2) {
-        game.gameState.dealerHand.push(dealerCard2);
-        console.log(`[DEBUG] Dealt hole card to dealer`);
+        game.gameState.dealerHand.push({suit: '', value: '?', numericValue: 0}); // placeholder for back image
+        (game as any).hiddenDealerCard = dealerCard2; // store real card to reveal later
     }
 
     // Update game state with dealt cards
@@ -677,6 +717,15 @@ const playDealerHand = (io: Server, lobbyId: number) => {
     console.log(`[DEBUG] Starting dealer play`);
 
     // Reveal dealer's hole card
+    const hiddenCard = (game as any).hiddenDealerCard;
+    if (
+        hiddenCard &&
+        game.gameState.dealerHand.length > 1 &&
+        game.gameState.dealerHand[1].value === '?'
+    ) {
+        game.gameState.dealerHand[1] = hiddenCard;
+        delete (game as any).hiddenDealerCard;
+    }
     game.gameState.dealerTotal = calculateHandTotal(game.gameState.dealerHand);
     console.log(`[DEBUG] Dealer reveals hole card, total: ${game.gameState.dealerTotal}`);
 
