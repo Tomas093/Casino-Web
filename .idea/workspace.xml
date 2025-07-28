@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="notificaciones de balance,arreglo balance *100 y logica influencer">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="cambios en en el estilo de la lobby">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/lobby/BjLobby.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/lobby/BjLobby.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/lobby/BjLobbyStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/lobby/BjLobbyStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" afterDir="false" />
     </list>
     <list id="f5eeda07-02d7-44e3-8290-11b843a3b9f1" name="Changes by Eliseos" comment="Changes by Eliseos" />
     <option name="SHOW_DIALOG" value="false" />
@@ -265,15 +264,7 @@
       <workItem from="1753217200115" duration="7814000" />
       <workItem from="1753573255943" duration="8719000" />
       <workItem from="1753717057215" duration="1308000" />
-      <workItem from="1753718579480" duration="5132000" />
-    </task>
-    <task id="LOCAL-00058" summary="Refactor leaderboard components; improve data handling and add debug logging">
-      <option name="closed" value="true" />
-      <created>1746887636432</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1746887636432</updated>
+      <workItem from="1753718579480" duration="5746000" />
     </task>
     <task id="LOCAL-00059" summary="Remove debug logging from friends leaderboard data fetching; streamline error handling">
       <option name="closed" value="true" />
@@ -659,7 +650,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753721640902</updated>
     </task>
-    <option name="localTasksCounter" value="107" />
+    <task id="LOCAL-00107" summary="cambios en en el estilo de la lobby">
+      <option name="closed" value="true" />
+      <created>1753724198801</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1753724198801</updated>
+    </task>
+    <option name="localTasksCounter" value="108" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -692,7 +691,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Cambios en la ruleta para que no llore, ademas de la logica del bj hecha" />
     <MESSAGE value="Agrego un intento de sockts y cambie algo mas que no me acuerdo" />
     <MESSAGE value="Fix socket import path in SocketContext" />
     <MESSAGE value="Anda el entrar al lobby" />
@@ -717,6 +715,7 @@
     <MESSAGE value="Estilo Completamente Listo" />
     <MESSAGE value="Arreglo Bug del dsiconnect" />
     <MESSAGE value="notificaciones de balance,arreglo balance *100 y logica influencer" />
-    <option name="LAST_COMMIT_MESSAGE" value="notificaciones de balance,arreglo balance *100 y logica influencer" />
+    <MESSAGE value="cambios en en el estilo de la lobby" />
+    <option name="LAST_COMMIT_MESSAGE" value="cambios en en el estilo de la lobby" />
   </component>
 </project>

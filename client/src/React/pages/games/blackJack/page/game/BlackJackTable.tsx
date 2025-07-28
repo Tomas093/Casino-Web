@@ -459,20 +459,26 @@ const BlackjackTable: React.FC = () => {
         };
     }, [gameState.gamePhase]);
 
-    const handleDouble = (value: number) => {
-        if (!client || value > (client.balance || 0)) {
-            if (!showInsufficientBalance) {
-                setShowInsufficientBalance(true);
-                // Desactivarlo automáticamente para que no quede pegado
-                setTimeout(() => {
-                    setShowInsufficientBalance(false);
-                }, 3000);
-            }
-            return;
-        }
+    const handleDouble = () => {
         if (gameState.gamePhase === 'playing' &&
             gameState.currentPlayer === localPlayerPosition &&
             gameState.players[localPlayerPosition!].cards.length === 2) {
+
+            const currentPlayer = gameState.players[localPlayerPosition!];
+            const currentBalance = client?.balance ?? 0;
+            const doubleAmount = currentPlayer.bet;
+
+            // Check if player has enough balance to double
+            if (doubleAmount > currentBalance) {
+                if (!showInsufficientBalance) {
+                    setShowInsufficientBalance(true);
+                    setTimeout(() => {
+                        setShowInsufficientBalance(false);
+                    }, 3000);
+                }
+                return;
+            }
+
             safeEmit('playerAction', {
                 lobbyId: Number(roomId),
                 action: 'double',
