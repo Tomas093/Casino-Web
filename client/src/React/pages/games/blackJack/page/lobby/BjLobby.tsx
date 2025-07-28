@@ -41,7 +41,7 @@ const roomTemplates: Omit<RoomData, 'players'>[] = [
     },
     {
         id: 3,
-        name: 'Ruleta Rápida',
+        name: 'Sala Big',
         description: 'Partidas aceleradas cada 30 segundos para máxima adrenalina.',
         minBet: '$10',
         maxBet: '$1,000',
@@ -163,14 +163,6 @@ const BjLobby: React.FC = () => {
                                     <div className="info-item">
                                         <div className="info-label">Jugadores</div>
                                         <div className="info-value">{room.players} / 3</div>
-                                    </div>
-                                    <div className="info-item">
-                                        <div className="info-label">Mín. Apuesta</div>
-                                        <div className="info-value">{room.minBet}</div>
-                                    </div>
-                                    <div className="info-item">
-                                        <div className="info-label">Máx. Apuesta</div>
-                                        <div className="info-value">{room.maxBet}</div>
                                     </div>
                                 </div>
 
