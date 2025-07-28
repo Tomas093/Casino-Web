@@ -28,6 +28,13 @@ interface GameState {
     selectedChip: number;
 }
 
+interface ClientInfo {
+    influencer?: boolean;
+    // otros campos del cliente...
+}
+
+// Mapa para trackear información de clientes
+const clientInfoMap = new Map<number, ClientInfo>();
 // Track active games by lobby ID
 const activeGames = new Map<number, {
     gameState: GameState,
@@ -35,11 +42,13 @@ const activeGames = new Map<number, {
 }>();
 
 // Create a new deck of cards
-const createDeck = (): Card[] => {
+// REEMPLAZAR la función createDeck original con esta:
+const createDeck = (favorInfluencers: boolean = false, playerHands: PlayerHand[] = []): Card[] => {
     const suits = ['♥', '♦', '♣', '♠'];
     const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
     const deck: Card[] = [];
 
+    // Crear deck completo
     for (const suit of suits) {
         for (const value of values) {
             let numericValue: number;
@@ -49,6 +58,48 @@ const createDeck = (): Card[] => {
 
             deck.push({suit, value, numericValue});
         }
+    }
+
+    if (favorInfluencers && playerHands.length > 0) {
+        // Para influencers, reorganizar el deck para poner cartas favorables al inicio
+        const favorableCards: Card[] = [];
+        const unfavorableCards: Card[] = [];
+
+        deck.forEach(card => {
+            let isFavorable = false;
+
+            // Verificar si la carta es favorable para algún jugador activo
+            for (const player of playerHands) {
+                if (player.isActive && player.playerId !== null) {
+                    const playerTotal = player.total;
+                    let cardValue = card.numericValue;
+
+                    // Manejar As como 1 si el total sería mayor a 21
+                    if (card.value === 'A' && playerTotal + 11 > 21) {
+                        cardValue = 1;
+                    }
+
+                    // Es favorable si no causa bust
+                    if (playerTotal + cardValue <= 21) {
+                        isFavorable = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isFavorable) {
+                favorableCards.push(card);
+            } else {
+                unfavorableCards.push(card);
+            }
+        });
+
+        // Mezclar cada grupo por separado
+        const shuffledFavorable = shuffleDeck(favorableCards);
+        const shuffledUnfavorable = shuffleDeck(unfavorableCards);
+
+        // Combinar con cartas favorables al inicio
+        return [...shuffledFavorable, ...shuffledUnfavorable];
     }
 
     return shuffleDeck(deck);
@@ -122,6 +173,18 @@ const debugGameState = (lobbyId: number) => {
     }
 };
 
+// AGREGAR después de la función debugGameState
+const hasInfluencerAtTable = (lobbyId: number): boolean => {
+    if (!activeGames.has(lobbyId)) return false;
+
+    const game = activeGames.get(lobbyId)!;
+    return game.gameState.players.some(player =>
+        player.playerId !== null &&
+        clientInfoMap.get(player.playerId)?.influencer === true
+    );
+};
+
+
 // --- FIXED: Start betting phase with waiting timer ---
 // server/src/sockets/MesaHandler.ts
 const startBettingPhaseWithTimer = (io: Server, lobbyId: number) => {
@@ -161,7 +224,7 @@ const startBettingPhaseWithTimer = (io: Server, lobbyId: number) => {
 
                 // Call your dealing logic here
                 startDealingPhase(io, lobbyId);
-            }, 30000);
+            }, 10000);
         } else {
             // No players, repeat waiting phase
             startBettingPhaseWithTimer(io, lobbyId);
@@ -485,6 +548,11 @@ export const setupMesaHandlers = (io: Server, lobbyService: LobbyService) => {
                 }
                 socketSeatMap.delete(socket.id);
             }
+            // AGREGAR antes del cierre de io.on('connection', (socket: Socket) => {
+            socket.on('setClientInfo', ({clientId, clientInfo}) => {
+                console.log(`[DEBUG] Setting client info for ${clientId}:`, clientInfo);
+                clientInfoMap.set(clientId, clientInfo);
+            });
         });
     });
 };
@@ -508,8 +576,9 @@ const startDealingPhase = (io: Server, lobbyId: number) => {
     io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'dealing'});
     io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
 
-    // Create a new shuffled deck
-    const deck = createDeck();
+    // Create a new shuffled deck (favorable for influencers if any are present)
+    const isInfluencerTable = hasInfluencerAtTable(lobbyId);
+    const deck = createDeck(isInfluencerTable, game.gameState.players);
 
     // Deal initial cards
     const activePlayers = game.gameState.players
@@ -563,6 +632,7 @@ const startDealingPhase = (io: Server, lobbyId: number) => {
     // If dealer has blackjack, reveal it immediately
     if (dealerBlackjack) {
         game.gameState.gamePhase = 'finished';
+
         game.gameState.dealerTotal = calculateHandTotal(game.gameState.dealerHand);
         io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'finished'});
         io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
@@ -616,8 +686,9 @@ const handleHit = (io: Server, lobbyId: number, position: number) => {
 
     console.log(`[DEBUG] Player at position ${position} hits`);
 
-    // Deal a card from the deck
-    const deck = createDeck(); // In a real implementation, we would maintain the deck state
+    /// Create a new shuffled deck (favorable for influencers if any are present)
+    const isInfluencerTable = hasInfluencerAtTable(lobbyId);
+    const deck = createDeck(isInfluencerTable, game.gameState.players);
     const card = deck.pop();
 
     if (card) {
@@ -659,7 +730,8 @@ const handleDouble = (io: Server, lobbyId: number, position: number) => {
     console.log(`[DEBUG] Bet doubled from ${originalBet} to ${player.bet}`);
 
     // Deal one card
-    const deck = createDeck(); // In a real implementation, we would maintain the deck state
+    const isInfluencerTable = hasInfluencerAtTable(lobbyId);
+    const deck = createDeck(isInfluencerTable, game.gameState.players);
     const card = deck.pop();
 
     if (card) {
@@ -733,10 +805,12 @@ const playDealerHand = (io: Server, lobbyId: number) => {
     const dealerPlay = () => {
         io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
 
+
         if (game.gameState.dealerTotal < 17) {
             console.log(`[DEBUG] Dealer has ${game.gameState.dealerTotal}, must hit`);
             // Deal another card to dealer
-            const deck = createDeck(); // In a real implementation, we would maintain the deck state
+            const isInfluencerTable = hasInfluencerAtTable(lobbyId);
+            const deck = createDeck(isInfluencerTable, game.gameState.players);
             const card = deck.pop();
 
             if (card) {

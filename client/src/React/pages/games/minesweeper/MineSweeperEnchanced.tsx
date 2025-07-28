@@ -190,7 +190,11 @@ const Minesweeper: React.FC<MineProps> = () => {
 
             console.log('Registrando jugada:', playData);
             // Enviar la jugada al servidor
-            await createPlay(playData);
+            await createPlay({
+                ...playData,
+                apuesta: playData.apuesta / 100,
+                retorno: playData.retorno / 100
+            });
             console.log('Jugada registrada con éxito');
 
             // Actualizar inmediatamente el balance local

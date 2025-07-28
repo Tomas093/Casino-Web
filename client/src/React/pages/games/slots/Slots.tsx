@@ -77,7 +77,11 @@ function Slots() {
                 retorno: winAmount,
                 apuesta: betAmount
             };
-            await createPlay(playData);
+            await createPlay({
+                ...playData,
+                apuesta: playData.apuesta / 100,
+                retorno: playData.retorno / 100
+            });
             if (user.usuarioid) {
                 await getUserData(user.usuarioid.toString());
             }

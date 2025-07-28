@@ -95,7 +95,9 @@ const BlackjackTable: React.FC = () => {
     const {leaveLobby} = useLobbyContext();
     const { user } = useAuth();
     const { createPlay } = usePlay();
-    const { getUserData } = useUser();
+    const { getUserData, client } = useUser();
+    const [showInsufficientBalance, setShowInsufficientBalance] = useState(false);
+
 
     const safeEmit = (event: string, data: any) => {
         setLastEmittedEvent({event, data, time: Date.now()});
@@ -323,19 +325,48 @@ const BlackjackTable: React.FC = () => {
         }
 
         if (gameState.gamePhase === 'betting' && playerIndex === localPlayerPosition) {
+            const chipValue = gameState.selectedChip;
+            const currentBalance = client?.balance ?? 0;
+            const currentPlayer = gameState.players[playerIndex];
+
+            if (currentPlayer.bet + chipValue > currentBalance) {
+                if (!showInsufficientBalance) {
+                    setShowInsufficientBalance(true);
+                    setTimeout(() => {
+                        setShowInsufficientBalance(false);
+                    }, 3000);
+                }
+                return;
+            }
+
+
             safeEmit('placeBet', {
                 lobbyId: Number(roomId),
                 position: playerIndex,
-                amount: gameState.selectedChip
+                amount: chipValue
             });
         }
+
     };
 
     const handleChipSelect = (value: number) => {
+        if (!client || value > (client.balance || 0)) {
+            if (!showInsufficientBalance) {
+                setShowInsufficientBalance(true);
+                // Desactivarlo automáticamente para que no quede pegado
+                setTimeout(() => {
+                    setShowInsufficientBalance(false);
+                }, 3000);
+            }
+            return;
+        }
+
+
         setGameState(prev => ({
             ...prev,
             selectedChip: value
         }));
+
         safeEmit('updateSelectedChip', {
             lobbyId: Number(roomId),
             position: localPlayerPosition,
@@ -381,8 +412,11 @@ const BlackjackTable: React.FC = () => {
             } else {
                 winAmount = 0; // perdió
             }
+            const adjustedBet = bet;
+            const adjustedReturn = winAmount;
 
-            registerPlay(bet, winAmount);
+
+            registerPlay(adjustedBet/100, adjustedReturn/100);
         }
     }, [gameState.gamePhase]);
 
@@ -425,7 +459,17 @@ const BlackjackTable: React.FC = () => {
         };
     }, [gameState.gamePhase]);
 
-    const handleDouble = () => {
+    const handleDouble = (value: number) => {
+        if (!client || value > (client.balance || 0)) {
+            if (!showInsufficientBalance) {
+                setShowInsufficientBalance(true);
+                // Desactivarlo automáticamente para que no quede pegado
+                setTimeout(() => {
+                    setShowInsufficientBalance(false);
+                }, 3000);
+            }
+            return;
+        }
         if (gameState.gamePhase === 'playing' &&
             gameState.currentPlayer === localPlayerPosition &&
             gameState.players[localPlayerPosition!].cards.length === 2) {
@@ -461,6 +505,34 @@ const BlackjackTable: React.FC = () => {
     const clearErrorMessage = () => {
         setErrorMessage(null);
     };
+
+    const InsufficientBalanceNotification = ({show, onClose}: { show: boolean, onClose: () => void }) => {
+        useEffect(() => {
+            if (show) {
+                const timer = setTimeout(() => {
+                    onClose();
+                }, 5000);
+                return () => clearTimeout(timer);
+            }
+        }, [show, onClose]);
+
+        if (!show) return null;
+
+        return (
+            <div className="result-notification-backdrop">
+                <div className="result-notification insufficient-balance">
+                    <div className="notification-icon">💰</div>
+                    <div className="notification-content">
+                        <h3 className="notification-title">SALDO INSUFICIENTE</h3>
+                        <p className="notification-message">No tienes suficiente saldo para usar esta ficha.</p>
+                        <p className="notification-result">Elige una ficha menor o deposita saldo.</p>
+                    </div>
+                    <button className="notification-close" onClick={onClose}>×</button>
+                </div>
+            </div>
+        );
+    };
+
 
     return (
         <>
@@ -676,8 +748,12 @@ const BlackjackTable: React.FC = () => {
                         </div>
                     ))}
                 </div>
-            </div>
 
+            </div>
+            <InsufficientBalanceNotification
+                show={showInsufficientBalance}
+                onClose={() => setShowInsufficientBalance(false)}
+            />
             <div className="blackjack-footer-container">
                 <Footer/>
             </div>
