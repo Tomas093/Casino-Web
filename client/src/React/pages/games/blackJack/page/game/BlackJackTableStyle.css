@@ -69,9 +69,9 @@ body {
 }
 
 .blackjack-table {
-    width: 98vw;
+    width: 95vw;
     max-width: 1400px;
-    height: 76vh;
+    height: 70vh;
     max-height: 700px;
     position: relative;
     background-image: url("@assets/MaderaMesaBJ.webp");
@@ -118,7 +118,7 @@ body {
     top: 2%;
     left: 50%;
     transform: translateX(-50%);
-    width: 280px;
+    width: min(280px, 80%);
     height: 120px;
     display: flex;
     flex-direction: column;
@@ -128,10 +128,10 @@ body {
 .blackjack-dealer-label {
     background: linear-gradient(135deg, #ffd700, #ffed4e);
     color: #000;
-    padding: 10px 22px;
+    padding: 8px 16px;
     border-radius: 20px;
     font-weight: 700;
-    font-size: 1.7rem;
+    font-size: clamp(1rem, 3vw, 1.7rem);
     text-transform: uppercase;
     letter-spacing: 2px;
     box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
@@ -145,8 +145,8 @@ body {
 }
 
 .blackjack-card {
-    width: 68px;
-    height: 98px;
+    width: clamp(50px, 12vw, 68px);
+    height: clamp(72px, 17vw, 98px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3),
     0 0 10px rgba(255, 215, 0, 0.2);
     display: flex;
@@ -161,7 +161,7 @@ body {
 }
 
 .blackjack-card.blackjack-back {
-    background: url('/src/React/pages/games/blackJack/cards/defaultcards/back.png') center center no-repeat;
+    background: url('@assets/back.png') center center no-repeat;
     background-size: cover;
     background-color: transparent;
     color: #ffd700;
@@ -186,7 +186,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 215px;
+    gap: clamp(40px, 15vw, 215px);
     justify-content: center;
     width: 100%;
     max-width: 900px;
@@ -198,8 +198,8 @@ body {
 
 .blackjack-betting-spot {
     position: relative;
-    width: 140px;
-    height: 140px;
+    width: clamp(80px, 15vw, 140px);
+    height: clamp(80px, 15vw, 140px);
     border: 3px solid #ffd700;
     border-radius: 50%;
     background: radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.1), transparent 70%),
@@ -231,7 +231,7 @@ body {
 }
 
 .blackjack-spot-label {
-    font-size: 0.8rem;
+    font-size: clamp(0.6rem, 1.5vw, 0.8rem);
     color: #ffd700;
     font-weight: 600;
     text-transform: uppercase;
@@ -260,6 +260,9 @@ body {
     padding: 3px 8px;
     border-radius: 10px;
     white-space: nowrap;
+    z-index: 20;
+    min-width: 30px;
+    text-align: center;
 }
 
 .blackjack-bet-amount {
@@ -282,11 +285,12 @@ body {
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
+    width: 90%;
 }
 
 .blackjack-table-logo {
     font-family: 'Playfair Display', serif;
-    font-size: 2rem;
+    font-size: clamp(1.2rem, 4vw, 2rem);
     font-weight: 700;
     background: linear-gradient(135deg, #ffd700, #ffed4e);
     -webkit-background-clip: text;
@@ -298,7 +302,7 @@ body {
 }
 
 .blackjack-table-rules {
-    font-size: 0.9rem;
+    font-size: clamp(0.7rem, 2vw, 0.9rem);
     color: #c0c0c0;
     font-weight: 300;
     line-height: 1.4;
@@ -314,13 +318,13 @@ body {
 }
 
 .blackjack-action-btn {
-    padding: 12px 20px;
+    padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 20px);
     background: linear-gradient(135deg, #ffd700, #228b22);
     border: none;
     border-radius: 8px;
     color: #000;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: clamp(0.7rem, 2vw, 0.9rem);
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
@@ -345,14 +349,16 @@ body {
     left: 50%;
     transform: translateX(-50%);
     display: flex;
+    flex-wrap: wrap;
     gap: 12px;
     justify-content: center;
     z-index: 20;
+    padding: 0 10px;
 }
 
 .blackjack-chip {
-    width: 85px;
-    height: 85px;
+    width: clamp(60px, 10vw, 85px);
+    height: clamp(60px, 10vw, 85px);
     border-radius: 50%;
     border: 3px solid #ffd700;
     display: flex;
@@ -387,7 +393,7 @@ body {
 .blackjack-chip .chip-value {
     position: relative;
     z-index: 2;
-    font-size: 1rem;
+    font-size: clamp(0.8rem, 2vw, 1rem);
     font-weight: 700;
     color: #ffd700;
     text-shadow: 0 1px 2px #000;
@@ -418,6 +424,19 @@ body {
     margin-top: 60px;
 }
 
+/* Enhanced responsive design */
+@media (max-width: 992px) {
+    .blackjack-table {
+        height: 65vh;
+        transform: perspective(800px) rotateX(10deg);
+    }
+
+    .blackjack-action-buttons {
+        bottom: 50%;
+        right: 3%;
+    }
+}
+
 @media (max-width: 768px) {
     .blackjack-container {
         padding-bottom: 40px;
@@ -425,34 +444,83 @@ body {
 
     .blackjack-table {
         width: 95vw;
-        height: 75vh;
+        height: 60vh;
         margin-bottom: 20px;
+        transform: perspective(800px) rotateX(5deg);
     }
 
     .blackjack-betting-spots {
         gap: 20px;
+        bottom: 15%;
     }
 
-    .blackjack-betting-spot {
-        width: 80px;
-        height: 80px;
-    }
-
-    .blackjack-table-logo {
-        font-size: 1.5rem;
-    }
-
-    .blackjack-action-buttons,
-    .blackjack-chips-area {
+    .blackjack-action-buttons {
         position: relative;
         bottom: auto;
         right: auto;
-        left: auto;
-        margin: 20px auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 10px auto;
         justify-content: center;
     }
 
+    .blackjack-chips-area {
+        position: relative;
+        bottom: auto;
+        margin: 10px auto;
+    }
+
     .blackjack-footer-container {
-        margin-top: 40px;
+        margin-top: 20px;
+    }
+
+    .blackjack-player-total {
+        bottom: -55px;
+        font-size: 0.85rem;
+        width: auto;
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 576px) {
+    .blackjack-table {
+        height: 50vh;
+        border-radius: 0 0 70% 70%;
+        transform: none;
+    }
+
+    .blackjack-table-felt {
+        border-radius: 0 0 70% 70%;
+    }
+
+    .blackjack-betting-spots {
+        bottom: 10%;
+        flex-wrap: wrap;
+    }
+
+    .blackjack-betting-spot.blackjack-middle-spot {
+        top: 0;
+    }
+
+    .blackjack-player-total {
+        position: relative;
+        bottom: -30px;
+        margin: 0 auto;
+        width: fit-content;
+    }
+
+    .blackjack-betting-spot {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 400px) {
+    .blackjack-dealer-cards,
+    .blackjack-player-cards {
+        gap: 5px;
+    }
+
+    .blackjack-dealer-area {
+        height: auto;
     }
 }

@@ -58,7 +58,7 @@ if (!socketRef.current) {
     socketRef.current = io('http://localhost:3001', {
         reconnection: true,
         reconnectionAttempts: 5,
-        timeout: 10000,
+        timeout: 1000,
         transports: ['websocket', 'polling']
     });
 }
@@ -351,16 +351,13 @@ const BlackjackTable: React.FC = () => {
 
     const handleChipSelect = (value: number) => {
         if (!client || value > (client.balance || 0)) {
-            if (!showInsufficientBalance) {
-                setShowInsufficientBalance(true);
-                // Desactivarlo automáticamente para que no quede pegado
-                setTimeout(() => {
-                    setShowInsufficientBalance(false);
-                }, 3000);
-            }
+            if (showInsufficientBalance) return; // Prevents multiple notifications
+            setShowInsufficientBalance(true);
+            setTimeout(() => {
+                setShowInsufficientBalance(false);
+            }, 3000);
             return;
         }
-
 
         setGameState(prev => ({
             ...prev,

@@ -224,7 +224,7 @@ const startBettingPhaseWithTimer = (io: Server, lobbyId: number) => {
 
                 // Call your dealing logic here
                 startDealingPhase(io, lobbyId);
-            }, 10000);
+            }, 30000);
         } else {
             // No players, repeat waiting phase
             startBettingPhaseWithTimer(io, lobbyId);
@@ -353,7 +353,7 @@ export const setupMesaHandlers = (io: Server, lobbyService: LobbyService) => {
                 // Check if player is already seated elsewhere
                 const existingPosition = game.gameState.players.findIndex(p => p.playerId === clientId);
                 if (existingPosition >= 0) {
-                    throw new Error('You are already seated at this table');
+                    throw new Error('Ya estas sentado en otra posición');
                 }
 
                 // Take the seat
@@ -624,6 +624,7 @@ const startDealingPhase = (io: Server, lobbyId: number) => {
 
     // Update game state with dealt cards
     io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
 
     // Check for blackjacks
     let dealerBlackjack = calculateHandTotal(game.gameState.dealerHand) === 21;
