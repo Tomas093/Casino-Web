@@ -41,7 +41,7 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 4vw, 2rem);
     font-weight: bold;
     color: var(--gold);
     gap: 8px;
@@ -63,6 +63,7 @@
     text-decoration: none;
     font-weight: 500;
     color: var(--white);
+    font-size: clamp(0.9rem, 2vw, 1rem);
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
@@ -74,10 +75,10 @@
 /* Botones base */
 .navbar-btn {
     border: none;
-    padding: 10px 24px;
+    padding: clamp(8px, 2vw, 10px) clamp(16px, 4vw, 24px);
     border-radius: 50px;
     font-weight: bold;
-    font-size: 0.95rem;
+    font-size: clamp(0.8rem, 2vw, 0.95rem);
     cursor: pointer;
     text-decoration: none;
     transition: background-color 0.3s ease, transform 0.3s ease;
@@ -146,7 +147,7 @@
 .navbar-user-info {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: clamp(6px, 2vw, 10px);
     background: rgba(255, 255, 255, 0.1);
     padding: 8px 16px;
     border-radius: 50px;
@@ -158,17 +159,9 @@
     background: rgba(255, 215, 0, 0.2);
 }
 
-.navbar-user-info:hover, .navbar-user-info:focus {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.navbar-user-info:hover, .navbar-user-info:focus {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
 .navbar-user-avatar {
-    width: 36px;
-    height: 36px;
+    width: clamp(28px, 6vw, 36px);
+    height: clamp(28px, 6vw, 36px);
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid var(--gold);
@@ -176,7 +169,7 @@
 
 .navbar-username {
     font-weight: bold;
-    font-size: 1.4rem;
+    font-size: clamp(1rem, 3vw, 1.4rem);
 }
 
 .navbar-user-coins {
@@ -185,17 +178,17 @@
     padding: 4px 8px;
     border-radius: 12px;
     font-weight: bold;
-    font-size: 0.85rem;
+    font-size: clamp(0.75rem, 2vw, 0.85rem);
 }
 
 /* Dropdown */
 .navbar-dropdown-content {
-    display: block; /* Ahora se muestra o no según el estado dropdownOpen */
+    display: block;
     position: absolute;
     right: 0;
-    top: calc(100% + 5px); /* Añade un pequeño espacio */
+    top: calc(100% + 5px);
     background-color: #1a1a1a;
-    min-width: 180px;
+    min-width: clamp(160px, 40vw, 180px);
     border-radius: 8px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     z-index: 101;
@@ -208,6 +201,7 @@
     text-decoration: none;
     border-radius: 4px;
     display: block;
+    font-size: clamp(0.8rem, 2vw, 1rem);
     transition: background-color 0.2s;
 }
 
@@ -251,39 +245,10 @@
     transform: rotate(-45deg) translate(4px, -4px);
 }
 
-/* Estilos responsivos */
-@media (max-width: 768px) {
-    .navbar-links {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        flex-direction: column;
-        width: 100%;
-        background: var(--primary-black);
-        padding: 20px;
-        border-top: 1px solid #222;
-        display: none;
-
-    }
-
-    .navbar-links.active {
-        display: flex;
-    }
-
-    .navbar-hamburger {
-        display: flex;
-
-    }
-
-    .navbar-user-info span:not(.navbar-user-coins) {
-        display: none;
-    }
-}
-
 /* Notification Bell Styles */
 .navbar-notification-container {
     position: relative;
-    margin-right: 10px;
+    margin-right: clamp(5px, 2vw, 10px);
 }
 
 .navbar-notification-bell {
@@ -291,8 +256,8 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    width: 40px;
-    height: 40px;
+    width: clamp(32px, 8vw, 40px);
+    height: clamp(32px, 8vw, 40px);
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
     transition: background 0.3s;
@@ -303,7 +268,7 @@
 }
 
 .bell-icon {
-    font-size: 1.3rem;
+    font-size: clamp(1rem, 3vw, 1.3rem);
 }
 
 .notification-count {
@@ -313,9 +278,9 @@
     background: var(--gold);
     color: var(--primary-black);
     border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    font-size: 0.75rem;
+    width: clamp(16px, 4vw, 18px);
+    height: clamp(16px, 4vw, 18px);
+    font-size: clamp(0.65rem, 2vw, 0.75rem);
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -327,8 +292,8 @@
     right: -20px;
     top: calc(100% + 5px);
     background-color: #1a1a1a;
-    width: 320px;
-    max-height: 400px;
+    width: clamp(280px, 80vw, 320px);
+    max-height: clamp(300px, 70vh, 400px);
     border-radius: 8px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     z-index: 101;
@@ -338,23 +303,23 @@
 }
 
 .notification-header {
-    padding: 10px 15px;
+    padding: clamp(8px, 3vw, 10px) clamp(12px, 4vw, 15px);
     border-bottom: 1px solid #333;
 }
 
 .notification-header h3 {
     margin: 0;
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 3vw, 1rem);
     color: var(--white);
 }
 
 .notification-list {
     overflow-y: auto;
-    max-height: 300px;
+    max-height: clamp(250px, 60vh, 300px);
 }
 
 .notification-item {
-    padding: 15px;
+    padding: clamp(12px, 4vw, 15px);
     border-bottom: 1px solid #222;
     transition: background-color 0.2s;
 }
@@ -366,15 +331,16 @@
 .notification-content p {
     margin: 0 0 5px;
     color: var(--white);
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
 }
 
 .notification-time {
-    font-size: 0.8rem;
+    font-size: clamp(0.7rem, 2vw, 0.8rem);
     color: var(--text-muted);
 }
 
 .notification-footer {
-    padding: 10px;
+    padding: clamp(8px, 3vw, 10px);
     text-align: center;
     border-top: 1px solid #333;
 }
@@ -384,7 +350,7 @@
     border: none;
     color: var(--gold);
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
     padding: 5px 10px;
     transition: color 0.3s;
 }
@@ -393,35 +359,110 @@
     color: var(--gold-dark);
 }
 
+/* Tablet styles (768px - 1024px) */
+@media (max-width: 1024px) {
+    .navbar-container {
+        padding: 1rem 3%;
+    }
 
-.navbar-notification-bell {
-    cursor: pointer;
-    position: relative;
-    padding: 8px;
-    border-radius: 50%;
-    transition: background-color 0.2s;
+    .navbar-links {
+        gap: 15px;
+    }
+
+    .navbar-user-info {
+        padding: 6px 12px;
+    }
 }
 
-.navbar-notification-bell:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+/* Mobile styles (max-width: 768px) */
+@media (max-width: 768px) {
+    .navbar-container {
+        padding: 0.8rem 3%;
+    }
+
+    .navbar-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        flex-direction: column;
+        width: 100%;
+        background: var(--primary-black);
+        padding: 20px;
+        border-top: 1px solid #222;
+        display: none;
+        gap: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .navbar-links.active {
+        display: flex;
+    }
+
+    .navbar-hamburger {
+        display: flex;
+    }
+
+    .navbar-user-info span:not(.navbar-user-coins) {
+        display: none;
+    }
+
+    .navbar-user-info {
+        padding: 6px 10px;
+    }
+
+    .navbar-notification-dropdown {
+        right: -10px;
+        width: calc(100vw - 20px);
+        max-width: 320px;
+    }
+
+    .navbar-dropdown-content {
+        right: -10px;
+        min-width: 160px;
+    }
 }
 
-.notification-count {
-    position: absolute;
-    top: -2px;
-    right: -2px;
-    background: #10b981; /* Verde */
-    color: black;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: bold;
+/* Small mobile styles (max-width: 480px) */
+@media (max-width: 480px) {
+    .navbar-container {
+        padding: 0.5rem 2%;
+    }
+
+    .navbar-user-coins {
+        padding: 3px 6px;
+        font-size: 0.7rem;
+    }
+
+    .navbar-notification-dropdown {
+        right: 0;
+        width: 100vw;
+        border-radius: 0;
+        top: 100%;
+    }
+
+    .navbar-dropdown-content {
+        right: 0;
+        width: 200px;
+        border-radius: 4px;
+    }
+
+    .navbar-btn {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
 }
 
-.bell-icon {
-    font-size: 20px;
+/* Extra small screens (max-width: 320px) */
+@media (max-width: 320px) {
+    .navbar-user-info {
+        gap: 4px;
+    }
+
+    .navbar-user-coins {
+        display: none;
+    }
+
+    .navbar-notification-container {
+        margin-right: 0;
+    }
 }
