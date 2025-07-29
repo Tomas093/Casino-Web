@@ -149,7 +149,7 @@ model solicitudesamistad {
   estado                                           String    @db.VarChar(20)
   fecha_creacion                                   DateTime? @default(now()) @db.Timestamp(6)
   usuario_solicitudesamistad_id_receptorTousuario  usuario   @relation("solicitudesamistad_id_receptorTousuario", fields: [id_receptor], references: [usuarioid], onDelete: Cascade, onUpdate: NoAction)
-  usuario_solicitudesamistad_id_remitenteTousuario usuario   @relation("solicitudesamistad_id_remitenteTousuario", fields: [id_remitente], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
+  usuario_solicitudesamistad_id_remitenteTousuario usuario   @relation("solicitudesamistad_id_remitenteTousuario", fields: [id_remitente], references: [usuarioid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model mensaje {
@@ -214,7 +214,7 @@ model notificaciones {
   destino         String       @db.VarChar(255)
   fecha           DateTime?    @default(now()) @db.Timestamptz(6)
   estado          estado_enum? @default(pendiente)
-  usuario         usuario      @relation(fields: [usuarioid], references: [usuarioid], onDelete: NoAction, onUpdate: NoAction)
+  usuario         usuario      @relation(fields: [usuarioid], references: [usuarioid], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model black_jack_lobby {
