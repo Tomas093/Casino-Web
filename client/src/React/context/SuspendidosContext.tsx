@@ -120,4 +120,3 @@ export const SuspendidosProvider = ({children}: { children: ReactNode }) => {
         </SuspendidosContext.Provider>
     );
 };
-

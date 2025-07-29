@@ -15,6 +15,7 @@ export default defineConfig({
         }
     },
     server: {
+        allowedHosts: true,
         proxy: {
             '/auth': {
                 target: 'http://localhost:3001',

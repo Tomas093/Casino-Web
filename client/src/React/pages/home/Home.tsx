@@ -89,7 +89,7 @@ const HomeDef = () => {
     // Clean games array - only unique items
     const games = [
         {id: 1, title: "Ruleta VIP", image: ruletaImg, page: "/roulette"},
-        {id: 2, title: "BlackJack", image: blackjackImg, page: "/blackjack"},
+        {id: 2, title: "BlackJack", image: blackjackImg, page: "/BlackJackLobby"},
         {id: 3, title: "Slots", image: slotImg, page: "/slots"},
         {id: 4, title: "Dados", image: dadosImg, page: "/dados"},
         {id: 5, title: "Mines", image: minesImg, page: "/mines"}

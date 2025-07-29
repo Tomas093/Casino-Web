@@ -157,8 +157,8 @@ const Login: React.FC<LoginProps> = () => {
     }
 
     return (
-        <div className="login-page">
-            <div style={{
+        <div className="login-container">
+            <div className="login-message-container" style={{
                 position: 'absolute',
                 top: '20px',
                 left: '50%',
@@ -173,7 +173,7 @@ const Login: React.FC<LoginProps> = () => {
                     <Message
                         message={message}
                         type={messageType}
-                        icon={<span style={{fontSize: '24px'}}>⚠️</span>}
+                        icon={<span className="login-warning-icon" style={{fontSize: '24px'}}>⚠️</span>}
                         onClose={() => setShowMessage(false)}
                     />
                 )}
@@ -193,19 +193,19 @@ const Login: React.FC<LoginProps> = () => {
                 termsText={
                     <>
                         Al Ingresar, declaro que soy mayor de 18 años y acepto los{' '}
-                        <Link to="/terms" className="terms-link">
+                        <Link to="/terms" className="login-terms-link">
                             <strong>Términos y Condiciones</strong>
                         </Link>
                     </>
                 }
                 onSubmit={handleSubmit}
                 footerText={
-                    <span>
-                        ¿No tienes cuenta?{' '}
-                        <Link to="/register" className="register-link">
-                            Regístrate aquí
-                        </Link>
-                    </span>
+                    <span className="login-footer-text">
+                                    ¿No tienes cuenta?{' '}
+                        <Link to="/register" className="login-register-link">
+                                        Regístrate aquí
+                                    </Link>
+                                </span>
                 }
             />
         </div>

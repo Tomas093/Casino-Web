@@ -83,6 +83,21 @@ const userApi = {
             console.error('Error al obtener usuarios:', error);
             throw error;
         }
+    },
+
+    getClientByUserId: async (userId: string) => {
+        try {
+            const response = await axios.get(`${API_URL}/client/${userId}`);
+            return response.data;
+        } catch (error: any) {
+            console.error(`Error al obtener cliente por usuario ID ${userId}:`, error.response?.status || error.message);
+
+            if (error.response && error.response.status === 404) {
+                throw new Error(`Cliente con usuario ID ${userId} no encontrado`);
+            }
+
+            throw error;
+        }
     }
 };
 

@@ -66,7 +66,7 @@ const ResultNotification = ({show, winner, winnings, isWin, onClose}) => {
                     </p>
                     <p className="notification-result">
                         {isWin
-                            ? `Has ganado $${winnings}`
+                            ? `Has ganado $${winnings*100}`
                             : 'No has ganado en esta ronda'}
                     </p>
                 </div>
@@ -311,7 +311,7 @@ const RouletteGame: React.FC = () => {
         const isWin = winnings > 0;
 
         // Registrar la jugada en el backend con el monto de apuesta guardado
-        await registerPlay(currentBetAmount, winnings);
+        await registerPlay(currentBetAmount/100, winnings/100);
 
         // Mostrar notificación de resultado
         setNotificationData({

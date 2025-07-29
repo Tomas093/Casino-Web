@@ -1,12 +1,14 @@
 {
   "dependencies": {
     "@eslint/js": "^9.23.0",
+    "@fortawesome/fontawesome-free": "^6.7.2",
     "@primer/octicons-react": "^19.15.1",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.1",
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^4.3.4",
     "axios": "^1.8.4",
+    "cors": "^2.8.5",
     "eslint": "^9.23.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",

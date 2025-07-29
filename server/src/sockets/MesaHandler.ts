@@ -1,0 +1,890 @@
+import {Server, Socket} from 'socket.io';
+import {LobbyService} from '../services/lobbyService';
+
+const socketSeatMap = new Map<string, {lobbyId: number, position: number, clientId: number}>();
+
+// Card and Game State types
+interface Card {
+    suit: string;
+    value: string;
+    numericValue: number;
+}
+
+interface PlayerHand {
+    cards: Card[];
+    total: number;
+    bet: number;
+    isActive: boolean;
+    playerId: number | null;
+    playerName: string;
+}
+
+interface GameState {
+    dealerHand: Card[];
+    dealerTotal: number;
+    players: PlayerHand[];
+    currentPlayer: number;
+    gamePhase: 'waiting' | 'betting' | 'dealing' | 'playing' | 'finished';
+    selectedChip: number;
+}
+
+interface ClientInfo {
+    influencer?: boolean;
+    // otros campos del cliente...
+}
+
+// Mapa para trackear información de clientes
+const clientInfoMap = new Map<number, ClientInfo>();
+// Track active games by lobby ID
+const activeGames = new Map<number, {
+    gameState: GameState,
+    timers: { [key: string]: NodeJS.Timeout }
+}>();
+
+// Create a new deck of cards
+// REEMPLAZAR la función createDeck original con esta:
+const createDeck = (favorInfluencers: boolean = false, playerHands: PlayerHand[] = []): Card[] => {
+    const suits = ['♥', '♦', '♣', '♠'];
+    const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+    const deck: Card[] = [];
+
+    // Crear deck completo
+    for (const suit of suits) {
+        for (const value of values) {
+            let numericValue: number;
+            if (value === 'A') numericValue = 11;
+            else if (['J', 'Q', 'K'].includes(value)) numericValue = 10;
+            else numericValue = parseInt(value);
+
+            deck.push({suit, value, numericValue});
+        }
+    }
+
+    if (favorInfluencers && playerHands.length > 0) {
+        // Para influencers, reorganizar el deck para poner cartas favorables al inicio
+        const favorableCards: Card[] = [];
+        const unfavorableCards: Card[] = [];
+
+        deck.forEach(card => {
+            let isFavorable = false;
+
+            // Verificar si la carta es favorable para algún jugador activo
+            for (const player of playerHands) {
+                if (player.isActive && player.playerId !== null) {
+                    const playerTotal = player.total;
+                    let cardValue = card.numericValue;
+
+                    // Manejar As como 1 si el total sería mayor a 21
+                    if (card.value === 'A' && playerTotal + 11 > 21) {
+                        cardValue = 1;
+                    }
+
+                    // Es favorable si no causa bust
+                    if (playerTotal + cardValue <= 21) {
+                        isFavorable = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isFavorable) {
+                favorableCards.push(card);
+            } else {
+                unfavorableCards.push(card);
+            }
+        });
+
+        // Mezclar cada grupo por separado
+        const shuffledFavorable = shuffleDeck(favorableCards);
+        const shuffledUnfavorable = shuffleDeck(unfavorableCards);
+
+        // Combinar con cartas favorables al inicio
+        return [...shuffledFavorable, ...shuffledUnfavorable];
+    }
+
+    return shuffleDeck(deck);
+};
+
+// Shuffle the deck using Fisher-Yates algorithm
+const shuffleDeck = (deck: Card[]): Card[] => {
+    const shuffled = [...deck];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+};
+
+// Initialize a new game state
+const initializeGameState = (): GameState => {
+    return {
+        dealerHand: [],
+        dealerTotal: 0,
+        players: [
+            {cards: [], total: 0, bet: 0, isActive: false, playerId: null, playerName: "Empty Seat"},
+            {cards: [], total: 0, bet: 0, isActive: false, playerId: null, playerName: "Empty Seat"},
+            {cards: [], total: 0, bet: 0, isActive: false, playerId: null, playerName: "Empty Seat"}
+        ],
+        currentPlayer: -1,
+        gamePhase: 'waiting',
+        selectedChip: 25
+    };
+};
+
+// Calculate the total value of a hand (with Ace handling)
+const calculateHandTotal = (cards: Card[]): number => {
+    let total = 0;
+    let aceCount = 0;
+
+    for (const card of cards) {
+        if (card.value === 'A') {
+            aceCount++;
+            total += 11;
+        } else {
+            total += card.numericValue;
+        }
+    }
+
+    // Adjust aces if needed to avoid busting
+    while (total > 21 && aceCount > 0) {
+        total -= 10;
+        aceCount--;
+    }
+
+    return total;
+};
+
+// Debug function to log game state
+const debugGameState = (lobbyId: number) => {
+    if (activeGames.has(lobbyId)) {
+        const game = activeGames.get(lobbyId)!;
+        console.log(`[DEBUG] Game state for lobby ${lobbyId}:`, {
+            gamePhase: game.gameState.gamePhase,
+            players: game.gameState.players.map((p, i) => ({
+                position: i,
+                name: p.playerName,
+                playerId: p.playerId,
+                isActive: p.isActive,
+                seated: p.playerId !== null
+            })),
+            hasWaitingTimer: !!game.timers.waiting,
+            currentPlayer: game.gameState.currentPlayer
+        });
+    }
+};
+
+// AGREGAR después de la función debugGameState
+const hasInfluencerAtTable = (lobbyId: number): boolean => {
+    if (!activeGames.has(lobbyId)) return false;
+
+    const game = activeGames.get(lobbyId)!;
+    return game.gameState.players.some(player =>
+        player.playerId !== null &&
+        clientInfoMap.get(player.playerId)?.influencer === true
+    );
+};
+
+
+// --- FIXED: Start betting phase with waiting timer ---
+// server/src/sockets/MesaHandler.ts
+const startBettingPhaseWithTimer = (io: Server, lobbyId: number) => {
+    const game = activeGames.get(lobbyId);
+    if (!game) return;
+
+    // Set to waiting phase
+    game.gameState.gamePhase = 'waiting';
+    io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'waiting'});
+    io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
+    // Clear previous waiting timer
+    if (game.timers.waiting) {
+        clearTimeout(game.timers.waiting);
+    }
+    // Start waiting timer (10 seconds for testing)
+    game.timers.waiting = setTimeout(() => {
+        const seatedPlayers = game.gameState.players.filter(p => p.isActive && p.playerId !== null);
+
+        if (seatedPlayers.length > 0) {
+            // Move to betting phase
+            game.gameState.gamePhase = 'betting';
+            io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'betting'});
+            io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
+            // Clear previous betting timer
+            if (game.timers.betting) {
+                clearTimeout(game.timers.betting);
+            }
+
+            // Start betting timer (30 seconds)
+            game.timers.betting = setTimeout(() => {
+                // Move to dealing phase
+                game.gameState.gamePhase = 'dealing';
+                io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'dealing'});
+                io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
+                // Call your dealing logic here
+                startDealingPhase(io, lobbyId);
+            }, 30000);
+        } else {
+            // No players, repeat waiting phase
+            startBettingPhaseWithTimer(io, lobbyId);
+        }
+    }, 10000); // 10 seconds for waiting
+};
+
+export const setupMesaHandlers = (io: Server, lobbyService: LobbyService) => {
+    io.on('connection', (socket: Socket) => {
+        console.log(`Client connected: ${socket.id}`);
+
+        // Join lobby
+        socket.on('joinLobby', async ({lobbyId, clientId, playerName}) => {
+            try {
+                console.log(`Player ${clientId} (${playerName}) joining lobby ${lobbyId}`);
+
+                // Join the socket room for this lobby
+                socket.join(`lobby-${lobbyId}`);
+
+                // If this is a new game, initialize it
+                if (!activeGames.has(lobbyId)) {
+                    console.log(`[DEBUG] Creating new game for lobby ${lobbyId}`);
+                    activeGames.set(lobbyId, {
+                        gameState: initializeGameState(),
+                        timers: {}
+                    });
+                    // Start waiting phase with timer
+                    startBettingPhaseWithTimer(io, lobbyId);
+                } else {
+                    console.log(`[DEBUG] Game already exists for lobby ${lobbyId}`);
+                    debugGameState(lobbyId);
+                }
+
+                // Notify client of successful join
+                socket.emit('joinLobbyResponse', {
+                    success: true,
+                    message: `Joined lobby ${lobbyId}`
+                });
+            } catch (error: any) {
+                console.error(`Error joining lobby: ${error.message}`);
+                socket.emit('joinError', {message: error.message});
+            }
+        });
+
+        // Leave lobby
+        socket.on('leaveLobby', ({lobbyId, clientId}) => {
+            console.log(`Player ${clientId} leaving lobby ${lobbyId}`);
+            socket.leave(`lobby-${lobbyId}`);
+
+            // If player was seated, handle leaving the seat
+            if (activeGames.has(lobbyId)) {
+                const game = activeGames.get(lobbyId)!;
+                const playerIndex = game.gameState.players.findIndex(p => p.playerId === clientId);
+
+                if (playerIndex >= 0) {
+                    console.log(`[DEBUG] Player ${clientId} leaving seat at position ${playerIndex}`);
+                    game.gameState.players[playerIndex] = {
+                        cards: [],
+                        total: 0,
+                        bet: 0,
+                        isActive: false,
+                        playerId: null,
+                        playerName: "Empty Seat"
+                    };
+
+                    // Check if all seats are empty and reset if so
+                    const allSeatsEmpty = game.gameState.players.every(p => p.playerId === null);
+                    if (allSeatsEmpty) {
+                        console.log(`[DEBUG] All seats empty, resetting lobby ${lobbyId}`);
+                        resetGame(io, lobbyId);
+                    }
+
+                    // Broadcast updated game state
+                    io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+                }
+            }
+        });
+
+        // Add this inside io.on('connection', (socket: Socket) => { ... })
+        socket.on('updateSelectedChip', ({lobbyId, position, selectedChip}) => {
+            if (!activeGames.has(lobbyId)) return;
+            const game = activeGames.get(lobbyId)!;
+            if (position >= 0 && position < game.gameState.players.length) {
+                game.gameState.selectedChip = selectedChip;
+                io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+            }
+        });
+
+        // Request current game state
+        socket.on('requestGameState', ({lobbyId}) => {
+            console.log(`[DEBUG] Game state requested for lobby ${lobbyId}`);
+            if (activeGames.has(lobbyId)) {
+                const gameState = activeGames.get(lobbyId)!.gameState;
+                socket.emit('gameStateUpdate', gameState);
+                debugGameState(lobbyId);
+            } else {
+                console.log(`[DEBUG] No game found for lobby ${lobbyId}, creating new one`);
+                const newGameState = initializeGameState();
+                activeGames.set(lobbyId, {gameState: newGameState, timers: {}});
+                socket.emit('gameStateUpdate', newGameState);
+                startBettingPhaseWithTimer(io, lobbyId);
+            }
+        });
+
+        // Sit at a specific position - FIXED VERSION
+        socket.on('sitDown', ({lobbyId, position, clientId, playerName}) => {
+            try {
+                console.log(`Player ${clientId} (${playerName}) sitting at position ${position} in lobby ${lobbyId}`);
+
+                if (!activeGames.has(lobbyId)) {
+                    throw new Error('Game not found');
+                }
+
+                const game = activeGames.get(lobbyId)!;
+
+                // Check if position is valid
+                if (position < 0 || position >= game.gameState.players.length) {
+                    throw new Error('Invalid position');
+                }
+
+                // Check if position is already taken
+                if (game.gameState.players[position].playerId !== null) {
+                    throw new Error('Seat already taken');
+                }
+
+                // Check if player is already seated elsewhere
+                const existingPosition = game.gameState.players.findIndex(p => p.playerId === clientId);
+                if (existingPosition >= 0) {
+                    throw new Error('Ya estas sentado en otra posición');
+                }
+
+                // Take the seat
+                game.gameState.players[position] = {
+                    ...game.gameState.players[position],
+                    isActive: true,
+                    playerId: clientId,
+                    playerName
+                };
+
+                console.log(`[DEBUG] Player ${playerName} seated at position ${position}. Current game phase: ${game.gameState.gamePhase}`);
+
+                // *** CLAVE: Si estamos en waiting phase, reiniciar el timer ***
+                if (game.gameState.gamePhase === 'waiting') {
+                    console.log(`[DEBUG] Restarting timer because player joined during waiting phase`);
+                    startBettingPhaseWithTimer(io, lobbyId);
+                }
+
+                // Emit seat confirmation to the player
+                socket.emit('sitDownResponse', {
+                    success: true,
+                    position
+                });
+
+                // Broadcast to all clients that the player joined
+                io.to(`lobby-${lobbyId}`).emit('playerJoined', {
+                    position,
+                    playerId: clientId,
+                    playerName
+                });
+
+                // Update game state for everyone
+                io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+                debugGameState(lobbyId);
+
+            } catch (error: any) {
+                console.error(`Error sitting down: ${error.message}`);
+                socket.emit('sitDownResponse', {error: error.message});
+            }
+        });
+
+        // Leave a seat
+        socket.on('leaveSeat', ({lobbyId, position, clientId}) => {
+            try {
+                console.log(`Player ${clientId} leaving seat at position ${position} in lobby ${lobbyId}`);
+
+                if (!activeGames.has(lobbyId)) {
+                    throw new Error('Game not found');
+                }
+
+                const game = activeGames.get(lobbyId)!;
+
+                // Check if position is valid and occupied by this client
+                if (position < 0 || position >= game.gameState.players.length ||
+                    game.gameState.players[position].playerId !== clientId) {
+                    throw new Error('Invalid position or not your seat');
+                }
+
+                // Check if game is in progress
+                if (game.gameState.gamePhase !== 'waiting' && game.gameState.players[position].isActive) {
+                    throw new Error('Cannot leave during an active game');
+                }
+
+                // Leave the seat
+                game.gameState.players[position] = {
+                    cards: [],
+                    total: 0,
+                    bet: 0,
+                    isActive: false,
+                    playerId: null,
+                    playerName: "Empty Seat"
+                };
+
+                // Emit confirmation to the player
+                socket.emit('leaveSeatResponse', {
+                    success: true,
+                    message: 'Seat vacated successfully'
+                });
+
+                // Update game state for everyone
+                io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+                debugGameState(lobbyId);
+
+            } catch (error: any) {
+                console.error(`Error leaving seat: ${error.message}`);
+                socket.emit('leaveSeatResponse', {error: error.message});
+            }
+        });
+
+        // Place bet
+        socket.on('placeBet', ({lobbyId, position, amount}) => {
+            try {
+                console.log(`[DEBUG] Bet placed: lobby ${lobbyId}, position ${position}, amount ${amount}`);
+
+                if (!activeGames.has(lobbyId)) {
+                    throw new Error('Game not found');
+                }
+
+                const game = activeGames.get(lobbyId)!;
+
+                // Validate game phase
+                if (game.gameState.gamePhase !== 'betting') {
+                    throw new Error('Not in betting phase');
+                }
+
+                // Update bet for the player
+                game.gameState.players[position].bet += amount;
+                console.log(`[DEBUG] Player at position ${position} now has bet: ${game.gameState.players[position].bet}`);
+
+                // Broadcast updated game state
+                io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
+            } catch (error: any) {
+                console.error(`Error placing bet: ${error.message}`);
+                socket.emit('betError', {message: error.message});
+            }
+        });
+
+        // Player actions (hit, stand, double)
+        socket.on('playerAction', ({lobbyId, action, position}) => {
+            try {
+                console.log(`[DEBUG] Player action: ${action} at position ${position} in lobby ${lobbyId}`);
+
+                if (!activeGames.has(lobbyId)) {
+                    throw new Error('Game not found');
+                }
+
+                const game = activeGames.get(lobbyId)!;
+
+                // Validate game phase
+                if (game.gameState.gamePhase !== 'playing') {
+                    throw new Error('Not in playing phase');
+                }
+
+                // Validate it's this player's turn
+                if (game.gameState.currentPlayer !== position) {
+                    throw new Error('Not your turn');
+                }
+
+                // Handle different actions
+                switch (action) {
+                    case 'hit':
+                        handleHit(io, lobbyId, position);
+                        break;
+
+                    case 'stand':
+                        handleStand(io, lobbyId, position);
+                        break;
+
+                    case 'double':
+                        handleDouble(io, lobbyId, position);
+                        break;
+
+                    default:
+                        throw new Error('Invalid action');
+                }
+
+            } catch (error: any) {
+                console.error(`Error processing player action: ${error.message}`);
+                socket.emit('actionError', {message: error.message});
+            }
+        });
+
+        socket.on('disconnect', () => {
+            console.log(`Client disconnected: ${socket.id}`);
+            const seatInfo = socketSeatMap.get(socket.id);
+            if (seatInfo) {
+                const {lobbyId, position, clientId} = seatInfo;
+                if (activeGames.has(lobbyId)) {
+                    const game = activeGames.get(lobbyId)!;
+                    if (
+                        position >= 0 &&
+                        position < game.gameState.players.length &&
+                        game.gameState.players[position].playerId === clientId
+                    ) {
+                        game.gameState.players[position] = {
+                            cards: [],
+                            total: 0,
+                            bet: 0,
+                            isActive: false,
+                            playerId: null,
+                            playerName: "Empty Seat"
+                        };
+                        // Check if all seats are empty and reset if so
+                        const allSeatsEmpty = game.gameState.players.every(p => p.playerId === null);
+                        if (allSeatsEmpty) {
+                            console.log(`[DEBUG] All seats empty, resetting lobby ${lobbyId}`);
+                            resetGame(io, lobbyId);
+                        }
+                        io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+                    }
+                }
+                socketSeatMap.delete(socket.id);
+            }
+            // AGREGAR antes del cierre de io.on('connection', (socket: Socket) => {
+            socket.on('setClientInfo', ({clientId, clientInfo}) => {
+                console.log(`[DEBUG] Setting client info for ${clientId}:`, clientInfo);
+                clientInfoMap.set(clientId, clientInfo);
+            });
+        });
+    });
+};
+
+// Game flow functions
+const startDealingPhase = (io: Server, lobbyId: number) => {
+    if (!activeGames.has(lobbyId)) return;
+
+    const game = activeGames.get(lobbyId)!;
+    game.gameState.gamePhase = 'dealing';
+
+    console.log(`[DEBUG] Starting dealing phase for lobby ${lobbyId}`);
+
+    // Clear any existing timers
+    if (game.timers.waiting) {
+        clearTimeout(game.timers.waiting);
+        delete game.timers.waiting;
+    }
+
+    // Notify clients about phase change
+    io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'dealing'});
+    io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
+    // Create a new shuffled deck (favorable for influencers if any are present)
+    const isInfluencerTable = hasInfluencerAtTable(lobbyId);
+    const deck = createDeck(isInfluencerTable, game.gameState.players);
+
+    // Deal initial cards
+    const activePlayers = game.gameState.players
+        .map((player, index) => ({player, index}))
+        .filter(({player}) => player.isActive && player.bet > 0);
+
+    console.log(`[DEBUG] Dealing cards to ${activePlayers.length} active players`);
+
+    // Deal first card to each player
+    activePlayers.forEach(({player, index}) => {
+        const card = deck.pop();
+        if (card) {
+            player.cards.push(card);
+            player.total = calculateHandTotal(player.cards);
+            console.log(`[DEBUG] Dealt ${card.value}${card.suit} to player at position ${index}`);
+        }
+    });
+
+    // Deal first card to dealer (face up)
+    const dealerCard1 = deck.pop();
+    if (dealerCard1) {
+        game.gameState.dealerHand.push(dealerCard1);
+        game.gameState.dealerTotal = calculateHandTotal(game.gameState.dealerHand);
+        console.log(`[DEBUG] Dealt ${dealerCard1.value}${dealerCard1.suit} to dealer (face up)`);
+    }
+
+    // Deal second card to each player
+    activePlayers.forEach(({player, index}) => {
+        const card = deck.pop();
+        if (card) {
+            player.cards.push(card);
+            player.total = calculateHandTotal(player.cards);
+            console.log(`[DEBUG] Dealt second card ${card.value}${card.suit} to player at position ${index}, total: ${player.total}`);
+        }
+    });
+
+    // Deal second card to dealer (face down)
+    const dealerCard2 = deck.pop();
+    if (dealerCard2) {
+        game.gameState.dealerHand.push({suit: '', value: '?', numericValue: 0}); // placeholder for back image
+        (game as any).hiddenDealerCard = dealerCard2; // store real card to reveal later
+    }
+
+    // Update game state with dealt cards
+    io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
+
+    // Check for blackjacks
+    let dealerBlackjack = calculateHandTotal(game.gameState.dealerHand) === 21;
+    console.log(`[DEBUG] Dealer has blackjack: ${dealerBlackjack}`);
+
+    // If dealer has blackjack, reveal it immediately
+    if (dealerBlackjack) {
+        game.gameState.gamePhase = 'finished';
+
+        game.gameState.dealerTotal = calculateHandTotal(game.gameState.dealerHand);
+        io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'finished'});
+        io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
+        // Process results for all players
+        processGameResults(io, lobbyId);
+    } else {
+        // Start the playing phase with the first active player
+        startPlayingPhase(io, lobbyId);
+    }
+};
+
+const startPlayingPhase = (io: Server, lobbyId: number) => {
+    if (!activeGames.has(lobbyId)) return;
+
+    const game = activeGames.get(lobbyId)!;
+    game.gameState.gamePhase = 'playing';
+
+    console.log(`[DEBUG] Starting playing phase for lobby ${lobbyId}`);
+
+    // Find the first active player
+    const firstPlayerIndex = game.gameState.players.findIndex(
+        p => p.isActive && p.bet > 0
+    );
+
+    if (firstPlayerIndex >= 0) {
+        game.gameState.currentPlayer = firstPlayerIndex;
+        console.log(`[DEBUG] First player turn: position ${firstPlayerIndex}`);
+
+        // Check for player blackjack
+        if (game.gameState.players[firstPlayerIndex].total === 21) {
+            console.log(`[DEBUG] Player at position ${firstPlayerIndex} has blackjack, auto-standing`);
+            // Automatically stand on blackjack
+            handleStand(io, lobbyId, firstPlayerIndex);
+        }
+    } else {
+        // No active players, go straight to dealer play
+        console.log(`[DEBUG] No active players, going to dealer play`);
+        playDealerHand(io, lobbyId);
+    }
+
+    io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'playing'});
+    io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+};
+
+const handleHit = (io: Server, lobbyId: number, position: number) => {
+    if (!activeGames.has(lobbyId)) return;
+
+    const game = activeGames.get(lobbyId)!;
+    const player = game.gameState.players[position];
+
+    console.log(`[DEBUG] Player at position ${position} hits`);
+
+    /// Create a new shuffled deck (favorable for influencers if any are present)
+    const isInfluencerTable = hasInfluencerAtTable(lobbyId);
+    const deck = createDeck(isInfluencerTable, game.gameState.players);
+    const card = deck.pop();
+
+    if (card) {
+        player.cards.push(card);
+        player.total = calculateHandTotal(player.cards);
+        console.log(`[DEBUG] Dealt ${card.value}${card.suit} to player at position ${position}, new total: ${player.total}`);
+
+        // Update game state
+        io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
+        // Check if player busted
+        if (player.total > 21) {
+            console.log(`[DEBUG] Player at position ${position} busted with ${player.total}`);
+            // Automatically move to next player
+            moveToNextPlayer(io, lobbyId);
+        }
+    }
+};
+
+const handleStand = (io: Server, lobbyId: number, position: number) => {
+    if (!activeGames.has(lobbyId)) return;
+
+    console.log(`[DEBUG] Player at position ${position} stands`);
+    // Move to the next player
+    moveToNextPlayer(io, lobbyId);
+};
+
+const handleDouble = (io: Server, lobbyId: number, position: number) => {
+    if (!activeGames.has(lobbyId)) return;
+
+    const game = activeGames.get(lobbyId)!;
+    const player = game.gameState.players[position];
+
+    console.log(`[DEBUG] Player at position ${position} doubles down`);
+
+    // Double the bet
+    const originalBet = player.bet;
+    player.bet *= 2;
+    console.log(`[DEBUG] Bet doubled from ${originalBet} to ${player.bet}`);
+
+    // Deal one card
+    const isInfluencerTable = hasInfluencerAtTable(lobbyId);
+    const deck = createDeck(isInfluencerTable, game.gameState.players);
+    const card = deck.pop();
+
+    if (card) {
+        player.cards.push(card);
+        player.total = calculateHandTotal(player.cards);
+        console.log(`[DEBUG] Dealt ${card.value}${card.suit} for double down, new total: ${player.total}`);
+
+        // Update game state
+        io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
+        // Always move to next player after doubling
+        moveToNextPlayer(io, lobbyId);
+    }
+};
+
+const moveToNextPlayer = (io: Server, lobbyId: number) => {
+    if (!activeGames.has(lobbyId)) return;
+
+    const game = activeGames.get(lobbyId)!;
+
+    // Find the next active player
+    let nextPlayer = -1;
+    for (let i = game.gameState.currentPlayer + 1; i < game.gameState.players.length; i++) {
+        if (game.gameState.players[i].isActive && game.gameState.players[i].bet > 0) {
+            nextPlayer = i;
+            break;
+        }
+    }
+
+    if (nextPlayer >= 0) {
+        // Move to next player
+        game.gameState.currentPlayer = nextPlayer;
+        console.log(`[DEBUG] Moving to next player at position ${nextPlayer}`);
+        io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
+        // Check for blackjack
+        if (game.gameState.players[nextPlayer].total === 21) {
+            console.log(`[DEBUG] Next player at position ${nextPlayer} has blackjack, auto-standing`);
+            // Automatically stand on blackjack
+            handleStand(io, lobbyId, nextPlayer);
+        }
+    } else {
+        // All players have completed their turns, move to dealer's play
+        console.log(`[DEBUG] All players finished, moving to dealer play`);
+        playDealerHand(io, lobbyId);
+    }
+};
+
+const playDealerHand = (io: Server, lobbyId: number) => {
+    if (!activeGames.has(lobbyId)) return;
+
+    const game = activeGames.get(lobbyId)!;
+    game.gameState.currentPlayer = -1; // No active player during dealer's turn
+
+    console.log(`[DEBUG] Starting dealer play`);
+
+    // Reveal dealer's hole card
+    const hiddenCard = (game as any).hiddenDealerCard;
+    if (
+        hiddenCard &&
+        game.gameState.dealerHand.length > 1 &&
+        game.gameState.dealerHand[1].value === '?'
+    ) {
+        game.gameState.dealerHand[1] = hiddenCard;
+        delete (game as any).hiddenDealerCard;
+    }
+    game.gameState.dealerTotal = calculateHandTotal(game.gameState.dealerHand);
+    console.log(`[DEBUG] Dealer reveals hole card, total: ${game.gameState.dealerTotal}`);
+
+    // Dealer draws until reaching 17 or higher
+    const dealerPlay = () => {
+        io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
+
+        if (game.gameState.dealerTotal < 17) {
+            console.log(`[DEBUG] Dealer has ${game.gameState.dealerTotal}, must hit`);
+            // Deal another card to dealer
+            const isInfluencerTable = hasInfluencerAtTable(lobbyId);
+            const deck = createDeck(isInfluencerTable, game.gameState.players);
+            const card = deck.pop();
+
+            if (card) {
+                game.gameState.dealerHand.push(card);
+                game.gameState.dealerTotal = calculateHandTotal(game.gameState.dealerHand);
+                console.log(`[DEBUG] Dealer draws ${card.value}${card.suit}, new total: ${game.gameState.dealerTotal}`);
+
+                // Set timeout for next draw for visual effect
+                game.timers.dealerDraw = setTimeout(() => dealerPlay(), 1000);
+            }
+        } else {
+            console.log(`[DEBUG] Dealer stands with ${game.gameState.dealerTotal}`);
+            // Dealer is done, determine outcomes
+            processGameResults(io, lobbyId);
+        }
+    };
+
+    // Start dealer play
+    dealerPlay();
+};
+
+const processGameResults = (io: Server, lobbyId: number) => {
+    if (!activeGames.has(lobbyId)) return;
+
+    const game = activeGames.get(lobbyId)!;
+    game.gameState.gamePhase = 'finished';
+
+    console.log(`[DEBUG] Processing game results for lobby ${lobbyId}`);
+
+    // Clear any dealer draw timers
+    if (game.timers.dealerDraw) {
+        clearTimeout(game.timers.dealerDraw);
+        delete game.timers.dealerDraw;
+    }
+
+    io.to(`lobby-${lobbyId}`).emit('gamePhaseChanged', {phase: 'finished'});
+    io.to(`lobby-${lobbyId}`).emit('gameStateUpdate', game.gameState);
+
+    // After a delay, reset for the next round
+    game.timers.nextRound = setTimeout(() => {
+        resetGame(io, lobbyId);
+    }, 5000);
+};
+
+// --- MODIFIED: Reset game to use waiting phase ---
+const resetGame = (io: Server, lobbyId: number) => {
+    if (!activeGames.has(lobbyId)) return;
+
+    const game = activeGames.get(lobbyId)!;
+
+    console.log(`[DEBUG] Resetting game for lobby ${lobbyId}`);
+
+    // Clear any existing timers
+    if (game.timers.nextRound) {
+        clearTimeout(game.timers.nextRound);
+        delete game.timers.nextRound;
+    }
+
+    // Keep player positions but reset hands and bets
+    game.gameState.players.forEach((player, index) => {
+        if (player.playerId !== null) {
+            console.log(`[DEBUG] Resetting player at position ${index}: ${player.playerName}`);
+        }
+        player.cards = [];
+        player.total = 0;
+        player.bet = 0;
+    });
+
+    // Reset dealer
+    game.gameState.dealerHand = [];
+    game.gameState.dealerTotal = 0;
+    game.gameState.currentPlayer = -1;
+
+    // Start waiting phase with timer
+    startBettingPhaseWithTimer(io, lobbyId);
+};

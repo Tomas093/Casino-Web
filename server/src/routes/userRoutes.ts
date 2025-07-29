@@ -104,4 +104,13 @@ router.get('/', async (req: Request, res: Response) => {
     }
 });
 
+router.get('/client/:id', async (req: Request, res: Response) => {
+    const {id} = req.params;
+    try {
+        const cliente = await userService.findClienteByUsuarioId(Number(id));
+        res.status(200).json(serializeBigInt(cliente));
+    } catch (error: any) {
+        res.status(404).json({message: error.message});
+    }
+});
 export default router;

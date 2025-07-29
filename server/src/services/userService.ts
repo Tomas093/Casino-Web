@@ -206,6 +206,17 @@ export const userService = {
         });
 
         return true;
-    }
+    },
 
+    findClienteByUsuarioId: async (usuarioid: number) => {
+        const cliente = await prisma.cliente.findUnique({
+            where: {usuarioid}
+        });
+
+        if (!cliente) {
+            throw new Error(`Cliente no encontrado para el usuario ID: ${usuarioid}`);
+        }
+
+        return cliente;
+    }
 };

@@ -4,11 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Hecho ya el marcar todas como leidas, ademas de agregar update y markallasread como funciones">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Arreglo Bug del dsiconnect">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/components/Notification.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/components/Notification.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/profile/FriendsPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/profile/FriendsPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTableStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTableStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/services/authService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/authService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" afterDir="false" />
     </list>
+    <list id="f5eeda07-02d7-44e3-8290-11b843a3b9f1" name="Changes by Eliseos" comment="Changes by Eliseos" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,16 +27,16 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="Eliseo" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -47,38 +51,38 @@
   &quot;lastFilter&quot;: {}
 }</component>
   <component name="GitHubPullRequestState">{
-  &quot;prStates&quot;: [
+    &quot;prStates&quot;: [
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOOGzOas6VJaX7&quot;,
-        &quot;number&quot;: 35
-      },
-      &quot;lastSeen&quot;: 1746553555926
-    }
-  ]
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Tomas093/Casino-Web.git&quot;,
-    &quot;accountId&quot;: &quot;aeb8d57a-9bda-4d87-a562-02ae3e64d914&quot;
-  },
-  &quot;recentNewPullRequestHead&quot;: {
-    &quot;server&quot;: {
-      &quot;useHttp&quot;: false,
-      &quot;host&quot;: &quot;github.com&quot;,
-      &quot;port&quot;: null,
-      &quot;suffix&quot;: null
+    &quot;id&quot;: {
+    &quot;id&quot;: &quot;PR_kwDOOGzOas6VJaX7&quot;,
+    &quot;number&quot;: 35
     },
-    &quot;owner&quot;: &quot;Tomas093&quot;,
-    &quot;repository&quot;: &quot;Casino-Web&quot;
+    &quot;lastSeen&quot;: 1746553555926
+    }
+    ]
+    }</component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Tomas093/Casino-Web.git",
+    "accountId": "aeb8d57a-9bda-4d87-a562-02ae3e64d914"
+  },
+  "recentNewPullRequestHead": {
+    "server": {
+      "useHttp": false,
+      "host": "github.com",
+      "port": null,
+      "suffix": null
+    },
+    "owner": "Tomas093",
+    "repository": "Casino-Web"
   }
-}</component>
+}]]></component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 1
-}</component>
+    &quot;associatedIndex&quot;: 1
+    }</component>
   <component name="ProjectId" id="2vGcaxnqELLcxdc86qh2iWUSxuW" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -89,22 +93,21 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;Node.js.authService.ts.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.BlackJackGame.ts.executor&quot;: &quot;Run&quot;,
     &quot;Node.js.leaderboardApi.ts.executor&quot;: &quot;Run&quot;,
     &quot;Node.js.leaderboardService.ts.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Tomas&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Eliseo&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/Casino-Web&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/tomas/Faculty/Tercer Anio/Primer Cautri/Casino-Web/client/src/React/pages/games/blackJack/cards/defaultcards&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\tomas\\Faculty\\Tercer Anio\\Primer Cautri\\Casino-Web\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
@@ -112,16 +115,17 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games\blackJack\cards\defaultcards" />
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server" />
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\server\src" />
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\casinoweb\client\src\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games\blackJack\page\game" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src" />
+      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games\blackJack\game" />
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\components" />
       <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games\slots\components" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games\roulette" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client\src\React\pages\games\background" />
-      <recent name="C:\Users\tomas\Faculty\Tercer Anio\Primer Cautri\Casino-Web\client/src/React/pages/games/minesweeper" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -246,165 +250,26 @@
       <workItem from="1748730119747" duration="84000" />
       <workItem from="1748810608848" duration="7442000" />
       <workItem from="1748866252355" duration="139000" />
-      <workItem from="1748956921322" duration="2605000" />
-      <workItem from="1749558352595" duration="7872000" />
-      <workItem from="1749729798918" duration="86000" />
-      <workItem from="1750636852879" duration="1391000" />
-      <workItem from="1752261193197" duration="6656000" />
-      <workItem from="1752276177561" duration="3463000" />
-      <workItem from="1752323112857" duration="7493000" />
-      <workItem from="1752447175609" duration="436000" />
-      <workItem from="1752493401417" duration="2068000" />
-      <workItem from="1752495678722" duration="2632000" />
-      <workItem from="1752499057190" duration="205000" />
-      <workItem from="1752506098235" duration="3056000" />
-      <workItem from="1752510153443" duration="319000" />
-      <workItem from="1752510753624" duration="7206000" />
-      <workItem from="1752519039994" duration="31698000" />
-    </task>
-    <task id="LOCAL-00040" summary="Add friends leaderboard feature; update UI components and refactor Home page">
-      <option name="closed" value="true" />
-      <created>1746308558615</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1746308558615</updated>
-    </task>
-    <task id="LOCAL-00041" summary="Add ticket management feature; implement API, context, and UI for ticket handling">
-      <option name="closed" value="true" />
-      <created>1746318419889</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1746318419889</updated>
-    </task>
-    <task id="LOCAL-00042" summary="Add ticket management feature; implement API, context, and UI for ticket handling">
-      <option name="closed" value="true" />
-      <created>1746360817569</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1746360817569</updated>
-    </task>
-    <task id="LOCAL-00043" summary="Refactor ticket view styles and update filtering functionality; enhance UI components for better usability">
-      <option name="closed" value="true" />
-      <created>1746361975915</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1746361975915</updated>
-    </task>
-    <task id="LOCAL-00044" summary="Add priority indicators to ticket view; enhance filtering UI with visual cues for priority levels">
-      <option name="closed" value="true" />
-      <created>1746362059726</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1746362059726</updated>
-    </task>
-    <task id="LOCAL-00045" summary="Refactor ticket view styles; update class names for improved clarity and consistency">
-      <option name="closed" value="true" />
-      <created>1746362888913</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1746362888913</updated>
-    </task>
-    <task id="LOCAL-00046" summary="Implement chat feature; add message API, context, and UI for ticket messaging">
-      <option name="closed" value="true" />
-      <created>1746392497852</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1746392497852</updated>
-    </task>
-    <task id="LOCAL-00047" summary="Implement chat feature; add message API, context, and UI for ticket messaging">
-      <option name="closed" value="true" />
-      <created>1746406833992</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1746406833992</updated>
-    </task>
-    <task id="LOCAL-00048" summary="Enhance support ticket functionality; implement automatic priority assignment and user data initialization">
-      <option name="closed" value="true" />
-      <created>1746411008533</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1746411008533</updated>
-    </task>
-    <task id="LOCAL-00049" summary="Implement FAQ functionality; add API, context, and UI for managing FAQs">
-      <option name="closed" value="true" />
-      <created>1746541184478</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1746541184478</updated>
-    </task>
-    <task id="LOCAL-00050" summary="Refactor game functionality; rename 'funcionando' to 'estado' in game routes and service">
-      <option name="closed" value="true" />
-      <created>1746544262762</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1746544262762</updated>
-    </task>
-    <task id="LOCAL-00051" summary="Subo con merge completo Creo">
-      <option name="closed" value="true" />
-      <created>1746554032444</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1746554032445</updated>
-    </task>
-    <task id="LOCAL-00052" summary="Add Recent Activities component; integrate with admin management and style updates">
-      <option name="closed" value="true" />
-      <created>1746811845178</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1746811845179</updated>
-    </task>
-    <task id="LOCAL-00053" summary="Refactor NavBar component; add admin status check and improve code formatting">
-      <option name="closed" value="true" />
-      <created>1746812295177</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1746812295177</updated>
-    </task>
-    <task id="LOCAL-00054" summary="Refactor NavBar component; add admin status check and improve code formatting">
-      <option name="closed" value="true" />
-      <created>1746812374223</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1746812374223</updated>
-    </task>
-    <task id="LOCAL-00055" summary="Refactor ticket management components; update status and priority handling, add filters for user roles">
-      <option name="closed" value="true" />
-      <created>1746814668634</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1746814668635</updated>
-    </task>
-    <task id="LOCAL-00056" summary="Subo UN MONTON DE ABMS">
-      <option name="closed" value="true" />
-      <created>1746828963411</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1746828963412</updated>
-    </task>
-    <task id="LOCAL-00057" summary="Add coupon validation and transaction handling; integrate coupon benefits in transaction process">
-      <option name="closed" value="true" />
-      <created>1746879210172</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1746879210172</updated>
+      <workItem from="1748961514692" duration="2083000" />
+      <workItem from="1748966431679" duration="105000" />
+      <workItem from="1749136219153" duration="133000" />
+      <workItem from="1749169599046" duration="614000" />
+      <workItem from="1749214161210" duration="29000" />
+      <workItem from="1749473178116" duration="316000" />
+      <workItem from="1749473546338" duration="9887000" />
+      <workItem from="1752940194611" duration="3948000" />
+      <workItem from="1753039794824" duration="12776000" />
+      <workItem from="1753095416472" duration="2338000" />
+      <workItem from="1753098030450" duration="10354000" />
+      <workItem from="1753133338240" duration="6150000" />
+      <workItem from="1753141358253" duration="3997000" />
+      <workItem from="1753145445182" duration="3478000" />
+      <workItem from="1753186874385" duration="11016000" />
+      <workItem from="1753217200115" duration="7814000" />
+      <workItem from="1753573255943" duration="8719000" />
+      <workItem from="1753717057215" duration="1308000" />
+      <workItem from="1753718579480" duration="5132000" />
+      <workItem from="1753746900921" duration="1592000" />
     </task>
     <task id="LOCAL-00058" summary="Refactor leaderboard components; improve data handling and add debug logging">
       <option name="closed" value="true" />
@@ -598,63 +463,207 @@
       <option name="project" value="LOCAL" />
       <updated>1748627305828</updated>
     </task>
-    <task id="LOCAL-00082" summary="Refactor workspace configuration; update dependencies and enhance styles for win display">
+    <task id="LOCAL-00082" summary="Refactor login and registration components; enhance CSS class structure for better customization and maintainability">
       <option name="closed" value="true" />
-      <created>1748957124346</created>
+      <created>1752933692000</created>
       <option name="number" value="00082" />
       <option name="presentableId" value="LOCAL-00082" />
       <option name="project" value="LOCAL" />
-      <updated>1748957124346</updated>
+      <updated>1752933692002</updated>
     </task>
-    <task id="LOCAL-00083" summary="Login Con Boton Falso">
+    <task id="LOCAL-00083" summary="Cambios en la ruleta para que no llore, ademas de la logica del bj hecha">
       <option name="closed" value="true" />
-      <created>1752277793091</created>
+      <created>1753041801642</created>
       <option name="number" value="00083" />
       <option name="presentableId" value="LOCAL-00083" />
       <option name="project" value="LOCAL" />
-      <updated>1752277793091</updated>
+      <updated>1753041801642</updated>
     </task>
-    <task id="LOCAL-00084" summary="Con Login De Google Pero no Register">
+    <task id="LOCAL-00084" summary="Agrego un intento de sockts y cambie algo mas que no me acuerdo">
       <option name="closed" value="true" />
-      <created>1752331179123</created>
+      <created>1753047106836</created>
       <option name="number" value="00084" />
       <option name="presentableId" value="LOCAL-00084" />
       <option name="project" value="LOCAL" />
-      <updated>1752331179123</updated>
+      <updated>1753047106836</updated>
     </task>
-    <task id="LOCAL-00085" summary="Google de login andando y con reformat code y clean up code de intelij">
+    <task id="LOCAL-00085" summary="Fix socket import path in SocketContext">
       <option name="closed" value="true" />
-      <created>1752499209960</created>
+      <created>1753047158125</created>
       <option name="number" value="00085" />
       <option name="presentableId" value="LOCAL-00085" />
       <option name="project" value="LOCAL" />
-      <updated>1752499209960</updated>
+      <updated>1753047158125</updated>
     </task>
-    <task id="LOCAL-00086" summary="Notificaciones media implementadas, pero falta el estilo y que se creen de verdad, esta como medio de pinta ppoor ahora">
+    <task id="LOCAL-00086" summary="Anda el entrar al lobby">
       <option name="closed" value="true" />
-      <created>1752520669386</created>
+      <created>1753101523328</created>
       <option name="number" value="00086" />
       <option name="presentableId" value="LOCAL-00086" />
       <option name="project" value="LOCAL" />
-      <updated>1752520669386</updated>
+      <updated>1753101523328</updated>
     </task>
-    <task id="LOCAL-00087" summary="Implement notification system; add NotificationContext, API integration, and UI components for managing user notifications, TODO:&#10;                                                                                                                            Crear las notificaciones&#10;                                                                                                                            Update las notificaciones&#10;                                                                                                                            Estilo de las mismas&#10;                                                                                                                            Y creo que eso es todo">
+    <task id="LOCAL-00087" summary="Implement custom socket handlers for lobby management; add join and disconnect functionality">
       <option name="closed" value="true" />
-      <created>1752590157487</created>
+      <created>1753104926476</created>
       <option name="number" value="00087" />
       <option name="presentableId" value="LOCAL-00087" />
       <option name="project" value="LOCAL" />
-      <updated>1752590157487</updated>
+      <updated>1753104926476</updated>
     </task>
-    <task id="LOCAL-00088" summary="Hecho ya el marcar todas como leidas, ademas de agregar update y markallasread como funciones">
+    <task id="LOCAL-00088" summary="SEMI AVANCE">
       <option name="closed" value="true" />
-      <created>1752591781616</created>
+      <created>1753134722415</created>
       <option name="number" value="00088" />
       <option name="presentableId" value="LOCAL-00088" />
       <option name="project" value="LOCAL" />
-      <updated>1752591781616</updated>
+      <updated>1753134722417</updated>
     </task>
-    <option name="localTasksCounter" value="89" />
+    <task id="LOCAL-00089" summary="Changes by Eliseos">
+      <option name="closed" value="true" />
+      <created>1753134736998</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1753134736998</updated>
+    </task>
+    <task id="LOCAL-00090" summary="PIPI CUCU, ANDA TODO LA LGOICA QUE NO ES DEL BLACKJACK">
+      <option name="closed" value="true" />
+      <created>1753145309795</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1753145309795</updated>
+    </task>
+    <task id="LOCAL-00091" summary="PIPI CUCU, ANDA TODO LA LGOICA QUE NO ES DEL BLACKJACKs">
+      <option name="closed" value="true" />
+      <created>1753145468388</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1753145468389</updated>
+    </task>
+    <task id="LOCAL-00092" summary="Implement leave lobby functionality in BlackJackTable; enhance error handling and navigation">
+      <option name="closed" value="true" />
+      <created>1753145859138</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1753145859138</updated>
+    </task>
+    <task id="LOCAL-00093" summary="Add notification dropdown styles and refactor Notification component for improved usability">
+      <option name="closed" value="true" />
+      <created>1753147979913</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1753147979913</updated>
+    </task>
+    <task id="LOCAL-00094" summary="Remove Notification dropdown styles and refactor Notification component for improved usability">
+      <option name="closed" value="true" />
+      <created>1753148966941</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1753148966941</updated>
+    </task>
+    <task id="LOCAL-00095" summary="Notificaciones Terminadas">
+      <option name="closed" value="true" />
+      <created>1753189359327</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1753189359327</updated>
+    </task>
+    <task id="LOCAL-00096" summary="Refactor Notification component: remove unused dropdownRef import">
+      <option name="closed" value="true" />
+      <created>1753189528472</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1753189528472</updated>
+    </task>
+    <task id="LOCAL-00097" summary="Refactor BlackJackTable component: improve structure and update class names for consistency">
+      <option name="closed" value="true" />
+      <created>1753193734707</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1753193734707</updated>
+    </task>
+    <task id="LOCAL-00098" summary="Refactor BlackJackTable component: clean up code and improve readability">
+      <option name="closed" value="true" />
+      <created>1753194150538</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1753194150538</updated>
+    </task>
+    <task id="LOCAL-00099" summary="Con chips ARREGLADAS?">
+      <option name="closed" value="true" />
+      <created>1753196004053</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1753196004053</updated>
+    </task>
+    <task id="LOCAL-00100" summary="CON TIMER">
+      <option name="closed" value="true" />
+      <created>1753205290855</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1753205290855</updated>
+    </task>
+    <task id="LOCAL-00101" summary="Cambios Menor de turnos">
+      <option name="closed" value="true" />
+      <created>1753218732636</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1753218732636</updated>
+    </task>
+    <task id="LOCAL-00102" summary="Cmabio Con Cartas De imagenes">
+      <option name="closed" value="true" />
+      <created>1753220946417</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1753220946417</updated>
+    </task>
+    <task id="LOCAL-00103" summary="Arreglo resteo del valor de las chips">
+      <option name="closed" value="true" />
+      <created>1753221447565</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1753221447565</updated>
+    </task>
+    <task id="LOCAL-00104" summary="Estilo Completamente Listo">
+      <option name="closed" value="true" />
+      <created>1753223111174</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1753223111174</updated>
+    </task>
+    <task id="LOCAL-00105" summary="Arreglo Bug del dsiconnect">
+      <option name="closed" value="true" />
+      <created>1753224122367</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1753224122368</updated>
+    </task>
+    <task id="LOCAL-00106" summary="notificaciones de balance,arreglo balance *100 y logica influencer">
+      <option name="closed" value="true" />
+      <created>1753721640901</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1753721640902</updated>
+    </task>
+    <option name="localTasksCounter" value="107" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -687,31 +696,31 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Refactor footer components; update paths and enhance game navigation with infinite scroll effect" />
-    <MESSAGE value="Add tiempo de juego functionality; implement API, context, and UI for tracking user playtime" />
-    <MESSAGE value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for session tracking and user suspension management" />
-    <MESSAGE value="Refactor tiempo de juego to tiempo de sesión; update API, context, and routes for user suspension management and add user management table component" />
-    <MESSAGE value="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in LimitPage" />
-    <MESSAGE value="Add edit functionality for limits; implement inline editing for daily, weekly, and monthly limits in ChangeLimits component" />
-    <MESSAGE value="Refactor task entries in workspace.xml; remove closed tasks and update localTasksCounter in SupportPage.tsx for consistent priority casing" />
-    <MESSAGE value="Refactor date handling in game components; adjust timestamps to account for timezone offset and update limit values in authService" />
-    <MESSAGE value="Update workspace.xml and styles; rename currency symbol class for Minesweeper and adjust task entries" />
-    <MESSAGE value="Update workspace.xml and leaderboardService.ts; adjust task entries and add user stats retrieval for leaderboard" />
-    <MESSAGE value="Refactor game components; add InsufficientBalanceNotification and enhance theme options" />
-    <MESSAGE value="Update paytable multipliers for improved game balance; refactor workspace.xml for task management" />
-    <MESSAGE value="Enhance coupon validation and UI; add monetary limits display and refactor coupon handling logic" />
-    <MESSAGE value="Enhance coupon management; add cuponid field, update API methods, and improve validation logic" />
-    <MESSAGE value="Refactor coupon management; update workspace configuration and enhance login form with footer text" />
-    <MESSAGE value="Refactor session management; integrate user suspension check and enhance API methods" />
-    <MESSAGE value="Refactor imports for consistency; adjust import order and spacing across multiple components" />
-    <MESSAGE value="Refactor workspace configuration; update HTML title and favicon for consistency" />
-    <MESSAGE value="Refactor workspace configuration; update dependencies and enhance styles for win display" />
-    <MESSAGE value="Login Con Boton Falso" />
-    <MESSAGE value="Con Login De Google Pero no Register" />
-    <MESSAGE value="Google de login andando y con reformat code y clean up code de intelij" />
-    <MESSAGE value="Notificaciones media implementadas, pero falta el estilo y que se creen de verdad, esta como medio de pinta ppoor ahora" />
-    <MESSAGE value="Implement notification system; add NotificationContext, API integration, and UI components for managing user notifications, TODO:&#10;                                                                                                                            Crear las notificaciones&#10;                                                                                                                            Update las notificaciones&#10;                                                                                                                            Estilo de las mismas&#10;                                                                                                                            Y creo que eso es todo" />
-    <MESSAGE value="Hecho ya el marcar todas como leidas, ademas de agregar update y markallasread como funciones" />
-    <option name="LAST_COMMIT_MESSAGE" value="Hecho ya el marcar todas como leidas, ademas de agregar update y markallasread como funciones" />
+    <MESSAGE value="Cambios en la ruleta para que no llore, ademas de la logica del bj hecha" />
+    <MESSAGE value="Agrego un intento de sockts y cambie algo mas que no me acuerdo" />
+    <MESSAGE value="Fix socket import path in SocketContext" />
+    <MESSAGE value="Anda el entrar al lobby" />
+    <MESSAGE value="Implement custom socket handlers for lobby management; add join and disconnect functionality" />
+    <MESSAGE value="SEMI AVANCE" />
+    <MESSAGE value="Changes by Eliseos" />
+    <MESSAGE value="VANCE CON LOS TURNOOS DE LOS JUGADORES PERO CON FALLAS DIGAMOS" />
+    <MESSAGE value="PIPI CUCU, ANDA TODO LA LGOICA QUE NO ES DEL BLACKJACK" />
+    <MESSAGE value="PIPI CUCU, ANDA TODO LA LGOICA QUE NO ES DEL BLACKJACKs" />
+    <MESSAGE value="Implement leave lobby functionality in BlackJackTable; enhance error handling and navigation" />
+    <MESSAGE value="Add notification dropdown styles and refactor Notification component for improved usability" />
+    <MESSAGE value="Remove Notification dropdown styles and refactor Notification component for improved usability" />
+    <MESSAGE value="Notificaciones Terminadas" />
+    <MESSAGE value="Refactor Notification component: remove unused dropdownRef import" />
+    <MESSAGE value="Refactor BlackJackTable component: improve structure and update class names for consistency" />
+    <MESSAGE value="Refactor BlackJackTable component: clean up code and improve readability" />
+    <MESSAGE value="Con chips ARREGLADAS?" />
+    <MESSAGE value="CON TIMER" />
+    <MESSAGE value="Cambios Menor de turnos" />
+    <MESSAGE value="Cmabio Con Cartas De imagenes" />
+    <MESSAGE value="Arreglo resteo del valor de las chips" />
+    <MESSAGE value="Estilo Completamente Listo" />
+    <MESSAGE value="Arreglo Bug del dsiconnect" />
+    <MESSAGE value="notificaciones de balance,arreglo balance *100 y logica influencer" />
+    <option name="LAST_COMMIT_MESSAGE" value="notificaciones de balance,arreglo balance *100 y logica influencer" />
   </component>
 </project>

@@ -1,4 +1,4 @@
-import {PrismaClient, estado_enum} from '@prisma/client';
+import {estado_enum, PrismaClient} from '@prisma/client';
 
 const prisma = new PrismaClient();
 

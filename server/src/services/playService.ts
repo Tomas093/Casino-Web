@@ -18,7 +18,6 @@ interface UserPlayData {
     apuesta: number;
 }
 
-
 const findClienteById = async (clienteid: number) => {
     const cliente = await prisma.cliente.findUnique({
         where: {clienteid}
@@ -73,12 +72,18 @@ export const playService = {
 
             console.log(`Creando jugada para cliente ID: ${clienteid}, juego ID: ${juegoid}`);
 
+            // Calcular el incremento del balance (retorno - apuesta)
+            const balanceIncrement = retorno - apuesta;
+
+            // Convertir a BigInt para Prisma (multiplicar por 100 para manejar centavos)
+            const balanceIncrementBigInt = BigInt(Math.round(balanceIncrement * 100));
+
             // Actualizar el balance del cliente
             await prisma.cliente.update({
                 where: {clienteid},
                 data: {
                     balance: {
-                        increment: retorno - apuesta
+                        increment: balanceIncrementBigInt
                     }
                 }
             });
