@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Arreglo Bug del dsiconnect">
+    <list default="true" id="cdb26be2-1423-4281-ac00-dcdc40514f7f" name="Changes" comment="Fix disconnect bug and improve BlackJackTable responsiveness; update limits in authService">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTable.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTableStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/React/pages/games/blackJack/page/game/BlackJackTableStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/services/authService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/services/authService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/sockets/MesaHandler.ts" afterDir="false" />
     </list>
     <list id="f5eeda07-02d7-44e3-8290-11b843a3b9f1" name="Changes by Eliseos" comment="Changes by Eliseos" />
     <option name="SHOW_DIALOG" value="false" />
@@ -61,22 +57,22 @@
     }
     ]
     }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Tomas093/Casino-Web.git",
-    "accountId": "aeb8d57a-9bda-4d87-a562-02ae3e64d914"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Tomas093/Casino-Web.git&quot;,
+    &quot;accountId&quot;: &quot;aeb8d57a-9bda-4d87-a562-02ae3e64d914&quot;
   },
-  "recentNewPullRequestHead": {
-    "server": {
-      "useHttp": false,
-      "host": "github.com",
-      "port": null,
-      "suffix": null
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
     },
-    "owner": "Tomas093",
-    "repository": "Casino-Web"
+    &quot;owner&quot;: &quot;Tomas093&quot;,
+    &quot;repository&quot;: &quot;Casino-Web&quot;
   }
-}]]></component>
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -270,14 +266,7 @@
       <workItem from="1753717057215" duration="1308000" />
       <workItem from="1753718579480" duration="5132000" />
       <workItem from="1753746900921" duration="1592000" />
-    </task>
-    <task id="LOCAL-00058" summary="Refactor leaderboard components; improve data handling and add debug logging">
-      <option name="closed" value="true" />
-      <created>1746887636432</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1746887636432</updated>
+      <workItem from="1753748800323" duration="940000" />
     </task>
     <task id="LOCAL-00059" summary="Remove debug logging from friends leaderboard data fetching; streamline error handling">
       <option name="closed" value="true" />
@@ -663,7 +652,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753721640902</updated>
     </task>
-    <option name="localTasksCounter" value="107" />
+    <task id="LOCAL-00107" summary="Fix disconnect bug and improve BlackJackTable responsiveness; update limits in authService">
+      <option name="closed" value="true" />
+      <created>1753748947728</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1753748947728</updated>
+    </task>
+    <option name="localTasksCounter" value="108" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -696,7 +693,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/client" />
     </ignored-roots>
-    <MESSAGE value="Cambios en la ruleta para que no llore, ademas de la logica del bj hecha" />
     <MESSAGE value="Agrego un intento de sockts y cambie algo mas que no me acuerdo" />
     <MESSAGE value="Fix socket import path in SocketContext" />
     <MESSAGE value="Anda el entrar al lobby" />
@@ -721,6 +717,7 @@
     <MESSAGE value="Estilo Completamente Listo" />
     <MESSAGE value="Arreglo Bug del dsiconnect" />
     <MESSAGE value="notificaciones de balance,arreglo balance *100 y logica influencer" />
-    <option name="LAST_COMMIT_MESSAGE" value="notificaciones de balance,arreglo balance *100 y logica influencer" />
+    <MESSAGE value="Fix disconnect bug and improve BlackJackTable responsiveness; update limits in authService" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix disconnect bug and improve BlackJackTable responsiveness; update limits in authService" />
   </component>
 </project>
