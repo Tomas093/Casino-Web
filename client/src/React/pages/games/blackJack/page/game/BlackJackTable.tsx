@@ -464,9 +464,10 @@ const BlackjackTable: React.FC = () => {
             const currentPlayer = gameState.players[localPlayerPosition!];
             const currentBalance = client?.balance ?? 0;
             const doubleAmount = currentPlayer.bet;
+            const availableBalance = currentBalance - currentPlayer.bet;
 
             // Check if player has enough balance to double
-            if (doubleAmount > currentBalance) {
+            if (doubleAmount > availableBalance) {
                 if (!showInsufficientBalance) {
                     setShowInsufficientBalance(true);
                     setTimeout(() => {
